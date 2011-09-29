@@ -9,11 +9,11 @@ class Path extends Animatable {
 
   int lineWidth;
   
-  public Path(){
+  public Path(Shape s){
     vertices = new ArrayList<PVector>();
     pulses = new ArrayList<Pulse>();
     cc=color(random(255),200,150);
-    start=null;
+    start=s;
     end=null;
     index = 0;
     lineWidth = 5;
@@ -98,12 +98,11 @@ class Path extends Animatable {
     beginShape();
     PVector start=(PVector)vertices.get(0);
     vertex(start.x,start.y);
-    for(int i=1;i<vertices.size()-3;i+=2){
+    for(int i=1;i<vertices.size()-2;i+=2){
       PVector curr=(PVector)vertices.get(i);
       PVector next=(PVector)vertices.get(i+1);
       PVector next2=(PVector)vertices.get(i+2);
       bezierVertex(curr.x,curr.y,next.x,next.y,next2.x,next2.y);
-
     }
     endShape();
   }
@@ -113,12 +112,15 @@ class Path extends Animatable {
       Pulse curr = pulses.get(i);
       int pos = curr.updatePulse();
       curr.setBeginAndEnd(vertices.get(pos), vertices.get(pos + 1));
-      if (curr.reachedEnd())
+      if (curr.reachedEnd()) {
+        ((Soma)end).receivePulse(curr.getType(), curr.getValue());        
         pulses.remove(curr);
+      }
     }
   }
   void addPulse(int type, int delay){
-    pulses.add(new Pulse(cc, vertices.size(), type, delay));
+    pulses.add(new Pulse(vertices.size(), type, (type == 0) ? 1.0 : -1.0, 
+               0.99, delay));
   }
 
 }

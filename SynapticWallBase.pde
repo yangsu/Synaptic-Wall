@@ -107,15 +107,16 @@ void mousePressed() {
     }
     else {
       currentSoma = new Soma(mouseX, mouseY, random(20, 30), 
-                    color(random(50, 205), random(50, 205), random(50, 205)));
+                    color(random(50, 205), random(50, 205), random(50, 205)),
+                    3.0);
     }
   }
   Shape selectedShape = shapes.getSelected();
   if (currentMode == 2 && selectedShape != null) {
-    currentDendrite = new Path();
+    currentDendrite = new Path(selectedShape);
     currentDendrite.addFirst(selectedShape.x(), selectedShape.y());
   }
-  if (currentMode == 3) {
+  if (currentMode == 3 && selectedShape != null) {
     ((Soma)selectedShape).sendPulse(5, 200, 0);
   }
   redraw();
@@ -129,7 +130,7 @@ void mouseDragged() {
       shapes.onMouseDragged(mouseX, mouseY);
     }
   }
-  if (currentMode == 2 && shapes.getSelected() != null) {
+  if (currentMode == 2 && shapes.getSelected() != null && currentDendrite != null) {
     currentDendrite.add(mouseX, mouseY);
   }
   redraw();
@@ -156,10 +157,14 @@ void mouseReleased() {
   }
   if (currentMode == 2) {
     if (currentDendrite != null) {
-      currentDendrite.reduce(10);
-      Soma selected = (Soma)shapes.getSelected();
-      if (selected != null) {      
-        selected.addDendrite(currentDendrite);
+      Soma start = (Soma)shapes.getSelected();
+      shapes.select(mouseX, mouseY);
+      Soma end = (Soma)shapes.getSelected();
+      if (end != null && currentDendrite.size() > 5) {
+        currentDendrite.setEnd(end);
+        currentDendrite.add(end.x(), end.y());
+        currentDendrite.reduce(10); 
+        start.addDendrite(currentDendrite);
       }
       currentDendrite = null;
     }
