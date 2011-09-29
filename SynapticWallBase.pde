@@ -7,10 +7,11 @@ Soma currentSoma;
 Path currentDendrite;
 
 float scale;
-
+PImage temp;
 void setup() {
   size(800, 800);
-  
+  temp = createImage(width/2, height/2, ARGB);
+
   //Settings
   ellipseMode(RADIUS);
   smooth();
@@ -42,20 +43,40 @@ void drawContent(){
   if (currentDendrite != null)
     currentDendrite.draw();
 }
-
-void draw() {
-  drawBackground(color(100));
+void drawMagnified() {
+  pushStyle();
+  pushMatrix();
+  translate(mouseX, mouseY);
+  scale(scale);
+  translate(-mouseX, -mouseY);
+  fill(100, 180);
+  rect(0, 0, width, height);
+  drawBackground(color(100, 180));
   drawContent();
+  popMatrix();
+  
+  int tempX = constrain(mouseX-width/4, 0, width);
+  int tempY = constrain(mouseY-height/4, 0, height);
+  temp = get(tempX, tempY, temp.width, temp.height);
+  
+  drawBackground(color(100));
+  drawContent();  
+
+  image(temp, tempX, tempY);
+
+  noFill();
+  stroke(255);
+  strokeWeight(5);
+  rect(tempX, tempY, temp.width, temp.height);
+  popStyle();
+}
+void draw() {
   if (magnify) {
-    pushMatrix();
-    translate(mouseX, mouseY);
-    scale(scale);
-    translate(-mouseX, -mouseY);
-    fill(100, 180);
-    rect(0, 0, width, height);
-    drawBackground(color(100, 180));
-    drawContent();
-    popMatrix();
+    drawMagnified();
+  }
+  else {
+    drawBackground(color(100));
+    drawContent();    
   }
   
   switch (currentMode) {
@@ -73,7 +94,6 @@ void draw() {
 void mousePressed() {
   cursor(CROSS);
   boolean selected = shapes.select(mouseX, mouseY);
-  System.out.println(selected);
   if (currentMode == 1) {
     if (selected) {
         shapes.onMouseDown(mouseX, mouseY);
@@ -109,6 +129,8 @@ void mouseMoved() {
     
   }
   else {
+    if(magnify) 
+      redraw();
   }
 }
 void mouseReleased() {
@@ -145,7 +167,7 @@ void keyPressed() {
     if (key == '2')
       currentMode = 2;
     if (key == 'm')
-      magnify = true;    
+      magnify = !magnify;    
   }
 
   redraw();
@@ -153,9 +175,6 @@ void keyPressed() {
 void keyReleased() {
   if (shapes.onKeyUp(key, keyCode)) {
     
-  }
-  else {
-    magnify = false;
   }
   redraw();
 }
