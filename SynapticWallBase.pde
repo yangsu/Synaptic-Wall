@@ -50,9 +50,9 @@ void drawMagnified() {
   translate(mouseX, mouseY);
   scale(scale);
   translate(-mouseX, -mouseY);
-  fill(100, 180);
+  fill(Utilities.FADE_COLOR);
   rect(0, 0, width, height);
-  drawBackground(color(100, 180));
+  drawBackground(Utilities.BG_COLOR);
   drawContent();
   popMatrix();
   
@@ -60,7 +60,7 @@ void drawMagnified() {
   int tempY = constrain(mouseY-height/4, 0, height);
   temp = get(tempX, tempY, temp.width, temp.height);
   
-  drawBackground(color(100));
+  drawBackground(Utilities.BG_COLOR);
   drawContent();  
 
   image(temp, tempX, tempY);
@@ -108,7 +108,7 @@ void mousePressed() {
     else {
       currentSoma = new Soma(mouseX, mouseY, random(20, 30), 
                     color(random(50, 205), random(50, 205), random(50, 205)),
-                    3.0);
+                    random(1, 5));
     }
   }
   Shape selectedShape = shapes.getSelected();
@@ -117,7 +117,7 @@ void mousePressed() {
     currentDendrite.addFirst(selectedShape.x(), selectedShape.y());
   }
   if (currentMode == 3 && selectedShape != null) {
-    ((Soma)selectedShape).sendPulse(5, 200, 0);
+    ((Soma)selectedShape).fireAP(5, 200, 1);
   }
   redraw();
 }

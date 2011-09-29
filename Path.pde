@@ -1,6 +1,6 @@
 class Path extends Animatable {
   ArrayList<PVector> vertices;
-  ArrayList<Pulse> pulses;  
+  ArrayList<ActionPotential> aps;  
   int index;
   color cc;
 
@@ -11,7 +11,7 @@ class Path extends Animatable {
   
   public Path(Shape s){
     vertices = new ArrayList<PVector>();
-    pulses = new ArrayList<Pulse>();
+    aps = new ArrayList<ActionPotential>();
     cc=color(random(255),200,150);
     start=s;
     end=null;
@@ -88,9 +88,9 @@ class Path extends Animatable {
       show_Bezier_Continuous_Whole();
     }
     popStyle();
-    processPulses();
-    for (int i = 0; i < pulses.size(); ++i) {
-      pulses.get(i).draw();
+    processActionPotentials();
+    for (int i = 0; i < aps.size(); ++i) {
+      aps.get(i).draw();
     }
   }
 
@@ -107,20 +107,18 @@ class Path extends Animatable {
     endShape();
   }
 
-  void processPulses() {
-    for (int i = pulses.size() - 1; i >= 0; --i) {
-      Pulse curr = pulses.get(i);
-      int pos = curr.updatePulse();
+  void processActionPotentials() {
+    for (int i = aps.size() - 1; i >= 0; --i) {
+      ActionPotential curr = aps.get(i);
+      int pos = curr.step();
       curr.setBeginAndEnd(vertices.get(pos), vertices.get(pos + 1));
       if (curr.reachedEnd()) {
-        ((Soma)end).receivePulse(curr.getType(), curr.getValue());        
-        pulses.remove(curr);
+        ((Soma)end).receiveAP(curr.getType(), curr.getValue());        
+        aps.remove(curr);
       }
     }
   }
-  void addPulse(int type, int delay){
-    pulses.add(new Pulse(vertices.size(), type, (type == 0) ? 1.0 : -1.0, 
-               0.99, delay));
+  void addActionPotential(int type, int delay){
+    aps.add(new ActionPotential(vertices.size(), type, delay));
   }
-
 }
