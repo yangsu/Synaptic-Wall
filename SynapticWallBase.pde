@@ -14,8 +14,9 @@ void setup() {
 
   //Settings
   ellipseMode(RADIUS);
+  strokeCap(ROUND);
   smooth();
-  noLoop();
+  // noLoop();
   noStroke();
   cursor(ARROW);
   
@@ -70,6 +71,22 @@ void drawMagnified() {
   rect(tempX, tempY, temp.width, temp.height);
   popStyle();
 }
+void drawText() {
+  pushStyle();
+  fill(200, 20, 20);
+  switch (currentMode) {
+    case 1:
+      text("Soma", 0, 20);
+      break;
+    case 2:
+      text("Dendrite", 0, 20);
+      break;
+    case 3:
+      text("Interaction", 0, 20);
+      break;
+  }
+  popStyle();
+}
 void draw() {
   if (magnify) {
     drawMagnified();
@@ -78,17 +95,7 @@ void draw() {
     drawBackground(color(100));
     drawContent();    
   }
-  
-  switch (currentMode) {
-    case 1:
-      fill(200, 20, 20);
-      text("Soma", 0, 20);
-      break;
-    case 2:
-      fill(20, 200, 20);
-      text("Dendrite", 0, 20);
-      break;
-  }
+  drawText();
 }
 
 void mousePressed() {
@@ -107,6 +114,9 @@ void mousePressed() {
   if (currentMode == 2 && selectedShape != null) {
     currentDendrite = new Path();
     currentDendrite.addFirst(selectedShape.x(), selectedShape.y());
+  }
+  if (currentMode == 3) {
+    ((Soma)selectedShape).sendPulse(5, 200, 0);
   }
   redraw();
 }
@@ -146,7 +156,7 @@ void mouseReleased() {
   }
   if (currentMode == 2) {
     if (currentDendrite != null) {
-      currentDendrite.reduce(20);
+      currentDendrite.reduce(10);
       Soma selected = (Soma)shapes.getSelected();
       if (selected != null) {      
         selected.addDendrite(currentDendrite);
@@ -166,6 +176,8 @@ void keyPressed() {
       currentMode = 1;
     if (key == '2')
       currentMode = 2;
+    if (key == '3')
+      currentMode = 3;
     if (key == 'm')
       magnify = !magnify;    
   }

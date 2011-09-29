@@ -32,6 +32,13 @@ class Soma extends Shape {
       fDendrites.add(dendrite);
   }
 
+  void sendPulse(int numSignal, int delayms, int type) {
+    for (int i = 0; i < numSignal; ++i) {
+      for (int j = 0; j < fDendrites.size(); ++j)
+        fDendrites.get(j).addPulse(type, i * delayms);
+    }
+  }
+
   boolean isInBounds(float x, float y) {
     if(PVector.dist(fLoc, new PVector(x, y)) <= fSize)
       return true;
