@@ -1,3 +1,0 @@
-[X] Zoom
-	[ ] Zoom Part
-	
