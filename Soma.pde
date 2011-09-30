@@ -79,7 +79,7 @@ class Soma extends Shape {
         receivedAPs = shorten(receivedAPs);
         
       for (int j = 0; j < dendrites.size(); ++j)
-        dendrites.get(j).addActionPotential(0, 0);
+        dendrites.get(j).addActionPotential(type, 0);
     }
   }
 

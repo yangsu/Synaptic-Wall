@@ -93,7 +93,7 @@ void draw() {
   }
   else {
     drawBackground(color(100));
-    drawContent();    
+    drawContent();
   }
   drawText();
 }

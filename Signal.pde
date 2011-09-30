@@ -7,6 +7,7 @@ abstract class Signal extends Animatable {
     endIndex = end;
     fType = tt;
     currIndex = -round(d / (1000.0/frameRate));
+    beginLoc = endLoc = new PVector(0,0);
   }
 
   abstract void draw();
