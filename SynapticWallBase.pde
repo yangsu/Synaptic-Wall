@@ -13,6 +13,7 @@ void setup() {
   temp = createImage(width/2, height/2, ARGB);
 
   //Settings
+
   ellipseMode(RADIUS);
   strokeCap(ROUND);
   smooth();
@@ -117,7 +118,7 @@ void mousePressed() {
     currentDendrite.addFirst(selectedShape.x(), selectedShape.y());
   }
   if (currentMode == 3 && selectedShape != null) {
-    ((Soma)selectedShape).fireAP(5, 200, 1);
+    ((Soma)selectedShape).fireAP(5, 200, Utilities.IPSP);
   }
   redraw();
 }
@@ -177,14 +178,26 @@ void keyPressed() {
     
   }
   else {
-    if (key == '1')
-      currentMode = 1;
-    if (key == '2')
-      currentMode = 2;
-    if (key == '3')
-      currentMode = 3;
-    if (key == 'm')
-      magnify = !magnify;    
+    switch (key) {
+      case '1': 
+        currentMode = 1;
+        break;
+      case '2': 
+        currentMode = 2;
+        break;
+      case '3': 
+        currentMode = 3;
+        break;
+      case 'm': 
+        magnify = !magnify;
+        break;
+      case 'p': 
+        noLoop();
+        break;
+      case 'o': 
+        loop();
+        break;
+    }   
   }
 
   redraw();

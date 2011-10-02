@@ -25,4 +25,10 @@ static class Utilities {
     float temp = atan2(y2-y1, x2-x1);
     return (temp < 0 ) ? temp + TWO_PI : temp;
   }
+  
+  static float SIGNAL_BEZIER_CONTROL_LENGTH = 5.0;
+  static float SIGNAL_PEAK_HEIGHT = 7.0;
+  
+  static int EPSP = 1;
+  static int IPSP = -1;
 }

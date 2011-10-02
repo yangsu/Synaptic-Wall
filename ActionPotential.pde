@@ -1,7 +1,7 @@
 class ActionPotential extends Signal {
 
-  ActionPotential(int end, int type, int d) {
-    super(end, type, d);
+  ActionPotential(int end, int type, int delay, color c) {
+    super(end, type, delay, c);
     fValue = type;
   }
   

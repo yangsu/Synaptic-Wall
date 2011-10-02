@@ -2,7 +2,7 @@ abstract class Animatable extends Utilities {
   int birthTime;
   int lifeCycle;
   Animatable () {
-    lifeCycle = FADE_COLOR;
+    lifeCycle = 0;
     birthTime = millis();
   }
   

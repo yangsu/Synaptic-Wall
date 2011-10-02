@@ -67,7 +67,7 @@ class Soma extends Shape {
   void fireAP(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
       for (int j = 0; j < dendrites.size(); ++j)
-        dendrites.get(j).addActionPotential(type, i * delayms);
+        dendrites.get(j).addSignal(type, i * delayms);
     }
   }
 
@@ -77,9 +77,9 @@ class Soma extends Shape {
     if (currAP >= threshold) {
       while (receivedAPs.length > 0)
         receivedAPs = shorten(receivedAPs);
-        
+
       for (int j = 0; j < dendrites.size(); ++j)
-        dendrites.get(j).addActionPotential(type, 0);
+        dendrites.get(j).addSignal(type, 0);
     }
   }
 

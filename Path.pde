@@ -1,6 +1,6 @@
 class Path extends Animatable {
   ArrayList<PVector> vertices;
-  ArrayList<ActionPotential> aps;  
+  ArrayList<Signal> aps;  
   int index;
   color cc;
 
@@ -11,7 +11,7 @@ class Path extends Animatable {
   
   public Path(Shape s){
     vertices = new ArrayList<PVector>();
-    aps = new ArrayList<ActionPotential>();
+    aps = new ArrayList<Signal>();
     cc=color(random(255),200,150);
     start=s;
     end=null;
@@ -85,40 +85,45 @@ class Path extends Animatable {
       noFill();
       stroke(cc);
       strokeWeight(lineWidth);
-      show_Bezier_Continuous_Whole();
+      drawPath();
     }
     popStyle();
-    processActionPotentials();
+    processSignals();
     for (int i = 0; i < aps.size(); ++i) {
       aps.get(i).draw();
     }
   }
 
-  void show_Bezier_Continuous_Whole(){
+  void drawPath(){
     beginShape();
-    PVector start=(PVector)vertices.get(0);
-    vertex(start.x,start.y);
-    for(int i=1;i<vertices.size()-2;i+=2){
-      PVector curr=(PVector)vertices.get(i);
-      PVector next=(PVector)vertices.get(i+1);
-      PVector next2=(PVector)vertices.get(i+2);
-      bezierVertex(curr.x,curr.y,next.x,next.y,next2.x,next2.y);
+    PVector temp;
+    for (int i = 0; i < vertices.size(); ++i) {
+      temp = vertices.get(i);
+      curveVertex(temp.x,temp.y);
+      for (int j = aps.size() - 1; j >= 0; --j) {
+        if (i == (aps.get(j).getIndex() + 1)){
+          endShape();
+          beginShape();
+          curveVertex(temp.x,temp.y);         
+        }
+      }
     }
     endShape();
   }
 
-  void processActionPotentials() {
+  void processSignals() {
     for (int i = aps.size() - 1; i >= 0; --i) {
-      ActionPotential curr = aps.get(i);
-      int pos = curr.step();
-      curr.setBeginAndEnd(vertices.get(pos), vertices.get(pos + 1));
+      Signal curr = aps.get(i);
+      index = curr.step();
+      curr.setBeginAndEnd(vertices.get(index), vertices.get(index + 2));
       if (curr.reachedEnd()) {
         ((Soma)end).receiveAP(curr.getType(), curr.getValue());        
         aps.remove(curr);
       }
     }
   }
-  void addActionPotential(int type, int delay){
-    aps.add(new ActionPotential(vertices.size(), type, delay));
+  void addSignal(int type, int delay){
+    //aps.add(new ActionPotential(vertices.size(), type, delay, cc));
+    aps.add(new PostsynapticPotential(vertices.size(), type, delay, cc, 0.5, 0.99));
   }
 }
