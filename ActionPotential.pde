@@ -1,18 +1,31 @@
 class ActionPotential extends Signal {
-
-  ActionPotential(int end, int type, int delay, color c) {
+  PVector offset;
+  
+  ActionPotential(int end, int type, int delay, color c, float value) {
     super(end, type, delay, c);
-    fValue = type;
+    fStrength = value;
+    offset = new PVector(0,0);
   }
   
   void draw() {
     pushStyle();
-    if (fType == 0) 
-      stroke(255);
-    if (fType == 1)
-      stroke(0);
-    strokeWeight(5);
-    line(beginLoc.x, beginLoc.y, endLoc.x, endLoc.y);
+      stroke(cc);
+      strokeWeight(5);
+      PVector beginControl = PVector.add(beginLoc, PVector.mult(offset, fStrength)),
+              endControl = PVector.add(endLoc, PVector.mult(offset, fStrength));
+      noFill();
+      beginShape();
+        vertex(beginLoc.x, beginLoc.y);
+        vertex(beginControl.x, beginControl.y);
+        vertex(endControl.x, endControl.y);
+        vertex(endLoc.x, endLoc.y);
+      endShape();
     popStyle();
+  }
+  
+  void setBeginAndEnd(PVector b, PVector e) {
+    offset.set(e.y - b.y, -(e.x - b.x), 0);
+    offset.normalize();
+    super.setBeginAndEnd(b,e);
   }
 }

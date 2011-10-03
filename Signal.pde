@@ -1,7 +1,7 @@
 abstract class Signal extends Animatable {
   int fType, currIndex, endIndex;
   PVector beginLoc, endLoc;
-  float fValue;
+  float fStrength;
   color cc;
   
   Signal (int end, int tt, int d, color c) {
@@ -18,7 +18,7 @@ abstract class Signal extends Animatable {
     return fType;
   }
   float getValue() {
-    return fValue;
+    return fStrength;
   }
   int getIndex() {
     return currIndex;

@@ -17,10 +17,6 @@ abstract class Shape extends Animatable implements Interactive {
     fColor = cc;
   }
   
-  void deselect() {
-    fSelected = false;
-  }
-  
   abstract boolean isInBounds(float x, float y);
   float x() { return fLoc.x; }
   float y() { return fLoc.y; }  

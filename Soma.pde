@@ -1,7 +1,7 @@
 class Soma extends Shape {
   ArrayList<Path> dendrites;
   float[] receivedAPs;
-  float decay = 0.95;
+  float decay = 0.99;
   float threshold, currAP, thresholdAngle;
   boolean changingThreshold;
   
@@ -23,7 +23,7 @@ class Soma extends Shape {
       receivedAPs[i] *= decay;
     }
     
-    float currAngle = currAP / MAX_THRESHOLD * TWO_PI;
+    float currAngle = constrain(currAP/ MAX_THRESHOLD * TWO_PI, 0, thresholdAngle);
     fill(255, 100);
     ellipse(fLoc.x, fLoc.y, fSize * 1.5, fSize * 1.5);
     fill(255);
@@ -32,16 +32,26 @@ class Soma extends Shape {
     arc(fLoc.x, fLoc.y, fSize * 1.51, fSize * 1.51, 0, currAngle);
     fill(BG_COLOR);
     ellipse(fLoc.x, fLoc.y, fSize * 1.25, fSize * 1.25);
+    
+    if (currAP >= threshold) {
+      while (receivedAPs.length > 0)
+        receivedAPs = shorten(receivedAPs);
+
+      for (int j = 0; j < dendrites.size(); ++j)
+        dendrites.get(j).addSignal(EPSP, 0);
+    }
+    
+    if (changingThreshold) {
+      fill(255);
+      String t = nf(threshold, 2, 2);
+      text(t, fLoc.x + 2.0 * fSize, fLoc.y);
+    }
   }
   void draw() {
     pushStyle();
-    //Draw dendrites
-    for(int i = 0; i < dendrites.size(); ++i)
-      dendrites.get(i).draw();
-    
+
     drawThreshold();
     
-    //Draw selection
     if (fSelected) {
       stroke(255);
       strokeWeight(1);
@@ -55,7 +65,6 @@ class Soma extends Shape {
     fill(blendColor(fColor, color(255, 100), ADD));
     ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
     
-    //Draw Controls
     popStyle();  
   }
   
@@ -67,20 +76,14 @@ class Soma extends Shape {
   void fireAP(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
       for (int j = 0; j < dendrites.size(); ++j)
-        dendrites.get(j).addSignal(type, i * delayms);
+        // dendrites.get(j).addSignal(type, i * delayms);
+        dendrites.get(j).addSignal((int)random(3) - 1, i * delayms);
     }
   }
 
   void receiveAP(int type, float value) {
     currAP += value;
     receivedAPs = append(receivedAPs, value);
-    if (currAP >= threshold) {
-      while (receivedAPs.length > 0)
-        receivedAPs = shorten(receivedAPs);
-
-      for (int j = 0; j < dendrites.size(); ++j)
-        dendrites.get(j).addSignal(type, 0);
-    }
   }
 
   boolean isInBounds(float x, float y) {
@@ -107,7 +110,7 @@ class Soma extends Shape {
     if (fSelected) {
       if (changingThreshold) {
         thresholdAngle = Utilities.getAngle(fLoc.x, fLoc.y, x, y);
-        //Don't change the actual threshold until mouse released
+        threshold = thresholdAngle / TWO_PI * MAX_THRESHOLD;
       }
       else {
         PVector change = new PVector(mouseX - pmouseX, mouseY - pmouseY);
@@ -122,10 +125,7 @@ class Soma extends Shape {
   }
   boolean onMouseUp(float x, float y) {
     fSelected = false;
-    if (changingThreshold) {
-      changingThreshold = false;
-      threshold = thresholdAngle / TWO_PI * MAX_THRESHOLD;
-    }
+    changingThreshold = false;
     return false;
   }
 }

@@ -4,35 +4,36 @@ class PostsynapticPotential extends Signal {
   
   PostsynapticPotential (int end, int type, int d, color c, float v, float df) {
     super(end, type, d, c);
-    fValue = v;
+    fStrength = v;
     decayFactor = df;
     mid = new PVector(0,0);
     offset = new PVector(0,0);
-    
   }
 
   void draw() {
     pushStyle(); 
-    stroke(cc);
-    strokeWeight(5);
-    PVector diff = PVector.sub(endLoc, beginLoc);
-    diff.normalize();
-    PVector beginControl = PVector.add(beginLoc, PVector.mult(diff, SIGNAL_BEZIER_CONTROL_LENGTH)),
-            endControl = PVector.add(endLoc, PVector.mult(diff, -SIGNAL_BEZIER_CONTROL_LENGTH)),
-            peak = PVector.add(mid, PVector.mult(offset, (fType) * SIGNAL_PEAK_HEIGHT)),
-            peakControl1 = PVector.add(peak, PVector.mult(diff, -SIGNAL_BEZIER_CONTROL_LENGTH)),
-            peakControl2 = PVector.add(peak, PVector.mult(diff, SIGNAL_BEZIER_CONTROL_LENGTH));
-    noFill();
-    beginShape();
-    vertex(beginLoc.x, beginLoc.y);
-    bezierVertex(beginControl.x, beginControl.y, peakControl1.x, peakControl1.y, peak.x, peak.y);
-    bezierVertex(peakControl2.x, peakControl2.y, endControl.x, endControl.y, endLoc.x, endLoc.y);
-    endShape();
+      stroke(cc);
+      strokeWeight(5);
+      PVector diff = PVector.sub(endLoc, beginLoc);
+      diff.normalize();
+      PVector positiveOffset = PVector.mult(diff, SIGNAL_CONTROL_LENGTH),
+              negativeOffset = PVector.mult(diff, -SIGNAL_CONTROL_LENGTH),
+              beginControl = PVector.add(beginLoc, positiveOffset),
+              endControl = PVector.add(endLoc, positiveOffset),
+              peak = PVector.add(mid, PVector.mult(offset, (fType) * fStrength * SIGNAL_MULTIPLIER)),
+              peakControl1 = PVector.add(peak, negativeOffset),
+              peakControl2 = PVector.add(peak, positiveOffset);
+      noFill();
+      beginShape();
+        vertex(beginLoc.x, beginLoc.y);
+        bezierVertex(beginControl.x, beginControl.y, peakControl1.x, peakControl1.y, peak.x, peak.y);
+        bezierVertex(peakControl2.x, peakControl2.y, endControl.x, endControl.y, endLoc.x, endLoc.y);
+      endShape();
     popStyle();
   }
   
   int step() {
-    fValue *= decayFactor;
+    fStrength *= decayFactor;
     return super.step();
   }
   

@@ -12,23 +12,19 @@ class ShapesCollection extends Animatable implements Interactive{
       fShapes.get(i).draw();
     }
   }
-  boolean select(float x, float y) {
-    boolean result = false;
+  
+  Shape select(float x, float y) {
+    fSelected = null;
     for (int i = 0; i < fShapes.size(); ++i) {
       Shape obj = fShapes.get(i);
       if (obj.onMouseDown(x, y)) {
         fSelected = obj;
+        //Move shape to the end of the list
         fShapes.remove(fSelected);
         fShapes.add(fSelected);
-        result = true;
-      }
-      else {
-        obj.deselect();
       }
     }
-    if (!result)    
-      fSelected = null;
-    return result;
+    return fSelected;
   }
   Shape getSelected() {
     return fSelected;
@@ -44,7 +40,7 @@ class ShapesCollection extends Animatable implements Interactive{
   }
   
   boolean onMouseDown(float x, float y) {
-  	return select(x, y);
+  	return select(x, y) != null;
   }
   boolean onMouseDragged(float x, float y) {
     for (int i = 0; i < fShapes.size(); ++i) {

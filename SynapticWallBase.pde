@@ -1,10 +1,10 @@
 ShapesCollection shapes;
-
+PathsCollection paths;
 boolean magnify;
 
-int currentMode; // 1 = SOMA, 2 = DENDRITE
-Soma currentSoma;
-Path currentDendrite;
+int currentMode;
+Soma currShape;
+Path currPath;
 
 float scale;
 PImage temp;
@@ -13,7 +13,6 @@ void setup() {
   temp = createImage(width/2, height/2, ARGB);
 
   //Settings
-
   ellipseMode(RADIUS);
   strokeCap(ROUND);
   smooth();
@@ -24,68 +23,69 @@ void setup() {
   //initialization
   magnify = false;
   currentMode = 1;
-  scale = 5.0;
   
   shapes = new ShapesCollection();
-  currentSoma = null;
-  currentDendrite = null;
+  paths = new PathsCollection();
+  currShape = null;
+  currPath = null;
 }
 
 void drawBackground(color cc) {
   pushStyle();
-  noStroke();
-  fill(cc);
-  rect(0, 0, width, height);
+    noStroke();
+    fill(cc);
+    rect(0, 0, width, height);
   popStyle();
 }
 void drawContent(){
+  paths.draw();
   shapes.draw();
-  if (currentSoma != null)
-    currentSoma.draw();
-  if (currentDendrite != null)
-    currentDendrite.draw();
+  if (currShape != null)
+    currShape.draw();
+  if (currPath != null)
+    currPath.draw();
 }
 void drawMagnified() {
   pushStyle();
-  pushMatrix();
-  translate(mouseX, mouseY);
-  scale(scale);
-  translate(-mouseX, -mouseY);
-  fill(Utilities.FADE_COLOR);
-  rect(0, 0, width, height);
-  drawBackground(Utilities.BG_COLOR);
-  drawContent();
-  popMatrix();
+    pushMatrix();
+      translate(mouseX, mouseY);
+      scale(Utilities.ZOOM_FACTOR);
+      translate(-mouseX, -mouseY);
+      fill(Utilities.FADE_COLOR);
+      rect(0, 0, width, height);
+      drawBackground(Utilities.BG_COLOR);
+      drawContent();
+    popMatrix();
   
-  int tempX = constrain(mouseX-width/4, 0, width);
-  int tempY = constrain(mouseY-height/4, 0, height);
-  temp = get(tempX, tempY, temp.width, temp.height);
+    int tempX = constrain(mouseX-width/4, 0, width);
+    int tempY = constrain(mouseY-height/4, 0, height);
+    temp = get(tempX, tempY, temp.width, temp.height);
   
-  drawBackground(Utilities.BG_COLOR);
-  drawContent();  
+    drawBackground(Utilities.BG_COLOR);
+    drawContent();  
 
-  image(temp, tempX, tempY);
+    image(temp, tempX, tempY);
 
-  noFill();
-  stroke(255);
-  strokeWeight(5);
-  rect(tempX, tempY, temp.width, temp.height);
+    noFill();
+    stroke(255);
+    strokeWeight(5);
+    rect(tempX, tempY, temp.width, temp.height);
   popStyle();
 }
 void drawText() {
   pushStyle();
-  fill(200, 20, 20);
-  switch (currentMode) {
-    case 1:
-      text("Soma", 0, 20);
-      break;
-    case 2:
-      text("Dendrite", 0, 20);
-      break;
-    case 3:
-      text("Interaction", 0, 20);
-      break;
-  }
+    fill(0);
+    switch (currentMode) {
+      case Utilities.SOMA:
+        text("Soma", 0, 20);
+        break;
+      case Utilities.DENDRITE:
+        text("Dendrite", 0, 20);
+        break;
+      case Utilities.INTERACTION:
+        text("Interaction", 0, 20);
+        break;
+    }
   popStyle();
 }
 void draw() {
@@ -101,73 +101,73 @@ void draw() {
 
 void mousePressed() {
   cursor(CROSS);
-  boolean selected = shapes.select(mouseX, mouseY);
+  Shape selected = shapes.select(mouseX, mouseY);
   if (currentMode == 1) {
-    if (selected) {
+    if (selected != null) {
         shapes.onMouseDown(mouseX, mouseY);
     }
     else {
-      currentSoma = new Soma(mouseX, mouseY, random(20, 30), 
+      currShape = new Soma(mouseX, mouseY, random(20, 30), 
                     color(random(50, 205), random(50, 205), random(50, 205)),
                     random(1, 5));
     }
   }
-  Shape selectedShape = shapes.getSelected();
-  if (currentMode == 2 && selectedShape != null) {
-    currentDendrite = new Path(selectedShape);
-    currentDendrite.addFirst(selectedShape.x(), selectedShape.y());
+  else if (currentMode == 2 && selected != null) {
+    currPath = new Path(selected);
+    currPath.addFirst(selected.x(), selected.y());
   }
-  if (currentMode == 3 && selectedShape != null) {
-    ((Soma)selectedShape).fireAP(5, 200, Utilities.IPSP);
+  else if (currentMode == 3 && selected != null) {
+    ((Soma)selected).fireAP(5, 200, Utilities.IPSP);
+  }
+  else {
+    
   }
   redraw();
 }
 void mouseDragged() {
   if (currentMode == 1) {
-    if (currentSoma != null) {      
-      currentSoma.setXY(mouseX, mouseY);
+    if (currShape != null) {      
+      currShape.setXY(mouseX, mouseY);
     }
     else {
       shapes.onMouseDragged(mouseX, mouseY);
     }
   }
-  if (currentMode == 2 && shapes.getSelected() != null && currentDendrite != null) {
-    currentDendrite.add(mouseX, mouseY);
+  if (currentMode == 2 && shapes.getSelected() != null && currPath != null) {
+    currPath.add(mouseX, mouseY);
   }
   redraw();
 }
+
 void mouseMoved() {
-  if (mouseButton == RIGHT && shapes.onMouseMoved(mouseX, mouseY)) {
-    
-  }
-  else {
-    if(magnify) 
-      redraw();
-  }
+  if(magnify) 
+    redraw();
 }
+
 void mouseReleased() {
   cursor(ARROW);
+  
   if (currentMode == 1) {
-    if (currentSoma != null) {
-      shapes.add(currentSoma);
-      currentSoma = null;        
+    if (currShape != null) {
+      shapes.add(currShape);
+      currShape = null;        
     }
     else {
       shapes.onMouseUp(mouseX, mouseY);
     }
   }
   if (currentMode == 2) {
-    if (currentDendrite != null) {
+    if (currPath != null) {
       Soma start = (Soma)shapes.getSelected();
-      shapes.select(mouseX, mouseY);
-      Soma end = (Soma)shapes.getSelected();
-      if (end != null && currentDendrite.size() > 5) {
-        currentDendrite.setEnd(end);
-        currentDendrite.add(end.x(), end.y());
-        currentDendrite.reduce(10); 
-        start.addDendrite(currentDendrite);
+      Soma end = (Soma)shapes.select(mouseX, mouseY);
+      if (end != null && currPath.size() > 5) {
+        currPath.setEnd(end);
+        currPath.add(end.x(), end.y());
+        currPath.reduce(5); 
+        start.addDendrite(currPath);
+        paths.add(currPath);
       }
-      currentDendrite = null;
+      currPath = null;
     }
   }
   redraw();
@@ -180,13 +180,13 @@ void keyPressed() {
   else {
     switch (key) {
       case '1': 
-        currentMode = 1;
+        currentMode = Utilities.SOMA;
         break;
       case '2': 
-        currentMode = 2;
+        currentMode = Utilities.DENDRITE;
         break;
       case '3': 
-        currentMode = 3;
+        currentMode = Utilities.INTERACTION;
         break;
       case 'm': 
         magnify = !magnify;
