@@ -66,18 +66,4 @@ class ShapesCollection extends Animatable implements Interactive{
   	}
   	return false;
   }
-  boolean onKeyDown(char keyPressed, int specialKey) {
-    for (int i = 0; i < fShapes.size(); ++i) {
-  	  if (fShapes.get(i).onKeyDown(keyPressed, specialKey))
-  	    return true;
-  	}
-  	return false;
-  }
-  boolean onKeyUp(char keyPressed, int specialKey) {
-    for (int i = 0; i < fShapes.size(); ++i) {
-  	  if (fShapes.get(i).onKeyUp(keyPressed, specialKey))
-  	    return true;
-  	}
-  	return false;
-  }
 }

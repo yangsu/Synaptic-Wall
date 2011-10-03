@@ -67,18 +67,4 @@ class PathsCollection extends Animatable implements Interactive{
     }
     return false;
   }
-  boolean onKeyDown(char keyPressed, int specialKey) {
-    for (int i = 0; i < fPaths.size(); ++i) {
-      if (fPaths.get(i).onKeyDown(keyPressed, specialKey))
-        return true;
-    }
-    return false;
-  }
-  boolean onKeyUp(char keyPressed, int specialKey) {
-    for (int i = 0; i < fPaths.size(); ++i) {
-      if (fPaths.get(i).onKeyUp(keyPressed, specialKey))
-        return true;
-    }
-    return false;
-  }
 }

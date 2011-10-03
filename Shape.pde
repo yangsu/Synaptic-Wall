@@ -31,16 +31,7 @@ abstract class Shape extends Animatable implements Interactive {
   boolean onMouseMoved(float x, float y) {
     return false;
   }
-  
   boolean onMouseUp(float x, float y) {
-    return false;
-  }
-  
-  boolean onKeyDown(char keyPressed, int specialKey) {
-    return false;
-  }
-  
-  boolean onKeyUp(char keyPressed, int specialKey) {
     return false;
   }
 }

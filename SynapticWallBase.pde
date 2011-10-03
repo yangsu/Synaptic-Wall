@@ -22,7 +22,7 @@ void setup() {
   
   //initialization
   magnify = false;
-  currentMode = 1;
+  currentMode = Utilities.SOMA;
   
   shapes = new ShapesCollection();
   paths = new PathsCollection();
@@ -102,7 +102,7 @@ void draw() {
 void mousePressed() {
   cursor(CROSS);
   Shape selected = shapes.select(mouseX, mouseY);
-  if (currentMode == 1) {
+  if (currentMode == Utilities.SOMA) {
     if (selected != null) {
         shapes.onMouseDown(mouseX, mouseY);
     }
@@ -112,11 +112,11 @@ void mousePressed() {
                     random(1, 5));
     }
   }
-  else if (currentMode == 2 && selected != null) {
+  else if (currentMode == Utilities.DENDRITE && selected != null) {
     currPath = new Path(selected);
     currPath.addFirst(selected.x(), selected.y());
   }
-  else if (currentMode == 3 && selected != null) {
+  else if (currentMode == Utilities.INTERACTION && selected != null) {
     ((Soma)selected).fireAP(5, 200, Utilities.IPSP);
   }
   else {
@@ -125,7 +125,7 @@ void mousePressed() {
   redraw();
 }
 void mouseDragged() {
-  if (currentMode == 1) {
+  if (currentMode == Utilities.SOMA) {
     if (currShape != null) {      
       currShape.setXY(mouseX, mouseY);
     }
@@ -133,7 +133,7 @@ void mouseDragged() {
       shapes.onMouseDragged(mouseX, mouseY);
     }
   }
-  if (currentMode == 2 && shapes.getSelected() != null && currPath != null) {
+  if (currentMode == Utilities.DENDRITE && shapes.getSelected() != null && currPath != null) {
     currPath.add(mouseX, mouseY);
   }
   redraw();
@@ -147,7 +147,7 @@ void mouseMoved() {
 void mouseReleased() {
   cursor(ARROW);
   
-  if (currentMode == 1) {
+  if (currentMode == Utilities.SOMA) {
     if (currShape != null) {
       shapes.add(currShape);
       currShape = null;        
@@ -156,7 +156,7 @@ void mouseReleased() {
       shapes.onMouseUp(mouseX, mouseY);
     }
   }
-  if (currentMode == 2) {
+  if (currentMode == Utilities.DENDRITE) {
     if (currPath != null) {
       Soma start = (Soma)shapes.getSelected();
       Soma end = (Soma)shapes.select(mouseX, mouseY);
@@ -174,37 +174,25 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  if (shapes.onKeyDown(key, keyCode)) {
-    
-  }
-  else {
-    switch (key) {
-      case '1': 
-        currentMode = Utilities.SOMA;
-        break;
-      case '2': 
-        currentMode = Utilities.DENDRITE;
-        break;
-      case '3': 
-        currentMode = Utilities.INTERACTION;
-        break;
-      case 'm': 
-        magnify = !magnify;
-        break;
-      case 'p': 
-        noLoop();
-        break;
-      case 'o': 
-        loop();
-        break;
-    }   
-  }
-
-  redraw();
-}
-void keyReleased() {
-  if (shapes.onKeyUp(key, keyCode)) {
-    
+  switch (key) {
+    case '1': 
+      currentMode = Utilities.SOMA;
+      break;
+    case '2': 
+      currentMode = Utilities.DENDRITE;
+      break;
+    case '3': 
+      currentMode = Utilities.INTERACTION;
+      break;
+    case 'm': 
+      magnify = !magnify;
+      break;
+    case 'p': 
+      noLoop();
+      break;
+    case 'o': 
+      loop();
+      break;
   }
   redraw();
 }
