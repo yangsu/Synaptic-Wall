@@ -1,10 +1,8 @@
-abstract class Animatable extends Utilities {
+abstract class Animatable {
   int birthTime;
   int lifeCycle;
   Animatable () {
     lifeCycle = 0;
     birthTime = millis();
   }
-  
-  abstract void draw();
 }

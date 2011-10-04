@@ -1,31 +1,36 @@
 class ActionPotential extends Signal {
-  PVector offset;
+  PVector fOffset;
   
-  ActionPotential(int end, int type, int delay, color c, float value) {
-    super(end, type, delay, c);
-    fStrength = value;
-    offset = new PVector(0,0);
+  ActionPotential(int endIndex, int type, float strength, int delay, color cc) {
+    super(endIndex, type, strength, delay, cc);
+    fOffset = new PVector(0,0);
   }
   
   void draw() {
     pushStyle();
-      stroke(cc);
-      strokeWeight(5);
-      PVector beginControl = PVector.add(beginLoc, PVector.mult(offset, fStrength)),
-              endControl = PVector.add(endLoc, PVector.mult(offset, fStrength));
-      noFill();
-      beginShape();
-        vertex(beginLoc.x, beginLoc.y);
-        vertex(beginControl.x, beginControl.y);
-        vertex(endControl.x, endControl.y);
-        vertex(endLoc.x, endLoc.y);
-      endShape();
+      // stroke(fColor);
+      // strokeWeight(Contants.SIGNAL_WIDTH);
+      // PVector beginControl = PVector.add(fBeginLoc, PVector.mult(fOffset, fStrength)),
+      //         endControl = PVector.add(fEndLoc, PVector.mult(fOffset, fStrength));
+      // noFill();
+      // beginShape();
+      //   vertex(fBeginLoc.x, fBeginLoc.y);
+      //   vertex(beginControl.x, beginControl.y);
+      //   vertex(endControl.x, endControl.y);
+      //   vertex(fEndLoc.x, fEndLoc.y);
+      // endShape();
+      fill(255, 255, 0, 50);
+      ellipse(fBeginLoc.x, fBeginLoc.y, 7, 7);
+      fill(255, 255, 0, 100);
+      ellipse(fBeginLoc.x, fBeginLoc.y, 5, 5);
+      fill(255, 255, 0, 250);
+      ellipse(fBeginLoc.x, fBeginLoc.y, 3, 3);
     popStyle();
   }
   
   void setBeginAndEnd(PVector b, PVector e) {
-    offset.set(e.y - b.y, -(e.x - b.x), 0);
-    offset.normalize();
+    fOffset.set(e.y - b.y, -(e.x - b.x), 0);
+    fOffset.normalize();
     super.setBeginAndEnd(b,e);
   }
 }

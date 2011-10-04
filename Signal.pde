@@ -1,19 +1,18 @@
-abstract class Signal extends Animatable {
-  int fType, currIndex, endIndex;
-  PVector beginLoc, endLoc;
+abstract class Signal extends Animatable implements Drawable {
+  int fType, fCurrIndex, fEndIndex;
+  PVector fBeginLoc, fEndLoc;
   float fStrength;
-  color cc;
+  color fColor;
   
-  Signal (int end, int tt, int d, color c) {
-    endIndex = end;
-    fType = tt;
-    cc = c;
-    currIndex = -round(d / (1000.0/frameRate));
-    beginLoc = endLoc = new PVector(0,0);
+  Signal (int endIndex, int type, float strength, int delay, color cc) {
+    fEndIndex = endIndex;
+    fType = type;
+    fStrength = strength;
+    fCurrIndex = -round(delay / (1000.0/frameRate));
+    fColor = cc;
+    fBeginLoc = fEndLoc = new PVector(0,0);
   }
 
-  abstract void draw();
-  
   int getType() {
     return fType;
   }
@@ -21,18 +20,16 @@ abstract class Signal extends Animatable {
     return fStrength;
   }
   int getIndex() {
-    return currIndex;
+    return fCurrIndex;
   }
   int step() {
-    return constrain(currIndex++, 0, endIndex - 3);
+    return constrain(fCurrIndex++, 0, fEndIndex - 3);
   }
-
   boolean reachedEnd() {
-    return currIndex == endIndex - 3;
+    return fCurrIndex == fEndIndex - 3;
   }
-
-  void setBeginAndEnd(PVector b, PVector e) {
-    beginLoc = b;
-    endLoc = e;
+  void setBeginAndEnd(PVector begin, PVector end) {
+    fBeginLoc = begin;
+    fEndLoc = end;
   }
 }

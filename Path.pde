@@ -1,4 +1,4 @@
-class Path extends Animatable implements Interactive{
+class Path extends Animatable implements Interactive, Drawable{
   ArrayList<PVector> vertices;
   ArrayList<Signal> signals;  
   int index;
@@ -7,16 +7,13 @@ class Path extends Animatable implements Interactive{
   Shape start;
   Shape end;
 
-  int lineWidth;
-  
   public Path(Shape s){
     vertices = new ArrayList<PVector>();
     signals = new ArrayList<Signal>();
-    cc=color(random(255),200,150);
+    cc=s.fColor;
     start=s;
     end=null;
     index = 0;
-    lineWidth = 5;
   }
 
   int size(){
@@ -33,7 +30,7 @@ class Path extends Animatable implements Interactive{
       return (PVector)vertices.get(0);
     return null;
   }
-  public PVector getEndLoc(){
+  public PVector getfEndLoc(){
     if(vertices.size()!=0)
       return (PVector)vertices.get(vertices.size()-1);
     return null;
@@ -84,7 +81,7 @@ class Path extends Animatable implements Interactive{
     if (vertices.size() > 2) {
       noFill();
       stroke(cc);
-      strokeWeight(lineWidth);
+      strokeWeight(Contants.SIGNAL_WIDTH);
       drawPath();
     }
     popStyle();
@@ -100,15 +97,15 @@ class Path extends Animatable implements Interactive{
     for (int i = 0; i < vertices.size(); ++i) {
       temp = vertices.get(i);
       curveVertex(temp.x,temp.y);
-      for (int j = signals.size() - 1; j >= 0; --j) {
-        if (i == (signals.get(j).getIndex() + 1)){
-          endShape();
-          beginShape();
-          curveVertex(temp.x,temp.y);
-          //Only one signal should match the current index 
-          break;
-        }
-      }
+      // for (int j = signals.size() - 1; j >= 0; --j) {
+      //   if (i == (signals.get(j).getIndex() + 1)){
+      //     endShape();
+      //     beginShape();
+      //     curveVertex(temp.x,temp.y);
+      //     //Only one signal should match the current index 
+      //     break;
+      //   }
+      // }
     }
     endShape();
   }
@@ -126,13 +123,13 @@ class Path extends Animatable implements Interactive{
   }
   void addSignal(int type, int delay){
     switch (type) {
-      case EPSP:
-      case IPSP:
-        signals.add(new PostsynapticPotential(vertices.size(), type, delay, cc, 5.0, 0.99));
-        break;
-      case AP:
+      case Contants.EPSP:
+      case Contants.IPSP:
+        // signals.add(new PostsynapticPotential(vertices.size(), type, delay, cc, 5.0, 0.99));
+        // break;
+      case Contants.AP:
       default:
-        signals.add(new ActionPotential(vertices.size(), type, delay, cc, 5.0));
+        signals.add(new ActionPotential(vertices.size(), type, 5.0, delay, cc));
         break;
     }
   }

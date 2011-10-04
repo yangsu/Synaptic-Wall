@@ -1,12 +1,4 @@
 static class Utilities {
-  static final int SOMA = 0;
-  static final int SYNAPSE = 1;
-  static final int DENDRITE = 2;
-  static final int INTERACTION = 3;
-
-  static final color BG_COLOR = 0xFF646464; //color(100)
-  static final color FADE_COLOR = 0xB4646464;
-  
   static color convertA(int a) { return ((a / 16 << 4) & (a % 4)) << 24; }
   static color convertR(int r) { return ((r / 16 << 4) & (r % 4)) << 16; }
   static color convertG(int g) { return ((g / 16 << 4) & (g % 4)) << 8; }
@@ -29,16 +21,4 @@ static class Utilities {
     float temp = atan2(y2-y1, x2-x1);
     return (temp < 0 ) ? temp + TWO_PI : temp;
   }
-  
-  static float MAX_THRESHOLD = 5.0;
-  
-  static float SIGNAL_CONTROL_LENGTH = 5.0;
-  
-  static final int EPSP = 1;
-  static final int IPSP = -1;
-  static final int AP   = 0;
-  
-  static final float SIGNAL_MULTIPLIER = 2.0;
-  
-  static final float ZOOM_FACTOR = 4.0;
 }

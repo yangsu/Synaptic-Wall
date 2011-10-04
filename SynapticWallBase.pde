@@ -19,10 +19,10 @@ void setup() {
   // noLoop();
   noStroke();
   cursor(ARROW);
-  
+  Button a = new Button();
   //initialization
   magnify = false;
-  currentMode = Utilities.SOMA;
+  currentMode = Contants.SOMA;
   
   shapes = new ShapesCollection();
   paths = new PathsCollection();
@@ -49,11 +49,11 @@ void drawMagnified() {
   pushStyle();
     pushMatrix();
       translate(mouseX, mouseY);
-      scale(Utilities.ZOOM_FACTOR);
+      scale(Contants.ZOOM_FACTOR);
       translate(-mouseX, -mouseY);
-      fill(Utilities.FADE_COLOR);
+      fill(Contants.FADE_COLOR);
       rect(0, 0, width, height);
-      drawBackground(Utilities.BG_COLOR);
+      drawBackground(Contants.BG_COLOR);
       drawContent();
     popMatrix();
   
@@ -61,7 +61,7 @@ void drawMagnified() {
     int tempY = constrain(mouseY-height/4, 0, height);
     temp = get(tempX, tempY, temp.width, temp.height);
   
-    drawBackground(Utilities.BG_COLOR);
+    drawBackground(Contants.BG_COLOR);
     drawContent();  
 
     image(temp, tempX, tempY);
@@ -74,15 +74,15 @@ void drawMagnified() {
 }
 void drawText() {
   pushStyle();
-    fill(0);
+    fill(255);
     switch (currentMode) {
-      case Utilities.SOMA:
+      case Contants.SOMA:
         text("Soma", 0, 20);
         break;
-      case Utilities.DENDRITE:
+      case Contants.DENDRITE:
         text("Dendrite", 0, 20);
         break;
-      case Utilities.INTERACTION:
+      case Contants.INTERACTION:
         text("Interaction", 0, 20);
         break;
     }
@@ -93,7 +93,7 @@ void draw() {
     drawMagnified();
   }
   else {
-    drawBackground(color(100));
+    drawBackground(Contants.BG_COLOR);
     drawContent();
   }
   drawText();
@@ -102,7 +102,7 @@ void draw() {
 void mousePressed() {
   cursor(CROSS);
   Shape selected = shapes.select(mouseX, mouseY);
-  if (currentMode == Utilities.SOMA) {
+  if (currentMode == Contants.SOMA) {
     if (selected != null) {
         shapes.onMouseDown(mouseX, mouseY);
     }
@@ -112,12 +112,12 @@ void mousePressed() {
                     random(1, 5));
     }
   }
-  else if (currentMode == Utilities.DENDRITE && selected != null) {
+  else if (currentMode == Contants.DENDRITE && selected != null) {
     currPath = new Path(selected);
     currPath.addFirst(selected.x(), selected.y());
   }
-  else if (currentMode == Utilities.INTERACTION && selected != null) {
-    ((Soma)selected).fireAP(5, 200, Utilities.IPSP);
+  else if (currentMode == Contants.INTERACTION && selected != null) {
+    ((Soma)selected).fireAP(5, 200, Contants.IPSP);
   }
   else {
     
@@ -125,7 +125,7 @@ void mousePressed() {
   redraw();
 }
 void mouseDragged() {
-  if (currentMode == Utilities.SOMA) {
+  if (currentMode == Contants.SOMA) {
     if (currShape != null) {      
       currShape.setXY(mouseX, mouseY);
     }
@@ -133,7 +133,7 @@ void mouseDragged() {
       shapes.onMouseDragged(mouseX, mouseY);
     }
   }
-  if (currentMode == Utilities.DENDRITE && shapes.getSelected() != null && currPath != null) {
+  if (currentMode == Contants.DENDRITE && shapes.getSelected() != null && currPath != null) {
     currPath.add(mouseX, mouseY);
   }
   redraw();
@@ -147,7 +147,7 @@ void mouseMoved() {
 void mouseReleased() {
   cursor(ARROW);
   
-  if (currentMode == Utilities.SOMA) {
+  if (currentMode == Contants.SOMA) {
     if (currShape != null) {
       shapes.add(currShape);
       currShape = null;        
@@ -156,14 +156,14 @@ void mouseReleased() {
       shapes.onMouseUp(mouseX, mouseY);
     }
   }
-  if (currentMode == Utilities.DENDRITE) {
+  if (currentMode == Contants.DENDRITE) {
     if (currPath != null) {
       Soma start = (Soma)shapes.getSelected();
       Soma end = (Soma)shapes.select(mouseX, mouseY);
       if (end != null && currPath.size() > 5) {
         currPath.setEnd(end);
         currPath.add(end.x(), end.y());
-        currPath.reduce(5); 
+        currPath.reduce(15); 
         start.addDendrite(currPath);
         paths.add(currPath);
       }
@@ -176,13 +176,13 @@ void mouseReleased() {
 void keyPressed() {
   switch (key) {
     case '1': 
-      currentMode = Utilities.SOMA;
+      currentMode = Contants.SOMA;
       break;
     case '2': 
-      currentMode = Utilities.DENDRITE;
+      currentMode = Contants.DENDRITE;
       break;
     case '3': 
-      currentMode = Utilities.INTERACTION;
+      currentMode = Contants.INTERACTION;
       break;
     case 'm': 
       magnify = !magnify;
