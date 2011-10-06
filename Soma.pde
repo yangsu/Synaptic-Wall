@@ -73,7 +73,7 @@ class Soma extends Shape {
       fDendrites.add(dendrite);
   }
 
-  void fireAP(int numSignal, int delayms, int type) {
+  void fireSignal(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
       for (int j = 0; j < fDendrites.size(); ++j)
         // fDendrites.get(j).addSignal(type, i * delayms);
@@ -81,7 +81,7 @@ class Soma extends Shape {
     }
   }
 
-  void receiveAP(int type, float value) {
+  void receiveSignal(int type, float value) {
     fCurrAP += value;
     fReceivedAPs = append(fReceivedAPs, value);
   }

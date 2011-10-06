@@ -101,10 +101,11 @@ void draw() {
 
 void mousePressed() {
   cursor(CROSS);
-  Shape selected = shapes.select(mouseX, mouseY);
+  Shape selectedShape = shapes.select(mouseX, mouseY);
+  Path selectedPath = paths.select(mouseX, mouseY);
   if (currentMode == Contants.SOMA) {
-    if (selected != null) {
-        shapes.onMouseDown(mouseX, mouseY);
+    if (selectedShape != null) {
+      shapes.onMouseDown(mouseX, mouseY);
     }
     else {
       currShape = new Soma(mouseX, mouseY, random(20, 30), 
@@ -112,12 +113,20 @@ void mousePressed() {
                     random(1, 5));
     }
   }
-  else if (currentMode == Contants.DENDRITE && selected != null) {
-    currPath = new Path(selected);
-    currPath.addFirst(selected.x(), selected.y());
+  else if (currentMode == Contants.DENDRITE) {
+    if (selectedShape != null) {
+      currPath = new Path(selectedShape);
+      currPath.addFirst(selectedShape.x(), selectedShape.y());
+    }
+    else if (selectedPath != null) {
+      currPath = new Path();
+      currPath.addFirst(selectedShape.x(), selectedShape.y());
+    }
+    else
+      paths.onMouseDown(mouseX, mouseY);
   }
-  else if (currentMode == Contants.INTERACTION && selected != null) {
-    ((Soma)selected).fireAP(5, 200, Contants.IPSP);
+  else if (currentMode == Contants.INTERACTION && selectedShape != null) {
+    ((Soma)selectedShape).fireSignal(5, 200, Contants.IPSP);
   }
   else {
     
@@ -133,8 +142,11 @@ void mouseDragged() {
       shapes.onMouseDragged(mouseX, mouseY);
     }
   }
-  if (currentMode == Contants.DENDRITE && shapes.getSelected() != null && currPath != null) {
-    currPath.add(mouseX, mouseY);
+  if (currentMode == Contants.DENDRITE) {
+    if (shapes.getSelected() != null && currPath != null)
+      currPath.add(mouseX, mouseY);
+    else
+      paths.onMouseDragged(mouseX, mouseY);
   }
   redraw();
 }
@@ -142,6 +154,8 @@ void mouseDragged() {
 void mouseMoved() {
   if(magnify) 
     redraw();
+  shapes.onMouseMoved(mouseX, mouseY);
+  paths.onMouseMoved(mouseX, mouseY);
 }
 
 void mouseReleased() {
@@ -163,11 +177,14 @@ void mouseReleased() {
       if (end != null && currPath.size() > 5) {
         currPath.setEnd(end);
         currPath.add(end.x(), end.y());
-        currPath.reduce(15); 
+        currPath.reduce(Contants.SIGNAL_RESOLUTION); 
         start.addDendrite(currPath);
         paths.add(currPath);
       }
       currPath = null;
+    }
+    else {
+      paths.onMouseUp(mouseX, mouseY);
     }
   }
   redraw();

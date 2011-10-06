@@ -1,4 +1,4 @@
-abstract class Shape extends Animatable implements Interactive, Drawable {
+abstract class Shape extends Animatable implements Interactive, Drawable, Signalable {
   PVector fLoc;
   float fSize;
   color fColor;

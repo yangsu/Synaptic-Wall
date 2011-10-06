@@ -7,6 +7,4 @@ abstract class Control {
   }
   
   abstract boolean isInBounds(float x, float y);
-  
-  
 }

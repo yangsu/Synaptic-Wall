@@ -9,6 +9,7 @@ static class Contants {
   static final color BG_COLOR = 0xFF000000;
   static final color FADE_COLOR = 0xB4646464;
   static final float ZOOM_FACTOR = 4.0;
+  static final int SIGNAL_RESOLUTION = 5;
   
   // Soma Settings
   static final float SOMA_MAX_THRESHOLD = 10.0;

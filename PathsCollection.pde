@@ -30,7 +30,6 @@ class PathsCollection extends Animatable implements Interactive{
     return fSelected;
   }
 
-  
   void add(Path s) {
     if (s != null)
       fPaths.add(s);
