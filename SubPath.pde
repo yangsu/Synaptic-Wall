@@ -1,7 +1,17 @@
 class SubPath extends Path {
-  int fPosition;
   SubPath(Path parent, int position) {
-    fPosition = position;
+    fBeginPosition = position;
     fColor = parent.fColor;
+    fEndPosition = 0;
+  }
+  
+  void setEndPosition(int position) {
+    fEndPosition = position;
+  }
+  
+  void draw() {
+    super.draw();
+    drawJunction(this.getStartLoc());
+    drawJunction(this.getEndLoc());
   }
 }

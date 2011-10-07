@@ -12,7 +12,7 @@ abstract class Signal extends Animatable implements Drawable {
     fColor = cc;
     fBeginLoc = fEndLoc = new PVector(0,0);
   }
-
+  void setStart(int index) { fCurrIndex = index; }
   int getType() {
     return fType;
   }
@@ -23,10 +23,10 @@ abstract class Signal extends Animatable implements Drawable {
     return fCurrIndex;
   }
   int step() {
-    return constrain(fCurrIndex++, 0, fEndIndex - 3);
+    return constrain(fCurrIndex++, 0, fEndIndex - 1);
   }
   boolean reachedEnd() {
-    return fCurrIndex == fEndIndex - 3;
+    return fCurrIndex == fEndIndex - 1;
   }
   void setBeginAndEnd(PVector begin, PVector end) {
     fBeginLoc = begin;

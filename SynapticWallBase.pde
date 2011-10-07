@@ -175,6 +175,7 @@ void mouseReleased() {
     }
   }
   if (currentMode == Contants.DENDRITE) {
+    //Need refactoring
     if (currPath != null && currPath.size() > 5) {
       Shape selectedShape = shapes.getSelected();
       Shape endShape = shapes.select(mouseX, mouseY);
@@ -187,27 +188,25 @@ void mouseReleased() {
         selectedShape.addDendrite(currPath);
         paths.add(currPath);
       }
-      else if (selectedPath != null) {
-        if (endShape != null) {
-          currPath.setEnd(endShape);
-          currPath.add(endShape.x(), endShape.y());
-          selectedShape.addDendrite(currPath);
-          currPath.reduce(Contants.SIGNAL_RESOLUTION);
-          paths.add(currPath);
-        }
-        else if (endPath != null) {
-          currPath.setEnd(endPath);
-          currPath.add(endPath.fCurrVert.x, endPath.fCurrVert.y);
-          selectedPath.addSubPath((SubPath)currPath);
-          currPath.reduce(Contants.SIGNAL_RESOLUTION);
-          paths.add(currPath);
-        }
+      else if (selectedPath != null && endShape != null) {
+        currPath.setEnd(endShape);
+        currPath.add(endShape.x(), endShape.y());
+        selectedPath.addSubPath((SubPath)currPath);
+        currPath.reduce(Contants.SIGNAL_RESOLUTION);
+        paths.add(currPath);
+      }
+      else if (selectedPath != null && endPath != null) {
+        currPath.setEnd(endPath);
+        currPath.add(endPath.fCurrVert.x, endPath.fCurrVert.y);
+        selectedPath.addSubPath((SubPath)currPath);
+        ((SubPath)currPath).setEndPosition(endPath.fCurrIndex);
+        currPath.reduce(Contants.SIGNAL_RESOLUTION);
+        paths.add(currPath);
       }
       else {}
       currPath = null;
     }
     else {
-      paths.onMouseUp(mouseX, mouseY);
     }
   }
   redraw();

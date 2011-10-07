@@ -12,6 +12,10 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   boolean fSelected;
   boolean fHover;
   
+  //Rethink inheritance hiearchy
+  int fBeginPosition;
+  int fEndPosition;
+  
   Path() {
     fSubPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
@@ -95,8 +99,8 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
       }
       if (fHover) {
         drawJunction(fCurrVert.x, fCurrVert.y);
+        drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
-      drawSubPaths();
     popStyle();
     processSignals();
     for (int i = 0; i < fSignals.size(); ++i) {
@@ -113,15 +117,6 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
     }
     endShape();
   }
-  void drawSubPaths() {
-    Path temp;
-    for (int i = 0; i < fSubPaths.size(); ++i) {
-      temp = fSubPaths.get(i);
-      temp.draw();
-      drawJunction(temp.getStartLoc());
-      drawJunction(temp.getEndLoc());
-    }
-  }
   void drawJunction(float x, float y) {
     pushStyle();
       fill(fColor);
@@ -137,8 +132,16 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
       int pos = curr.step();
       curr.setBeginAndEnd(fVertices.get(pos), fVertices.get(pos + 1));
       if (curr.reachedEnd()) {
-        fEnd.receiveSignal(curr.getType(), curr.getValue());
+        fEnd.receiveSignal(curr.getType(), curr.getValue(), fEndPosition);
         fSignals.remove(curr);
+      }
+      else {
+        SubPath temp;
+        for (int j = 0; j < fSubPaths.size(); ++j) {
+          temp = ((SubPath)fSubPaths.get(j));
+          if (pos == temp.fBeginPosition)
+            temp.addSignal(Contants.AP, 0);
+        }
       }
     }
   }
@@ -157,8 +160,10 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   void addSubPath(SubPath subpath) {
     fSubPaths.add(subpath);
   }
-  void receiveSignal(int type, float value) {
-    
+  void receiveSignal(int type, float value, int position) {
+    Signal s = new ActionPotential(fVertices.size(), type, 5.0, 0, fColor);
+    s.setStart(position);
+    fSignals.add(s);
   }
   
   boolean isOnPath(float x, float y) {

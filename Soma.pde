@@ -75,7 +75,7 @@ class Soma extends Shape {
     }
   }
 
-  void receiveSignal(int type, float value) {
+  void receiveSignal(int type, float value, int position) {
     fCurrAP += value;
     fReceivedAPs = append(fReceivedAPs, value);
   }

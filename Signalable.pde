@@ -1,3 +1,3 @@
 interface Signalable {
-  void receiveSignal(int type, float value);
+  void receiveSignal(int type, float value, int position);
 }
