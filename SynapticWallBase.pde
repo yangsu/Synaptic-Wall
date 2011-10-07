@@ -119,8 +119,9 @@ void mousePressed() {
       currPath.addFirst(selectedShape.x(), selectedShape.y());
     }
     else if (selectedPath != null) {
-      currPath = new Path();
-      currPath.addFirst(selectedShape.x(), selectedShape.y());
+      currPath = new SubPath(selectedPath, selectedPath.fCurrIndex);
+      currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
+      println("Add first "+selectedPath.fCurrVert.x +" "+ selectedPath.fCurrVert.y);
     }
     else
       paths.onMouseDown(mouseX, mouseY);
@@ -143,10 +144,9 @@ void mouseDragged() {
     }
   }
   if (currentMode == Contants.DENDRITE) {
-    if (shapes.getSelected() != null && currPath != null)
+    if (currPath != null)
       currPath.add(mouseX, mouseY);
-    else
-      paths.onMouseDragged(mouseX, mouseY);
+    paths.onMouseDragged(mouseX, mouseY);
   }
   redraw();
 }
@@ -154,8 +154,12 @@ void mouseDragged() {
 void mouseMoved() {
   if(magnify) 
     redraw();
-  shapes.onMouseMoved(mouseX, mouseY);
-  paths.onMouseMoved(mouseX, mouseY);
+  if (currentMode == Contants.SOMA) {
+    shapes.onMouseMoved(mouseX, mouseY);
+  }
+  if (currentMode == Contants.DENDRITE) {
+    paths.onMouseMoved(mouseX, mouseY);
+  }
 }
 
 void mouseReleased() {
@@ -171,16 +175,35 @@ void mouseReleased() {
     }
   }
   if (currentMode == Contants.DENDRITE) {
-    if (currPath != null) {
-      Soma start = (Soma)shapes.getSelected();
-      Soma end = (Soma)shapes.select(mouseX, mouseY);
-      if (end != null && currPath.size() > 5) {
-        currPath.setEnd(end);
-        currPath.add(end.x(), end.y());
+    if (currPath != null && currPath.size() > 5) {
+      Shape selectedShape = shapes.getSelected();
+      Shape endShape = shapes.select(mouseX, mouseY);
+      Path selectedPath = paths.getSelected();      
+      Path endPath = paths.select(mouseX, mouseY);
+      if (selectedShape != null && endShape != null) {
+        currPath.setEnd(endShape);
+        currPath.add(endShape.x(), endShape.y());
         currPath.reduce(Contants.SIGNAL_RESOLUTION); 
-        start.addDendrite(currPath);
+        selectedShape.addDendrite(currPath);
         paths.add(currPath);
       }
+      else if (selectedPath != null) {
+        if (endShape != null) {
+          currPath.setEnd(endShape);
+          currPath.add(endShape.x(), endShape.y());
+          selectedShape.addDendrite(currPath);
+          currPath.reduce(Contants.SIGNAL_RESOLUTION);
+          paths.add(currPath);
+        }
+        else if (endPath != null) {
+          currPath.setEnd(endPath);
+          currPath.add(endPath.fCurrVert.x, endPath.fCurrVert.y);
+          selectedPath.addSubPath((SubPath)currPath);
+          currPath.reduce(Contants.SIGNAL_RESOLUTION);
+          paths.add(currPath);
+        }
+      }
+      else {}
       currPath = null;
     }
     else {

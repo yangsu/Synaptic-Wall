@@ -1,6 +1,7 @@
 class SubPath extends Path {
-  
-  SubPath(Path parent) {
-    
+  int fPosition;
+  SubPath(Path parent, int position) {
+    fPosition = position;
+    fColor = parent.fColor;
   }
 }

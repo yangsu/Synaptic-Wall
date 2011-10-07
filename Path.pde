@@ -3,22 +3,22 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   ArrayList<Signal> fSignals;
   ArrayList<Path> fSubPaths;
 
-  boolean fHover;
-  boolean fCreatingSubPath;
-  color fColor;
-  Path fCurrSubPath;
   PVector fCurrVert;
-  Shape fEnd;
-  Shape fStart;
+  int fCurrIndex;
+  Signalable fEnd;
+  Signalable fStart;
+  
+  color fColor;
+  boolean fSelected;
+  boolean fHover;
   
   Path() {
     fSubPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
-    fHover = fCreatingSubPath = false;
     fSignals = new ArrayList<Signal>();
     fEnd = fStart = null;
     fCurrVert = null;
-    fCurrSubPath = null;
+    fCurrIndex = 0;
   }
   
   Path(Shape shape){
@@ -31,7 +31,7 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   int size(){
     return fVertices.size();
   }
-  void setEnd(Shape obj){
+  void setEnd(Signalable obj){
     fEnd = obj;
   }
   PVector getStartLoc(){
@@ -39,7 +39,7 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
       return (PVector)fVertices.get(0);
     return null;
   }
-  PVector getfEndLoc(){
+  PVector getEndLoc(){
     if(fVertices.size()!=0)
       return (PVector)fVertices.get(fVertices.size()-1);
     return null;
@@ -94,8 +94,7 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
         drawPath();
       }
       if (fHover) {
-        fill(255);
-        ellipse(fCurrVert.x, fCurrVert.y, Contants.SIGNAL_WIDTH, Contants.SIGNAL_WIDTH);
+        drawJunction(fCurrVert.x, fCurrVert.y);
       }
       drawSubPaths();
     popStyle();
@@ -104,39 +103,41 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
       fSignals.get(i).draw();
     }
   }
-
+  
   void drawPath(){
     beginShape();
     PVector temp;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       curveVertex(temp.x,temp.y);
-      // for (int j = fSignals.size() - 1; j >= 0; --j) {
-      //   if (i == (fSignals.get(j).getIndex() + 1)){
-      //     endShape();
-      //     beginShape();
-      //     curveVertex(temp.x,temp.y);
-      //     //Only one signal should match the current index 
-      //     break;
-      //   }
-      // }
     }
     endShape();
   }
   void drawSubPaths() {
-    if (fCreatingSubPath)
-      fCurrSubPath.draw();
+    Path temp;
     for (int i = 0; i < fSubPaths.size(); ++i) {
-      fSubPaths.get(i).draw();
+      temp = fSubPaths.get(i);
+      temp.draw();
+      drawJunction(temp.getStartLoc());
+      drawJunction(temp.getEndLoc());
     }
+  }
+  void drawJunction(float x, float y) {
+    pushStyle();
+      fill(fColor);
+      ellipse(x, y, Contants.SIGNAL_WIDTH, Contants.SIGNAL_WIDTH);
+    popStyle();
+  }
+  void drawJunction(PVector p) {
+    drawJunction(p.x, p.y);
   }
   void processSignals() {
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
       int pos = curr.step();
-      curr.setBeginAndEnd(fVertices.get(pos), fVertices.get(pos + 2));
+      curr.setBeginAndEnd(fVertices.get(pos), fVertices.get(pos + 1));
       if (curr.reachedEnd()) {
-        ((Soma)fEnd).receiveSignal(curr.getType(), curr.getValue());
+        fEnd.receiveSignal(curr.getType(), curr.getValue());
         fSignals.remove(curr);
       }
     }
@@ -153,9 +154,8 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
         break;
     }
   }
-  
-  void fireSignal(int numSignal, int delayms, int type) {
-    
+  void addSubPath(SubPath subpath) {
+    fSubPaths.add(subpath);
   }
   void receiveSignal(int type, float value) {
     
@@ -164,44 +164,28 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   boolean isOnPath(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
-    fHover = false;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       if (PVector.dist(mouse, temp) <= Contants.SIGNAL_WIDTH) {
         fCurrVert = temp;
-        fHover = true;
+        fCurrIndex = i;
+        return true;
       }
-    }
-    return fHover;
-  }
-  
-  boolean onMouseDown(float x, float y) {
-    if (fHover) {
-      // fCurrSubPath = new Path(fStart);
-      // fCurrSubPath.addFirst(fCurrVert.x, fCurrVert.y);
-      // fCreatingSubPath = true;
-      return true;
-    }
-    else
-      return false;
-  }
-  boolean onMouseDragged(float x, float y) {
-    if (fCreatingSubPath) {
-      fCurrSubPath.add(x,y);
     }
     return false;
   }
+  
+  boolean onMouseDown(float x, float y) {
+    return (fSelected = isOnPath(x, y));
+  }
   boolean onMouseMoved(float x, float y) {
-    return !fCreatingSubPath && isOnPath(x,y);
+    return (fHover = isOnPath(x, y));
+  }
+  boolean onMouseDragged(float x, float y) {
+    return (fHover = isOnPath(x, y));
   }
   boolean onMouseUp(float x, float y) {
-    if (fCreatingSubPath) {
-      fCurrSubPath.setEnd(fEnd);
-      fCurrSubPath.reduce(Contants.SIGNAL_RESOLUTION); 
-      fSubPaths.add(fCurrSubPath);
-      fCurrSubPath = null;
-      fCreatingSubPath = false;
-    }
+    fSelected = false;
     return false;
   }
 }

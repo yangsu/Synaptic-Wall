@@ -1,5 +1,4 @@
 class Soma extends Shape {
-  ArrayList<Path> fDendrites;
   float[] fReceivedAPs;
   
   float fThreshold, fCurrAP, fThresholdAngle;
@@ -67,11 +66,6 @@ class Soma extends Shape {
     
     popStyle();  
   }
-  
-  void addDendrite(Path dendrite) {
-    if (dendrite != null)
-      fDendrites.add(dendrite);
-  }
 
   void fireSignal(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
@@ -93,18 +87,11 @@ class Soma extends Shape {
       return true;
     }
     else if (dist <= fSize * 1.5 && dist >= fSize) {
-      fChangingthreshold = true;
+      fChangingthreshold = fSelected;
       return true;
     }
     else
       return false;
-  }
-  boolean onMouseDown(float x, float y) {
-    if (isInBounds(x, y))
-      fSelected = true;
-    else
-      fSelected = false;
-    return fSelected;
   }
   boolean onMouseDragged(float x, float y) {
     if (fSelected) {
@@ -121,11 +108,11 @@ class Soma extends Shape {
       return true;
     }
     else
-      return false;
+      return super.onMouseDragged(x,y);
   }
   boolean onMouseUp(float x, float y) {
     fSelected = false;
     fChangingthreshold = false;
-    return false;
+    return super.onMouseUp(x,y);
   }
 }
