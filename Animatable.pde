@@ -1,8 +1,10 @@
-abstract class Animatable {
-  int birthTime;
-  int lifeCycle;
+abstract class Animatable extends Drawable{
+  int fBirthTime;
+  int fLifeCycle;
+  boolean fAnimationEnded;
   Animatable () {
-    lifeCycle = 0;
-    birthTime = millis();
+    fLifeCycle = 0;
+    fBirthTime = millis();
+    fAnimationEnded = false;
   }
 }
