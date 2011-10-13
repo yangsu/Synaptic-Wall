@@ -1,8 +1,7 @@
-abstract class Signal extends Animatable implements Drawable {
+abstract class Signal extends Animatable {
   int fType, fCurrIndex, fEndIndex;
   PVector fBeginLoc, fEndLoc;
   float fStrength;
-  color fColor;
   
   Signal (int endIndex, int type, float strength, int delay, color cc) {
     fEndIndex = endIndex;
@@ -13,21 +12,11 @@ abstract class Signal extends Animatable implements Drawable {
     fBeginLoc = fEndLoc = new PVector(0,0);
   }
   void setStart(int index) { fCurrIndex = index; }
-  int getType() {
-    return fType;
-  }
-  float getValue() {
-    return fStrength;
-  }
-  int getIndex() {
-    return fCurrIndex;
-  }
-  int step() {
-    return constrain(fCurrIndex++, 0, fEndIndex - 1);
-  }
-  boolean reachedEnd() {
-    return fCurrIndex == fEndIndex - 1;
-  }
+  int getType() { return fType; }
+  float getValue() { return fStrength; }
+  int getIndex() { return fCurrIndex; }
+  int step() { return constrain(fCurrIndex++, 0, fEndIndex - 1); }
+  boolean reachedEnd() { return fCurrIndex == fEndIndex - 1; }
   void setBeginAndEnd(PVector begin, PVector end) {
     fBeginLoc = begin;
     fEndLoc = end;
