@@ -70,7 +70,6 @@ class Soma extends Shape {
   void fireSignal(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
       for (int j = 0; j < fDendrites.size(); ++j)
-        // fDendrites.get(j).addSignal(type, i * delayms);
         fDendrites.get(j).addSignal((int)random(3) - 1, i * delayms);
     }
   }

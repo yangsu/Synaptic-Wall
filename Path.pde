@@ -1,4 +1,4 @@
-class Path extends Animatable implements Interactive, Drawable, Signalable{
+class Path extends Animatable implements Interactive, Signalable{
   ArrayList<PVector> fVertices;
   ArrayList<Signal> fSignals;
   ArrayList<Path> fSubPaths;
@@ -12,7 +12,7 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   boolean fSelected;
   boolean fHover;
   
-  //Rethink inheritance hiearchy
+  //TODO: Rethink inheritance hiearchy
   int fBeginPosition;
   int fEndPosition;
   
@@ -110,11 +110,11 @@ class Path extends Animatable implements Interactive, Drawable, Signalable{
   
   void drawPath(){
     beginShape();
-    PVector temp;
-    for (int i = 0; i < fVertices.size(); ++i) {
-      temp = fVertices.get(i);
-      curveVertex(temp.x,temp.y);
-    }
+      PVector temp;
+      for (int i = 0; i < fVertices.size(); ++i) {
+        temp = fVertices.get(i);
+        curveVertex(temp.x,temp.y);
+      }
     endShape();
   }
   void drawJunction(float x, float y) {
