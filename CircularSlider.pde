@@ -10,6 +10,7 @@ class CircularSlider extends Control {
   CircularSlider(float x, float y, float size) {
     super(x,y);
     fSize = size;
+    // TODO: Rotate everything so 0 is at HALF_PI
     fCurr = fBegin = HALF_PI;
     fEnd = 3 * HALF_PI;
     fState = SLIDER;
@@ -31,6 +32,7 @@ class CircularSlider extends Control {
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
     fill(Constants.SLIDER_BAR_COLOR);
+    // TODO: Fix constrain bug
     arc(fLoc.x, fLoc.y, temp, temp, 
         constrain(fCurr - Constants.SLIDER_LENGTH, fBegin, fEnd), 
         constrain(fCurr + Constants.SLIDER_LENGTH, fBegin, fEnd));
