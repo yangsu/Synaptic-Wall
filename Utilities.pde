@@ -17,8 +17,16 @@ static class Utilities {
     return convertA(a) & convertR(r) & convertG(g) << 8 & convertB(b);
   }
   
-  static float getAngle(float x1, float y1, float x2, float y2) {
+  static float nconstrain(float value, float begin, float end) {
+    if (value > begin && value <= PI) value = begin;
+    if (value < end && value > PI) value = end;
+    return value;
+  }
+  static float getAngleNorm(float x1, float y1, float x2, float y2) {
     float temp = atan2(y2-y1, x2-x1);
     return (temp < 0 ) ? temp + TWO_PI : temp;
+  }
+  static float getAngle(float x1, float y1, float x2, float y2) {
+    return atan2(y2-y1, x2-x1);
   }
 }

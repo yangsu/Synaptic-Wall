@@ -90,7 +90,7 @@ class Path extends Drawable implements Signalable{
       if (fVertices.size() > 2) {
         noFill();
         stroke(fColor);
-        strokeWeight(Contants.SIGNAL_WIDTH + ((fHover) ? 1 : 0));
+        strokeWeight(Constants.SIGNAL_WIDTH + ((fHover) ? 1 : 0));
         drawPath();
       }
       if (fHover) {
@@ -116,7 +116,7 @@ class Path extends Drawable implements Signalable{
   void drawJunction(float x, float y) {
     pushStyle();
       fill(fColor);
-      ellipse(x, y, Contants.SIGNAL_WIDTH, Contants.SIGNAL_WIDTH);
+      ellipse(x, y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
     popStyle();
   }
   void drawJunction(PVector p) {
@@ -136,18 +136,18 @@ class Path extends Drawable implements Signalable{
         for (int j = 0; j < fSubPaths.size(); ++j) {
           temp = ((SubPath)fSubPaths.get(j));
           if (pos == temp.fBeginPosition)
-            temp.addSignal(Contants.AP, 0);
+            temp.addSignal(Constants.AP, 0);
         }
       }
     }
   }
   void addSignal(int type, int delay){
     switch (type) {
-      case Contants.EPSP:
-      case Contants.IPSP:
+      case Constants.EPSP:
+      case Constants.IPSP:
         // fSignals.add(new PostsynapticPotential(fVertices.size(), type, delay, fColor, 5.0, 0.99));
         // break;
-      case Contants.AP:
+      case Constants.AP:
       default:
         fSignals.add(new ActionPotential(fVertices.size(), type, 5.0, delay, fColor));
         break;
@@ -167,7 +167,7 @@ class Path extends Drawable implements Signalable{
     PVector temp;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
-      if (PVector.dist(mouse, temp) <= Contants.SIGNAL_WIDTH) {
+      if (PVector.dist(mouse, temp) <= Constants.SIGNAL_WIDTH) {
         fCurrVert = temp;
         fCurrIndex = i;
         return true;

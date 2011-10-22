@@ -12,14 +12,14 @@ class PostsynapticPotential extends Signal {
   void draw() {
     pushStyle(); 
       stroke(fColor);
-      strokeWeight(Contants.SIGNAL_WIDTH);
+      strokeWeight(Constants.SIGNAL_WIDTH);
       PVector diff = PVector.sub(fEndLoc, fBeginLoc);
       diff.normalize();
-      PVector positiveOffset = PVector.mult(diff, Contants.SIGNAL_CONTROL_LENGTH),
-              negativeOffset = PVector.mult(diff, -Contants.SIGNAL_CONTROL_LENGTH),
+      PVector positiveOffset = PVector.mult(diff, Constants.SIGNAL_CONTROL_LENGTH),
+              negativeOffset = PVector.mult(diff, -Constants.SIGNAL_CONTROL_LENGTH),
               beginControl = PVector.add(fBeginLoc, positiveOffset),
               endControl = PVector.add(fEndLoc, positiveOffset),
-              peak = PVector.add(fMid, PVector.mult(fOffset, (fType) * fStrength * Contants.SIGNAL_MULTIPLIER)),
+              peak = PVector.add(fMid, PVector.mult(fOffset, (fType) * fStrength * Constants.SIGNAL_MULTIPLIER)),
               peakControl1 = PVector.add(peak, negativeOffset),
               peakControl2 = PVector.add(peak, positiveOffset);
       noFill();

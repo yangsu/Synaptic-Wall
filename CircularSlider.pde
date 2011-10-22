@@ -1,49 +1,96 @@
 class CircularSlider extends Control {
-  float fSize, fWidth;
+  float fSize, fValue;
   float fBegin, fEnd, fCurr;
   boolean fHover, fSelected;
-  CircularSlider(int x, int y, float size, float width) {
+  
+  int fState;
+  static final int SLIDER = 0;
+  static final int BEGIN = 1;
+  static final int END = 2;
+  CircularSlider(float x, float y, float size) {
     super(x,y);
     fSize = size;
-    fWidth = width;
-    fCurr = fBegin = 0;
+    fCurr = fBegin = PI;
     fEnd = TWO_PI;
+    fState = SLIDER;
   }
-  CircularSlider(int x, int y, float size, float width, float begin, float end) {
-    this(x, y, size, width);
+  CircularSlider(float x, float y, float size, float begin, float end) {
+    this(x, y, size);
     fCurr = fBegin = begin;
     fEnd = end;
   }
   
+  float getValue() {
+    return fValue;
+  }
+  
   void draw() {
     if (!fVisible) return;
-    fCurr = constrain(fCurr, fBegin, fEnd);
-    float temp = fSize + fWidth;
+    float temp = fSize + Constants.SLIDER_BAR_WIDTH;
     
-    fill(Contants.SLIDER_BG_COLOR);
-    ellipse(fLoc.x, fLoc.y, temp, temp);
-    fill(Contants.SLIDER_BAR_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fCurr);
-    fill(Contants.BG_COLOR);
+    fill(Constants.SLIDER_BG_COLOR);
+    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
+    if (fEnd <= HALF_PI) {
+      arc(fLoc.x, fLoc.y, temp, temp, fBegin, TWO_PI);
+      arc(fLoc.x, fLoc.y, temp, temp, 0, fEnd);
+    }
+    fill(Constants.SLIDER_BAR_COLOR);
+    arc(fLoc.x, fLoc.y, temp, temp, 
+        constrain(fCurr - Constants.SLIDER_LENGTH, fBegin, fEnd), 
+        constrain(fCurr + Constants.SLIDER_LENGTH, fBegin, fEnd));
+    fill(Constants.EX_COLOR);
+    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.SLIDER_HANDLE_WIDTH);
+    fill(Constants.IN_COLOR);
+    arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd);
+    fill(Constants.BG_COLOR);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
   }
   
   boolean isInBounds(float x, float y) {
-    return false;
+    boolean inBounds = true;
+    float dist = PVector.dist(fLoc, new PVector(x, y));    
+    float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
+    if (angle >= fEnd - Constants.SLIDER_HANDLE_WIDTH && angle <= fEnd)
+      fState = END;
+    else if (angle >= fBegin && angle <= fBegin + Constants.SLIDER_HANDLE_WIDTH)
+      fState = BEGIN;
+    else if (angle < fEnd && angle > fBegin)
+      fState = SLIDER;
+    else
+      inBounds = false;
+    return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
+  
   boolean onMouseDown(float x, float y) {
-    return false;
+    return fSelected = isInBounds(x, y);
   }
   
   boolean onMouseDragged(float x, float y) {
+    if (fSelected) {
+      float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
+      switch (fState) {
+        case SLIDER:
+          fCurr = constrain(angle, fBegin, fEnd);
+          break;
+        case BEGIN:
+          println("BEGIN "+angle);
+          fBegin = constrain(angle, HALF_PI, 3*HALF_PI);
+          break;
+        case END:
+          println("END "+angle);
+          fEnd = Utilities.nconstrain(angle, HALF_PI, 3*HALF_PI);
+          break;
+      }
+      return fSelected;
+    }
     return false;
   }
   
   boolean onMouseMoved(float x, float y) {
-    return false;
+    return (fHover = isInBounds(x, y));
   }
   
   boolean onMouseUp(float x, float y) {
-    return false;
+    return (fSelected = fHover = false);
   }
 }

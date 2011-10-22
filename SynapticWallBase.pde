@@ -22,7 +22,7 @@ void setup() {
   Button a = new Button();
   //initialization
   magnify = false;
-  currentMode = Contants.SOMA;
+  currentMode = Constants.SOMA;
   
   shapes = new ShapesCollection();
   paths = new PathsCollection();
@@ -49,11 +49,11 @@ void drawMagnified() {
   pushStyle();
     pushMatrix();
       translate(mouseX, mouseY);
-      scale(Contants.ZOOM_FACTOR);
+      scale(Constants.ZOOM_FACTOR);
       translate(-mouseX, -mouseY);
-      fill(Contants.FADE_COLOR);
+      fill(Constants.FADE_COLOR);
       rect(0, 0, width, height);
-      drawBackground(Contants.BG_COLOR);
+      drawBackground(Constants.BG_COLOR);
       drawContent();
     popMatrix();
   
@@ -61,7 +61,7 @@ void drawMagnified() {
     int tempY = constrain(mouseY-height/4, 0, height);
     temp = get(tempX, tempY, temp.width, temp.height);
   
-    drawBackground(Contants.BG_COLOR);
+    drawBackground(Constants.BG_COLOR);
     drawContent();  
 
     image(temp, tempX, tempY);
@@ -76,13 +76,13 @@ void drawText() {
   pushStyle();
     fill(255);
     switch (currentMode) {
-      case Contants.SOMA:
+      case Constants.SOMA:
         text("Soma", 0, 20);
         break;
-      case Contants.DENDRITE:
+      case Constants.DENDRITE:
         text("Dendrite", 0, 20);
         break;
-      case Contants.INTERACTION:
+      case Constants.INTERACTION:
         text("Interaction", 0, 20);
         break;
     }
@@ -93,7 +93,7 @@ void draw() {
     drawMagnified();
   }
   else {
-    drawBackground(Contants.BG_COLOR);
+    drawBackground(Constants.BG_COLOR);
     drawContent();
   }
   drawText();
@@ -103,7 +103,7 @@ void mousePressed() {
   cursor(CROSS);
   Shape selectedShape = shapes.select(mouseX, mouseY);
   Path selectedPath = paths.select(mouseX, mouseY);
-  if (currentMode == Contants.SOMA) {
+  if (currentMode == Constants.SOMA) {
     if (selectedShape != null) {
       shapes.onMouseDown(mouseX, mouseY);
     }
@@ -113,7 +113,7 @@ void mousePressed() {
                     random(1, 5));
     }
   }
-  else if (currentMode == Contants.DENDRITE) {
+  else if (currentMode == Constants.DENDRITE) {
     if (selectedShape != null) {
       currPath = new Path(selectedShape);
       currPath.addFirst(selectedShape.x(), selectedShape.y());
@@ -121,13 +121,13 @@ void mousePressed() {
     else if (selectedPath != null) {
       currPath = new SubPath(selectedPath, selectedPath.fCurrIndex);
       currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
-      println("Add first "+selectedPath.fCurrVert.x +" "+ selectedPath.fCurrVert.y);
+      
     }
     else
       paths.onMouseDown(mouseX, mouseY);
   }
-  else if (currentMode == Contants.INTERACTION && selectedShape != null) {
-    ((Soma)selectedShape).fireSignal(5, 200, Contants.IPSP);
+  else if (currentMode == Constants.INTERACTION && selectedShape != null) {
+    ((Soma)selectedShape).fireSignal(5, 200, Constants.IPSP);
   }
   else {
     
@@ -135,29 +135,26 @@ void mousePressed() {
   redraw();
 }
 void mouseDragged() {
-  if (currentMode == Contants.SOMA) {
-    if (currShape != null) {      
+  if (currentMode == Constants.SOMA) {
+    if (currShape != null)
       currShape.setXY(mouseX, mouseY);
-    }
-    else {
-      shapes.onMouseDragged(mouseX, mouseY);
-    }
   }
-  if (currentMode == Contants.DENDRITE) {
+  if (currentMode == Constants.DENDRITE) {
     if (currPath != null)
       currPath.add(mouseX, mouseY);
-    paths.onMouseDragged(mouseX, mouseY);
   }
+  paths.onMouseDragged(mouseX, mouseY);
+  shapes.onMouseDragged(mouseX, mouseY);
   redraw();
 }
 
 void mouseMoved() {
   if(magnify) 
     redraw();
-  if (currentMode == Contants.SOMA) {
+  if (currentMode == Constants.SOMA) {
     shapes.onMouseMoved(mouseX, mouseY);
   }
-  if (currentMode == Contants.DENDRITE) {
+  if (currentMode == Constants.DENDRITE) {
     paths.onMouseMoved(mouseX, mouseY);
   }
 }
@@ -165,7 +162,7 @@ void mouseMoved() {
 void mouseReleased() {
   cursor(ARROW);
   
-  if (currentMode == Contants.SOMA) {
+  if (currentMode == Constants.SOMA) {
     if (currShape != null) {
       shapes.add(currShape);
       currShape = null;        
@@ -174,7 +171,7 @@ void mouseReleased() {
       shapes.onMouseUp(mouseX, mouseY);
     }
   }
-  if (currentMode == Contants.DENDRITE) {
+  if (currentMode == Constants.DENDRITE) {
     //TODO:Need refactoring
     if (currPath != null && currPath.size() > 5) {
       Shape selectedShape = shapes.getSelected();
@@ -184,7 +181,7 @@ void mouseReleased() {
       if (selectedShape != null && endShape != null) {
         currPath.setEnd(endShape);
         currPath.add(endShape.x(), endShape.y());
-        currPath.reduce(Contants.SIGNAL_RESOLUTION); 
+        currPath.reduce(Constants.SIGNAL_RESOLUTION); 
         selectedShape.addDendrite(currPath);
         paths.add(currPath);
       }
@@ -192,7 +189,7 @@ void mouseReleased() {
         currPath.setEnd(endShape);
         currPath.add(endShape.x(), endShape.y());
         selectedPath.addSubPath((SubPath)currPath);
-        currPath.reduce(Contants.SIGNAL_RESOLUTION);
+        currPath.reduce(Constants.SIGNAL_RESOLUTION);
         paths.add(currPath);
       }
       else if (selectedPath != null && endPath != null) {
@@ -200,7 +197,7 @@ void mouseReleased() {
         currPath.add(endPath.fCurrVert.x, endPath.fCurrVert.y);
         selectedPath.addSubPath((SubPath)currPath);
         ((SubPath)currPath).setEndPosition(endPath.fCurrIndex);
-        currPath.reduce(Contants.SIGNAL_RESOLUTION);
+        currPath.reduce(Constants.SIGNAL_RESOLUTION);
         paths.add(currPath);
       }
       else {}
@@ -215,13 +212,13 @@ void mouseReleased() {
 void keyPressed() {
   switch (key) {
     case '1': 
-      currentMode = Contants.SOMA;
+      currentMode = Constants.SOMA;
       break;
     case '2': 
-      currentMode = Contants.DENDRITE;
+      currentMode = Constants.DENDRITE;
       break;
     case '3': 
-      currentMode = Contants.INTERACTION;
+      currentMode = Constants.INTERACTION;
       break;
     case 'm': 
       magnify = !magnify;

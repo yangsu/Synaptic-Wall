@@ -1,8 +1,5 @@
 abstract class Shape extends Drawable implements Signalable {
   PVector fLoc;
-  color fColor;
-  boolean fSelected;
-  boolean fHover;
   float fSize;
   ArrayList<Path> fDendrites;
   ArrayList<Control> fControls;
@@ -20,6 +17,9 @@ abstract class Shape extends Drawable implements Signalable {
     fLoc = new PVector(x, y);
     fSize = size;
     fColor = cc;
+    
+    fDendrites = new ArrayList<Path>();
+    fControls = new ArrayList<Control>();
   }
   
   void addDendrite(Path dendrite) {
@@ -30,18 +30,4 @@ abstract class Shape extends Drawable implements Signalable {
   float x() { return fLoc.x; }
   float y() { return fLoc.y; }  
   void setXY(float x, float y) { fLoc.set(x, y, 0); }
-  
-  abstract boolean isInBounds(float x, float y);
-  boolean onMouseDown(float x, float y) {
-    return (fSelected = isInBounds(x, y));
-  }
-  boolean onMouseMoved(float x, float y) {
-    return (fHover = isInBounds(x, y));
-  }
-  boolean onMouseDragged(float x, float y) {
-    return (fHover = isInBounds(x, y));
-  }
-  boolean onMouseUp(float x, float y) {
-    return false;
-  }
 }
