@@ -1,4 +1,4 @@
-class ShapesCollection extends Animatable implements Interactive{
+class ShapesCollection {
   Shape fSelected;
   ArrayList<Shape> fShapes;
 

@@ -1,4 +1,4 @@
-class PathsCollection extends Animatable implements Interactive{
+class PathsCollection {
   Path fSelected;
   ArrayList<Path> fPaths;
 

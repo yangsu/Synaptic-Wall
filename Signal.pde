@@ -1,4 +1,4 @@
-abstract class Signal extends Animatable {
+abstract class Signal extends Drawable {
   int fType, fCurrIndex, fEndIndex;
   PVector fBeginLoc, fEndLoc;
   float fStrength;
@@ -20,5 +20,20 @@ abstract class Signal extends Animatable {
   void setBeginAndEnd(PVector begin, PVector end) {
     fBeginLoc = begin;
     fEndLoc = end;
+  }
+  boolean onMouseDown(float x, float y) {
+    return false;
+  }
+  
+  boolean onMouseDragged(float x, float y) {
+    return false;
+  }
+  
+  boolean onMouseMoved(float x, float y) {
+    return false;
+  }
+  
+  boolean onMouseUp(float x, float y) {
+    return false;
   }
 }

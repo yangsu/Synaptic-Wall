@@ -1,4 +1,4 @@
-class Path extends Animatable implements Interactive, Signalable{
+class Path extends Drawable implements Signalable{
   ArrayList<PVector> fVertices;
   ArrayList<Signal> fSignals;
   ArrayList<Path> fSubPaths;
@@ -7,10 +7,6 @@ class Path extends Animatable implements Interactive, Signalable{
   int fCurrIndex;
   Signalable fEnd;
   Signalable fStart;
-  
-  color fColor;
-  boolean fSelected;
-  boolean fHover;
   
   //TODO: Rethink inheritance hiearchy
   int fBeginPosition;

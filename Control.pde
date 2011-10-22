@@ -1,4 +1,4 @@
-abstract class Control {
+abstract class Control extends Drawable{
   PVector fLoc;
   int fState;
   

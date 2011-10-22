@@ -22,4 +22,7 @@ static class Contants {
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final int SIGNAL_WIDTH = 3;
   static final float SIGNAL_MULTIPLIER = 2.0;
+  
+  static final color SLIDER_BG_COLOR = 0x64FFFFFF;
+  static final color SLIDER_BAR_COLOR = 0xFFF;
 }
