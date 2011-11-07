@@ -7,11 +7,12 @@ class CircularSlider extends Control {
   static final int SLIDER = 0;
   static final int BEGIN = 1;
   static final int END = 2;
+  
   CircularSlider(float x, float y, float size) {
     super(x,y);
     fSize = size;
-    // TODO: Rotate everything so 0 is at HALF_PI
-    fCurr = fBegin = HALF_PI;
+    fBegin = HALF_PI;
+    fCurr = PI;
     fEnd = 3 * HALF_PI;
     fState = SLIDER;
   }
@@ -34,8 +35,8 @@ class CircularSlider extends Control {
     fill(Constants.SLIDER_BAR_COLOR);
     // TODO: Fix constrain bug
     arc(fLoc.x, fLoc.y, temp, temp, 
-        constrain(fCurr - Constants.SLIDER_LENGTH, fBegin, fEnd), 
-        constrain(fCurr + Constants.SLIDER_LENGTH, fBegin, fEnd));
+        constrain(fCurr - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
+        constrain(fCurr + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
     fill(Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.SLIDER_HANDLE_WIDTH);
     fill(Constants.IN_COLOR);
@@ -71,17 +72,15 @@ class CircularSlider extends Control {
           fCurr = angle;
           break;
         case BEGIN:
-          println("BEGIN "+angle);
-          fBegin = constrain(angle, 0.0, PI);
+          fBegin = Utilities.constrain2(angle, 0.0, PI-Constants.SLIDER_HANDLE_WIDTH);
           break;
         case END:
-          println("END "+angle);
-          fEnd = constrain(angle, PI, TWO_PI);
+          fEnd = Utilities.constrain3(angle, PI+Constants.SLIDER_HANDLE_WIDTH, TWO_PI);
           break;
       }
       fCurr = constrain(fCurr, 
-                        fBegin + Constants.SLIDER_HANDLE_WIDTH + Constants.SLIDER_LENGTH, 
-                        fEnd - Constants.SLIDER_HANDLE_WIDTH - Constants.SLIDER_LENGTH);
+                        fBegin + Constants.SLIDER_HANDLE_WIDTH + Constants.SLIDER_BAR_LENGTH, 
+                        fEnd - Constants.SLIDER_HANDLE_WIDTH - Constants.SLIDER_BAR_LENGTH);
       return fSelected;
     }
     return false;

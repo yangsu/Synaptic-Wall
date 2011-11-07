@@ -3,18 +3,49 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>SynapticWallBase.pde</string>
+	<string>Path.pde</string>
 	<key>documents</key>
 	<array>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>SynapticWallBase</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
+			<key>sourceDirectory</key>
+			<string></string>
+		</dict>
 		<dict>
 			<key>children</key>
 			<array>
 				<dict>
 					<key>filename</key>
-					<string>Animatable.pde</string>
-					<key>lastUsed</key>
-					<date>2011-10-07T19:16:13Z</date>
+					<string>Button.pde</string>
 				</dict>
+				<dict>
+					<key>filename</key>
+					<string>CircularSlider.pde</string>
+					<key>lastUsed</key>
+					<date>2011-11-07T20:36:37Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>Control.pde</string>
+					<key>lastUsed</key>
+					<date>2011-11-07T20:36:15Z</date>
+				</dict>
+			</array>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>Control</string>
+		</dict>
+		<dict>
+			<key>children</key>
+			<array>
 				<dict>
 					<key>filename</key>
 					<string>Constants.pde</string>
@@ -26,12 +57,6 @@
 					<string>Drawable.pde</string>
 					<key>lastUsed</key>
 					<date>2011-10-07T19:09:33Z</date>
-				</dict>
-				<dict>
-					<key>filename</key>
-					<string>Interactive.pde</string>
-					<key>lastUsed</key>
-					<date>2011-10-07T19:09:30Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -103,7 +128,7 @@
 					<key>filename</key>
 					<string>Synapse.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T13:02:53Z</date>
+					<date>2011-11-07T20:34:58Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -124,7 +149,7 @@
 					<key>filename</key>
 					<string>PostsynapticPotential.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T13:14:27Z</date>
+					<date>2011-11-07T20:34:59Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -139,54 +164,16 @@
 			<string>Signal</string>
 		</dict>
 		<dict>
-			<key>name</key>
-			<string>SynapticWallBase</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string></string>
-		</dict>
-		<dict>
 			<key>filename</key>
 			<string>SynapticWallBase.pde</string>
 			<key>lastUsed</key>
-			<date>2011-10-10T15:24:08Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-11-07T20:34:30Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>ActionPotential.pde</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>3</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Animatable.pde</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>9</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>Button.pde</key>
 		<dict>
 			<key>caret</key>
@@ -201,14 +188,28 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>CircularSlider.pde</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>26</integer>
+				<key>line</key>
+				<integer>28</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>8</integer>
+		</dict>
 		<key>Constants.pde</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>18</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>11</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -220,7 +221,7 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>48</integer>
+				<integer>3</integer>
 				<key>line</key>
 				<integer>8</integer>
 			</dict>
@@ -237,20 +238,6 @@
 				<integer>2</integer>
 				<key>line</key>
 				<integer>2</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Interactive.pde</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>5</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -314,6 +301,20 @@
 				<key>line</key>
 				<integer>33</integer>
 			</dict>
+		</dict>
+		<key>Readme.md</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>Shape.pde</key>
 		<dict>
@@ -443,7 +444,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>172</integer>
+			<integer>130</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
@@ -477,20 +478,20 @@
 	<key>openDocuments</key>
 	<array>
 		<string>SynapticWallBase.pde</string>
+		<string>Control.pde</string>
 		<string>Soma.pde</string>
 		<string>Synapse.pde</string>
 		<string>Shape.pde</string>
-		<string>Animatable.pde</string>
 		<string>Path.pde</string>
-		<string>ActionPotential.pde</string>
 		<string>Signal.pde</string>
 		<string>PostsynapticPotential.pde</string>
+		<string>Readme.md</string>
 		<string>Signalable.pde</string>
 		<string>Utilities.pde</string>
 		<string>ShapesCollection.pde</string>
 		<string>SubPath.pde</string>
+		<string>CircularSlider.pde</string>
 		<string>PathsCollection.pde</string>
-		<string>Interactive.pde</string>
 		<string>Drawable.pde</string>
 		<string>Constants.pde</string>
 	</array>
@@ -500,6 +501,13 @@
 	<true/>
 	<key>treeState</key>
 	<dict>
+		<key>Control</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
 		<key>Interfaces</key>
 		<dict>
 			<key>isExpanded</key>
@@ -528,8 +536,15 @@
 			<key>subItems</key>
 			<dict/>
 		</dict>
+		<key>SynapticWallBase</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{203, 0}, {1063, 778}}</string>
+	<string>{{203, 4}, {1063, 774}}</string>
 </dict>
 </plist>
