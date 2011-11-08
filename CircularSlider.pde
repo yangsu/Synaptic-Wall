@@ -1,6 +1,6 @@
 class CircularSlider extends Control {
-  float fSize, fValue;
-  float fBegin, fEnd, fCurr;
+  float fSize, fMin, fMax;
+  float fBegin, fEnd, fSlider;
   boolean fHover, fSelected;
   
   int fState;
@@ -11,19 +11,54 @@ class CircularSlider extends Control {
   CircularSlider(float x, float y, float size) {
     super(x,y);
     fSize = size;
-    fBegin = HALF_PI;
-    fCurr = PI;
-    fEnd = 3 * HALF_PI;
+    fBegin = fMin = 0;
+    fSlider = PI;
+    fEnd = fMax = TWO_PI;
     fState = SLIDER;
   }
   CircularSlider(float x, float y, float size, float begin, float end) {
-    this(x, y, size);
-    fCurr = fBegin = begin;
+    super(x, y);
+    fSize = size;
+    fSlider = fBegin = begin;
     fEnd = end;
+    fState = SLIDER;
+  }
+  CircularSlider(float x, float y, float size, float val, float min, float max) {
+    this(x, y, size);
+    fMin = min;
+    fMax = max;
+    fSlider = map(val, min, max, fBegin, fEnd);
+  }
+  
+  CircularSlider(float x, float y, float size, float begin, float end,
+                 float val, float min, float max) {
+    super(x, y);
+    fSize = size;
+    fState = SLIDER;
+    fBegin = begin;
+    fEnd = end;
+    fMin = min;
+    fMax = max;
+    fSlider = map(val, min, max, fBegin, fEnd);
   }
   
   float getValue() {
-    return fValue;
+    return map(fSlider, fBegin, fEnd, fMin, fMax);
+  }
+  
+  void setSliderBounds(float begin, float end) {
+    fBegin = begin;
+    fEnd = end;
+    fSlider = constrain(fSlider, 
+              fBegin + Constants.SLIDER_HANDLE_WIDTH + Constants.SLIDER_BAR_LENGTH, 
+              fEnd - Constants.SLIDER_HANDLE_WIDTH - Constants.SLIDER_BAR_LENGTH);
+  }
+  void setValueRange(float min, float max) {
+    fMin = min;
+    fMax = max;
+    fSlider = constrain(fSlider, 
+              fBegin + Constants.SLIDER_HANDLE_WIDTH + Constants.SLIDER_BAR_LENGTH, 
+              fEnd - Constants.SLIDER_HANDLE_WIDTH - Constants.SLIDER_BAR_LENGTH);
   }
   
   void draw() {
@@ -33,10 +68,10 @@ class CircularSlider extends Control {
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
     fill(Constants.SLIDER_BAR_COLOR);
-    // TODO: Fix constrain bug
+    
     arc(fLoc.x, fLoc.y, temp, temp, 
-        constrain(fCurr - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
-        constrain(fCurr + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
+        constrain(fSlider - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
+        constrain(fSlider + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
     fill(Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.SLIDER_HANDLE_WIDTH);
     fill(Constants.IN_COLOR);
@@ -69,7 +104,7 @@ class CircularSlider extends Control {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case SLIDER:
-          fCurr = angle;
+          fSlider = angle;
           break;
         case BEGIN:
           fBegin = Utilities.constrain2(angle, 0.0, PI-Constants.SLIDER_HANDLE_WIDTH);
@@ -78,12 +113,11 @@ class CircularSlider extends Control {
           fEnd = Utilities.constrain3(angle, PI+Constants.SLIDER_HANDLE_WIDTH, TWO_PI);
           break;
       }
-      fCurr = constrain(fCurr, 
+      fSlider = constrain(fSlider, 
                         fBegin + Constants.SLIDER_HANDLE_WIDTH + Constants.SLIDER_BAR_LENGTH, 
                         fEnd - Constants.SLIDER_HANDLE_WIDTH - Constants.SLIDER_BAR_LENGTH);
-      return fSelected;
     }
-    return false;
+    return fSelected;
   }
   
   boolean onMouseMoved(float x, float y) {
