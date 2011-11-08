@@ -28,6 +28,6 @@ static class Constants {
   static final color SLIDER_BG_COLOR = 0x64FFFFFF;
   static final color SLIDER_BAR_COLOR = 0xFFFFFFFF;
   static final float SLIDER_BAR_WIDTH = 10.0;
-  static final float SLIDER_BAR_LENGTH = 0.15;
-  static final float SLIDER_HANDLE_WIDTH = 0.1;
+  static final float SLIDER_BAR_LENGTH = 0.1;
+  static final float SLIDER_HANDLE_WIDTH = 0.05;
 }
