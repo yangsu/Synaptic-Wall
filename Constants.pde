@@ -10,6 +10,7 @@ static class Constants {
   static final color FADE_COLOR = 0xB4646464;
   static final color EX_COLOR = 0xFFB08B47;
   static final color IN_COLOR = 0xFF0C6891;
+  static final color HIGHLIGHT_COLOR = 0xFFFF0000;
   static final float ZOOM_FACTOR = 4.0;
   static final int SIGNAL_RESOLUTION = 5;
   
@@ -26,8 +27,11 @@ static class Constants {
   static final float SIGNAL_MULTIPLIER = 2.0;
   
   static final color SLIDER_BG_COLOR = 0x64FFFFFF;
-  static final color SLIDER_BAR_COLOR = 0xFFFFFFFF;
+  static final color SLIDER_BAR_COLOR = 0xFFDDDDDD;
+  static final color SLIDER_HANDLE_COLOR = 0xFFAAAAAA;
   static final float SLIDER_BAR_WIDTH = 10.0;
   static final float SLIDER_BAR_LENGTH = 0.1;
-  static final float SLIDER_HANDLE_WIDTH = 0.05;
+  static final float SLIDER_HANDLE_WIDTH = 0.03;
+  static final float THRESHOLD_HANDLE_WIDTH = 0.08;
+  
 }
