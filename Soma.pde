@@ -1,74 +1,50 @@
 class Soma extends Shape {
   float[] fReceivedAPs;
   
-  float fThreshold, fCurrAP, fThresholdAngle;
-  boolean fChangingthreshold;
+  float fCurrAP;
+  boolean fControlActive;
+  CircularSlider fThreshold;
   
-  Soma(float x, float y, float size, color cc, float t) {
+  Soma(float x, float y, float size, color cc, float threshold) {
     super(x, y, size, cc);
-    fThreshold = t;
     fReceivedAPs = new float[0];
-    fChangingthreshold = false;
+    fControlActive = false;
     fCurrAP = 0;
     
-    fThresholdAngle = fThreshold / Constants.SOMA_MAX_THRESHOLD * TWO_PI;
-    CircularSlider cs = new CircularSlider(x, y, size + 50);
-    cs.setVisible(fSelected);
-    fControls.add(cs);
+    float interval = TWO_PI / 3;
+    float temp = interval;
+    float controlSize = fSize + 30;
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
+    temp += interval;
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
+    
+    fThreshold = new ThresholdSlider(x, y, fSize + 10, 0, 0, threshold);
+    fThreshold.setVisible(true);
   }
-  void drawThreshold() {
-    noStroke();
-    fCurrAP = 0;
-    for (int i = 0; i < fReceivedAPs.length; ++i) {
-      fCurrAP += fReceivedAPs[i];
-      fReceivedAPs[i] *= Constants.SOMA_AP_DECAY;
-    }
-    
-    float currAngle = constrain(fCurrAP/ Constants.SOMA_MAX_THRESHOLD * TWO_PI, 0, fThresholdAngle);
-    fill(255, 100);
-    ellipse(fLoc.x, fLoc.y, fSize * 1.5, fSize * 1.5);
-    fill(255);
-    arc(fLoc.x, fLoc.y, fSize * 1.5, fSize * 1.5, 0, fThresholdAngle);
-    fill(fColor);
-    arc(fLoc.x, fLoc.y, fSize * 1.51, fSize * 1.51, 0, currAngle);
-    fill(Constants.BG_COLOR);
-    ellipse(fLoc.x, fLoc.y, fSize * 1.25, fSize * 1.25);
-    
-    if (fCurrAP >= fThreshold) {
-      while (fReceivedAPs.length > 0)
-        fReceivedAPs = shorten(fReceivedAPs);
 
-      for (int j = 0; j < fDendrites.size(); ++j)
-        fDendrites.get(j).addSignal(Constants.EPSP, 0);
-    }
-    
-    if (fChangingthreshold) {
-      fill(255);
-      String t = nf(fThreshold, 2, 2);
-      text(t, fLoc.x + 2.0 * fSize, fLoc.y);
-    }
-  }
   void draw() {    
-    fControls.get(0).setVisible(fSelected);
     pushStyle();
+      for (Control c : fControls) {
+        c.setVisible(fSelected);
+        c.draw();
+      }
+      fThreshold.draw();
     
-    for (Control c : fControls)
-      c.draw();
-    //drawThreshold();
+      if (fSelected) {
+        stroke(255);
+        strokeWeight(1);
+      }
+      else
+        noStroke();
     
-    if (fSelected) {
-      stroke(255);
-      strokeWeight(1);
-    }
-    else
-      noStroke();
-    
-    //Draw Soma
-    fill(fColor);
-    ellipse(fLoc.x, fLoc.y, fSize, fSize);
-    fill(blendColor(fColor, color(255, 100), ADD));
-    ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
-    
+      //Draw Soma
+      fill(fColor);
+      ellipse(fLoc.x, fLoc.y, fSize, fSize);
+      fill(blendColor(fColor, color(255, 100), ADD));
+      ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
+      
+      
     popStyle();  
   }
 
@@ -87,11 +63,11 @@ class Soma extends Shape {
   boolean isInBounds(float x, float y) {
     float dist = PVector.dist(fLoc, new PVector(x, y));
     if (dist <= fSize) {
-      fChangingthreshold = false;
+      fControlActive = false;
       return true;
     }
     else if (dist <= fSize + Constants.SLIDER_BAR_WIDTH && dist >= fSize) {
-      fChangingthreshold = fSelected;
+      fControlActive = fSelected;
       return true;
     }
     else {
@@ -100,20 +76,21 @@ class Soma extends Shape {
   }
   
   boolean onMouseDown(float x, float y) {
-    fChangingthreshold = false;
+    fControlActive = false;
     for (Control c : fControls) {
-      fChangingthreshold = c.onMouseDown(x, y);
-      if (fChangingthreshold == true) return true;
+      fControlActive = c.onMouseDown(x, y);
+      if (fControlActive == true) 
+        return true;
     }
     return super.onMouseDown(x,y);
   }
   boolean onMouseDragged(float x, float y) {
     if (fSelected) {
-      if (fChangingthreshold) {
-        fThresholdAngle = Utilities.getAngle(fLoc.x, fLoc.y, x, y);
-        fThreshold = fThresholdAngle / TWO_PI * Constants.SOMA_MAX_THRESHOLD;
+      if (fControlActive) {
         for (Control c : fControls)
-          c.onMouseDragged(x,y);
+          if (c.onMouseDragged(x,y))
+            return true;
+        return false;
       }
       else {
         PVector change = new PVector(mouseX - pmouseX, mouseY - pmouseY);
@@ -122,16 +99,24 @@ class Soma extends Shape {
           dendrite.translate(change);
         for (Control c : fControls)
           c.translate(change);
+        fThreshold.translate(change);
+        return true;
       }
-      return true;
     }
     else
       return super.onMouseDragged(x,y);
   }
-  boolean onMouseUp(float x, float y) {
-    fChangingthreshold = false;
+  boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
-      c.onMouseUp(x,y);
+      if (c.onMouseMoved(x,y))
+        return true;
+    return super.onMouseMoved(x,y);
+  }
+  boolean onMouseUp(float x, float y) {
+    fControlActive = false;
+    for (Control c : fControls)
+      if (c.onMouseUp(x,y))
+        return true;
     return super.onMouseUp(x,y);
   }
 }
