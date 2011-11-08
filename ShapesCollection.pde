@@ -43,27 +43,21 @@ class ShapesCollection {
     return select(x, y) != null;
   }
   boolean onMouseDragged(float x, float y) {
-    for (int i = 0; i < fShapes.size(); ++i) {
-      if (fShapes.get(i).onMouseDragged(x, y)) {
-        return true;
-      }
-    }
-    return false;
+    boolean result = false;
+    for (int i = 0; i < fShapes.size(); ++i)
+      result = result || fShapes.get(i).onMouseDragged(x, y);
+    return result;
   }
   boolean onMouseMoved(float x, float y) {
-    for (int i = 0; i < fShapes.size(); ++i) {
-      if (fShapes.get(i).onMouseMoved(x, y)) {
-        return true;
-      }
-    }
-    return false;
+    boolean result = false;
+    for (int i = 0; i < fShapes.size(); ++i)
+      result = result || fShapes.get(i).onMouseMoved(x, y);
+    return result;
   }
   boolean onMouseUp(float x, float y) {
-    for (int i = 0; i < fShapes.size(); ++i) {
-      if (fShapes.get(i).onMouseUp(x, y)) {
-        return true;
-      }
-    }
+    boolean result = false;
+    for (int i = 0; i < fShapes.size(); ++i)
+      result = result || fShapes.get(i).onMouseUp(x, y);
     return false;
   }
 }
