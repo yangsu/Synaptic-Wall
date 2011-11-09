@@ -55,7 +55,7 @@ class CircularSlider extends Control {
     
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
-    
+
     if (fHover)
       fill(Constants.HIGHLIGHT_COLOR);
     else

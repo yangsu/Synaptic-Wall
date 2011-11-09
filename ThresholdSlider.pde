@@ -57,7 +57,7 @@ class ThresholdSlider extends CircularSlider {
     }
     this.setValue(signal + this.getValue());
   }
-  
+
   boolean isInBounds(float x, float y) {
     boolean inBounds = true;
     float dist = PVector.dist(fLoc, new PVector(x, y));    
@@ -66,22 +66,27 @@ class ThresholdSlider extends CircularSlider {
       fState = END;
     else if (angle >= fBegin && angle <= fBegin + Constants.THRESHOLD_HANDLE_WIDTH)
       fState = BEGIN;
-    if (angle < fEnd && angle > fBegin)
+    else if (angle < fEnd && angle > fBegin)
       fState = SLIDER;
     else
       inBounds = false;
     return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
 
+  public boolean onMouseDown(float x, float y) {
+    return (fSelected = isInBounds(x, y));
+  }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case BEGIN:
           fBegin = Utilities.constrain2(angle, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
+          fMin = - (PI - fBegin)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
           fEnd = Utilities.constrain3(angle, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
+          fMax = (fEnd - PI)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }
       fSlider = constrain(fSlider, fBegin, fEnd);
