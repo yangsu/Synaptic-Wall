@@ -1,15 +1,14 @@
 class Soma extends Shape {
   float[] fReceivedAPs;
   
-  float fCurrAP;
+  float fThreshold;
   boolean fControlActive;
-  CircularSlider fThreshold;
+  ThresholdSlider fThresholdSlider;
   
   Soma(float x, float y, float size, color cc, float threshold) {
     super(x, y, size, cc);
     fReceivedAPs = new float[0];
     fControlActive = false;
-    fCurrAP = 0;
     
     float interval = TWO_PI / 3;
     float temp = interval;
@@ -19,8 +18,10 @@ class Soma extends Shape {
     temp += interval;
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
     
-    fThreshold = new ThresholdSlider(x, y, fSize + 10, 0, 0, threshold);
-    fThreshold.setVisible(true);
+    fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 0, 0, threshold);
+    fThresholdSlider.setVisible(true);
+    
+    fThreshold = threshold;
   }
 
   void draw() {    
@@ -29,7 +30,7 @@ class Soma extends Shape {
         c.setVisible(fSelected);
         c.draw();
       }
-      fThreshold.draw();
+      fThresholdSlider.draw();
     
       if (fSelected) {
         stroke(255);
@@ -44,8 +45,14 @@ class Soma extends Shape {
       fill(blendColor(fColor, color(255, 100), ADD));
       ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
       
-      
-    popStyle();  
+      if (abs(fThresholdSlider.getValue()) >= abs(fThreshold)) {
+        println("over threshold "+ fThresholdSlider.getValue() +" " + fThreshold);
+        fReceivedAPs = new float[0];
+        for (int j = 0; j < fDendrites.size(); ++j)
+          fDendrites.get(j).addSignal(Constants.EPSP, 0);
+        fThresholdSlider.setValue(0);
+      }
+    popStyle();
   }
 
   void fireSignal(int numSignal, int delayms, int type) {
@@ -56,7 +63,7 @@ class Soma extends Shape {
   }
 
   void receiveSignal(int type, float value, int position) {
-    fCurrAP += value;
+    fThresholdSlider.addChange(value);
     fReceivedAPs = append(fReceivedAPs, value);
   }
 
@@ -99,7 +106,7 @@ class Soma extends Shape {
           dendrite.translate(change);
         for (Control c : fControls)
           c.translate(change);
-        fThreshold.translate(change);
+        fThresholdSlider.translate(change);
         return true;
       }
     }
