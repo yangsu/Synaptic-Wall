@@ -140,7 +140,7 @@ void mousePressed() {
 void mouseDragged() {
   if (currentMode == Constants.SOMA) {
     if (currShape != null)
-      currShape.setXY(mouseX, mouseY);
+      currShape.translate(new PVector(mouseX - pmouseX, mouseY - pmouseY));
     shapes.onMouseDragged(mouseX, mouseY);
   }
   if (currentMode == Constants.DENDRITE) {

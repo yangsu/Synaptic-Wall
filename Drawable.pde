@@ -17,10 +17,6 @@ public abstract class Drawable {
     fColor = cc;
   }
   
-  public void setLoc(float x, float y) {
-    fLoc = new PVector(x, y);
-  }
-  
   public void translate(PVector change) {
     fLoc.add(change);
   }

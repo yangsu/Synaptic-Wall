@@ -69,6 +69,25 @@ class Soma extends Shape {
     fReceivedAPs = append(fReceivedAPs, value);
   }
 
+  void onEvent(int eventID, float value) {
+    switch (eventID) {
+      case OVER_THRESHOLD:
+        fReceivedAPs = new float[0];
+        for (int j = 0; j < fDendrites.size(); ++j)
+          fDendrites.get(j).addSignal(Constants.EPSP, 0);
+        break;
+      default:
+        break;
+    }
+  }
+
+  public void translate(PVector change) {
+    fLoc.add(change);
+    for (Path dendrite : fDendrites)
+      dendrite.translate(change);
+    for (Control c : fControls)
+      c.translate(change);
+  }
   boolean isInBounds(float x, float y) {
     float dist = PVector.dist(fLoc, new PVector(x, y));
     if (dist <= fSize) {
@@ -102,13 +121,7 @@ class Soma extends Shape {
         return false;
       }
       else {
-        PVector change = new PVector(mouseX - pmouseX, mouseY - pmouseY);
-        fLoc.add(change);
-        for (Path dendrite : fDendrites)
-          dendrite.translate(change);
-        for (Control c : fControls)
-          c.translate(change);
-        fThresholdSlider.translate(change);
+        this.translate(new PVector(x - this.fLoc.x, y - this.fLoc.y));
         return true;
       }
     }
