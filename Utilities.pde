@@ -25,9 +25,13 @@ static class Utilities {
   }
   static float constrain(float value, float min, float max) {
     float mid = (min + max)/2;
-    float oppMid = (mid > PI) ? mid - PI : mid + PI;
-    if ((value > oppMid) && ((min == 0) || (value < min && min != 0))) return min;
-    if ((value < oppMid) && ((max == TWO_PI) || (value > max && max != TWO_PI))) return max;
+    float temp = mid + PI;
+    float oppMid = (temp > TWO_PI) ? temp - TWO_PI : temp;
+    if ((value > ((oppMid == TWO_PI) ? 0 : oppMid)) && 
+        ((min == 0) || (value < min && min != 0))) 
+      return min;
+    if ((value < oppMid) && ((max == TWO_PI) || (value > max && max != TWO_PI))) 
+      return max;
     return value;
   }
 }

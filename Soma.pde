@@ -2,8 +2,9 @@ class Soma extends Shape implements Controllable{
   float[] fReceivedAPs;
   
   boolean fControlActive;
-  ThresholdSlider fThresholdSlider;
   
+  ThresholdSlider fThresholdSlider;
+
   private static final int OVER_THRESHOLD = 1;
   private static final int SPEED = 1;
   private static final int INTERVAL = 2;
@@ -20,13 +21,14 @@ class Soma extends Shape implements Controllable{
     
     float interval = TWO_PI / 3;
     float temp = interval;
-    float controlSize = fSize + 30;
+    float controlSize = fSize + 3*Constants.SLIDER_BAR_WIDTH;
+    
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10, SPEED, this));
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, INTERVAL, this));
     temp += interval;
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, STRENGTH, this));
     
-    fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 
+    fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH, 
       PI + negativet/Constants.SOMA_MAX_THRESHOLD * PI,
       PI + positivet/Constants.SOMA_MAX_THRESHOLD * PI,
       0, negativet, positivet, THRESHOLD, this);
@@ -134,13 +136,14 @@ class Soma extends Shape implements Controllable{
     else
       return super.onMouseDragged(x,y);
   }
+  
   public boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
-      if (c.onMouseMoved(x,y)) {
+      if (c.onMouseMoved(x,y))
         return true;
-      }
     return super.onMouseMoved(x,y);
   }
+  
   public boolean onMouseUp(float x, float y) {
     fControlActive = false;
     for (Control c : fControls)

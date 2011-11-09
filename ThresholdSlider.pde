@@ -3,19 +3,17 @@ class ThresholdSlider extends CircularSlider {
   static final int END = 2;
   
   ThresholdSlider(float x, float y, float size, int id, Controllable target) {
-    super(x, y, size, id, target);
-  }
-  
-  ThresholdSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
-    super(x, y, size, begin, end, id, target);
+    this(x, y, size, 0, TWO_PI, PI, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD, id, target);
   }
   
   ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
-    super(x, y, size, val, min, max, id, target);
+    this(x, y, size, val, PI - (abs(min)/Constants.SOMA_MAX_THRESHOLD*PI), PI + max/Constants.SOMA_MAX_THRESHOLD*PI, min, max, id, target);
   }
   
   ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     super(x, y, size, begin, end, val, min, max, id, target);
+    fBegin = Utilities.constrain(fBegin, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
+    fEnd = Utilities.constrain(fEnd, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
   }
   
   void draw() {

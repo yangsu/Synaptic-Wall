@@ -82,6 +82,7 @@ class CircularSlider extends Control {
   void updateSlider(float x, float y) {
     float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
     fSlider = Utilities.constrain(angle, fBegin, fEnd);
+    fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
   }
   
   public boolean onMouseDown(float x, float y) {
