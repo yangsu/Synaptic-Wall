@@ -88,14 +88,15 @@ class CircularSlider extends Control {
     fSlider = constrain(angle, fBegin, fEnd);
   }
   
-  boolean onMouseDown(float x, float y) {
+  public boolean onMouseDown(float x, float y) {
     fSelected = this.isInBounds(x, y);
     if (fSelected)
       updateSlider(x, y);
     return fSelected;
   }
   
-  boolean onMouseDragged(float x, float y) {
+  public boolean onMouseDragged(float x, float y) {
+    println("onMouseDragged");
     if (fSelected)
       updateSlider(x, y);
     return fSelected;

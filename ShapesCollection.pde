@@ -39,22 +39,22 @@ class ShapesCollection {
       fShapes.remove(s);
   }
   
-  boolean onMouseDown(float x, float y) {
+  public boolean onMouseDown(float x, float y) {
     return select(x, y) != null;
   }
-  boolean onMouseDragged(float x, float y) {
+  public boolean onMouseDragged(float x, float y) {
     boolean result = false;
     for (int i = 0; i < fShapes.size(); ++i)
       result = result || fShapes.get(i).onMouseDragged(x, y);
     return result;
   }
-  boolean onMouseMoved(float x, float y) {
+  public boolean onMouseMoved(float x, float y) {
     boolean result = false;
     for (int i = 0; i < fShapes.size(); ++i)
       result = result || fShapes.get(i).onMouseMoved(x, y);
     return result;
   }
-  boolean onMouseUp(float x, float y) {
+  public boolean onMouseUp(float x, float y) {
     boolean result = false;
     for (int i = 0; i < fShapes.size(); ++i)
       result = result || fShapes.get(i).onMouseUp(x, y);

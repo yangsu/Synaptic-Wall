@@ -38,7 +38,6 @@ class Soma extends Shape implements Controllable{
       for (Control c : fControls) {
         c.draw();
       }
-      fThresholdSlider.draw();
     
       if (fSelected) {
         stroke(255);
@@ -108,19 +107,22 @@ class Soma extends Shape implements Controllable{
     }
   }
   
-  boolean onMouseDown(float x, float y) {
+  public boolean onMouseDown(float x, float y) {
     fControlActive = false;
     for (Control c : fControls) {
       fControlActive = c.onMouseDown(x, y);
       if (fControlActive) {
+        println("control active");
         return true;
       }
     }
     return super.onMouseDown(x,y);
   }
-  boolean onMouseDragged(float x, float y) {
+  public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
+      println("dragged");
       if (fControlActive) {
+        println("dragged co");
         for (Control c : fControls)
           if (c.onMouseDragged(x,y))
             return true;
@@ -134,13 +136,13 @@ class Soma extends Shape implements Controllable{
     else
       return super.onMouseDragged(x,y);
   }
-  boolean onMouseMoved(float x, float y) {
+  public boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
       if (c.onMouseMoved(x,y))
         return true;
     return super.onMouseMoved(x,y);
   }
-  boolean onMouseUp(float x, float y) {
+  public boolean onMouseUp(float x, float y) {
     fControlActive = false;
     for (Control c : fControls)
       if (c.onMouseUp(x,y))

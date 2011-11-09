@@ -73,7 +73,7 @@ class ThresholdSlider extends CircularSlider {
     return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
 
-  boolean onMouseDragged(float x, float y) {
+  public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
       switch (fState) {
