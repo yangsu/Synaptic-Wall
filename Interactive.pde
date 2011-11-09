@@ -14,6 +14,9 @@ public abstract class Interactive extends Drawable{
     super(x, y, cc);
   }
   
+  public void deselect() {
+    fSelected = false;
+  }
   protected abstract boolean isInBounds(float x, float y);
   
   public boolean onMouseDown(float x, float y) {
@@ -29,6 +32,6 @@ public abstract class Interactive extends Drawable{
   }
   
   public boolean onMouseUp(float x, float y) {
-    return (fSelected = fHover = false);
+    return false;
   }
 }

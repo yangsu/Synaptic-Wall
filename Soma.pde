@@ -112,6 +112,7 @@ class Soma extends Shape implements Controllable{
     for (Control c : fControls) {
       fControlActive = c.onMouseDown(x, y);
       if (fControlActive) {
+        fSelected = true;
         return true;
       }
     }

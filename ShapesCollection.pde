@@ -22,9 +22,17 @@ class ShapesCollection {
         //Move shape to the end of the list
         fShapes.remove(fSelected);
         fShapes.add(fSelected);
+        break;
       }
     }
+    this.deselectAllOthers();
     return fSelected;
+  }
+  
+  void deselectAllOthers() {
+    for (Shape s : fShapes)
+      if (s != fSelected)
+        s.deselect();
   }
   Shape getSelected() {
     return fSelected;
