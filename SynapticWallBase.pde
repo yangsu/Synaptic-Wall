@@ -110,7 +110,7 @@ void mousePressed() {
     else {
       currShape = new Soma(mouseX, mouseY, random(20, 30), 
                     color(random(50, 205), random(50, 205), random(50, 205)),
-                    random(1, 5));
+                    random(-Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD));
     }
   }
   else if (currentMode == Constants.DENDRITE) {
