@@ -3,17 +3,15 @@ class ThresholdSlider extends CircularSlider {
   static final int END = 2;
   
   ThresholdSlider(float x, float y, float size, int id, Controllable target) {
-    this(x, y, size, 0, TWO_PI, PI, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD, id, target);
+    this(x, y, size, 0, TWO_PI, 0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD, id, target);
   }
   
   ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
-    this(x, y, size, val, PI - (abs(min)/Constants.SOMA_MAX_THRESHOLD*PI), PI + max/Constants.SOMA_MAX_THRESHOLD*PI, min, max, id, target);
+    this(x, y, size, PI + min/Constants.SOMA_MAX_THRESHOLD * PI, PI + max/Constants.SOMA_MAX_THRESHOLD*PI, val, min, max, id, target);
   }
   
   ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     super(x, y, size, begin, end, val, min, max, id, target);
-    fBegin = Utilities.constrain(fBegin, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
-    fEnd = Utilities.constrain(fEnd, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
   }
   
   void draw() {
@@ -22,14 +20,13 @@ class ThresholdSlider extends CircularSlider {
     
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
-    fill(Constants.SLIDER_BAR_COLOR);
     if (fSlider > PI) {
       fill(Constants.EX_COLOR);
-      arc(fLoc.x, fLoc.y, temp, temp, PI, constrain(fSlider, PI, fEnd));
+      arc(fLoc.x, fLoc.y, temp, temp, PI, fSlider);
     }
     else {
       fill(Constants.IN_COLOR);
-      arc(fLoc.x, fLoc.y, temp, temp, constrain(fSlider, fBegin, PI), PI);
+      arc(fLoc.x, fLoc.y, temp, temp, fSlider, PI);
     }
     
     fill((fHover && (fState == BEGIN)) ? Constants.IN_HIGHLIGHT_COLOR : Constants.IN_COLOR);
@@ -39,7 +36,8 @@ class ThresholdSlider extends CircularSlider {
     fill(Constants.BG_COLOR);
     
     // added 0.02 offset to cover up extraneous pixels
-    arc(fLoc.x, fLoc.y, fSize, fSize, fBegin-0.02, fEnd+0.02);
+    arc(fLoc.x, fLoc.y, fSize, fSize, constrain(fBegin-0.02, -0.02, PI - Constants.THRESHOLD_HANDLE_WIDTH), 
+    constrain(fEnd+0.02, PI + Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI+0.02));
   }
 
   void addChange(float signal) {
@@ -81,11 +79,11 @@ class ThresholdSlider extends CircularSlider {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case BEGIN:
-          fBegin = Utilities.constrain(angle, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
+          fBegin = Utilities.constrain(angle, 0.0, PI);
           fMin = - (PI - fBegin)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
-          fEnd = Utilities.constrain(angle, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
+          fEnd = Utilities.constrain(angle, PI, TWO_PI);
           fMax = (fEnd - PI)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }

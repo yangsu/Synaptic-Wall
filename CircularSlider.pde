@@ -33,7 +33,7 @@ class CircularSlider extends Control {
   }
   
   void setValue(float val) {
-    fValue = val;
+    fValue = constrain(val, fMin, fMax);
     fSlider = constrain(map(val, fMin, fMax, fBegin, fEnd), fBegin, fEnd);
   }
   

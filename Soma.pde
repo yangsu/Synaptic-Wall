@@ -29,8 +29,6 @@ class Soma extends Shape implements Controllable{
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, STRENGTH, this));
     
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH, 
-      PI + negativet/Constants.SOMA_MAX_THRESHOLD * PI,
-      PI + positivet/Constants.SOMA_MAX_THRESHOLD * PI,
       0, negativet, positivet, THRESHOLD, this);
     fControls.add(fThresholdSlider);
   }
