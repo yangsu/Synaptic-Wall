@@ -99,6 +99,12 @@ void draw() {
   drawText();
 }
 
+void clear() {
+  shapes = new ShapesCollection();
+  paths = new PathsCollection();
+  currShape = null;
+  currPath = null;
+}
 void mousePressed() {
   cursor(CROSS);
   Shape selectedShape = shapes.select(mouseX, mouseY);
@@ -228,6 +234,9 @@ void keyPressed() {
       break;
     case 'o': 
       loop();
+      break;
+    case 'c':
+      clear();
       break;
   }
   redraw();
