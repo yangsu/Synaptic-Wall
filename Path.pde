@@ -1,4 +1,4 @@
-class Path extends Drawable implements Signalable{
+class Path extends Interactive implements Signalable{
   ArrayList<PVector> fVertices;
   ArrayList<Signal> fSignals;
   ArrayList<Path> fSubPaths;
@@ -162,7 +162,7 @@ class Path extends Drawable implements Signalable{
     fSignals.add(s);
   }
   
-  boolean isOnPath(float x, float y) {
+  boolean isInBounds(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
     for (int i = 0; i < fVertices.size(); ++i) {
@@ -177,13 +177,13 @@ class Path extends Drawable implements Signalable{
   }
   
   boolean onMouseDown(float x, float y) {
-    return (fSelected = isOnPath(x, y));
+    return (fSelected = isInBounds(x, y));
   }
   boolean onMouseMoved(float x, float y) {
-    return (fHover = isOnPath(x, y));
+    return (fHover = isInBounds(x, y));
   }
   boolean onMouseDragged(float x, float y) {
-    return (fHover = isOnPath(x, y));
+    return (fHover = isInBounds(x, y));
   }
   boolean onMouseUp(float x, float y) {
     fSelected = false;

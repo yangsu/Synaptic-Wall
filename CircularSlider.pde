@@ -6,10 +6,6 @@ class CircularSlider extends Control {
   int fState;
   static final int SLIDER = 0;
   
-  CircularSlider() {
-    super(0,0);
-  }
-  
   CircularSlider(float x, float y, float size) {
     this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI);
   }
@@ -99,13 +95,5 @@ class CircularSlider extends Control {
     if (fSelected)
       updateSlider(x, y);
     return fSelected;
-  }
-  
-  boolean onMouseMoved(float x, float y) {
-    return (fHover = isInBounds(x, y));
-  }
-  
-  boolean onMouseUp(float x, float y) {
-    return (fSelected = fHover = false);
   }
 }

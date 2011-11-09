@@ -1,14 +1,7 @@
-abstract class Control extends Drawable{
-  PVector fLoc;
+abstract class Control extends Interactive{
   
   Control(float x, float y) {
-    fLoc = new PVector(x, y);
-  }
-  void setLoc(float x, float y) {
-    fLoc = new PVector(x, y);
-  }
-  void translate(PVector change) {
-    fLoc.add(change);
+    super(x, y);
   }
   abstract boolean isInBounds(float x, float y);
 }

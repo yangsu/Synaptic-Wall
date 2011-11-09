@@ -1,30 +1,33 @@
-abstract class Drawable {
-  color fColor;
+public abstract class Drawable {
+  protected color fColor;
+  protected PVector fLoc;
+  protected boolean fVisible;
   
-  boolean fVisible;
-  boolean fSelected;
-  boolean fHover;
+  public Drawable() {
+    this(0, 0, color(255));
+  }
   
-  Drawable() {
+  public Drawable(float x, float y) {
+    this(x, y, color(255));
+  }
+  
+  public Drawable(float x, float y, color cc) {
+    fLoc = new PVector(x, y);
     fVisible = true;
-    fSelected = fHover = false;
+    fColor = cc;
   }
   
-  abstract void draw();
+  public void setLoc(float x, float y) {
+    fLoc = new PVector(x, y);
+  }
   
-  void setVisible(boolean visible) { fVisible = visible; }
- 
-  boolean isInBounds(float x, float y) { return false; }
-  boolean onMouseDown(float x, float y) {
-    return (fSelected = isInBounds(x, y));
+  public void translate(PVector change) {
+    fLoc.add(change);
   }
-  boolean onMouseMoved(float x, float y) {
-    return (fHover = isInBounds(x, y));
+  
+  public void setVisible(boolean visible) { 
+    fVisible = visible;
   }
-  boolean onMouseDragged(float x, float y) {
-    return (fHover = isInBounds(x, y));
-  }
-  boolean onMouseUp(float x, float y) {
-    return (fSelected = fHover = false);
-  }
+  
+  public abstract void draw();
 }

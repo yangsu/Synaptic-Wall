@@ -1,4 +1,4 @@
-abstract class Shape extends Drawable implements Signalable {
+abstract class Shape extends Interactive implements Signalable {
   PVector fLoc;
   float fSize;
   ArrayList<Path> fDendrites;

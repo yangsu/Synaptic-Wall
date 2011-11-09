@@ -88,7 +88,7 @@ class Soma extends Shape {
     fControlActive = false;
     for (Control c : fControls) {
       fControlActive = c.onMouseDown(x, y);
-      if (fControlActive == true) 
+      if (fControlActive) 
         return true;
     }
     return super.onMouseDown(x,y);
