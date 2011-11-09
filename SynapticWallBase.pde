@@ -110,10 +110,7 @@ void mousePressed() {
   Shape selectedShape = shapes.select(mouseX, mouseY);
   Path selectedPath = paths.select(mouseX, mouseY);
   if (currentMode == Constants.SOMA) {
-    if (selectedShape != null) {
-      shapes.onMouseDown(mouseX, mouseY);
-    }
-    else {
+    if (selectedShape == null) {
       currShape = new Soma(mouseX, mouseY, random(20, 30), 
                     color(random(50, 205), random(50, 205), random(50, 205)),
                     random(-Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD));

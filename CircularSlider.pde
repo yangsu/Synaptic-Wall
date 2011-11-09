@@ -84,8 +84,9 @@ class CircularSlider extends Control {
     float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
     fSlider = constrain(angle, fBegin, fEnd);
   }
+  
   boolean onMouseDown(float x, float y) {
-    fSelected = isInBounds(x, y);
+    fSelected = this.isInBounds(x, y);
     if (fSelected)
       updateSlider(x, y);
     return fSelected;

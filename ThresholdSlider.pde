@@ -18,9 +18,6 @@ class ThresholdSlider extends CircularSlider {
   
   ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max) {
     super(x, y, size, begin, end, val, min, max);
-    println("begin"+begin);
-    println("end"+end);
-    
   }
   
   void draw() {
@@ -66,6 +63,8 @@ class ThresholdSlider extends CircularSlider {
       fState = END;
     else if (angle >= fBegin && angle <= fBegin + Constants.THRESHOLD_HANDLE_WIDTH)
       fState = BEGIN;
+    if (angle < fEnd && angle > fBegin)
+      fState = SLIDER;
     else
       inBounds = false;
     return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;

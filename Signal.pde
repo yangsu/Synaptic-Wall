@@ -21,19 +21,4 @@ abstract class Signal extends Drawable {
     fBeginLoc = begin;
     fEndLoc = end;
   }
-  boolean onMouseDown(float x, float y) {
-    return false;
-  }
-  
-  boolean onMouseDragged(float x, float y) {
-    return false;
-  }
-  
-  boolean onMouseMoved(float x, float y) {
-    return false;
-  }
-  
-  boolean onMouseUp(float x, float y) {
-    return false;
-  }
 }
