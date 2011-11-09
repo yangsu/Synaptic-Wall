@@ -64,9 +64,9 @@ class CircularSlider extends Control {
         constrain(fSlider - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
         constrain(fSlider + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
     fill(Constants.SLIDER_HANDLE_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.SLIDER_HANDLE_WIDTH);
+    arc(fLoc.x, fLoc.y, temp, temp, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH);
     fill(Constants.SLIDER_HANDLE_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd);
+    arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02);
     fill(Constants.BG_COLOR);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
   }

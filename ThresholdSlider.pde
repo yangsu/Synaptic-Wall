@@ -33,9 +33,10 @@ class ThresholdSlider extends CircularSlider {
       fill(Constants.IN_COLOR);
       arc(fLoc.x, fLoc.y, temp, temp, constrain(fSlider, fBegin, PI), PI);
     }
-    fill(Constants.IN_COLOR);
+    
+    fill((fHover && (fState == BEGIN)) ? Constants.IN_HIGHLIGHT_COLOR : Constants.IN_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.THRESHOLD_HANDLE_WIDTH);
-    fill(Constants.EX_COLOR);
+    fill((fHover && (fState == END)) ? Constants.EX_HIGHLIGHT_COLOR : Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.THRESHOLD_HANDLE_WIDTH, fEnd);
     fill(Constants.BG_COLOR);
     
@@ -76,6 +77,7 @@ class ThresholdSlider extends CircularSlider {
   public boolean onMouseDown(float x, float y) {
     return (fSelected = this.isInBounds(x, y));
   }
+  
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
