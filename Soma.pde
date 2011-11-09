@@ -1,11 +1,13 @@
 class Soma extends Shape {
   float[] fReceivedAPs;
   
-  float fThreshold;
   boolean fControlActive;
   ThresholdSlider fThresholdSlider;
   
   Soma(float x, float y, float size, color cc, float threshold) {
+    this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
+  }
+  Soma(float x, float y, float size, color cc, float positivet, float negativet) {
     super(x, y, size, cc);
     fReceivedAPs = new float[0];
     fControlActive = false;
@@ -18,10 +20,11 @@ class Soma extends Shape {
     temp += interval;
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
     
-    fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 0, 0, threshold);
+    fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 
+      PI + negativet/Constants.SOMA_MAX_THRESHOLD * PI,
+      PI + positivet/Constants.SOMA_MAX_THRESHOLD * PI,
+      0, negativet, positivet);
     fThresholdSlider.setVisible(true);
-    
-    fThreshold = threshold;
   }
 
   void draw() {    
@@ -45,8 +48,7 @@ class Soma extends Shape {
       fill(blendColor(fColor, color(255, 100), ADD));
       ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
       
-      if (abs(fThresholdSlider.getValue()) >= abs(fThreshold)) {
-        println("over threshold "+ fThresholdSlider.getValue() +" " + fThreshold);
+      if (fThresholdSlider.overThreshold()) {
         fReceivedAPs = new float[0];
         for (int j = 0; j < fDendrites.size(); ++j)
           fDendrites.get(j).addSignal(Constants.EPSP, 0);

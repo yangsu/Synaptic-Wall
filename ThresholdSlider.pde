@@ -2,6 +2,8 @@ class ThresholdSlider extends CircularSlider {
   static final int BEGIN = 1;
   static final int END = 2;
   
+  boolean fOverThreshold;
+  
   ThresholdSlider(float x, float y, float size) {
     super(x, y, size);
   }
@@ -16,6 +18,9 @@ class ThresholdSlider extends CircularSlider {
   
   ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max) {
     super(x, y, size, begin, end, val, min, max);
+    println("begin"+begin);
+    println("end"+end);
+    
   }
   
   void draw() {
@@ -38,10 +43,17 @@ class ThresholdSlider extends CircularSlider {
     fill(Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.THRESHOLD_HANDLE_WIDTH, fEnd);
     fill(Constants.BG_COLOR);
-    ellipse(fLoc.x, fLoc.y, fSize, fSize);
+    
+    // added 0.01 offset to cover up extraneous pixels
+    arc(fLoc.x, fLoc.y, fSize, fSize, fBegin-0.01, fEnd+0.01);
+  }
+
+  boolean overThreshold() {
+    return fOverThreshold;
   }
   
   void addChange(float signal) {
+    fOverThreshold = (signal >= fMax || signal <= fMin) && signal != 0;
     float temp = constrain(signal, fMin, fMax);
     this.setValue(temp);
   }
@@ -58,7 +70,7 @@ class ThresholdSlider extends CircularSlider {
       inBounds = false;
     return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
-  
+
   boolean onMouseDragged(float x, float y) {
     if (fSelected) {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
