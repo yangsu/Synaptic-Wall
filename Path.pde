@@ -177,13 +177,13 @@ class Path extends Interactive implements Signalable{
   }
   
   public boolean onMouseDown(float x, float y) {
-    return (fSelected = isInBounds(x, y));
+    return (fSelected = this.isInBounds(x, y));
   }
   public boolean onMouseMoved(float x, float y) {
-    return (fHover = isInBounds(x, y));
+    return (fHover = this.isInBounds(x, y));
   }
   public boolean onMouseDragged(float x, float y) {
-    return (fHover = isInBounds(x, y));
+    return (fHover = this.isInBounds(x, y));
   }
   public boolean onMouseUp(float x, float y) {
     fSelected = false;

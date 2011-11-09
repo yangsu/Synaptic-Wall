@@ -1,7 +1,6 @@
 class CircularSlider extends Control {
   float fSize, fMin, fMax, fValue;
   float fBegin, fEnd, fSlider;
-  boolean fHover, fSelected;
   
   int fState;
   static final int SLIDER = 0;
@@ -55,7 +54,7 @@ class CircularSlider extends Control {
     
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
-
+    
     if (fHover)
       fill(Constants.HIGHLIGHT_COLOR);
     else

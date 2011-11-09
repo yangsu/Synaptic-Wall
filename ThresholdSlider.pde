@@ -39,8 +39,8 @@ class ThresholdSlider extends CircularSlider {
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.THRESHOLD_HANDLE_WIDTH, fEnd);
     fill(Constants.BG_COLOR);
     
-    // added 0.01 offset to cover up extraneous pixels
-    arc(fLoc.x, fLoc.y, fSize, fSize, fBegin-0.01, fEnd+0.01);
+    // added 0.02 offset to cover up extraneous pixels
+    arc(fLoc.x, fLoc.y, fSize, fSize, fBegin-0.02, fEnd+0.02);
   }
 
   void addChange(float signal) {
@@ -74,7 +74,7 @@ class ThresholdSlider extends CircularSlider {
   }
 
   public boolean onMouseDown(float x, float y) {
-    return (fSelected = isInBounds(x, y));
+    return (fSelected = this.isInBounds(x, y));
   }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {

@@ -136,8 +136,9 @@ class Soma extends Shape implements Controllable{
   }
   public boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
-      if (c.onMouseMoved(x,y))
+      if (c.onMouseMoved(x,y)) {
         return true;
+      }
     return super.onMouseMoved(x,y);
   }
   public boolean onMouseUp(float x, float y) {
