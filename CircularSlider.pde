@@ -59,13 +59,10 @@ class CircularSlider extends Control {
       fill(Constants.HIGHLIGHT_COLOR);
     else
       fill(Constants.SLIDER_BAR_COLOR);
-    
-    arc(fLoc.x, fLoc.y, temp, temp, 
-        constrain(fSlider - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
-        constrain(fSlider + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
+    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fSlider);
+    // Added 0.02 for minor offset to cover up extraneous pixels
     fill(Constants.SLIDER_HANDLE_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH);
-    fill(Constants.SLIDER_HANDLE_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02);
     fill(Constants.BG_COLOR);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
@@ -84,7 +81,7 @@ class CircularSlider extends Control {
   
   void updateSlider(float x, float y) {
     float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
-    fSlider = constrain(angle, fBegin, fEnd);
+    fSlider = Utilities.constrain(angle, fBegin, fEnd);
   }
   
   public boolean onMouseDown(float x, float y) {

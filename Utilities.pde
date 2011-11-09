@@ -18,23 +18,16 @@ static class Utilities {
   }
   static float getAngleNorm(float x1, float y1, float x2, float y2) {
     float temp = atan2(y2-y1, x2-x1);
-    return (temp < 0 ) ? temp + TWO_PI : temp;
+    return (temp < 0) ? temp + TWO_PI : temp;
   }
   static float getAngle(float x1, float y1, float x2, float y2) {
     return atan2(y2-y1, x2-x1);
   }
-  static float constrain2(float value, float min, float max) {
+  static float constrain(float value, float min, float max) {
     float mid = (min + max)/2;
-    float oppMid = TWO_PI - mid;
-    if (value > oppMid) return min;
-    if (value < oppMid && value > max) return max;
-    return value;
-  }
-  static float constrain3(float value, float min, float max) {
-    float mid = (min + max)/2;
-    float oppMid = TWO_PI - mid;
-    if (value < min && value > oppMid) return min;
-    if (value < oppMid) return max;
+    float oppMid = (mid > PI) ? mid - PI : mid + PI;
+    if ((value > oppMid) && ((min == 0) || (value < min && min != 0))) return min;
+    if ((value < oppMid) && ((max == TWO_PI) || (value > max && max != TWO_PI))) return max;
     return value;
   }
 }

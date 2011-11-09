@@ -83,11 +83,11 @@ class ThresholdSlider extends CircularSlider {
       float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case BEGIN:
-          fBegin = Utilities.constrain2(angle, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
+          fBegin = Utilities.constrain(angle, 0.0, PI-Constants.THRESHOLD_HANDLE_WIDTH);
           fMin = - (PI - fBegin)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
-          fEnd = Utilities.constrain3(angle, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
+          fEnd = Utilities.constrain(angle, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
           fMax = (fEnd - PI)/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }
