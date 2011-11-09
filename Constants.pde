@@ -32,6 +32,6 @@ static class Constants {
   static final float SLIDER_BAR_WIDTH = 10.0;
   static final float SLIDER_BAR_LENGTH = 0.1;
   static final float SLIDER_HANDLE_WIDTH = 0.03;
-  static final float THRESHOLD_HANDLE_WIDTH = 0.08;
+  static final float THRESHOLD_HANDLE_WIDTH = 0.15;
   
 }
