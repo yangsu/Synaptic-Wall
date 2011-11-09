@@ -5,6 +5,10 @@ class Soma extends Shape implements Controllable{
   ThresholdSlider fThresholdSlider;
   
   private static final int OVER_THRESHOLD = 1;
+  private static final int SPEED = 1;
+  private static final int INTERVAL = 2;
+  private static final int STRENGTH = 3;
+  private static final int THRESHOLD = 4;
   
   Soma(float x, float y, float size, color cc, float threshold) {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
@@ -17,15 +21,15 @@ class Soma extends Shape implements Controllable{
     float interval = TWO_PI / 3;
     float temp = interval;
     float controlSize = fSize + 30;
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10, 1, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, 2, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10, SPEED, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, INTERVAL, this));
     temp += interval;
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, 3, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, STRENGTH, this));
     
     fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 
       PI + negativet/Constants.SOMA_MAX_THRESHOLD * PI,
       PI + positivet/Constants.SOMA_MAX_THRESHOLD * PI,
-      0, negativet, positivet, 4, this);
+      0, negativet, positivet, THRESHOLD, this);
     fControls.add(fThresholdSlider);
   }
 
@@ -64,9 +68,15 @@ class Soma extends Shape implements Controllable{
     fReceivedAPs = append(fReceivedAPs, value);
   }
 
-  void onEvent(int eventID, float value) {
-    switch (eventID) {
-      case OVER_THRESHOLD: 
+  void onEvent(int controlID, float value) {
+    switch (controlID) {
+      case SPEED:
+        break;
+      case INTERVAL:
+        break;
+      case STRENGTH:
+        break;
+      case THRESHOLD: 
         fReceivedAPs = new float[0];
         for (int j = 0; j < fDendrites.size(); ++j)
           fDendrites.get(j).addSignal(Constants.EPSP, 0);

@@ -1,5 +1,5 @@
 class CircularSlider extends Control {
-  float fSize, fMin, fMax;
+  float fSize, fMin, fMax, fValue;
   float fBegin, fEnd, fSlider;
   boolean fHover, fSelected;
   
@@ -9,9 +9,11 @@ class CircularSlider extends Control {
   CircularSlider(float x, float y, float size, int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI, id, target);
   }
+  
   CircularSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
     this(x, y, size, begin, end, begin, begin, end, id, target);
   }
+  
   CircularSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, val, min, max, id, target);
   }
@@ -28,10 +30,11 @@ class CircularSlider extends Control {
   }
   
   float getValue() {
-    return map(fSlider, fBegin, fEnd, fMin, fMax);
+    return fValue;
   }
   
   void setValue(float val) {
+    fValue = val;
     fSlider = constrain(map(val, fMin, fMax, fBegin, fEnd), fBegin, fEnd);
   }
   

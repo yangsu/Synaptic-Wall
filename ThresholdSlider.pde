@@ -44,17 +44,18 @@ class ThresholdSlider extends CircularSlider {
   }
 
   void addChange(float signal) {
-    float temp = signal + this.getValue();
-    if (temp != 0) {
-      if (temp >= fMax) {
-        fTarget.onEvent(this.fID, temp);
-      }
-      if (temp <= fMin) {
-        fTarget.onEvent(this.fID, temp);
-      }
-    }
+    // if the value is greater than max or less than min, meaning that the last signal caused the slider to go over the threshold, change the
+    float temp = this.getValue();
+    if (temp >= fMax)
+      this.setValue(fMax - temp);
+    if (temp <= fMin)
+      this.setValue(temp - fMin);
     
-    this.setValue(constrain(temp, fMin, fMax));
+    temp = signal + this.getValue();
+    if ((temp >= fMax || temp <= fMin) && temp != 0) {
+        fTarget.onEvent(this.fID, temp);
+    }
+    this.setValue(signal + this.getValue());
   }
   
   boolean isInBounds(float x, float y) {
