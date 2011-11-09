@@ -6,18 +6,18 @@ class CircularSlider extends Control {
   int fState;
   static final int SLIDER = 0;
   
-  CircularSlider(float x, float y, float size) {
-    this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI);
+  CircularSlider(float x, float y, float size, int id, Controllable target) {
+    this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI, id, target);
   }
-  CircularSlider(float x, float y, float size, float begin, float end) {
-    this(x, y, size, begin, end, begin, begin, end);
+  CircularSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
+    this(x, y, size, begin, end, begin, begin, end, id, target);
   }
-  CircularSlider(float x, float y, float size, float val, float min, float max) {
-    this(x, y, size, 0, TWO_PI, val, min, max);
+  CircularSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
+    this(x, y, size, 0, TWO_PI, val, min, max, id, target);
   }
   
-  CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max) {
-    super(x, y);
+  CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
+    super(x, y, id, target);
     fSize = size;
     fState = SLIDER;
     fBegin = begin;

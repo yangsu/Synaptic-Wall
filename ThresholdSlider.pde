@@ -2,22 +2,20 @@ class ThresholdSlider extends CircularSlider {
   static final int BEGIN = 1;
   static final int END = 2;
   
-  boolean fOverThreshold;
-  
-  ThresholdSlider(float x, float y, float size) {
-    super(x, y, size);
+  ThresholdSlider(float x, float y, float size, int id, Controllable target) {
+    super(x, y, size, id, target);
   }
   
-  ThresholdSlider(float x, float y, float size, float begin, float end) {
-    super(x, y, size, begin, end);
+  ThresholdSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
+    super(x, y, size, begin, end, id, target);
   }
   
-  ThresholdSlider(float x, float y, float size, float val, float min, float max) {
-    super(x, y, size, val, min, max);
+  ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
+    super(x, y, size, val, min, max, id, target);
   }
   
-  ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max) {
-    super(x, y, size, begin, end, val, min, max);
+  ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
+    super(x, y, size, begin, end, val, min, max, id, target);
   }
   
   void draw() {
@@ -45,14 +43,18 @@ class ThresholdSlider extends CircularSlider {
     arc(fLoc.x, fLoc.y, fSize, fSize, fBegin-0.01, fEnd+0.01);
   }
 
-  boolean overThreshold() {
-    return fOverThreshold;
-  }
-  
   void addChange(float signal) {
-    fOverThreshold = (signal >= fMax || signal <= fMin) && signal != 0;
-    float temp = constrain(signal, fMin, fMax);
-    this.setValue(temp);
+    float temp = signal + this.getValue();
+    if (temp != 0) {
+      if (temp >= fMax) {
+        fTarget.onEvent(this.fID, temp);
+      }
+      if (temp <= fMin) {
+        fTarget.onEvent(this.fID, temp);
+      }
+    }
+    
+    this.setValue(constrain(temp, fMin, fMax));
   }
   
   boolean isInBounds(float x, float y) {

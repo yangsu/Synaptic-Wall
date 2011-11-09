@@ -11,7 +11,6 @@ PImage temp;
 void setup() {
   size(800, 800);
   temp = createImage(width/2, height/2, ARGB);
-
   //Settings
   ellipseMode(RADIUS);
   strokeCap(ROUND);

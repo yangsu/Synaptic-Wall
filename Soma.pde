@@ -1,8 +1,10 @@
-class Soma extends Shape {
+class Soma extends Shape implements Controllable{
   float[] fReceivedAPs;
   
   boolean fControlActive;
   ThresholdSlider fThresholdSlider;
+  
+  private static final int OVER_THRESHOLD = 1;
   
   Soma(float x, float y, float size, color cc, float threshold) {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
@@ -15,22 +17,21 @@ class Soma extends Shape {
     float interval = TWO_PI / 3;
     float temp = interval;
     float controlSize = fSize + 30;
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10, 1, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, 2, this));
     temp += interval;
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, 3, this));
     
     fThresholdSlider = new ThresholdSlider(x, y, fSize + 10, 
       PI + negativet/Constants.SOMA_MAX_THRESHOLD * PI,
       PI + positivet/Constants.SOMA_MAX_THRESHOLD * PI,
-      0, negativet, positivet);
-    fThresholdSlider.setVisible(true);
+      0, negativet, positivet, 4, this);
+    fControls.add(fThresholdSlider);
   }
 
   void draw() {    
     pushStyle();
       for (Control c : fControls) {
-        c.setVisible(fSelected);
         c.draw();
       }
       fThresholdSlider.draw();
@@ -48,12 +49,6 @@ class Soma extends Shape {
       fill(blendColor(fColor, color(255, 100), ADD));
       ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
       
-      if (fThresholdSlider.overThreshold()) {
-        fReceivedAPs = new float[0];
-        for (int j = 0; j < fDendrites.size(); ++j)
-          fDendrites.get(j).addSignal(Constants.EPSP, 0);
-        fThresholdSlider.setValue(0);
-      }
     popStyle();
   }
 
@@ -71,7 +66,7 @@ class Soma extends Shape {
 
   void onEvent(int eventID, float value) {
     switch (eventID) {
-      case OVER_THRESHOLD:
+      case OVER_THRESHOLD: 
         fReceivedAPs = new float[0];
         for (int j = 0; j < fDendrites.size(); ++j)
           fDendrites.get(j).addSignal(Constants.EPSP, 0);
@@ -80,7 +75,7 @@ class Soma extends Shape {
         break;
     }
   }
-
+  
   public void translate(PVector change) {
     fLoc.add(change);
     for (Path dendrite : fDendrites)
@@ -107,8 +102,9 @@ class Soma extends Shape {
     fControlActive = false;
     for (Control c : fControls) {
       fControlActive = c.onMouseDown(x, y);
-      if (fControlActive) 
+      if (fControlActive) {
         return true;
+      }
     }
     return super.onMouseDown(x,y);
   }
