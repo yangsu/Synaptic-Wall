@@ -25,16 +25,25 @@ class ThresholdSlider extends CircularSlider {
     fill(Constants.SLIDER_BG_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
     fill(Constants.SLIDER_BAR_COLOR);
-    
-    arc(fLoc.x, fLoc.y, temp, temp, 
-        constrain(fSlider - Constants.SLIDER_BAR_LENGTH, fBegin, fEnd), 
-        constrain(fSlider + Constants.SLIDER_BAR_LENGTH, fBegin, fEnd));
-    fill(Constants.EX_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.THRESHOLD_HANDLE_WIDTH);
+    if (fSlider > PI) {
+      fill(Constants.EX_COLOR);
+      arc(fLoc.x, fLoc.y, temp, temp, PI, constrain(fSlider, PI, fEnd));
+    }
+    else {
+      fill(Constants.IN_COLOR);
+      arc(fLoc.x, fLoc.y, temp, temp, constrain(fSlider, fBegin, PI), PI);
+    }
     fill(Constants.IN_COLOR);
+    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.THRESHOLD_HANDLE_WIDTH);
+    fill(Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.THRESHOLD_HANDLE_WIDTH, fEnd);
     fill(Constants.BG_COLOR);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
+  }
+  
+  void addChange(float signal) {
+    float temp = constrain(signal, fMin, fMax);
+    this.setValue(temp);
   }
   
   boolean isInBounds(float x, float y) {
@@ -61,9 +70,7 @@ class ThresholdSlider extends CircularSlider {
           fEnd = Utilities.constrain3(angle, PI+Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI);
           break;
       }
-      fSlider = constrain(fSlider, 
-                        fBegin + Constants.THRESHOLD_HANDLE_WIDTH + Constants.SLIDER_BAR_LENGTH, 
-                        fEnd - Constants.THRESHOLD_HANDLE_WIDTH - Constants.SLIDER_BAR_LENGTH);
+      fSlider = constrain(fSlider, fBegin, fEnd);
     }
     return fSelected;
   }
