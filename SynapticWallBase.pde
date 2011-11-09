@@ -138,13 +138,13 @@ void mouseDragged() {
   if (currentMode == Constants.SOMA) {
     if (currShape != null)
       currShape.setXY(mouseX, mouseY);
+    shapes.onMouseDragged(mouseX, mouseY);
   }
   if (currentMode == Constants.DENDRITE) {
     if (currPath != null)
       currPath.add(mouseX, mouseY);
+    paths.onMouseDragged(mouseX, mouseY);
   }
-  paths.onMouseDragged(mouseX, mouseY);
-  shapes.onMouseDragged(mouseX, mouseY);
   redraw();
 }
 
