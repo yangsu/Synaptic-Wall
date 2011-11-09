@@ -112,7 +112,6 @@ class Soma extends Shape implements Controllable{
     for (Control c : fControls) {
       fControlActive = c.onMouseDown(x, y);
       if (fControlActive) {
-        println("control active");
         return true;
       }
     }
@@ -120,9 +119,7 @@ class Soma extends Shape implements Controllable{
   }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
-      println("dragged");
       if (fControlActive) {
-        println("dragged co");
         for (Control c : fControls)
           if (c.onMouseDragged(x,y))
             return true;

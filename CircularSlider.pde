@@ -94,9 +94,8 @@ class CircularSlider extends Control {
       updateSlider(x, y);
     return fSelected;
   }
-  
+
   public boolean onMouseDragged(float x, float y) {
-    println("onMouseDragged");
     if (fSelected)
       updateSlider(x, y);
     return fSelected;
