@@ -2,6 +2,7 @@ public abstract class Drawable {
   protected color fColor;
   protected PVector fLoc;
   protected boolean fVisible;
+  protected boolean fMovable;
   
   public Drawable() {
     this(0, 0, color(255));
@@ -13,16 +14,21 @@ public abstract class Drawable {
   
   public Drawable(float x, float y, color cc) {
     fLoc = new PVector(x, y);
-    fVisible = true;
+    fVisible = fMovable = true;
     fColor = cc;
   }
   
   public void translate(PVector change) {
-    fLoc.add(change);
+    if (fMovable)
+      fLoc.add(change);
   }
   
   public void setVisible(boolean visible) { 
     fVisible = visible;
+  }
+  
+  public void setMovable(boolean movable) {
+    fMovable = movable;
   }
   
   public abstract void draw();

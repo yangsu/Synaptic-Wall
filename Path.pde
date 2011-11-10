@@ -69,9 +69,10 @@ class Path extends Interactive implements Signalable{
     }
   }
   void translate(PVector change) {
-    for (PVector vertex : fVertices) {
-      vertex.add(change);
-    }
+    if (fMovable)
+      for (PVector vertex : fVertices) {
+        vertex.add(change);
+      }
   }
   
   void reduce(int resFactor){

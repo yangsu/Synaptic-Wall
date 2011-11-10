@@ -190,6 +190,7 @@ void mouseReleased() {
   if (currentMode == Constants.SOMA) {
     if (currShape != null) {
       shapes.add(currShape);
+      currShape.setMovable(false);
       currShape = null;        
     }
     else {
