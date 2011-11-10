@@ -7,18 +7,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
-			<key>name</key>
-			<string>SynapticWallBase</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>selected</key>
-			<true/>
-			<key>sourceDirectory</key>
-			<string></string>
-		</dict>
-		<dict>
 			<key>children</key>
 			<array>
 				<dict>
@@ -29,13 +17,19 @@
 					<key>filename</key>
 					<string>CircularSlider.pde</string>
 					<key>lastUsed</key>
-					<date>2011-11-07T20:36:37Z</date>
+					<date>2011-11-10T06:39:59Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Control.pde</string>
 					<key>lastUsed</key>
-					<date>2011-11-07T20:36:15Z</date>
+					<date>2011-11-10T10:56:21Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>Interactive.pde</string>
+					<key>lastUsed</key>
+					<date>2011-11-10T04:59:32Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -50,25 +44,37 @@
 					<key>filename</key>
 					<string>Constants.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:09:34Z</date>
+					<date>2011-11-10T10:56:11Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>Controllable.pde</string>
+					<key>lastUsed</key>
+					<date>2011-11-09T17:41:57Z</date>
+				</dict>
+				<dict>
+					<key>filename</key>
+					<string>DiscreteCircularSlider.pde</string>
+					<key>lastUsed</key>
+					<date>2011-11-10T01:46:26Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Drawable.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:09:33Z</date>
+					<date>2011-11-10T10:56:11Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Signalable.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T13:14:53Z</date>
+					<date>2011-11-10T10:52:10Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Utilities.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T13:14:54Z</date>
+					<date>2011-11-10T10:56:12Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -83,19 +89,13 @@
 					<key>filename</key>
 					<string>Path.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:21:01Z</date>
+					<date>2011-11-10T11:16:42Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>PathsCollection.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:15:05Z</date>
-				</dict>
-				<dict>
-					<key>filename</key>
-					<string>SubPath.pde</string>
-					<key>lastUsed</key>
-					<date>2011-10-07T19:15:54Z</date>
+					<date>2011-11-07T20:37:11Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -110,25 +110,25 @@
 					<key>filename</key>
 					<string>Shape.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:16:11Z</date>
+					<date>2011-11-10T04:59:31Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>ShapesCollection.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:13:06Z</date>
+					<date>2011-11-10T04:59:33Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Soma.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:14:55Z</date>
+					<date>2011-11-10T10:49:30Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Synapse.pde</string>
 					<key>lastUsed</key>
-					<date>2011-11-07T20:34:58Z</date>
+					<date>2011-11-07T20:37:09Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -143,19 +143,19 @@
 					<key>filename</key>
 					<string>ActionPotential.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T13:07:26Z</date>
+					<date>2011-11-10T10:56:17Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>PostsynapticPotential.pde</string>
 					<key>lastUsed</key>
-					<date>2011-11-07T20:34:59Z</date>
+					<date>2011-11-10T10:56:18Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>Signal.pde</string>
 					<key>lastUsed</key>
-					<date>2011-10-07T19:11:21Z</date>
+					<date>2011-11-10T11:15:38Z</date>
 				</dict>
 			</array>
 			<key>expanded</key>
@@ -164,16 +164,56 @@
 			<string>Signal</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>SynapticWallBase</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string></string>
+		</dict>
+		<dict>
 			<key>filename</key>
 			<string>SynapticWallBase.pde</string>
 			<key>lastUsed</key>
-			<date>2011-11-07T20:34:30Z</date>
+			<date>2011-11-10T09:51:30Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>200</integer>
+	<integer>246</integer>
 	<key>metaData</key>
 	<dict>
+		<key>ActionPotential.pde</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+		</dict>
 		<key>Button.pde</key>
 		<dict>
 			<key>caret</key>
@@ -193,14 +233,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>36</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>8</integer>
+			<integer>44</integer>
 		</dict>
 		<key>Constants.pde</key>
 		<dict>
@@ -221,9 +261,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>1</integer>
 				<key>line</key>
 				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>DiscreteCircularSlider.pde</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>17</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -235,9 +289,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>22</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Interactive.pde</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>2</integer>
+				<integer>15</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -249,23 +317,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>15</integer>
+				<integer>12</integer>
 				<key>line</key>
-				<integer>38</integer>
+				<integer>150</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>22</integer>
+			<integer>127</integer>
 		</dict>
 		<key>PathsCollection.pde</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>44</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>44</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -277,30 +345,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>8</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>33</integer>
+				<integer>7</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>6</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>6</integer>
-				<key>line</key>
-				<integer>33</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>10</integer>
-				<key>line</key>
-				<integer>33</integer>
-			</dict>
+			<integer>0</integer>
 		</dict>
 		<key>Readme.md</key>
 		<dict>
@@ -321,39 +373,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>15</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>27</integer>
+				<integer>25</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>14</integer>
-				<key>line</key>
-				<integer>27</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>20</integer>
-				<key>line</key>
-				<integer>27</integer>
-			</dict>
+			<integer>0</integer>
 		</dict>
 		<key>ShapesCollection.pde</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>8</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>66</integer>
+				<integer>7</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -365,56 +401,44 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>18</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>3</integer>
+				<integer>47</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Signalable.pde</key>
-		<dict>
-			<key>caret</key>
+			<integer>3</integer>
+			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>47</integer>
 			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>47</integer>
+			</dict>
 		</dict>
 		<key>Soma.pde</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>115</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>83</integer>
-		</dict>
-		<key>SubPath.pde</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>81</integer>
 		</dict>
 		<key>Synapse.pde</key>
 		<dict>
@@ -435,39 +459,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>10</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>181</integer>
+				<integer>171</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>130</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>6</integer>
-				<key>line</key>
-				<integer>181</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>10</integer>
-				<key>line</key>
-				<integer>181</integer>
-			</dict>
+			<integer>150</integer>
 		</dict>
 		<key>Utilities.pde</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>18</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -478,27 +486,20 @@
 	<key>openDocuments</key>
 	<array>
 		<string>SynapticWallBase.pde</string>
-		<string>Control.pde</string>
-		<string>Soma.pde</string>
-		<string>Synapse.pde</string>
-		<string>Shape.pde</string>
 		<string>Path.pde</string>
+		<string>Soma.pde</string>
 		<string>Signal.pde</string>
+		<string>ActionPotential.pde</string>
 		<string>PostsynapticPotential.pde</string>
-		<string>Readme.md</string>
-		<string>Signalable.pde</string>
+		<string>Control.pde</string>
 		<string>Utilities.pde</string>
-		<string>ShapesCollection.pde</string>
-		<string>SubPath.pde</string>
-		<string>CircularSlider.pde</string>
-		<string>PathsCollection.pde</string>
-		<string>Drawable.pde</string>
 		<string>Constants.pde</string>
+		<string>Drawable.pde</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>showFileHierarchyPanel</key>
-	<true/>
+	<false/>
 	<key>treeState</key>
 	<dict>
 		<key>Control</key>
@@ -545,6 +546,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{203, 4}, {1063, 774}}</string>
+	<string>{{317, 4}, {867, 774}}</string>
 </dict>
 </plist>
