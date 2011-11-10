@@ -51,7 +51,7 @@ class Soma extends Shape implements Controllable{
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     fill(blendColor(fColor, color(255, 100), ADD));
-    ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
+    ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
   }
   
   private void drawControlDisplays() {
@@ -144,6 +144,7 @@ class Soma extends Shape implements Controllable{
     for (Control c : fControls)
       c.translate(change);
   }
+  
   boolean isInBounds(float x, float y) {
     float dist = PVector.dist(fLoc, new PVector(x, y));
     if (dist <= fSize) {
@@ -170,6 +171,7 @@ class Soma extends Shape implements Controllable{
     }
     return super.onMouseDown(x,y);
   }
+  
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
       if (fControlActive) {
