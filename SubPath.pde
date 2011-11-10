@@ -11,7 +11,7 @@ class SubPath extends Path {
   
   void draw() {
     super.draw();
-    drawJunction(this.getStartLoc());
-    drawJunction(this.getEndLoc());
+    drawJunction(fVertices.get(0));
+    drawJunction(fVertices.get(fVertices.size()-1));
   }
 }

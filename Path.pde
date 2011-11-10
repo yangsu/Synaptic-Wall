@@ -1,59 +1,44 @@
 class Path extends Interactive implements Signalable{
   ArrayList<PVector> fVertices;
   ArrayList<Signal> fSignals;
-  ArrayList<Path> fSubPaths;
+  ArrayList<Path> fConnectedPaths;
 
-  PVector fCurrVert;
   int fCurrIndex;
   Signalable fEnd;
   Signalable fStart;
   
-  //TODO: Rethink inheritance hiearchy
   int fBeginPosition;
   int fEndPosition;
   
   Path() {
     super();
   }
-  Path(Shape shape){
-    fSubPaths = new ArrayList<Path>();
+  Path(Shape shape, float x, float y){
+    fConnectedPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
     fSignals = new ArrayList<Signal>();
     fColor = shape.fColor;
     fCurrIndex = 0;
-    fCurrVert = shape.fLoc;
     fEnd = null;
     fStart = shape;
+    fVertices.add(new PVector(x,y));
   }
 
   int size(){
     return fVertices.size();
   }
+  
   void setEnd(Signalable obj){
     fEnd = obj;
   }
-  PVector getStartLoc(){
-    if(fVertices.size()!=0)
-      return (PVector)fVertices.get(0);
-    return null;
-  }
-  PVector getEndLoc(){
-    if(fVertices.size()!=0)
-      return (PVector)fVertices.get(fVertices.size()-1);
-    return null;
-  }
 
-  void addFirst(float x, float y){
-    fVertices.add(new PVector(x,y));
-  }
   void add(float x, float y){
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
     float px = prev.x;
     float py = prev.y;
     
-    //Find the difference between the previous location and the current one, and 
-    //normalizes dx and dy using that difference
+    //Find the difference between the previous location and the current one, and normalizes dx and dy using that difference
     float num;
     if(abs(x-px)>abs(y-py))
       num = abs(x-px);
@@ -62,12 +47,16 @@ class Path extends Interactive implements Signalable{
     float dx=(x-px)/num;
     float dy=(y-py)/num;
     
-    //Add all the fVertices in between the previous and current fVertices using dx 
-    //and dy
+    //Add all the fVertices in between the previous and current fVertices using dx and dy
     for(int i = 1;i<=num;i++){
       fVertices.add(new PVector(px+i*dx,py+i*dy));
     }
   }
+  
+  void add(PVector p) {
+    this.add(p.x, p.y);
+  }
+  
   void translate(PVector change) {
     if (fMovable)
       for (PVector vertex : fVertices) {
@@ -93,7 +82,6 @@ class Path extends Interactive implements Signalable{
         drawPath();
       }
       if (fHover) {
-        drawJunction(fCurrVert.x, fCurrVert.y);
         drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
     popStyle();
@@ -105,13 +93,15 @@ class Path extends Interactive implements Signalable{
   
   void drawPath(){
     beginShape();
-      PVector temp;
-      for (int i = 0; i < fVertices.size(); ++i) {
+      PVector temp = fVertices.get(0);
+      vertex(temp.x, temp.y);
+      for (int i = 1; i < fVertices.size(); ++i) {
         temp = fVertices.get(i);
         curveVertex(temp.x,temp.y);
       }
     endShape();
   }
+  
   void drawJunction(float x, float y) {
     pushStyle();
       fill(fColor);
@@ -121,6 +111,7 @@ class Path extends Interactive implements Signalable{
   void drawJunction(PVector p) {
     drawJunction(p.x, p.y);
   }
+  
   void processSignals() {
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
@@ -132,14 +123,15 @@ class Path extends Interactive implements Signalable{
       }
       else {
         SubPath temp;
-        for (int j = 0; j < fSubPaths.size(); ++j) {
-          temp = ((SubPath)fSubPaths.get(j));
+        for (int j = 0; j < fConnectedPaths.size(); ++j) {
+          temp = ((SubPath)fConnectedPaths.get(j));
           if (pos == temp.fBeginPosition)
             temp.addSignal(Constants.AP, 0);
         }
       }
     }
   }
+  
   void addSignal(int type, int delay){
     switch (type) {
       case Constants.EPSP:
@@ -153,7 +145,7 @@ class Path extends Interactive implements Signalable{
     }
   }
   void addSubPath(SubPath subpath) {
-    fSubPaths.add(subpath);
+    fConnectedPaths.add(subpath);
   }
   void receiveSignal(int type, float value, int position) {
     Signal s = new ActionPotential(fVertices.size(), type, 5.0, 0, fColor);
@@ -167,7 +159,6 @@ class Path extends Interactive implements Signalable{
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       if (PVector.dist(mouse, temp) <= Constants.SIGNAL_WIDTH) {
-        fCurrVert = temp;
         fCurrIndex = i;
         return true;
       }
@@ -175,15 +166,6 @@ class Path extends Interactive implements Signalable{
     return false;
   }
   
-  public boolean onMouseDown(float x, float y) {
-    return (fSelected = this.isInBounds(x, y));
-  }
-  public boolean onMouseMoved(float x, float y) {
-    return (fHover = this.isInBounds(x, y));
-  }
-  public boolean onMouseDragged(float x, float y) {
-    return (fHover = this.isInBounds(x, y));
-  }
   public boolean onMouseUp(float x, float y) {
     fSelected = false;
     return false;

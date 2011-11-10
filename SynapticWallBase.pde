@@ -144,7 +144,7 @@ void mousePressed() {
     }
     else if (selectedPath != null) {
       currPath = new SubPath(selectedPath, selectedPath.fCurrIndex);
-      currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
+      // currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
     }
     else
       paths.onMouseDown(mouseX, mouseY);
@@ -190,8 +190,7 @@ void mouseDragged() {
                            sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
       }
       else { // Left starting soma for the first time and a path is created
-        currPath = new Path(shapes.select(tempPathNode.x, tempPathNode.y));
-        currPath.addFirst(tempPathNode.x, tempPathNode.y);
+        currPath = new Path(shapes.select(tempPathNode.x, tempPathNode.y), tempPathNode.x, tempPathNode.y);
       }
     }
     else {
