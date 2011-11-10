@@ -13,18 +13,16 @@ class Path extends Interactive implements Signalable{
   int fEndPosition;
   
   Path() {
+    super();
+  }
+  Path(Shape shape){
     fSubPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
     fSignals = new ArrayList<Signal>();
-    fEnd = fStart = null;
-    fCurrVert = null;
-    fCurrIndex = 0;
-  }
-  
-  Path(Shape shape){
-    this();
     fColor = shape.fColor;
+    fCurrIndex = 0;
     fCurrVert = shape.fLoc;
+    fEnd = null;
     fStart = shape;
   }
 

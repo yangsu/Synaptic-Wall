@@ -5,6 +5,8 @@ boolean magnify;
 int currentMode;
 Soma currShape;
 Path currPath;
+PVector tempPathNode;
+color tempPathNodeColor;
 
 float scale;
 PImage temp;
@@ -27,8 +29,17 @@ void setup() {
   paths = new PathsCollection();
   currShape = null;
   currPath = null;
+  tempPathNode = new PVector(-999, -999);
 }
-
+void clearTempPathNode() {
+  tempPathNode.set(-999, -999, 0);
+}
+void drawTempPathNode() {
+  pushStyle();
+    fill(tempPathNodeColor);
+    ellipse(tempPathNode.x, tempPathNode.y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
+  popStyle();
+}
 void drawBackground(color cc) {
   pushStyle();
     noStroke();
@@ -95,6 +106,7 @@ void draw() {
     drawBackground(Constants.BG_COLOR);
     drawContent();
   }
+  drawTempPathNode();
   drawText();
 }
 
@@ -117,13 +129,14 @@ void mousePressed() {
   }
   else if (currentMode == Constants.DENDRITE) {
     if (selectedShape != null) {
-      currPath = new Path(selectedShape);
-      currPath.addFirst(selectedShape.x(), selectedShape.y());
+      tempPathNodeColor = selectedShape.fColor + 0x444444;
+      float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
+      tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
+                       sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
     }
     else if (selectedPath != null) {
       currPath = new SubPath(selectedPath, selectedPath.fCurrIndex);
       currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
-      
     }
     else
       paths.onMouseDown(mouseX, mouseY);
@@ -136,15 +149,25 @@ void mousePressed() {
   }
   redraw();
 }
-void mouseDragged() {
+void mouseDragged() {  
   if (currentMode == Constants.SOMA) {
     if (currShape != null)
-      currShape.translate(new PVector(mouseX - pmouseX, mouseY - pmouseY));
+      currShape.translate(new PVector(mouseX - currShape.x(), mouseY - currShape.y()));
     shapes.onMouseDragged(mouseX, mouseY);
   }
-  if (currentMode == Constants.DENDRITE) {
+  else if (currentMode == Constants.DENDRITE) {
+    Shape selectedShape = shapes.select(mouseX, mouseY);
     if (currPath != null)
       currPath.add(mouseX, mouseY);
+    else if (selectedShape != null && selectedShape.isInBounds(mouseX, mouseY)) {
+        float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
+        tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
+                         sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
+    }
+    else {
+      currPath = new Path(shapes.select(tempPathNode.x, tempPathNode.y));
+      currPath.addFirst(tempPathNode.x, tempPathNode.y);
+    }
     paths.onMouseDragged(mouseX, mouseY);
   }
   redraw();
@@ -208,6 +231,7 @@ void mouseReleased() {
     else {
     }
   }
+  clearTempPathNode();
   redraw();
 }
 

@@ -18,7 +18,7 @@ static class Constants {
   static final int   SIGNAL_RESOLUTION  = 5;
   
   // Soma Settings
-  static final float SOMA_RING_WIDTH = 7.5;
+  static final float SOMA_RING_WIDTH = 8.0;
   static final float SOMA_MAX_THRESHOLD = 10.0;
   static final float SOMA_AP_DECAY = 0.95;
   
