@@ -33,7 +33,7 @@ static class Constants {
   static final int    SIGNAL_DEFAULT_LENGTH   = 1;
   static final float  SIGNAL_DEFAULT_STRENGTH = 2.5;
   static final int    SIGNAL_MAX_SPEED        = 5;
-  static final int    SIGNAL_MAX_LENGTH       = 5;
+  static final int    SIGNAL_MAX_LENGTH       = 10;
   static final float  SIGNAL_MAX_STRENGTH     = 5.0;
   
   static final float SIGNAL_CONTROL_LENGTH = 3.0;

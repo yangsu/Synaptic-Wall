@@ -18,7 +18,7 @@ void setup() {
   //Settings
   ellipseMode(RADIUS);
   strokeCap(ROUND);
-  smooth();
+  // smooth();
   // noLoop();
   noStroke();
   cursor(ARROW);
@@ -115,7 +115,6 @@ void draw() {
   drawTempPathNode();
   drawText();
 }
-
 void clear() {
   shapes = new ShapesCollection();
   paths = new PathsCollection();
