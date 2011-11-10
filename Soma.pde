@@ -26,11 +26,11 @@ class Soma extends Shape implements Controllable{
     
     fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
                                      0, TWO_PI/3,
-                                     fSpeed, 0, Constants.SIGNAL_MAX_SPEED,
+                                     fSpeed, 1, Constants.SIGNAL_MAX_SPEED,
                                      SPEED, this));
     fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize, 
                                      TWO_PI/3, 2 * TWO_PI/3, 
-                                     fLength, 0, Constants.SIGNAL_MAX_LENGTH, 
+                                     fLength, 1, Constants.SIGNAL_MAX_LENGTH, 
                                      LENGTH, this));
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 
                                      2 * TWO_PI/3, TWO_PI, 
@@ -56,30 +56,42 @@ class Soma extends Shape implements Controllable{
   
   private void drawControlDisplays() {
     pushStyle();
+      color cc = (fStrength > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
     
       //Speed
+      noStroke();
+      fill(cc);
+      float h = 3;
+      float w = h * sqrt(3);
+      float y = fLoc.y - 7;
+      float temp = -fSpeed/2 * w;
+      for (int i = 0; i < fSpeed; ++i) {
+        triangle(fLoc.x + w/3 + temp, y - h, 
+                 fLoc.x + w/3 + temp, y + h,
+                 fLoc.x + w + temp, y);
+        temp += w; 
+      }
       
-      
-      color cc = (fStrength > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
       //Length
       noFill();
       stroke(cc);
-      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 8;
+      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 9;
       float sl = (fSize - 2*l)/2;
+      y = fLoc.y + 4;
       beginShape();
-      vertex(fLoc.x - l - sl, fLoc.y + 7);
-      vertex(fLoc.x - l, fLoc.y + 7);
-      vertex(fLoc.x - l, fLoc.y);
-      vertex(fLoc.x + l, fLoc.y);
-      vertex(fLoc.x + l, fLoc.y + 7);
-      vertex(fLoc.x + l + sl, fLoc.y + 7);
+      vertex(fLoc.x - l - sl, y);
+      vertex(fLoc.x - l, y);
+      vertex(fLoc.x - l, y - 5);
+      vertex(fLoc.x + l, y - 5);
+      vertex(fLoc.x + l, y);
+      vertex(fLoc.x + l + sl, y);
       endShape();
       
       //Strength
       noStroke();
       color alpha = (int)(abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH * 255) << 24 | 0xFFFFFF;
       fill(cc & alpha);
-      ellipse(fLoc.x, fLoc.y + 10, 3, 3);
+      ellipse(fLoc.x, fLoc.y + 12, 3, 3);
     popStyle();
   }
   

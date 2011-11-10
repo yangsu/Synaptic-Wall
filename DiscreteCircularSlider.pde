@@ -16,7 +16,6 @@ class DiscreteCircularSlider extends CircularSlider {
     super(x, y, size, begin, end, val, min, max, id, target);
   }
 
-  
   void updateSlider(float x, float y) {
     float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
     float temp = Utilities.constrain(angle, fBegin, fEnd);
