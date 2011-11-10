@@ -14,7 +14,7 @@ class Path extends Interactive implements Signalable{
     super();
   }
   
-  Path(Signalable begin, float x, float y, color cc){
+  Path(Signalable begin, float x, float y, color cc) {
     fConnectedPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
     fSignals = new ArrayList<Signal>();
@@ -25,11 +25,11 @@ class Path extends Interactive implements Signalable{
     fVertices.add(new PVector(x,y));
   }
 
-  int size(){
+  int size() {
     return fVertices.size();
   }
   
-  void setEnd(Signalable obj){
+  void setEnd(Signalable obj) {
     fEnd = obj;
   }
 
@@ -40,7 +40,7 @@ class Path extends Interactive implements Signalable{
     return fVertices.get(fCurrIndex);
   }
   
-  void add(float x, float y){
+  void add(float x, float y) {
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
     float px = prev.x;
@@ -56,7 +56,7 @@ class Path extends Interactive implements Signalable{
     float dy=(y-py)/num;
     
     //Add all the fVertices in between the previous and current fVertices using dx and dy
-    for(int i = 1;i<=num;i++){
+    for(int i = 1;i<=num;i++) {
       fVertices.add(new PVector(px+i*dx,py+i*dy));
     }
   }
@@ -75,8 +75,8 @@ class Path extends Interactive implements Signalable{
   void reduce() {
     this.reduce(Constants.SIGNAL_RESOLUTION);
   }
-  void reduce(int resFactor){
-    for (int i = fVertices.size()-2;i>=1;i--){
+  void reduce(int resFactor) {
+    for (int i = fVertices.size()-2;i>=1;i--) {
       if(i%resFactor==0)
         continue;
       else
@@ -104,7 +104,7 @@ class Path extends Interactive implements Signalable{
       s.draw();
   }
   
-  void drawPath(){
+  void drawPath() {
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
@@ -147,7 +147,7 @@ class Path extends Interactive implements Signalable{
     }
   }
   
-  void addSignal(int type, int delay){
+  void addSignal(int type, int delay) {
     switch (type) {
       case Constants.EPSP:
       case Constants.IPSP:
