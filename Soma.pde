@@ -107,8 +107,7 @@ class Soma extends Shape implements Controllable{
     for (int i = 0; i < numSignal; ++i) {
       for (Path p : fDendrites) {
         // send signals
-        // p.addSignal(new ActionPotential(fSpeed, fStrength, p));
-        p.addSignal(new PostsynapticPotential(fSpeed, fLength, fStrength, 0.99, p));
+        p.addSignal(new PostsynapticPotential(fSpeed, fLength, fStrength, p));
       }
     }
   }
@@ -131,7 +130,8 @@ class Soma extends Shape implements Controllable{
         break;
       case THRESHOLD: 
         fReceivedAPs = new float[0];
-        //send signals
+        for (Path p : fDendrites)
+          p.addSignal(new ActionPotential(fSpeed, fStrength, p));
         break;
       default:
         break;

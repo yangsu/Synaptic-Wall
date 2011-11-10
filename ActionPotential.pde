@@ -7,7 +7,7 @@ class ActionPotential extends Signal {
     pushStyle();
       stroke(Constants.BG_COLOR);
       fill(Constants.HIGHLIGHT_COLOR);
-      ellipse(fLoc.x, fLoc.y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
+      ellipse(fLoc.x, fLoc.y, abs(fStrength), abs(fStrength));
     popStyle();
   }
 }

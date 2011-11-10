@@ -1,17 +1,15 @@
 class PostsynapticPotential extends Signal {
   color fSignalColor;
-  float fSize;
-  PostsynapticPotential(float speed, float length, float strength, float mult, Path p) {
+  PostsynapticPotential(float speed, float length, float strength, Path p) {
     super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, strength, p);
-    fStrength *= mult;
-    fSize = Constants.SIGNAL_WIDTH*mult;
     fSignalColor = (fStrength >= 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
   }
 
-  void draw() {
+  void drawRange() {
+    if (fLength <= 1) return;
     pushStyle();
       strokeWeight(Constants.DENDRITE_WIDTH);
-      int offset = (int)(fSize/Constants.SIGNAL_RESOLUTION);
+      int offset = (int)(abs(fStrength)/Constants.SIGNAL_RESOLUTION);
       PVector begin, end;
       int t1 = round(constrain(fCurrIndex - offset - fLength, 0, fEndIndex));
       int t2 = round(constrain(fCurrIndex - offset, 0, fEndIndex));
@@ -27,11 +25,14 @@ class PostsynapticPotential extends Signal {
         end = fPath.fVertices.get(j+1);
         line(begin.x, begin.y, end.x, end.y);
       }
-
+    popStyle();
+  }
+  void draw() {
+    pushStyle();
       strokeWeight(1);
       stroke(fColor);
       fill(fSignalColor);
-      ellipse(fLoc.x, fLoc.y, fSize, fSize);
+      ellipse(fLoc.x, fLoc.y, abs(fStrength), abs(fStrength));
     popStyle();
   }
 }

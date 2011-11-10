@@ -15,12 +15,11 @@ static class Constants {
   static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
 
   static final float ZOOM_FACTOR        = 4.0;
-  static final int   SIGNAL_RESOLUTION  = 2;
+  static final int   SIGNAL_RESOLUTION  = 1;
   
   // Soma Settings
   static final float SOMA_RING_WIDTH = 8.0;
   static final float SOMA_MAX_THRESHOLD = 10.0;
-  static final float SOMA_AP_DECAY = 0.95;
   
   static final float DENDRITE_WIDTH = 3.0;
   static final float AXON_WIDTH = 3.0;
@@ -31,10 +30,10 @@ static class Constants {
   static final int    AP    = 0;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
   static final int    SIGNAL_DEFAULT_LENGTH   = 1;
-  static final float  SIGNAL_DEFAULT_STRENGTH = 2.5;
+  static final float  SIGNAL_DEFAULT_STRENGTH = 4;
   static final int    SIGNAL_MAX_SPEED        = 5;
-  static final int    SIGNAL_MAX_LENGTH       = 10;
-  static final float  SIGNAL_MAX_STRENGTH     = 5.0;
+  static final int    SIGNAL_MAX_LENGTH       = 5;
+  static final float  SIGNAL_MAX_STRENGTH     = 8.0;
   
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH = 5.0;

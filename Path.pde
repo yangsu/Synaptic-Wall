@@ -99,6 +99,8 @@ public class Path extends Interactive implements Signalable{
     
     processSignals();
     for (Signal s : fSignals)
+      s.drawRange();
+    for (Signal s : fSignals)
       s.draw();
   }
   private void drawPath() {
