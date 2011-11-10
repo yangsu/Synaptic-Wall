@@ -22,9 +22,8 @@ abstract class Shape extends Interactive implements Signalable {
     fControls = new ArrayList<Control>();
   }
   
-  void addDendrite(Path dendrite) {
-    if (dendrite != null)
-      fDendrites.add(dendrite);
+  void addPath(Path p) {
+    fDendrites.add(p);
   }
   
   float x() { return fLoc.x; }

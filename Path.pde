@@ -14,14 +14,14 @@ class Path extends Interactive implements Signalable{
     super();
   }
   
-  Path(Shape shape, float x, float y){
+  Path(Signalable begin, float x, float y, color cc){
     fConnectedPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
     fSignals = new ArrayList<Signal>();
-    fColor = shape.fColor;
+    fColor = cc;
     fCurrIndex = 0;
     fEnd = null;
-    fBegin = shape;
+    fBegin = begin;
     fVertices.add(new PVector(x,y));
   }
 
@@ -154,9 +154,10 @@ class Path extends Interactive implements Signalable{
         break;
     }
   }
-  void addSubPath(SubPath subpath) {
-    fConnectedPaths.add(subpath);
+  void addPath(Path p) {
+    fConnectedPaths.add(p);
   }
+  
   void receiveSignal(int type, float value, int position) {
     Signal s = new ActionPotential(fVertices.size(), type, 5.0, 0, fColor);
     s.setStart(position);
