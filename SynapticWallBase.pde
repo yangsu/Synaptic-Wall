@@ -53,7 +53,7 @@ void drawBackground(color cc) {
     rect(0, 0, width, height);
   popStyle();
 }
-void drawContent(){
+void drawContent() {
   shapes.draw();
   paths.draw();
   if (currShape != null)
@@ -170,22 +170,21 @@ void mouseDragged() {
     if (currPath != null) {
       if (selectedShape == null && selectedPath == null)
          currPath.add(mouseX, mouseY);
-      else if (currPath.size() > 2){
+      else if (currPath.size() > 2) {
         if (selectedShape != null) { // found ending soma
           float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
           tempPathNode2.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
                             sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
           currPath.setEnd(selectedShape);
-          selectedShape.addPath(currPath);
         }
         else {
           PVector temp = selectedPath.getCurrVertex();
           tempPathNode2.set(temp.x, temp.y, 0);
           currPath.setEnd(selectedPath);
-          selectedPath.addPath(currPath);
         }
         currPath.add(tempPathNode2.x, tempPathNode2.y);
         currPath.reduce();
+        currPath.attachToStart();
         paths.add(currPath);
         currPath = null;
         canCreatePath = false;

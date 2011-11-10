@@ -33,6 +33,9 @@ class Path extends Interactive implements Signalable{
     fEnd = obj;
   }
 
+  void attachToStart() {
+    fBegin.addPath(this);
+  }
   PVector getCurrVertex() {
     return fVertices.get(fCurrIndex);
   }
@@ -156,6 +159,7 @@ class Path extends Interactive implements Signalable{
         break;
     }
   }
+  
   void addPath(Path p) {
     fConnectedPaths.add(p);
   }
