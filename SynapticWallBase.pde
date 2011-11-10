@@ -190,8 +190,6 @@ void mouseDragged() {
         currPath = null;
         canCreatePath = false;
       }
-      else
-        currPath = null;
     }
     else if (canCreatePath) { 
       if (selectedShape != null && selectedShape.isInBounds(mouseX, mouseY)) { // Still at inside starting soma
@@ -237,6 +235,7 @@ void mouseReleased() {
   }
   if (currentMode == Constants.DENDRITE) {
     currPath = null;
+    canCreatePath = false;
   }
   clearTempPathNode();
   redraw();

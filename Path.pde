@@ -105,10 +105,12 @@ class Path extends Interactive implements Signalable{
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
-      for (int i = 1; i < fVertices.size(); ++i) {
+      for (int i = 1; i < fVertices.size() - 1; ++i) {
         temp = fVertices.get(i);
         curveVertex(temp.x,temp.y);
       }
+      temp = fVertices.get(fVertices.size() - 1);
+      vertex(temp.x, temp.y);
     endShape();
   }
   
