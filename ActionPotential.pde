@@ -3,6 +3,10 @@ class ActionPotential extends Signal {
     super(Constants.AP, speed, 1, strength, p);
   }
   
+  public Signal makeCopy(Path p) {
+    return new ActionPotential(fSpeed, fStrength, p);
+  }
+  
   void draw() {
     pushStyle();
       stroke(Constants.BG_COLOR);

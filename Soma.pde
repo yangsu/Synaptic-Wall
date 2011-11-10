@@ -112,9 +112,9 @@ class Soma extends Shape implements Controllable{
     }
   }
 
-  void onSignal(int type, float value, int position) {
-    fThresholdSlider.addChange(value);
-    fReceivedAPs = append(fReceivedAPs, value);
+  void onSignal(Signal s) {
+    fThresholdSlider.addChange(s.fStrength);
+    fReceivedAPs = append(fReceivedAPs, s.fStrength);
   }
 
   void onEvent(int controlID, float value) {
@@ -130,6 +130,7 @@ class Soma extends Shape implements Controllable{
         break;
       case THRESHOLD: 
         fReceivedAPs = new float[0];
+        //Generate AP
         for (Path p : fDendrites)
           p.addSignal(new ActionPotential(fSpeed, fStrength, p));
         break;

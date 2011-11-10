@@ -7,9 +7,9 @@ public class Path extends Interactive implements Signalable{
   private Signalable fDest;
   private Signalable fSrc;
 
-  private int fSrcPosition;
-  private int fDestPosition;
-  
+  // Find a way to not special case this
+  private PVector fSrcLoc;
+  private int fDestPos;
   public Path() {
     super();
   }
@@ -22,7 +22,14 @@ public class Path extends Interactive implements Signalable{
     fCurrIndex = 0;
     fDest = null;
     fSrc = src;
+    fSrcLoc = new PVector(x,y);
     fVertices.add(new PVector(x,y));
+  }
+  
+  public Path(Path p, float x, float y, color cc) {
+    this((Signalable)p, x, y, cc);
+    PVector temp = p.fVertices.get(p.fCurrIndex);
+    fSrcLoc = new PVector(temp.x, temp.y);
   }
 
   public int size() {
@@ -31,6 +38,11 @@ public class Path extends Interactive implements Signalable{
   
   public void setDest(Signalable obj) {
     fDest = obj;
+  }
+
+  public void setDest(Path p) {
+    fDest = p;
+    fDestPos = p.fCurrIndex;
   }
 
   public void attachToSource() {
@@ -134,14 +146,12 @@ public class Path extends Interactive implements Signalable{
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
       curr.step();
-      if (curr.reachedDestination()) {
+      if (curr.reachedDestination())
         fSignals.remove(curr);
-      }
       else {
-        Path temp;
-        for (int j = 0; j < fConnectedPaths.size(); ++j) {
-          temp = fConnectedPaths.get(j);
-          // Add signal to connected paths
+        for (Path p : fConnectedPaths) {
+          if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_RESOLUTION)
+            p.addSignal(curr.makeCopy(p));
         }
       }
     }
@@ -151,8 +161,10 @@ public class Path extends Interactive implements Signalable{
     fSignals.add(s);
   }
 
-  public void onSignal(int type, float value, int index) {
-    
+  public void onSignal(Signal s) {
+    Signal copy = s.makeCopy(this);
+    copy.setIndex(s.fPath.fDestPos);
+    this.addSignal(copy);
   }
   
   public boolean isInBounds(float x, float y) {

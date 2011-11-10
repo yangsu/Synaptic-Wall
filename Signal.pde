@@ -21,6 +21,9 @@ abstract class Signal extends Drawable {
     fColor = p.fColor;
   }
   
+  void setIndex(int i) {
+    fCurrIndex = constrain(i, 0, fEndIndex);
+  }
   int getIndex() { 
     return fCurrIndex;
   }
@@ -33,13 +36,14 @@ abstract class Signal extends Drawable {
   int step() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
-    if (fCurrIndex >= fEndIndex) {
-      fDest.onSignal(fType, fStrength, fCurrIndex);
-    }
+    if (fCurrIndex >= fEndIndex)
+      fDest.onSignal(this);
     return fCurrIndex;
   }
   
   boolean reachedDestination() {
     return fCurrIndex >= fEndIndex;
   }
+  
+  public abstract Signal makeCopy(Path p);
 }

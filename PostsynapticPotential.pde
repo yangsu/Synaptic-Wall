@@ -5,6 +5,10 @@ class PostsynapticPotential extends Signal {
     fSignalColor = (fStrength >= 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
   }
 
+  public Signal makeCopy(Path p) {
+    return new PostsynapticPotential(fSpeed, fLength, fStrength, p);
+  }
+
   void drawRange() {
     if (fLength <= 1) return;
     pushStyle();
