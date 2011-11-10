@@ -126,17 +126,16 @@ void mousePressed() {
   cursor(CROSS);
   canCreatePath = true;
   Shape selectedShape = shapes.select(mouseX, mouseY);
-  Path selectedPath = paths.select(mouseX, mouseY);
   if (currentMode == Constants.SOMA) {
-    if (selectedShape == null) {
+    if (!shapes.onMouseDown(mouseX, mouseY)) {
       currShape = new Soma(mouseX, mouseY, 30, 
                     color(random(50, 205), random(50, 205), random(50, 205)),
                     random(-Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD));
     }
   }
   else if (currentMode == Constants.DENDRITE) {
+    Path selectedPath = paths.select(mouseX, mouseY);
     if (selectedShape != null) {
-      // tempPathNodeColor = selectedShape.fColor + 0x444444;
       tempPathNodeColor = 0xFFFFFFFF;
       float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
       tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
@@ -144,7 +143,6 @@ void mousePressed() {
     }
     else if (selectedPath != null) {
       currPath = new SubPath(selectedPath, selectedPath.fCurrIndex);
-      // currPath.addFirst(selectedPath.fCurrVert.x, selectedPath.fCurrVert.y);
     }
     else
       paths.onMouseDown(mouseX, mouseY);

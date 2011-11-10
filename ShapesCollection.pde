@@ -48,7 +48,10 @@ class ShapesCollection {
   }
   
   public boolean onMouseDown(float x, float y) {
-    return select(x, y) != null;
+    boolean result = false;
+    for (int i = 0; i < fShapes.size(); ++i)
+      result = result || fShapes.get(i).onMouseDown(x, y);
+    return result;
   }
   public boolean onMouseDragged(float x, float y) {
     boolean result = false;
