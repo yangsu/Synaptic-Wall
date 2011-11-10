@@ -175,16 +175,16 @@ void mouseDragged() {
           float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
           tempPathNode2.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
                             sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
-          currPath.setEnd(selectedShape);
+          currPath.setDest(selectedShape);
         }
         else {
           PVector temp = selectedPath.getCurrVertex();
           tempPathNode2.set(temp.x, temp.y, 0);
-          currPath.setEnd(selectedPath);
+          currPath.setDest(selectedPath);
         }
         currPath.add(tempPathNode2.x, tempPathNode2.y);
         currPath.reduce();
-        currPath.attachToStart();
+        currPath.attachToSource();
         paths.add(currPath);
         currPath = null;
         canCreatePath = false;
