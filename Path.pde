@@ -89,12 +89,7 @@ public class Path extends Interactive implements Signalable{
 
   public void draw() {
     pushStyle();
-      if (fVertices.size() > 2) {
-        noFill();
-        stroke((fHover) ? Utilities.highlight(fColor) : fColor);
-        strokeWeight(Constants.SIGNAL_WIDTH);
-        drawPath();
-      }
+      drawPath();
       if (fHover) {
         drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
@@ -107,6 +102,10 @@ public class Path extends Interactive implements Signalable{
       s.draw();
   }
   private void drawPath() {
+    pushStyle();
+    noFill();
+    stroke((fHover) ? Utilities.highlight(fColor) : fColor);
+    strokeWeight(Constants.DENDRITE_WIDTH);
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
@@ -117,6 +116,7 @@ public class Path extends Interactive implements Signalable{
       temp = fVertices.get(fVertices.size() - 1);
       vertex(temp.x, temp.y);
     endShape();
+    popStyle();
   }
   private void drawJunction(float x, float y) {
     pushStyle();

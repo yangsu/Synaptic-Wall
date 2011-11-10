@@ -14,7 +14,8 @@ abstract class Signal extends Drawable {
     //fDest is private ?
     fDest = p.fDest;
     fCurrIndex = 0;
-    fLoc = p.fVertices.get(fCurrIndex);
+    PVector temp =  p.fVertices.get(fCurrIndex);
+    fLoc = new PVector(temp.x, temp.y);
     fEndIndex = p.fVertices.size() - 1;
     // fCurrIndex = -round(delay / (1000.0/frameRate));
     fColor = p.fColor;
@@ -29,7 +30,7 @@ abstract class Signal extends Drawable {
   }
   
   int step() {
-    fCurrIndex = constrain(fCurrIndex + 1, 0, fEndIndex);
+    fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
     if (fCurrIndex >= fEndIndex) {
       fDest.onSignal(fType, fStrength, fCurrIndex);

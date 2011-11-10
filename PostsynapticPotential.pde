@@ -7,9 +7,10 @@ class PostsynapticPotential extends Signal {
   }
 
   void draw() {
-    pushStyle(); 
+    pushStyle();
       stroke(fColor);
-      strokeWeight(Constants.SIGNAL_WIDTH);
+      fill((fStrength >= 0) ? Constants.EX_COLOR : Constants.IN_COLOR);
+      ellipse(fLoc.x, fLoc.y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
     popStyle();
   }
   
