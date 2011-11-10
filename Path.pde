@@ -5,7 +5,7 @@ class Path extends Interactive implements Signalable{
 
   int fCurrIndex;
   Signalable fEnd;
-  Signalable fStart;
+  Signalable fBegin;
   
   int fBeginPosition;
   int fEndPosition;
@@ -13,6 +13,7 @@ class Path extends Interactive implements Signalable{
   Path() {
     super();
   }
+  
   Path(Shape shape, float x, float y){
     fConnectedPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
@@ -20,7 +21,7 @@ class Path extends Interactive implements Signalable{
     fColor = shape.fColor;
     fCurrIndex = 0;
     fEnd = null;
-    fStart = shape;
+    fBegin = shape;
     fVertices.add(new PVector(x,y));
   }
 
@@ -32,6 +33,10 @@ class Path extends Interactive implements Signalable{
     fEnd = obj;
   }
 
+  PVector getCurrVertex() {
+    return fVertices.get(fCurrIndex);
+  }
+  
   void add(float x, float y){
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
@@ -64,6 +69,9 @@ class Path extends Interactive implements Signalable{
       }
   }
   
+  void reduce() {
+    this.reduce(Constants.SIGNAL_RESOLUTION);
+  }
   void reduce(int resFactor){
     for (int i = fVertices.size()-2;i>=1;i--){
       if(i%resFactor==0)
@@ -77,18 +85,20 @@ class Path extends Interactive implements Signalable{
     pushStyle();
       if (fVertices.size() > 2) {
         noFill();
-        stroke(fColor);
-        strokeWeight(Constants.SIGNAL_WIDTH + ((fHover) ? 1 : 0));
+        stroke((fHover) ? Utilities.highlight(fColor) : fColor);
+        strokeWeight(Constants.SIGNAL_WIDTH);
         drawPath();
       }
       if (fHover) {
         drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
+      drawJunction(fVertices.get(0));
+      drawJunction(fVertices.get(fVertices.size()-1));
     popStyle();
+    
     processSignals();
-    for (int i = 0; i < fSignals.size(); ++i) {
-      fSignals.get(i).draw();
-    }
+    for (Signal s : fSignals)
+      s.draw();
   }
   
   void drawPath(){

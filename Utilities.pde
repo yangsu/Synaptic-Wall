@@ -16,6 +16,10 @@ static class Utilities {
   static color convertColor(int r, int g, int b, int a) {
     return convertA(a) & convertR(r) & convertG(g) << 8 & convertB(b);
   }
+  
+  static color highlight(color c) {
+    return c + 0x222222;
+  }
   static float getAngleNorm(float x1, float y1, float x2, float y2) {
     float temp = atan2(y2-y1, x2-x1);
     return (temp < 0) ? temp + TWO_PI : temp;

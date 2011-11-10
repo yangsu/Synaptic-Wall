@@ -129,7 +129,7 @@ void mousePressed() {
   Path selectedPath = paths.select(mouseX, mouseY);
   if (currentMode == Constants.SOMA) {
     if (selectedShape == null) {
-      currShape = new Soma(mouseX, mouseY, random(20, 30), 
+      currShape = new Soma(mouseX, mouseY, 30, 
                     color(random(50, 205), random(50, 205), random(50, 205)),
                     random(-Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD));
     }
@@ -173,7 +173,7 @@ void mouseDragged() {
                           sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
         currPath.add(tempPathNode2.x, tempPathNode2.y);
         currPath.setEnd(selectedShape);
-        currPath.reduce(Constants.SIGNAL_RESOLUTION); 
+        currPath.reduce(); 
         selectedShape.addDendrite(currPath);
         paths.add(currPath);
         currPath = null;
