@@ -6,7 +6,9 @@ int currentMode;
 Soma currShape;
 Path currPath;
 PVector tempPathNode;
+PVector tempPathNode2;
 color tempPathNodeColor;
+boolean canCreatePath;
 
 float scale;
 PImage temp;
@@ -30,14 +32,18 @@ void setup() {
   currShape = null;
   currPath = null;
   tempPathNode = new PVector(-999, -999);
+  tempPathNode2 = new PVector(-999, -999);
+  canCreatePath = true;
 }
 void clearTempPathNode() {
   tempPathNode.set(-999, -999, 0);
+  tempPathNode2.set(-999, -999, 0);
 }
 void drawTempPathNode() {
   pushStyle();
     fill(tempPathNodeColor);
     ellipse(tempPathNode.x, tempPathNode.y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
+    ellipse(tempPathNode2.x, tempPathNode2.y, Constants.SIGNAL_WIDTH, Constants.SIGNAL_WIDTH);
   popStyle();
 }
 void drawBackground(color cc) {
@@ -48,8 +54,8 @@ void drawBackground(color cc) {
   popStyle();
 }
 void drawContent(){
-  paths.draw();
   shapes.draw();
+  paths.draw();
   if (currShape != null)
     currShape.draw();
   if (currPath != null)
@@ -118,6 +124,7 @@ void clear() {
 }
 void mousePressed() {
   cursor(CROSS);
+  canCreatePath = true;
   Shape selectedShape = shapes.select(mouseX, mouseY);
   Path selectedPath = paths.select(mouseX, mouseY);
   if (currentMode == Constants.SOMA) {
@@ -129,7 +136,8 @@ void mousePressed() {
   }
   else if (currentMode == Constants.DENDRITE) {
     if (selectedShape != null) {
-      tempPathNodeColor = selectedShape.fColor + 0x444444;
+      // tempPathNodeColor = selectedShape.fColor + 0x444444;
+      tempPathNodeColor = 0xFFFFFFFF;
       float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
       tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
                        sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
@@ -157,18 +165,38 @@ void mouseDragged() {
   }
   else if (currentMode == Constants.DENDRITE) {
     Shape selectedShape = shapes.select(mouseX, mouseY);
-    if (currPath != null)
-      currPath.add(mouseX, mouseY);
-    else if (selectedShape != null && selectedShape.isInBounds(mouseX, mouseY)) {
+    
+    if (currPath != null) {
+      if (selectedShape != null) { // found ending soma
         float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
-        tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
-                         sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
+        tempPathNode2.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
+                          sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
+        currPath.add(tempPathNode2.x, tempPathNode2.y);
+        currPath.setEnd(selectedShape);
+        currPath.reduce(Constants.SIGNAL_RESOLUTION); 
+        selectedShape.addDendrite(currPath);
+        paths.add(currPath);
+        currPath = null;
+        canCreatePath = false;
+      }
+      else { // Creating Path
+        currPath.add(mouseX, mouseY);
+      }
+    }
+    else if (canCreatePath) { 
+      if (selectedShape != null && selectedShape.isInBounds(mouseX, mouseY)) { // Still at inside starting soma
+          float angle = Utilities.getAngleNorm(selectedShape.x(), selectedShape.y(), mouseX, mouseY);
+          tempPathNode.set(cos(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.x(), 
+                           sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
+      }
+      else { // Left starting soma for the first time and a path is created
+        currPath = new Path(shapes.select(tempPathNode.x, tempPathNode.y));
+        currPath.addFirst(tempPathNode.x, tempPathNode.y);
+      }
     }
     else {
-      currPath = new Path(shapes.select(tempPathNode.x, tempPathNode.y));
-      currPath.addFirst(tempPathNode.x, tempPathNode.y);
+      paths.onMouseDragged(mouseX, mouseY);
     }
-    paths.onMouseDragged(mouseX, mouseY);
   }
   redraw();
 }
@@ -198,39 +226,7 @@ void mouseReleased() {
     }
   }
   if (currentMode == Constants.DENDRITE) {
-    //TODO:Need refactoring
-    if (currPath != null && currPath.size() > 5) {
-      Shape selectedShape = shapes.getSelected();
-      Shape endShape = shapes.select(mouseX, mouseY);
-      Path selectedPath = paths.getSelected();      
-      Path endPath = paths.select(mouseX, mouseY);
-      if (selectedShape != null && endShape != null) {
-        currPath.setEnd(endShape);
-        currPath.add(endShape.x(), endShape.y());
-        currPath.reduce(Constants.SIGNAL_RESOLUTION); 
-        selectedShape.addDendrite(currPath);
-        paths.add(currPath);
-      }
-      else if (selectedPath != null && endShape != null) {
-        currPath.setEnd(endShape);
-        currPath.add(endShape.x(), endShape.y());
-        selectedPath.addSubPath((SubPath)currPath);
-        currPath.reduce(Constants.SIGNAL_RESOLUTION);
-        paths.add(currPath);
-      }
-      else if (selectedPath != null && endPath != null) {
-        currPath.setEnd(endPath);
-        currPath.add(endPath.fCurrVert.x, endPath.fCurrVert.y);
-        selectedPath.addSubPath((SubPath)currPath);
-        ((SubPath)currPath).setEndPosition(endPath.fCurrIndex);
-        currPath.reduce(Constants.SIGNAL_RESOLUTION);
-        paths.add(currPath);
-      }
-      else {}
-      currPath = null;
-    }
-    else {
-    }
+
   }
   clearTempPathNode();
   redraw();

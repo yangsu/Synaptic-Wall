@@ -147,18 +147,7 @@ class Soma extends Shape implements Controllable{
   }
   
   boolean isInBounds(float x, float y) {
-    float dist = PVector.dist(fLoc, new PVector(x, y));
-    if (dist <= fSize) {
-      fControlActive = false;
-      return true;
-    }
-    else if (dist <= fSize + Constants.SLIDER_BAR_WIDTH && dist >= fSize) {
-      fControlActive = fSelected;
-      return true;
-    }
-    else {
-      return false;
-    }
+    return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
   
   public boolean onMouseDown(float x, float y) {
