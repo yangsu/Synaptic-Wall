@@ -1,13 +1,13 @@
 class Soma extends Shape implements Controllable{
-  float[] fReceivedAPs;
-  
-  boolean fControlActive;
-  
-  ThresholdSlider fThresholdSlider;
+  private float[] fReceivedAPs;
 
-  private static final int OVER_THRESHOLD = 1;
+  private boolean fControlActive;
+
+  private ThresholdSlider fThresholdSlider;
+  private float fSpeed, fLength, fStrength;
+  // Control IDS
   private static final int SPEED = 1;
-  private static final int INTERVAL = 2;
+  private static final int LENGTH = 2;
   private static final int STRENGTH = 3;
   private static final int THRESHOLD = 4;
   
@@ -18,40 +18,77 @@ class Soma extends Shape implements Controllable{
     super(x, y, size, cc);
     fReceivedAPs = new float[0];
     fControlActive = false;
+    fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
+    fLength = Constants.SIGNAL_DEFAULT_LENGTH;
+    fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
     
-    float interval = TWO_PI / 3;
-    float temp = interval;
-    float controlSize = fSize + 3*Constants.SLIDER_BAR_WIDTH;
+    float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
     
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 0, temp, 0, 0, 10, SPEED, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, INTERVAL, this));
-    temp += interval;
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, temp, temp + interval, 0, 0, 10, STRENGTH, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
+                                     0, TWO_PI/3,
+                                     fSpeed, 0, Constants.SIGNAL_MAX_SPEED,
+                                     SPEED, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 
+                                     TWO_PI/3, 2 * TWO_PI/3, 
+                                     fLength, 0, Constants.SIGNAL_MAX_LENGTH, 
+                                     LENGTH, this));
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 
+                                     2 * TWO_PI/3, TWO_PI, 
+                                     fStrength, -Constants.SIGNAL_MAX_STRENGTH, Constants.SIGNAL_MAX_STRENGTH, 
+                                     STRENGTH, this));
     
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH, 
-      0, negativet, positivet, THRESHOLD, this);
+                                            0, negativet, positivet, 
+                                            THRESHOLD, this);
     fControls.add(fThresholdSlider);
   }
-
-  void draw() {    
+  
+  private void drawSoma() {
+    if (fSelected)
+      stroke(255);
+    else
+      noStroke();
+    fill(fColor);
+    ellipse(fLoc.x, fLoc.y, fSize, fSize);
+    fill(blendColor(fColor, color(255, 100), ADD));
+    ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
+  }
+  
+  private void drawControlDisplays() {
     pushStyle();
-      for (Control c : fControls) {
-        c.draw();
-      }
     
-      if (fSelected) {
-        stroke(255);
-        strokeWeight(1);
-      }
-      else
-        noStroke();
-    
-      //Draw Soma
-      fill(fColor);
-      ellipse(fLoc.x, fLoc.y, fSize, fSize);
-      fill(blendColor(fColor, color(255, 100), ADD));
-      ellipse(fLoc.x, fLoc.y, fSize * 0.75, fSize * 0.75);
+      //Speed
       
+      
+      color cc = (fStrength > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
+      //Length
+      noFill();
+      stroke(cc);
+      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 8;
+      float sl = (fSize - 2*l)/2;
+      beginShape();
+      vertex(fLoc.x - l - sl, fLoc.y + 7);
+      vertex(fLoc.x - l, fLoc.y + 7);
+      vertex(fLoc.x - l, fLoc.y);
+      vertex(fLoc.x + l, fLoc.y);
+      vertex(fLoc.x + l, fLoc.y + 7);
+      vertex(fLoc.x + l + sl, fLoc.y + 7);
+      endShape();
+      
+      //Strength
+      noStroke();
+      color alpha = (int)(abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH * 255) << 24 | 0xFFFFFF;
+      fill(cc & alpha);
+      ellipse(fLoc.x, fLoc.y + 10, 3, 3);
+    popStyle();
+  }
+  
+  public void draw() {    
+    pushStyle();
+      for (Control c : fControls)
+        c.draw();
+      this.drawSoma();
+      this.drawControlDisplays();
     popStyle();
   }
 
@@ -70,10 +107,13 @@ class Soma extends Shape implements Controllable{
   void onEvent(int controlID, float value) {
     switch (controlID) {
       case SPEED:
+        fSpeed = value;
         break;
-      case INTERVAL:
+      case LENGTH:
+        fLength = value;
         break;
       case STRENGTH:
+        fStrength = value;
         break;
       case THRESHOLD: 
         fReceivedAPs = new float[0];

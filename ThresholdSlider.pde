@@ -49,7 +49,7 @@ class ThresholdSlider extends CircularSlider {
       this.setValue(temp - fMin);
     
     temp = signal + this.getValue();
-    if ((temp >= fMax || temp <= fMin) && temp != 0) {
+    if ((temp >= fMax || temp <= fMin) && temp != 0 && fTarget != null) {
         fTarget.onEvent(this.fID, temp);
     }
     this.setValue(signal + this.getValue());
