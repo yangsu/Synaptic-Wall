@@ -134,9 +134,9 @@ class Path extends Interactive implements Signalable{
         fSignals.remove(curr);
       }
       else {
-        SubPath temp;
+        Path temp;
         for (int j = 0; j < fConnectedPaths.size(); ++j) {
-          temp = ((SubPath)fConnectedPaths.get(j));
+          temp = fConnectedPaths.get(j);
           if (pos == temp.fBeginPosition)
             temp.addSignal(Constants.AP, 0);
         }
