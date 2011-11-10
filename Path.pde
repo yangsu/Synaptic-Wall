@@ -131,40 +131,26 @@ public class Path extends Interactive implements Signalable{
   private void processSignals() {
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
-      int pos = curr.step();
-      curr.setBeginAndEnd(fVertices.get(pos), fVertices.get(pos + 1));
-      if (curr.reachedEnd()) {
-        fDest.receiveSignal(curr.getType(), curr.getValue(), fDestPosition);
+      curr.step();
+      if (curr.reachedDestination()) {
         fSignals.remove(curr);
       }
       else {
         Path temp;
         for (int j = 0; j < fConnectedPaths.size(); ++j) {
           temp = fConnectedPaths.get(j);
-          if (pos == temp.fSrcPosition)
-            temp.addSignal(Constants.AP, 0);
+          // Add signal to connected paths
         }
       }
     }
   }
   
-  public void addSignal(int type, int delay) {
-    switch (type) {
-      case Constants.EPSP:
-      case Constants.IPSP:
-        // fSignals.add(new PostsynapticPotential(fVertices.size(), type, delay, fColor, 5.0, 0.99));
-        // break;
-      case Constants.AP:
-      default:
-        fSignals.add(new ActionPotential(fVertices.size(), type, 5.0, delay, fColor));
-        break;
-    }
+  public void addSignal(Signal s) {
+    fSignals.add(s);
   }
 
-  public void receiveSignal(int type, float value, int position) {
-    Signal s = new ActionPotential(fVertices.size(), type, 5.0, 0, fColor);
-    s.setStart(position);
-    fSignals.add(s);
+  public void onSignal(int type, float value, int index) {
+    
   }
   
   public boolean isInBounds(float x, float y) {

@@ -1,24 +1,43 @@
 abstract class Signal extends Drawable {
-  int fType, fCurrIndex, fEndIndex;
-  PVector fBeginLoc, fEndLoc;
-  float fStrength;
-  
-  Signal (int endIndex, int type, float strength, int delay, color cc) {
-    fEndIndex = endIndex;
+  protected int fType, fCurrIndex, fEndIndex;
+  protected float fSpeed, fLength, fStrength;
+  protected Path fPath;
+  protected Signalable fDest;
+
+  Signal() {}
+  Signal (int type, float speed, float length, float strength, Path p) {
     fType = type;
+    fSpeed = speed;
+    fLength = length;
     fStrength = strength;
-    fCurrIndex = -round(delay / (1000.0/frameRate));
-    fColor = cc;
-    fBeginLoc = fEndLoc = new PVector(0,0);
+    fPath = p;
+    //fDest is private ?
+    fDest = p.fDest;
+    fCurrIndex = 0;
+    fLoc = p.fVertices.get(fCurrIndex);
+    fEndIndex = p.fVertices.size() - 1;
+    // fCurrIndex = -round(delay / (1000.0/frameRate));
+    fColor = p.fColor;
   }
-  void setStart(int index) { fCurrIndex = index; }
-  int getType() { return fType; }
-  float getValue() { return fStrength; }
-  int getIndex() { return fCurrIndex; }
-  int step() { return constrain(fCurrIndex++, 0, fEndIndex - 1); }
-  boolean reachedEnd() { return fCurrIndex == fEndIndex - 1; }
-  void setBeginAndEnd(PVector begin, PVector end) {
-    fBeginLoc = begin;
-    fEndLoc = end;
+  
+  int getIndex() { 
+    return fCurrIndex;
+  }
+  
+  float getValue() {
+    return fStrength;
+  }
+  
+  int step() {
+    fCurrIndex = constrain(fCurrIndex + 1, 0, fEndIndex);
+    fLoc.set(fPath.fVertices.get(fCurrIndex));
+    if (fCurrIndex >= fEndIndex) {
+      fDest.onSignal(fType, fStrength, fCurrIndex);
+    }
+    return fCurrIndex;
+  }
+  
+  boolean reachedDestination() {
+    return fCurrIndex >= fEndIndex;
   }
 }

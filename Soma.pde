@@ -105,12 +105,14 @@ class Soma extends Shape implements Controllable{
 
   void fireSignal(int numSignal, int delayms, int type) {
     for (int i = 0; i < numSignal; ++i) {
-      for (int j = 0; j < fDendrites.size(); ++j)
-        fDendrites.get(j).addSignal((int)random(3) - 1, i * delayms);
+      for (Path p : fDendrites) {
+        // send signals
+        p.addSignal(new ActionPotential(fSpeed, fLength, fStrength, p));
+      }
     }
   }
 
-  void receiveSignal(int type, float value, int position) {
+  void onSignal(int type, float value, int position) {
     fThresholdSlider.addChange(value);
     fReceivedAPs = append(fReceivedAPs, value);
   }
@@ -128,8 +130,7 @@ class Soma extends Shape implements Controllable{
         break;
       case THRESHOLD: 
         fReceivedAPs = new float[0];
-        for (int j = 0; j < fDendrites.size(); ++j)
-          fDendrites.get(j).addSignal(Constants.EPSP, 0);
+        //send signals
         break;
       default:
         break;

@@ -1,4 +1,4 @@
 interface Signalable {
   void addPath(Path p);
-  void receiveSignal(int type, float value, int position);
+  void onSignal(int type, float value, int index);
 }
