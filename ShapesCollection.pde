@@ -17,7 +17,7 @@ class ShapesCollection {
     fSelected = null;
     for (int i = 0; i < fShapes.size(); ++i) {
       Shape obj = fShapes.get(i);
-      if (obj.onMouseDown(x, y)) {
+      if (obj.select(x, y)) {
         fSelected = obj;
         //Move shape to the end of the list
         fShapes.remove(fSelected);
