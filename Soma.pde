@@ -44,12 +44,11 @@ class Soma extends Shape implements Controllable{
   }
   
   private void drawSoma() {
+    fill(fColor);
     if (fSelected)
       stroke(255);
-    else
-      noStroke();
-    fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
+    noStroke();
     fill(blendColor(fColor, color(255, 100), ADD));
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
   }
