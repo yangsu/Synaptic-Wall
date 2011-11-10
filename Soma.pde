@@ -24,11 +24,11 @@ class Soma extends Shape implements Controllable{
     
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
     
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
+    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
                                      0, TWO_PI/3,
                                      fSpeed, 0, Constants.SIGNAL_MAX_SPEED,
                                      SPEED, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 
+    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize, 
                                      TWO_PI/3, 2 * TWO_PI/3, 
                                      fLength, 0, Constants.SIGNAL_MAX_LENGTH, 
                                      LENGTH, this));
