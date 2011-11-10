@@ -104,12 +104,8 @@ class Soma extends Shape implements Controllable{
   }
 
   void fireSignal(int numSignal, int delayms, int type) {
-    for (int i = 0; i < numSignal; ++i) {
-      for (Path p : fDendrites) {
-        // send signals
+      for (Path p : fDendrites)
         p.addSignal(new PostsynapticPotential(fSpeed, fLength, fStrength, p));
-      }
-    }
   }
 
   void onSignal(Signal s) {

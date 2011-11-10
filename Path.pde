@@ -149,6 +149,20 @@ public class Path extends Interactive implements Signalable{
       if (curr.reachedDestination())
         fSignals.remove(curr);
       else {
+        for (int j = i; j >= 0; --j) { //Combine adjacent signals
+          Signal s = fSignals.get(j);
+          if (s != curr && PVector.dist(s.fLoc, curr.fLoc) <= abs(s.fStrength) &&
+              s.fType != 0 && curr.fType != 0) {
+            PostsynapticPotential p = new PostsynapticPotential((s.fSpeed + curr.fSpeed)/2,
+                                                                (s.fLength + curr.fLength)/2,
+                                                                s.fStrength + curr.fStrength, this);
+            p.setIndex(s.fCurrIndex);
+            this.addSignal(p);
+            fSignals.remove(curr);
+            fSignals.remove(s);
+            break;
+          }
+        }
         for (Path p : fConnectedPaths) {
           if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_RESOLUTION)
             p.addSignal(curr.makeCopy(p));
