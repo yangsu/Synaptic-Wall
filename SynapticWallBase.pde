@@ -127,7 +127,7 @@ void mousePressed() {
   if (currentMode == Constants.SOMA) {
     if (!shapes.onMouseDown(mouseX, mouseY)) {
       currShape = new Soma(mouseX, mouseY, 30, 
-                    color(random(50, 205), random(50, 205), random(50, 205)),
+                    (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR,
                     random(-Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD));
     }
   }
