@@ -1,4 +1,4 @@
-public class Initiator extends Shape implements Controllable {
+public class Initiator extends Cell {
   private static final int RHYTHMICITY = 1;
   private static final int BURSTINESS = 2;
   private static final int FREQUENCY = 3;
@@ -120,5 +120,4 @@ public class Initiator extends Shape implements Controllable {
   void onSignal(Signal s) {
     println("Something's wrong! Initiator is getting a signal!");
   }
-
 }

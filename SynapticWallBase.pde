@@ -63,7 +63,7 @@ void drawContent() {
     currShape.draw();
   if (currPath != null)
     currPath.draw();
-  if (initiator != null)
+  if (initiator != null && initiator.fMovable)
     initiator.draw();
 }
 void drawMagnified() {
@@ -238,7 +238,8 @@ void mouseMoved() {
 
 void mouseReleased() {
   cursor(ARROW);
-  if (currentMode == Constants.INITIATOR) {
+  if (currentMode == Constants.INITIATOR && initiator.fMovable) {
+    shapes.add(initiator);
     initiator.setMovable(false);
   }
   if (currentMode == Constants.SOMA) {

@@ -1,7 +1,5 @@
-class Soma extends Shape implements Controllable {
+class Soma extends Cell {
   private float[] fReceivedAPs;
-
-  private boolean fControlActive;
 
   private ThresholdSlider fThresholdSlider;
   private float fSpeed, fLength, fStrength;
@@ -17,7 +15,6 @@ class Soma extends Shape implements Controllable {
   Soma(float x, float y, float size, color cc, float positivet, float negativet) {
     super(x, y, size, cc);
     fReceivedAPs = new float[0];
-    fControlActive = false;
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
     fLength = Constants.SIGNAL_DEFAULT_LENGTH;
     fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
@@ -133,53 +130,5 @@ class Soma extends Shape implements Controllable {
       default:
         break;
     }
-  }
-  
-  boolean isInBounds(float x, float y) {
-    return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
-  }
-  
-  public boolean onMouseDown(float x, float y) {
-    fControlActive = false;
-    for (Control c : fControls) {
-      fControlActive = c.onMouseDown(x, y);
-      if (fControlActive) {
-        fSelected = true;
-        return true;
-      }
-    }
-    return super.onMouseDown(x,y);
-  }
-  
-  public boolean onMouseDragged(float x, float y) {
-    if (fSelected) {
-      if (fControlActive) {
-        for (Control c : fControls)
-          if (c.onMouseDragged(x,y))
-            return true;
-        return false;
-      }
-      else {
-        this.translate(new PVector(x - this.fLoc.x, y - this.fLoc.y));
-        return true;
-      }
-    }
-    else
-      return super.onMouseDragged(x,y);
-  }
-  
-  public boolean onMouseMoved(float x, float y) {
-    for (Control c : fControls)
-      if (c.onMouseMoved(x,y))
-        return true;
-    return super.onMouseMoved(x,y);
-  }
-  
-  public boolean onMouseUp(float x, float y) {
-    fControlActive = false;
-    for (Control c : fControls)
-      if (c.onMouseUp(x,y))
-        return true;
-    return super.onMouseUp(x,y);
   }
 }
