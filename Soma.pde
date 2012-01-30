@@ -1,4 +1,4 @@
-class Soma extends Shape implements Controllable{
+class Soma extends Shape implements Controllable {
   private float[] fReceivedAPs;
 
   private boolean fControlActive;

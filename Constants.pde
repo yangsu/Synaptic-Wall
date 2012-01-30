@@ -42,7 +42,8 @@ static class Constants {
   // Initiator Settings
   static final float MAX_RHYTHMICITY = 1.0;
   static final int   MAX_BURSTINESS  = 5; // per firing
-  static final float MAX_FREQUENCY   = 120; // per minute
+  static final float MAX_FREQUENCY   = 5.0; // Hz
+  static final int   BURST_DELAY     = 5;
 
   // Slider Settings
   static final color SLIDER_BG_COLOR        = 0x64FFFFFF;

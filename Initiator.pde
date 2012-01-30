@@ -5,12 +5,19 @@ public class Initiator extends Shape implements Controllable {
 
   private float fRhythmicity, fFreq;
   private int fBurstiness;
+  private int fBirthTime;
+
+  private int[] fFiringQueue;
+  private boolean fPropChanged;
+  private int fStep, fStop;
 
   public Initiator(float x, float y, float size, color cc, float rhythmicity, int burstiness, float frequency) {
     super(x, y, size, cc);
     fRhythmicity = rhythmicity;
     fBurstiness = burstiness;
     fFreq = frequency;
+
+    fFiringQueue = new int[0]; // Using append() and subset() is probably inefficient
 
     // Add controls
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
@@ -27,6 +34,11 @@ public class Initiator extends Shape implements Controllable {
                                      2 * TWO_PI/3, TWO_PI, 
                                      fFreq, 0, Constants.MAX_FREQUENCY, 
                                      FREQUENCY, this));
+    fPropChanged = false;
+    fStep = 30;
+    fStop = 30; //Visuals lasts 1 second
+
+    fBirthTime = frameCount;
   }
 
   private void drawInitiator() {
@@ -39,11 +51,43 @@ public class Initiator extends Shape implements Controllable {
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
   }
 
+  private void fireSignal() {
+    for (Path p : fDendrites)
+        p.addSignal(new PostsynapticPotential(Constants.SIGNAL_DEFAULT_SPEED, 
+                                              Constants.SIGNAL_DEFAULT_LENGTH, 
+                                              Constants.SIGNAL_DEFAULT_STRENGTH, 
+                                              p));
+  }
+  private void processFiringPattern() {
+    int interval = (int)(30/fFreq);
+    if ((frameCount - fBirthTime)%interval == 0 && random(1.0) <= fRhythmicity) {
+      //fire
+      this.fireSignal();
+      //add burst
+      for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
+        fFiringQueue = append(fFiringQueue, frameCount + i * Constants.BURST_DELAY);
+    }
+    if (fFiringQueue.length > 0 && fFiringQueue[0] <= frameCount) {
+      //fire
+      this.fireSignal();
+      fFiringQueue = subset(fFiringQueue, 1);
+    }
+  }
+
+  private void visualizeChange() {
+    if (fStep < fStop) {
+      // Visuals
+      fStep += 1;
+    }
+  }
+
   public void draw() {    
     pushStyle();
       for (Control c : fControls)
         c.draw();
       this.drawInitiator();
+      this.processFiringPattern();
+      this.visualizeChange();
     popStyle();
   }
 
@@ -65,6 +109,8 @@ public class Initiator extends Shape implements Controllable {
       default:
         break;
     }
+    fPropChanged = true;
+    fStep = 0;
   }
 
   void onSignal(Signal s) {
