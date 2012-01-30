@@ -38,7 +38,12 @@ static class Constants {
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 5.0;
   static final float SIGNAL_MULTIPLIER     = 2.0;
-  
+
+  // Initiator Settings
+  static final float MAX_RHYTHMICITY = 1.0;
+  static final int   MAX_BURSTINESS  = 5; // per firing
+  static final float MAX_FREQUENCY   = 120; // per minute
+
   // Slider Settings
   static final color SLIDER_BG_COLOR        = 0x64FFFFFF;
   static final color SLIDER_BAR_COLOR       = 0xFFCCCCCC;
