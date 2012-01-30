@@ -155,7 +155,7 @@ public class Path extends Interactive implements Signalable{
               s.fType != 0 && curr.fType != 0) {
             PostsynapticPotential p = new PostsynapticPotential((s.fSpeed + curr.fSpeed)/2,
                                                                 (s.fLength + curr.fLength)/2,
-                                                                s.fStrength + curr.fStrength, this);
+                                                                (s.fStrength + curr.fStrength)/1.2, this);
             p.setIndex(s.fCurrIndex);
             this.addSignal(p);
             fSignals.remove(curr);

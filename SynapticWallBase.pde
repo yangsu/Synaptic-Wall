@@ -26,7 +26,7 @@ void setup() {
   Button a = new Button();
   //initialization
   magnify = false;
-  currentMode = Constants.SOMA;
+  currentMode = Constants.INITIATOR;
   
   shapes = new ShapesCollection();
   paths = new PathsCollection();
