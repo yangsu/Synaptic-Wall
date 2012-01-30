@@ -3,6 +3,7 @@ PathsCollection paths;
 boolean magnify;
 
 int currentMode;
+Initiator initiator;
 Soma currShape;
 Path currPath;
 PVector tempPathNode;
@@ -34,6 +35,8 @@ void setup() {
   tempPathNode = new PVector(-999, -999);
   tempPathNode2 = new PVector(-999, -999);
   canCreatePath = true;
+
+  initiator = null;
 }
 void clearTempPathNode() {
   tempPathNode.set(-999, -999, 0);
@@ -60,6 +63,8 @@ void drawContent() {
     currShape.draw();
   if (currPath != null)
     currPath.draw();
+  if (initiator != null)
+    initiator.draw();
 }
 void drawMagnified() {
   pushStyle();
@@ -91,17 +96,22 @@ void drawMagnified() {
 void drawText() {
   pushStyle();
     fill(255);
+    String s = "";
     switch (currentMode) {
+      case Constants.INITIATOR:
+        s = "INITIATOR";
+        break;
       case Constants.SOMA:
-        text("Soma", 0, 20);
+        s = "Soma";
         break;
       case Constants.DENDRITE:
-        text("Dendrite", 0, 20);
+        s = "Dendrite";
         break;
       case Constants.INTERACTION:
-        text("Interaction", 0, 20);
+        s = "Interaction";
         break;
     }
+    text(s, 0, 20);
   popStyle();
 }
 void draw() {
@@ -120,11 +130,16 @@ void clear() {
   paths = new PathsCollection();
   currShape = null;
   currPath = null;
+  initiator = null;
 }
 void mousePressed() {
   cursor(CROSS);
   Shape selectedShape = shapes.select(mouseX, mouseY);
-  if (currentMode == Constants.SOMA) {
+  if (currentMode == Constants.INITIATOR && initiator == null) {
+    initiator = new Initiator(mouseX, mouseY, 40, 
+                              (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR);
+  }
+  else if (currentMode == Constants.SOMA) {
     if (!shapes.onMouseDown(mouseX, mouseY)) {
       currShape = new Soma(mouseX, mouseY, 30, 
                     (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR,
@@ -157,7 +172,10 @@ void mousePressed() {
   }
   redraw();
 }
-void mouseDragged() {  
+void mouseDragged() {
+  if (currentMode == Constants.INITIATOR && initiator != null) {
+    initiator.translate(new PVector(mouseX - initiator.x(), mouseY - initiator.y()));
+  } 
   if (currentMode == Constants.SOMA) {
     if (currShape != null)
       currShape.translate(new PVector(mouseX - currShape.x(), mouseY - currShape.y()));
@@ -220,7 +238,9 @@ void mouseMoved() {
 
 void mouseReleased() {
   cursor(ARROW);
-  
+  if (currentMode == Constants.INITIATOR) {
+    initiator.setMovable(false);
+  }
   if (currentMode == Constants.SOMA) {
     if (currShape != null) {
       shapes.add(currShape);
@@ -242,12 +262,15 @@ void mouseReleased() {
 void keyPressed() {
   switch (key) {
     case '1': 
-      currentMode = Constants.SOMA;
+      currentMode = Constants.INITIATOR;
       break;
     case '2': 
-      currentMode = Constants.DENDRITE;
+      currentMode = Constants.SOMA;
       break;
     case '3': 
+      currentMode = Constants.DENDRITE;
+      break;
+    case '4':
       currentMode = Constants.INTERACTION;
       break;
     case 'm': 

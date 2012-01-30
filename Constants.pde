@@ -1,9 +1,10 @@
 static class Constants {
   // Modes
-  static final int SOMA        = 0;
-  static final int SYNAPSE     = 1;
-  static final int DENDRITE    = 2;
-  static final int INTERACTION = 3;
+  static final int INITIATOR   = 0;
+  static final int SOMA        = 1;
+  static final int SYNAPSE     = 2;
+  static final int DENDRITE    = 3;
+  static final int INTERACTION = 4;
 
   // Global Settings
   static final color BG_COLOR           = 0xFF000000;
@@ -40,6 +41,9 @@ static class Constants {
   static final float SIGNAL_MULTIPLIER     = 2.0;
 
   // Initiator Settings
+  static final float DEFAULT_RHYTHMICITY = 1.0;
+  static final int   DEFAULT_BURSTINESS  = 1; // per firing
+  static final float DEFAULT_FREQUENCY   = 0.5; // Hz
   static final float MAX_RHYTHMICITY = 1.0;
   static final int   MAX_BURSTINESS  = 5; // per firing
   static final float MAX_FREQUENCY   = 5.0; // Hz

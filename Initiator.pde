@@ -11,6 +11,10 @@ public class Initiator extends Shape implements Controllable {
   private boolean fPropChanged;
   private int fStep, fStop;
 
+  public Initiator(float x, float y, float size, color cc) {
+    this(x, y, size, cc, Constants.DEFAULT_RHYTHMICITY, 
+         Constants.DEFAULT_BURSTINESS, Constants.DEFAULT_FREQUENCY);
+  }
   public Initiator(float x, float y, float size, color cc, float rhythmicity, int burstiness, float frequency) {
     super(x, y, size, cc);
     fRhythmicity = rhythmicity;

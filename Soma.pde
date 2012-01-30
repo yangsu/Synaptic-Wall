@@ -135,16 +135,6 @@ class Soma extends Shape implements Controllable {
     }
   }
   
-  public void translate(PVector change) {
-    if (fMovable) {
-      fLoc.add(change);
-      for (Path dendrite : fDendrites)
-        dendrite.translate(change);
-      for (Control c : fControls)
-        c.translate(change);
-    }
-  }
-  
   boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
