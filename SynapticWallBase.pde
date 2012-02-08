@@ -1,5 +1,5 @@
-ShapesCollection shapes;
-PathsCollection paths;
+ObjectCollection shapes;
+ObjectCollection paths;
 boolean magnify;
 
 int currentMode;
@@ -28,8 +28,8 @@ void setup() {
   magnify = false;
   currentMode = Constants.INITIATOR;
   
-  shapes = new ShapesCollection();
-  paths = new PathsCollection();
+  shapes = new ObjectCollection();
+  paths = new ObjectCollection();
   currShape = null;
   currPath = null;
   tempPathNode = new PVector(-999, -999);
@@ -126,15 +126,17 @@ void draw() {
   drawText();
 }
 void clear() {
-  shapes = new ShapesCollection();
-  paths = new PathsCollection();
+  shapes = new ObjectCollection();
+  paths = new ObjectCollection();
   currShape = null;
   currPath = null;
   initiator = null;
 }
 void mousePressed() {
   cursor(CROSS);
-  Shape selectedShape = shapes.select(mouseX, mouseY);
+  Shape selectedShape = null;
+  if (shapes.select(mouseX, mouseY))
+    selectedShape = (Shape)shapes.getSelected();
   if (currentMode == Constants.INITIATOR && initiator == null) {
     initiator = new Initiator(mouseX, mouseY, 40, 
                               (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR);
@@ -147,7 +149,9 @@ void mousePressed() {
     }
   }
   else if (currentMode == Constants.DENDRITE) {
-    Path selectedPath = paths.select(mouseX, mouseY);
+    Path selectedPath = null;
+    if (paths.select(mouseX, mouseY))
+      selectedPath = (Path)paths.getSelected();
     if (selectedShape != null) {
       canCreatePath = true;
       tempPathNodeColor = 0xFFFFFFFF;
@@ -182,8 +186,12 @@ void mouseDragged() {
     shapes.onMouseDragged(mouseX, mouseY);
   }
   else if (currentMode == Constants.DENDRITE) {
-    Shape selectedShape = shapes.select(mouseX, mouseY);
-    Path selectedPath = paths.select(mouseX, mouseY);
+    Path selectedPath = null;
+    if (paths.select(mouseX, mouseY))
+      selectedPath = (Path)paths.getSelected();
+    Shape selectedShape = null;
+    if (shapes.select(mouseX, mouseY))
+      selectedShape = (Shape)paths.getSelected();
     if (currPath != null) {
       if (selectedShape == null && selectedPath == null)
          currPath.add(mouseX, mouseY);
@@ -214,8 +222,9 @@ void mouseDragged() {
                            sin(angle)*(selectedShape.fSize - Constants.SOMA_RING_WIDTH/2) + selectedShape.y(), 0);
       }
       else { // Left starting soma for the first time and a path is created
-        Shape s = shapes.select(tempPathNode.x, tempPathNode.y);
-        currPath = new Path((Signalable)s, tempPathNode.x, tempPathNode.y, s.fColor);
+        if (shapes.select(tempPathNode.x, tempPathNode.y))
+        selectedShape = (Shape)paths.getSelected();
+        currPath = new Path(selectedShape, tempPathNode.x, tempPathNode.y, selectedShape.fColor);
       }
     }
     else {
