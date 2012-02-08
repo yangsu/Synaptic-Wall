@@ -35,10 +35,10 @@ static class Constants {
   static final float SOMA_MAX_THRESHOLD     = 10.0;
   
   // Dendrite Settings
-  static final float DENDRITE_WIDTH = 3.0;
+  static final float DENDRITE_WIDTH = 2.5;
   
   // Axon Settings
-  static final float AXON_WIDTH     = 3.0;
+  static final float AXON_WIDTH     = 4.0;
   
   // Synapse Settings
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
