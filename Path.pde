@@ -96,12 +96,14 @@ public abstract class Path extends Interactive implements Signalable{
   }
 
   public void reduce(int resFactor) {
+    println(fVertices.get(size()-1));
     for (int i = fVertices.size()-2;i>=1;i--) {
       if(i%resFactor==0)
         continue;
       else
         fVertices.remove(i);
     }
+    println(fVertices.get(size()-1));
   }
 
   public void draw() {

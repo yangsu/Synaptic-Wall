@@ -16,7 +16,7 @@ public class Synapse extends Shape {
 
   public void draw() {
     pushStyle();
-      fill(fColor);
+      fill((fHover) ? Utilities.highlight(fColor) : fColor);
       ellipse(fLoc.x, fLoc.y, fSize, fSize);
       fill(Constants.BG_COLOR);
       ellipse(fLoc.x, fLoc.y, fSize-fStrength, fSize-fStrength);

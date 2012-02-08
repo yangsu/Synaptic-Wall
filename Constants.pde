@@ -41,7 +41,7 @@ static class Constants {
   static final float AXON_WIDTH     = 3.0;
   
   static final float SYNAPSE_DEFAULT_STRENGTH = 3.0;
-  static final float SYNAPSE_SIZE = 10.0; // radius
+  static final float SYNAPSE_SIZE = 12.0; // radius
   // Signals Settings
   static final int    EPSP  = 1;
   static final int    IPSP  = -1;
