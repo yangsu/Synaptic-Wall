@@ -98,10 +98,6 @@ public class Initiator extends Cell {
     popStyle();
   }
 
-  boolean isInBounds(float x, float y) {
-    return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
-  }
-
   void onEvent(int controlID, float value) {
     switch (controlID) {
       case RHYTHMICITY:

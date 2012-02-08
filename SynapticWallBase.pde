@@ -153,10 +153,10 @@ void mouseReleased() {
 void onMousePressed() {
   cursor(CROSS);
   Interactive selected = null;
-  if (objs.select(mouseX, mouseY)) {
-    selected = objs.getSelected();
-    lastSelected = selected;
-    if (currentMode == Constants.CREATION) {
+  if (currentMode == Constants.CREATION) {
+    if (objs.select(mouseX, mouseY)) {
+      selected = objs.getSelected();
+      lastSelected = selected;
       // If selected is the initiator, then create axon
       if (selected.getType() == Constants.INITIATOR ||
           selected.getType() == Constants.SOMA) {
@@ -181,7 +181,19 @@ void onMousePressed() {
       }
       else {}
     }
-    else if (currentMode == Constants.DELETION) {
+    else {
+      // If nothing's selected and in CREATION mode, then try creating initiator
+      if (initiator == null)
+        initiator = new Initiator(mouseX, mouseY, Constants.INITIATOR_SIZE, Constants.EX_COLOR);
+      // if initiator is already present, then create a SOMA
+      else if (currShape == null)
+        currShape = new Soma(mouseX, mouseY, Constants.SOMA_SIZE, 
+                    (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR, Constants.SOMA_DEFAULT_THRESHOLD);
+    }
+  }
+  else if (currentMode == Constants.DELETION) {
+    if (objs.select(mouseX, mouseY)) {
+      selected = objs.getSelected();
       switch (selected.getType()) {
         case Constants.INITIATOR :
           break;
@@ -195,22 +207,12 @@ void onMousePressed() {
           break;
       }
     }
-    else if (currentMode == Constants.INTERACTION) {
-    }
-    else {
-      // Do nothing
-    }
+  }
+  else if (currentMode == Constants.INTERACTION) {
+    objs.onMouseDown(mouseX, mouseY);
   }
   else {
-    if (currentMode == Constants.CREATION) {
-      // If nothing's selected and in CREATION mode, then try creating initiator
-      if (initiator == null)
-        initiator = new Initiator(mouseX, mouseY, Constants.INITIATOR_SIZE, Constants.EX_COLOR);
-      // if initiator is already present, then create a SOMA
-      else if (currShape == null)
-        currShape = new Soma(mouseX, mouseY, Constants.SOMA_SIZE, 
-                    (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR, Constants.SOMA_DEFAULT_THRESHOLD);
-    }
+    // Do nothing
   }
   redraw();
 }
@@ -337,24 +339,22 @@ void onMouseReleased() {
     canCreatePath = false;
     lastSelected = null;
     clearTempPathNode();
-    // ???
-    objs.onMouseUp(mouseX, mouseY);
   }
+  else if (currentMode == Constants.INTERACTION)
+    objs.onMouseUp(mouseX, mouseY);
+
   redraw();
 }
 
 void keyPressed() {
   switch (key) {
     case '1': 
-      currentMode = Constants.INITIATOR;
+      currentMode = Constants.CREATION;
       break;
     case '2': 
-      currentMode = Constants.SOMA;
+      currentMode = Constants.DELETION;
       break;
     case '3': 
-      currentMode = Constants.DENDRITE;
-      break;
-    case '4':
       currentMode = Constants.INTERACTION;
       break;
     case 'm': 
