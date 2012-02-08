@@ -305,7 +305,7 @@ void onMouseReleased() {
         PVector diff = PVector.sub(currPath.getVertex(l-1),
                                    currPath.getVertex(l-2));
         PVector center = PVector.add(currPath.getVertex(l-1),
-                          PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SYNAPSE_DEFAULT_STRENGTH));
+                          PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SYNAPSE_DEFAULT_STRENGTH + 1));
         Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
         currPath.setDest(s);
         objs.add(s);

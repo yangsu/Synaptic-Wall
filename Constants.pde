@@ -25,7 +25,7 @@ static class Constants {
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
   
-  // Initiator
+  // Initiator Settings
   static final int  INITIATOR_SIZE = 40;
 
   // Soma Settings
@@ -34,14 +34,18 @@ static class Constants {
   static final float SOMA_DEFAULT_THRESHOLD = 5.0;
   static final float SOMA_MAX_THRESHOLD     = 10.0;
   
-  // Dendrite
+  // Dendrite Settings
   static final float DENDRITE_WIDTH = 3.0;
   
-  // Axon
+  // Axon Settings
   static final float AXON_WIDTH     = 3.0;
   
+  // Synapse Settings
+  static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
+  static final int SYNAPSE_TIMING             = 700; // Miliseconds
+  static final float SYNAPSE_SIZE             = 12.0; // radius
   static final float SYNAPSE_DEFAULT_STRENGTH = 3.0;
-  static final float SYNAPSE_SIZE = 12.0; // radius
+
   // Signals Settings
   static final int    EPSP  = 1;
   static final int    IPSP  = -1;
