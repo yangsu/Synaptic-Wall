@@ -61,6 +61,7 @@ static class Constants {
   static final float SIGNAL_WIDTH          = 5.0;
   static final float SIGNAL_MULTIPLIER     = 2.0;
 
+  static final int AP_STROKE_WEIGHT = 2;
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;
   static final int   DEFAULT_BURSTINESS  = 1; // per firing

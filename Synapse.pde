@@ -79,7 +79,8 @@ public class Synapse extends Shape {
       fEndTime = fTimer + Constants.SYNAPSE_TIMING;
       fMid = fTimer + Constants.SYNAPSE_TIMING/2;
       // TODO: do processing on signal
-      fSigTemplate = s.makeCopy(fDendrite);
+      if (fDendrite != null)
+        fSigTemplate = s.makeCopy(fDendrite);
     }
   }
 

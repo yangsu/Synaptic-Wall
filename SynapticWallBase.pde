@@ -297,7 +297,6 @@ void onMouseReleased() {
     }
     else if (currPath != null) {
       currPath.setMovable(false);
-      objs.add(currPath);
       if (currPath.getType() == Constants.AXON) {
         int l = currPath.size();
         if (l < 2) println ("ERROR! currPath has a length less than 2");
@@ -308,6 +307,9 @@ void onMouseReleased() {
                           PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SYNAPSE_DEFAULT_STRENGTH + 1));
         Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
         currPath.setDest(s);
+        currPath.reduce();
+        currPath.attachToSource();
+        objs.add(currPath);
         objs.add(s);
       }
       else if (currPath.getType() == Constants.DENDRITE) {
@@ -328,10 +330,11 @@ void onMouseReleased() {
             tempPathNode2.set(end.x, end.y, 0);
             currPath.setDest(p);
           }
+          currPath.reduce();
+          currPath.attachToSource();
+          objs.add(currPath);
         }
       }
-      currPath.reduce();
-      currPath.attachToSource();
       currPath = null;
     }
     lastSelected = null;
