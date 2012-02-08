@@ -6,4 +6,7 @@ public abstract class Control extends Interactive{
     fID = id;
     fTarget = target;
   }
+  public int getType() {
+    return Constants.CONTROL;
+  }
 }

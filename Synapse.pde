@@ -3,5 +3,7 @@ class Synapse extends Path {
 		super(src, x, y, cc);
 	}
 
-	
+	public int getType() {
+    return Constants.SYNAPSE;
+  }
 }

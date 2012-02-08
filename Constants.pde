@@ -1,10 +1,17 @@
 static class Constants {
   // Modes
-  static final int INITIATOR   = 0;
-  static final int SOMA        = 1;
-  static final int SYNAPSE     = 2;
-  static final int DENDRITE    = 3;
-  static final int INTERACTION = 4;
+  static final int CREATION    = 0;
+  static final int DELETION    = 1;
+  static final int INTERACTION = 2;
+
+  // Types
+  static final int INITIATOR = 0;
+  static final int SOMA      = 1;
+  static final int AXON      = 2;
+  static final int DENDRITE  = 3;
+  static final int SYNAPSE   = 4;
+  static final int SIGNAL    = 5;
+  static final int CONTROL   = 5;
 
   // Global Settings
   static final color BG_COLOR           = 0xFF000000;
@@ -18,9 +25,12 @@ static class Constants {
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
   
+  static final int  INITIATOR_SIZE = 40;
   // Soma Settings
-  static final float SOMA_RING_WIDTH    = 8.0;
-  static final float SOMA_MAX_THRESHOLD = 10.0;
+  static final int   SOMA_SIZE              = 30;
+  static final float SOMA_RING_WIDTH        = 8.0;
+  static final float SOMA_DEFAULT_THRESHOLD = 5.0;
+  static final float SOMA_MAX_THRESHOLD     = 10.0;
   
   static final float DENDRITE_WIDTH = 3.0;
   static final float AXON_WIDTH     = 3.0;

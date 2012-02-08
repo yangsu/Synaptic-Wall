@@ -17,9 +17,6 @@ public class ObjectCollection {
     for (Interactive s : fObjs) {
       if (s.select(x, y)) {
         fSelected = s;
-        //Move Object to the end of the list
-        // fObjs.remove(fSelected);
-        // fObjs.add(fSelected);
         return true;
       }
     }

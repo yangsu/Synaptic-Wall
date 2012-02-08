@@ -45,7 +45,9 @@ public class Initiator extends Cell {
 
     fBirthTime = frameCount;
   }
-
+  public int getType() {
+    return Constants.INITIATOR;
+  }
   private void drawInitiator() {
     fill(fColor);
     if (fSelected)

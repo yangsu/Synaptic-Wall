@@ -20,7 +20,9 @@ abstract class Signal extends Drawable {
     // fCurrIndex = -round(delay / (1000.0/frameRate));
     fColor = p.fColor;
   }
-  
+  public int getType() {
+    return Constants.SIGNAL;
+  }
   void setIndex(int i) {
     fCurrIndex = constrain(i, 0, fEndIndex);
   }

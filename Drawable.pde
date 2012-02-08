@@ -17,6 +17,8 @@ public abstract class Drawable {
     fVisible = fMovable = true;
     fColor = cc;
   }
+
+  abstract int getType();
   
   public void translate(PVector change) {
     if (fMovable)

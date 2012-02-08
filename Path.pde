@@ -32,6 +32,10 @@ public class Path extends Interactive implements Signalable{
     fSrcLoc = new PVector(temp.x, temp.y);
   }
 
+  public int getType() {
+    return Constants.DENDRITE;
+  }
+
   public int size() {
     return fVertices.size();
   }

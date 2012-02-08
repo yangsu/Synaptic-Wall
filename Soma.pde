@@ -39,7 +39,11 @@ class Soma extends Cell {
                                             THRESHOLD, this);
     fControls.add(fThresholdSlider);
   }
-  
+
+  public int getType() {
+    return Constants.SOMA;
+  }
+
   private void drawSoma() {
     fill(fColor);
     if (fSelected)
