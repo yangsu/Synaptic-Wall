@@ -104,11 +104,6 @@ class Soma extends Cell {
     popStyle();
   }
 
-  void fireSignal(int numSignal, int delayms, int type) {
-      for (Path p : fDendrites)
-        p.addSignal(new PostsynapticPotential(fSpeed, fLength, fStrength, p));
-  }
-
   void onSignal(Signal s) {
     fThresholdSlider.addChange(s.fStrength);
     fReceivedAPs = append(fReceivedAPs, s.fStrength);
