@@ -1,4 +1,4 @@
-public class Path extends Interactive implements Signalable{
+public abstract class Path extends Interactive implements Signalable{
   private ArrayList<PVector> fVertices;
   private ArrayList<Signal> fSignals;
   private ArrayList<Path> fConnectedPaths;
@@ -10,9 +10,6 @@ public class Path extends Interactive implements Signalable{
   // Find a way to not special case this
   private PVector fSrcLoc;
   private int fDestPos;
-  public Path() {
-    super();
-  }
   
   public Path(Signalable src, float x, float y, color cc) {
     fConnectedPaths = new ArrayList<Path>();
@@ -32,10 +29,6 @@ public class Path extends Interactive implements Signalable{
     fSrcLoc = new PVector(temp.x, temp.y);
   }
 
-  public int getType() {
-    return Constants.DENDRITE;
-  }
-
   public int size() {
     return fVertices.size();
   }
@@ -52,8 +45,15 @@ public class Path extends Interactive implements Signalable{
   public void attachToSource() {
     fSrc.addPath(this);
   }
-  PVector getCurrVertex() {
+
+  public PVector getCurrVertex() {
     return fVertices.get(fCurrIndex);
+  }
+  public PVector getVertex(int i) {
+    if (i < fVertices.size())
+      return fVertices.get(i);
+    else
+      return null;
   }
   
   public void add(float x, float y) {
@@ -94,6 +94,7 @@ public class Path extends Interactive implements Signalable{
   public void reduce() {
     this.reduce(Constants.SIGNAL_RESOLUTION);
   }
+
   public void reduce(int resFactor) {
     for (int i = fVertices.size()-2;i>=1;i--) {
       if(i%resFactor==0)
@@ -109,8 +110,6 @@ public class Path extends Interactive implements Signalable{
       if (fHover) {
         drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
-      drawJunction(fVertices.get(0));
-      drawJunction(fVertices.get(fVertices.size()-1));
     popStyle();
     
     processSignals();
@@ -123,7 +122,6 @@ public class Path extends Interactive implements Signalable{
     pushStyle();
     noFill();
     stroke((fHover) ? Utilities.highlight(fColor) : fColor);
-    strokeWeight(Constants.DENDRITE_WIDTH);
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
@@ -131,8 +129,6 @@ public class Path extends Interactive implements Signalable{
         temp = fVertices.get(i);
         curveVertex(temp.x,temp.y);
       }
-      temp = fVertices.get(fVertices.size() - 1);
-      vertex(temp.x, temp.y);
     endShape();
     popStyle();
   }

@@ -7,6 +7,13 @@ public class Axon extends Path {
     super(p, x, y, cc);
   }
 
+  public void draw() {
+    pushStyle();
+    strokeWeight(Constants.AXON_WIDTH);
+    super.draw();
+    popStyle();
+  }
+
   public int getType() {
     return Constants.AXON;
   }

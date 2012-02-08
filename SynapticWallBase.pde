@@ -293,7 +293,25 @@ void onMouseReleased() {
       currShape.setMovable(false);
       currShape = null;
     }
-    currPath = null;
+    else if (currPath != null) {
+      if (currPath.getType() == Constants.AXON) {
+        currPath.setMovable(false);
+        int l = currPath.size();
+        if (l < 2) println ("ERROR! currPath has a length less than 2");
+        // Calculate offset so the edge of the Synapse is at the end of the path
+        PVector diff = PVector.sub(currPath.getVertex(l-1),
+                                   currPath.getVertex(l-2));
+        PVector center = PVector.add(currPath.getVertex(l-1),
+                          PVector.mult(diff, Constants.SYNAPSE_SIZE-1));
+        Synapse s = new Synapse(center.x, center.y, currPath.fColor);
+        currPath.setDest(s);
+        objs.add(currPath);
+        objs.add(s);
+      }
+      else if (currPath.getType() == Constants.DENDRITE) {
+      }
+      currPath = null;
+    }
     canCreatePath = false;
     lastSelected = null;
     clearTempPathNode();
