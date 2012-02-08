@@ -3,10 +3,6 @@ public class Dendrite extends Path {
     super(src, x, y, cc);
   }
 
-  public Dendrite(Path p, float x, float y, color cc) {
-    super(p, x, y, cc);
-  }
-  
   public void draw() {
     pushStyle();
     strokeWeight(Constants.DENDRITE_WIDTH);

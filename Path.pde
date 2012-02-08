@@ -6,6 +6,7 @@ public abstract class Path extends Interactive implements Signalable{
   private int fCurrIndex;
   private Signalable fDest;
   private Signalable fSrc;
+  private boolean fClosed;
 
   // Find a way to not special case this
   private PVector fSrcLoc;
@@ -19,6 +20,7 @@ public abstract class Path extends Interactive implements Signalable{
     fCurrIndex = 0;
     fDest = null;
     fSrc = src;
+    fClosed = false;
     fSrcLoc = new PVector(x,y);
     fVertices.add(new PVector(x,y));
   }
@@ -31,6 +33,10 @@ public abstract class Path extends Interactive implements Signalable{
 
   public int size() {
     return fVertices.size();
+  }
+
+  public void close() {
+    fClosed = true;
   }
   
   public void setDest(Signalable obj) {
@@ -57,6 +63,7 @@ public abstract class Path extends Interactive implements Signalable{
   }
   
   public void add(float x, float y) {
+    if (fClosed) return;
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
     float px = prev.x;
@@ -77,6 +84,7 @@ public abstract class Path extends Interactive implements Signalable{
     }
   }
   public void add(PVector p) {
+    if (fClosed) return;
     this.add(p.x, p.y);
   }
   
@@ -96,14 +104,12 @@ public abstract class Path extends Interactive implements Signalable{
   }
 
   public void reduce(int resFactor) {
-    println(fVertices.get(size()-1));
     for (int i = fVertices.size()-2;i>=1;i--) {
       if(i%resFactor==0)
         continue;
       else
         fVertices.remove(i);
     }
-    println(fVertices.get(size()-1));
   }
 
   public void draw() {

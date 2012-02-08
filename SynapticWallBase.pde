@@ -176,7 +176,8 @@ void onMousePressed() {
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
-
+        Synapse s = (Synapse)selected;
+        updateTempNode(s.x(), s.y(), s.fSize);
       }
       else {}
     }
@@ -203,7 +204,6 @@ void onMousePressed() {
   else {
     if (currentMode == Constants.CREATION) {
       // If nothing's selected and in CREATION mode, then try creating initiator
-      println("creating stuff mousePressed");
       if (initiator == null)
         initiator = new Initiator(mouseX, mouseY, Constants.INITIATOR_SIZE, Constants.EX_COLOR);
       // if initiator is already present, then create a SOMA
@@ -222,48 +222,48 @@ void onMouseDragged() {
     if (currShape != null)
       currShape.translate(new PVector(mouseX - currShape.x(), mouseY - currShape.y()));
     if (currPath != null) {
-      println("currPath add");
       currPath.add(mouseX, mouseY);
     }
-    println("mouseDragged CREATION");
+
     Interactive selected = null;
     if (objs.select(mouseX, mouseY)) { // If selected object
       selected = objs.getSelected();
       if (selected != lastSelected) {
-        println("mouseDragged not same");
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
-          // add end to dendrite
+          if (currPath != null) currPath.close();
         }
         else if (selected.getType() == Constants.DENDRITE ||
                  selected.getType() == Constants.AXON) {
-          //add end to end?
         }
         else if (selected.getType() == Constants.SYNAPSE) {
-          // add synapse to axon
         }
-        // Update lastSelected
         lastSelected = selected;
       }
       else { // If not different from the last 
-        println("mouseDragged not same");
         // If still in the initiator or the last selected soma
         if (selected.getType() == Constants.INITIATOR ||
-            selected.getType() == Constants.SOMA) {
-          Cell c = (Cell)selected;
-          updateTempNode(c.x(), c.y(), c.fSize);
+            selected.getType() == Constants.SOMA ||
+            selected.getType() == Constants.SYNAPSE) {
+          Shape s = (Shape)selected;
+          updateTempNode(s.x(), s.y(), s.fSize);
         }
       }
     }
     else { // if not selected anything
-      println("mouseDragged not selected");
-      if (lastSelected != null && 
-          (lastSelected.getType() == Constants.INITIATOR ||
-            lastSelected.getType() == Constants.SOMA) &&
-          currPath == null) {
-        println("lastSelected");
-        Cell c = (Cell)lastSelected;
-        currPath = new Axon(c, tempPathNode.x, tempPathNode.y, c.fColor);
+      if (lastSelected != null && currPath == null) {
+        if (lastSelected.getType() == Constants.INITIATOR ||
+            lastSelected.getType() == Constants.SOMA) {
+          Cell c = (Cell)lastSelected;
+          currPath = new Axon(c, tempPathNode.x, tempPathNode.y, c.fColor);
+        }
+        else if (lastSelected.getType() == Constants.SYNAPSE) {
+          Synapse s = (Synapse)lastSelected;
+          if (!s.isComplete()) {
+            currPath = new Dendrite(s, s.x(), s.y(), s.fColor);
+            currPath.add(tempPathNode.x, tempPathNode.y);
+          }
+        }
       }
     }
   }
@@ -294,8 +294,9 @@ void onMouseReleased() {
       currShape = null;
     }
     else if (currPath != null) {
+      currPath.setMovable(false);
+      objs.add(currPath);
       if (currPath.getType() == Constants.AXON) {
-        currPath.setMovable(false);
         int l = currPath.size();
         if (l < 2) println ("ERROR! currPath has a length less than 2");
         // Calculate offset so the edge of the Synapse is at the end of the path
@@ -303,13 +304,34 @@ void onMouseReleased() {
                                    currPath.getVertex(l-2));
         PVector center = PVector.add(currPath.getVertex(l-1),
                           PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SYNAPSE_DEFAULT_STRENGTH));
-        Synapse s = new Synapse(center.x, center.y, currPath.fColor);
+        Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
         currPath.setDest(s);
-        objs.add(currPath);
         objs.add(s);
       }
       else if (currPath.getType() == Constants.DENDRITE) {
+        Interactive selected = null;
+        if (objs.select(mouseX, mouseY)) { // If selected object
+          selected = objs.getSelected();
+          if (selected.getType() == Constants.INITIATOR ||
+              selected.getType() == Constants.SOMA) {
+            // add end to dendrite
+            Cell c = (Cell)selected;
+            updateTempNode(c.x(), c.y(), c.fSize);
+            currPath.setDest(c);
+          }
+          else if (selected.getType() == Constants.DENDRITE ||
+                   selected.getType() == Constants.AXON) {
+            //add end to end?
+            Path p = (Path)selected;
+            PVector end = p.getCurrVertex();
+            tempPathNode2.set(end.x, end.y, 0);
+            currPath.setDest(p);
+          }
+        }
+        currPath.reduce();
+        currPath.attachToSource();
       }
+      objs.add(currPath);
       currPath = null;
     }
     canCreatePath = false;
