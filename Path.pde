@@ -1,16 +1,16 @@
 public abstract class Path extends Interactive implements Signalable{
-  private ArrayList<PVector> fVertices;
-  private ArrayList<Signal> fSignals;
-  private ArrayList<Path> fConnectedPaths;
+  protected ArrayList<PVector> fVertices;
+  protected ArrayList<Signal> fSignals;
+  protected ArrayList<Path> fConnectedPaths;
 
-  private int fCurrIndex;
-  private Signalable fDest;
-  private Signalable fSrc;
-  private boolean fClosed;
+  protected int fCurrIndex;
+  protected Signalable fDest;
+  protected Signalable fSrc;
+  protected boolean fClosed;
 
   // Find a way to not special case this
-  private PVector fSrcLoc;
-  private int fDestPos;
+  protected PVector fSrcLoc;
+  protected int fDestPos;
   
   public Path(Signalable src, float x, float y, color cc) {
     fConnectedPaths = new ArrayList<Path>();

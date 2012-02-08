@@ -316,7 +316,6 @@ void onMouseReleased() {
           selected = objs.getSelected();
           if (selected.getType() == Constants.INITIATOR ||
               selected.getType() == Constants.SOMA) {
-            // add end to dendrite
             Cell c = (Cell)selected;
             updateTempNode(c.x(), c.y(), c.fSize);
             currPath.setDest(c);
@@ -330,13 +329,11 @@ void onMouseReleased() {
             currPath.setDest(p);
           }
         }
-        currPath.reduce();
-        currPath.attachToSource();
       }
-      objs.add(currPath);
+      currPath.reduce();
+      currPath.attachToSource();
       currPath = null;
     }
-    canCreatePath = false;
     lastSelected = null;
     clearTempPathNode();
   }
