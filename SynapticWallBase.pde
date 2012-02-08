@@ -320,6 +320,7 @@ void onMouseReleased() {
               selected.getType() == Constants.SOMA) {
             Cell c = (Cell)selected;
             updateTempNode(c.x(), c.y(), c.fSize);
+            currPath.add(tempPathNode.x, tempPathNode.y);
             currPath.setDest(c);
           }
           else if (selected.getType() == Constants.DENDRITE ||
