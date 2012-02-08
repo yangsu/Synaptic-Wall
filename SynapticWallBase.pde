@@ -130,7 +130,27 @@ void clear() {
   clearTempPathNode();
 }
 
+boolean released = true;
 void mousePressed() {
+  if (released) {
+    released = false;
+    onMousePressed();
+  }
+}
+void mouseDragged() {
+  onMouseDragged();
+}
+void mouseMoved() {
+  onMouseMoved();
+}
+void mouseReleased() {
+  if (!released){
+    onMouseReleased();
+    released = true;
+  }
+}
+
+void onMousePressed() {
   cursor(CROSS);
   Interactive selected = null;
   if (objs.select(mouseX, mouseY)) {
@@ -144,12 +164,15 @@ void mousePressed() {
         updateTempNode(c.x(), c.y(), c.fSize);
       }
       // if selected is a dendrite or an axon
-      else if (selected.getType() == Constants.DENDRITE ||
-               selected.getType() == Constants.AXON) {
+      else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
         tempPathNode.set(p.getCurrVertex());
-        // Dendrite/Axon
-        currPath = new Path(p, tempPathNode.x, tempPathNode.y, p.fColor);
+        currPath = new Dendrite(p, tempPathNode.x, tempPathNode.y, p.fColor);
+      }
+      else if (selected.getType() == Constants.AXON) {
+        Path p = (Path)selected;
+        tempPathNode.set(p.getCurrVertex());
+        currPath = new Axon(p, tempPathNode.x, tempPathNode.y, p.fColor);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -184,7 +207,7 @@ void mousePressed() {
       if (initiator == null)
         initiator = new Initiator(mouseX, mouseY, Constants.INITIATOR_SIZE, Constants.EX_COLOR);
       // if initiator is already present, then create a SOMA
-      else if (currentMode == Constants.SOMA)
+      else if (currShape == null)
         currShape = new Soma(mouseX, mouseY, Constants.SOMA_SIZE, 
                     (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR, Constants.SOMA_DEFAULT_THRESHOLD);
     }
@@ -192,19 +215,22 @@ void mousePressed() {
   redraw();
 }
 
-void mouseDragged() {
+void onMouseDragged() {
   if (currentMode == Constants.CREATION) {
-    if (initiator != null)
+    if (initiator != null && initiator.fMovable)
       initiator.translate(new PVector(mouseX - initiator.x(), mouseY - initiator.y()));
-    else if (currShape != null)
+    if (currShape != null)
       currShape.translate(new PVector(mouseX - currShape.x(), mouseY - currShape.y()));
-    else if (currPath != null) {
+    if (currPath != null) {
+      println("currPath add");
       currPath.add(mouseX, mouseY);
     }
+    println("mouseDragged CREATION");
     Interactive selected = null;
     if (objs.select(mouseX, mouseY)) { // If selected object
       selected = objs.getSelected();
       if (selected != lastSelected) {
+        println("mouseDragged not same");
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
           // add end to dendrite
@@ -220,6 +246,7 @@ void mouseDragged() {
         lastSelected = selected;
       }
       else { // If not different from the last 
+        println("mouseDragged not same");
         // If still in the initiator or the last selected soma
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
@@ -229,7 +256,15 @@ void mouseDragged() {
       }
     }
     else { // if not selected anything
-      
+      println("mouseDragged not selected");
+      if (lastSelected != null && 
+          (lastSelected.getType() == Constants.INITIATOR ||
+            lastSelected.getType() == Constants.SOMA) &&
+          currPath == null) {
+        println("lastSelected");
+        Cell c = (Cell)lastSelected;
+        currPath = new Axon(c, tempPathNode.x, tempPathNode.y, c.fColor);
+      }
     }
   }
   else if (currentMode == Constants.INTERACTION) {
@@ -241,12 +276,12 @@ void mouseDragged() {
   redraw();
 }
 
-void mouseMoved() {
+void onMouseMoved() {
   objs.onMouseMoved(mouseX, mouseY);
   redraw();
 }
 
-void mouseReleased() {
+void onMouseReleased() {
   cursor(ARROW);
   if (currentMode == Constants.CREATION) {
     if (initiator != null && initiator.fMovable) { // Hack for now
