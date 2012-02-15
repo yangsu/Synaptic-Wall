@@ -37,7 +37,6 @@ class Soma extends Cell {
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH,
                                             0, negativet, positivet,
                                             THRESHOLD, this);
-    fControls.add(fThresholdSlider);
   }
 
   public int getType() {
@@ -98,6 +97,7 @@ class Soma extends Cell {
   public void draw() {
     super.draw();
     pushStyle();
+      fThresholdSlider.draw();
       this.drawSoma();
       this.drawControlDisplays();
     popStyle();
