@@ -83,4 +83,10 @@ public class ObjectCollection {
         return true;
     return false;
   }
+  public boolean onDblClick(float x, float y) {
+    for (Interactive s : fObjs)
+      if (s.onDblClick(x, y))
+        return true;
+    return false;
+  }
 }

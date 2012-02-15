@@ -1,4 +1,7 @@
 static class Constants {
+  static final int DBL_CLICK_THRESHOLD = 300;
+
+
   // Modes
   static final int CREATION    = 0;
   static final int DELETION    = 1;

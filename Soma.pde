@@ -103,12 +103,27 @@ class Soma extends Cell {
     popStyle();
   }
 
-  void onSignal(Signal s) {
+  public boolean onDblClick(float x, float y) {
+    if (isInBounds(x, y)) {
+      if (fColor == Constants.EX_COLOR) {
+        fColor = Constants.IN_COLOR;
+        fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+      }
+      else {
+        fColor = Constants.EX_COLOR;
+        fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public void onSignal(Signal s) {
     fThresholdSlider.addChange(s.fStrength);
     fReceivedAPs = append(fReceivedAPs, s.fStrength);
   }
 
-  void onEvent(int controlID, float value) {
+  public void onEvent(int controlID, float value) {
     switch (controlID) {
       case SPEED:
         fSpeed = value;

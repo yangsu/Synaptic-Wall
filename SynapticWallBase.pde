@@ -131,7 +131,13 @@ void clear() {
 }
 
 boolean released = true;
+int lastclick = 0;
 void mousePressed() {
+  if (millis() - lastclick < Constants.DBL_CLICK_THRESHOLD &&
+      currentMode == Constants.INTERACTION) {
+    objs.onDblClick(mouseX, mouseY);
+  }
+  lastclick = millis();
   if (released) {
     released = false;
     onMousePressed();
