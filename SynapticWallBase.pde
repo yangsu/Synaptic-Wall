@@ -288,8 +288,10 @@ void onMouseDragged() {
 }
 
 void onMouseMoved() {
-  objs.onMouseMoved(mouseX, mouseY);
-  redraw();
+  if (currentMode == Constants.INTERACTION) {
+    objs.onMouseMoved(mouseX, mouseY);
+    redraw();
+  }
 }
 
 void onMouseReleased() {
