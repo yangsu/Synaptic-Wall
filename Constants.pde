@@ -56,6 +56,7 @@ static class Constants {
   static final int    AP    = 0;
   static final int    EPSP_COLOR = 0xFFFEFB98;
   static final int    IPSP_COLOR = 0xFF66A3CF;
+  static final int    AP_COLOR = 0xFFF8F8F8;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
   static final int    SIGNAL_DEFAULT_LENGTH   = 15;
   static final float  SIGNAL_DEFAULT_STRENGTH = 4;
@@ -66,7 +67,6 @@ static class Constants {
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 8.0;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
-  static final float SIGNAL_MULTIPLIER     = 2.0;
 
   static final int AP_STROKE_WEIGHT = 2;
   // Initiator Settings
