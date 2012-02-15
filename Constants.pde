@@ -23,11 +23,12 @@ static class Constants {
   static final color EX_HIGHLIGHT_COLOR = 0xFFD2C277;
   static final color IN_COLOR           = 0xFF0A6891;
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
-  static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
+  static final color HIGHLIGHT_COLOR    = 0xBBFFFFFF;
 
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
 
+  static final int  CELL_TIMING = 500;
   // Initiator Settings
   static final int  INITIATOR_SIZE = 40;
 

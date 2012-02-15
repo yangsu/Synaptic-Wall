@@ -7,9 +7,12 @@ public class Initiator extends Cell {
   private int fBurstiness;
   private int fBirthTime;
 
+  private int fTimer;
+  private int fEndTime;
+  private int fMid;
+  private boolean fFired;
+
   private int[] fFiringQueue;
-  private boolean fPropChanged;
-  private int fStep, fStop;
 
   public Initiator(float x, float y, float size, color cc) {
     this(x, y, size, cc, Constants.DEFAULT_RHYTHMICITY,
@@ -39,21 +42,42 @@ public class Initiator extends Cell {
                                      2 * TWO_PI/3, TWO_PI,
                                      fFreq, 0, Constants.MAX_FREQUENCY,
                                      FREQUENCY, this));
-    fPropChanged = false;
-    fStep = 30;
-    fStop = 30; //Visuals lasts 1 second
-
     fBirthTime = frameCount;
+
+    fTimer = 0;
+    fEndTime = 0;
+    fMid = 0;
+    fFired = true;
   }
+
   public int getType() {
     return Constants.INITIATOR;
   }
+
   private void drawInitiator() {
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
-    fill(blendColor(fColor, color(255, 100), ADD));
+    if (fTimer < fEndTime) {
+      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
+        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
+      fTimer = millis();
+      if (fTimer > fMid && !fFired) {
+        this.fireSignal();
+        fFired = true;
+      }
+    }
+    else {
+      fill(fHighlightColor);
+    }
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
+  }
+
+  private void startTimer() {
+    fFired = false;
+    fTimer = millis();
+    fEndTime = fTimer + Constants.CELL_TIMING;
+    fMid = fTimer + Constants.CELL_TIMING/2;
   }
 
   private void fireSignal() {
@@ -67,22 +91,15 @@ public class Initiator extends Cell {
     int interval = (int)(30/fFreq);
     if ((frameCount - fBirthTime)%interval == 0 && random(1.0) <= fRhythmicity) {
       //fire
-      this.fireSignal();
+      this.startTimer();
       //add burst
       for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
         fFiringQueue = append(fFiringQueue, frameCount + i * Constants.BURST_DELAY);
     }
     if (fFiringQueue.length > 0 && fFiringQueue[0] <= frameCount) {
       //fire
-      this.fireSignal();
+      this.startTimer();
       fFiringQueue = subset(fFiringQueue, 1);
-    }
-  }
-
-  private void visualizeChange() {
-    if (fStep < fStop) {
-      // Visuals
-      fStep += 1;
     }
   }
 
@@ -91,7 +108,6 @@ public class Initiator extends Cell {
     pushStyle();
       this.drawInitiator();
       this.processFiringPattern();
-      this.visualizeChange();
     popStyle();
   }
 
@@ -109,8 +125,6 @@ public class Initiator extends Cell {
       default:
         break;
     }
-    fPropChanged = true;
-    fStep = 0;
   }
 
   void onSignal(Signal s) {
