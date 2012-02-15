@@ -50,8 +50,6 @@ public class Initiator extends Cell {
   }
   private void drawInitiator() {
     fill(fColor);
-    if (fSelected)
-      stroke(255);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
     fill(blendColor(fColor, color(255, 100), ADD));

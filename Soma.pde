@@ -45,8 +45,6 @@ class Soma extends Cell {
 
   private void drawSoma() {
     fill(fColor);
-    if (fSelected)
-      stroke(255);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
     fill(fHighlightColor);
