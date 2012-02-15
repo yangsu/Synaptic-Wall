@@ -5,8 +5,12 @@ public class Dendrite extends Path {
 
   public void draw() {
     pushStyle();
-    strokeWeight(Constants.DENDRITE_WIDTH);
-    super.draw();
+      strokeWeight(Constants.DENDRITE_WIDTH);
+      float s = Constants.SIGNAL_WIDTH;
+      PVector v = fVertices.get(0);
+      fill(fColor);
+      ellipse(v.x, v.y, s, s);
+      super.draw();
     popStyle();
   }
 
