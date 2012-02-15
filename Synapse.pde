@@ -8,9 +8,11 @@ public class Synapse extends Shape {
   private int fEndTime;
   private int fMid;
   private Signal fSigTemplate;
-  private color fHighlight;
+
   public Synapse(Path axon, float x, float y, color cc) {
     this(axon, x, y, cc, Constants.SYNAPSE_DEFAULT_STRENGTH);
+    fColor = fHighlightColor;
+    fHighlightColor = Utilities.highlight(fHighlightColor);
   }
 
   public Synapse(Path axon, float x, float y, color cc, float strength) {
@@ -23,7 +25,6 @@ public class Synapse extends Shape {
     fTimer = 0;
     fEndTime = 0;
     fMid = 0;
-    fHighlight = Utilities.highlight(fColor);
     fSigTemplate = null;
   }
 
@@ -33,7 +34,7 @@ public class Synapse extends Shape {
 
   private void drawActivation() {
     pushStyle();
-      fill(lerpColor(Constants.BG_COLOR, Utilities.highlight(fColor), 
+      fill(lerpColor(Constants.BG_COLOR, fHighlightColor,
           1.0 - 2*abs((fTimer - fMid)/(float)Constants.SYNAPSE_TIMING)));
       ellipse(fLoc.x, fLoc.y, fSize, fSize);
     popStyle();
@@ -42,7 +43,7 @@ public class Synapse extends Shape {
     if (fTimer < fEndTime) {
       drawActivation();
       fTimer = millis();
-      if (fTimer > fMid && fDendrite != null && !fFired) {
+      if (fTimer > fMid && fDendrite != null && !fFired && fSigTemplate != null) {
         fDendrite.addSignal(fSigTemplate.makeCopy(fDendrite));
         fFired = true;
       }
@@ -54,14 +55,14 @@ public class Synapse extends Shape {
 
   public void draw() {
     pushStyle();
-      stroke((fHover) ? Utilities.highlight(fColor) : fColor);
+      stroke((fHover) ? fHighlightColor : fColor);
       strokeWeight(fStrength);
       noFill();
       ellipse(fLoc.x, fLoc.y, fSize, fSize);
       updateState();
     popStyle();
   }
-  
+
   public boolean isComplete() {
     return fDendrite != null;
   }

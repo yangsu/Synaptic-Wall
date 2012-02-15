@@ -26,7 +26,7 @@ void setup() {
   //initialization
   magnify = false;
   currentMode = Constants.CREATION;
-  
+
   objs = new ObjectCollection();
   currShape = null;
   currPath = null;
@@ -79,12 +79,12 @@ void drawMagnified() {
       rect(0, 0, width, height);
       drawContent();
     popMatrix();
-  
+
     int tempX = constrain(mouseX-width/4, 0, width);
     int tempY = constrain(mouseY-height/4, 0, height);
     temp = get(tempX, tempY, temp.width, temp.height);
-  
-    drawContent();  
+
+    drawContent();
 
     image(temp, tempX, tempY);
 
@@ -184,11 +184,17 @@ void onMousePressed() {
     else {
       // If nothing's selected and in CREATION mode, then try creating initiator
       if (initiator == null)
-        initiator = new Initiator(mouseX, mouseY, Constants.INITIATOR_SIZE, Constants.EX_COLOR);
+        initiator = new Initiator(mouseX,
+                                  mouseY,
+                                  Constants.INITIATOR_SIZE,
+                                  Constants.EX_COLOR);
       // if initiator is already present, then create a SOMA
       else if (currShape == null)
-        currShape = new Soma(mouseX, mouseY, Constants.SOMA_SIZE, 
-                    (random(1) > 0.5) ? Constants.EX_COLOR : Constants.IN_COLOR, Constants.SOMA_DEFAULT_THRESHOLD);
+        currShape = new Soma(mouseX,
+                             mouseY,
+                             Constants.SOMA_SIZE,
+                             Constants.EX_COLOR,
+                             Constants.SOMA_DEFAULT_THRESHOLD);
     }
   }
   else if (currentMode == Constants.DELETION) {
@@ -242,7 +248,7 @@ void onMouseDragged() {
         }
         lastSelected = selected;
       }
-      else { // If not different from the last 
+      else { // If not different from the last
         // If still in the initiator or the last selected soma
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA ||
@@ -262,7 +268,10 @@ void onMouseDragged() {
         else if (lastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)lastSelected;
           if (!s.isComplete()) {
-            currPath = new Dendrite(s, s.x(), s.y(), s.fColor);
+            currPath = new Dendrite(s, s.x(), s.y(),
+                                    (s.fColor == Constants.EX_HIGHLIGHT_COLOR)
+                                     ? Constants.EX_COLOR
+                                     : Constants.IN_COLOR);
             currPath.add(tempPathNode.x, tempPathNode.y);
           }
         }
@@ -349,22 +358,22 @@ void onMouseReleased() {
 
 void keyPressed() {
   switch (key) {
-    case '1': 
+    case '1':
       currentMode = Constants.CREATION;
       break;
-    case '2': 
+    case '2':
       currentMode = Constants.DELETION;
       break;
-    case '3': 
+    case '3':
       currentMode = Constants.INTERACTION;
       break;
-    case 'm': 
+    case 'm':
       magnify = !magnify;
       break;
-    case 'p': 
+    case 'p':
       noLoop();
       break;
-    case 'o': 
+    case 'o':
       loop();
       break;
     case 'c':

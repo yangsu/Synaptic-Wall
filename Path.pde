@@ -11,12 +11,12 @@ public abstract class Path extends Interactive implements Signalable{
   // Find a way to not special case this
   protected PVector fSrcLoc;
   protected int fDestPos;
-  
+
   public Path(Signalable src, float x, float y, color cc) {
+    super(x, y, cc);
     fConnectedPaths = new ArrayList<Path>();
     fVertices = new ArrayList<PVector>();
     fSignals = new ArrayList<Signal>();
-    fColor = cc;
     fCurrIndex = 0;
     fDest = null;
     fSrc = src;
@@ -24,7 +24,7 @@ public abstract class Path extends Interactive implements Signalable{
     fSrcLoc = new PVector(x,y);
     fVertices.add(new PVector(x,y));
   }
-  
+
   public Path(Path p, float x, float y, color cc) {
     this((Signalable)p, x, y, cc);
     PVector temp = p.fVertices.get(p.fCurrIndex);
@@ -38,7 +38,7 @@ public abstract class Path extends Interactive implements Signalable{
   public void close() {
     fClosed = true;
   }
-  
+
   public void setDest(Signalable obj) {
     fDest = obj;
   }
@@ -61,14 +61,14 @@ public abstract class Path extends Interactive implements Signalable{
     else
       return null;
   }
-  
+
   public void add(float x, float y) {
     if (fClosed) return;
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
     float px = prev.x;
     float py = prev.y;
-    
+
     //Find the difference between the previous location and the current one, and normalizes dx and dy using that difference
     float num;
     if(abs(x-px)>abs(y-py))
@@ -77,7 +77,7 @@ public abstract class Path extends Interactive implements Signalable{
       num = abs(y-py);
     float dx=(x-px)/num;
     float dy=(y-py)/num;
-    
+
     //Add all the fVertices in between the previous and current fVertices using dx and dy
     for(int i = 1;i<=num;i++) {
       fVertices.add(new PVector(px+i*dx,py+i*dy));
@@ -87,18 +87,18 @@ public abstract class Path extends Interactive implements Signalable{
     if (fClosed) return;
     this.add(p.x, p.y);
   }
-  
+
   public void addPath(Path p) {
     fConnectedPaths.add(p);
   }
-  
+
   public void translate(PVector change) {
     if (fMovable)
       for (PVector vertex : fVertices) {
         vertex.add(change);
       }
   }
-  
+
   public void reduce() {
     this.reduce(Constants.SIGNAL_RESOLUTION);
   }
@@ -119,7 +119,7 @@ public abstract class Path extends Interactive implements Signalable{
         drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
       }
     popStyle();
-    
+
     processSignals();
     for (Signal s : fSignals)
       s.drawRange();
@@ -129,7 +129,7 @@ public abstract class Path extends Interactive implements Signalable{
   private void drawPath() {
     pushStyle();
     noFill();
-    stroke((fHover) ? Utilities.highlight(fColor) : fColor);
+    stroke((fHover) ? fHighlightColor : fColor);
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
@@ -149,7 +149,7 @@ public abstract class Path extends Interactive implements Signalable{
   private void drawJunction(PVector p) {
     drawJunction(p.x, p.y);
   }
-  
+
   private void processSignals() {
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
@@ -178,7 +178,7 @@ public abstract class Path extends Interactive implements Signalable{
       }
     }
   }
-  
+
   public void addSignal(Signal s) {
     fSignals.add(s);
   }
@@ -188,7 +188,7 @@ public abstract class Path extends Interactive implements Signalable{
     copy.setIndex(s.fPath.fDestPos);
     this.addSignal(copy);
   }
-  
+
   public boolean isInBounds(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
