@@ -22,7 +22,7 @@ public abstract class Drawable {
                         : Constants.IN_HIGHLIGHT_COLOR;
   }
 
-  abstract int getType();
+  public abstract int getType();
 
   public void translate(PVector change) {
     if (fMovable)

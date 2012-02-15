@@ -362,12 +362,15 @@ void keyPressed() {
   switch (key) {
     case '1':
       currentMode = Constants.CREATION;
+      objs.hideControls();
       break;
     case '2':
       currentMode = Constants.DELETION;
+      objs.hideControls();
       break;
     case '3':
       currentMode = Constants.INTERACTION;
+      objs.showControls();
       break;
     case 'm':
       magnify = !magnify;

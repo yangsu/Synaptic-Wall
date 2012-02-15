@@ -2,17 +2,17 @@ public class ObjectCollection {
   Interactive fSelected;
   ArrayList<Interactive> fObjs;
 
-  ObjectCollection() {
+  public ObjectCollection() {
     fSelected = null;
     fObjs = new ArrayList<Interactive>();
   }
-  
-  void draw() {
+
+  public void draw() {
     for (Interactive s : fObjs)
       s.draw();
   }
-  
-  boolean select(float x, float y) {
+
+  public boolean select(float x, float y) {
     this.deselectAll();
     for (Interactive s : fObjs) {
       if (s.select(x, y)) {
@@ -22,27 +22,43 @@ public class ObjectCollection {
     }
     return false;
   }
-  
-  void deselectAll() {
+
+  public void showControls() {
+    for (Interactive s : fObjs) {
+      if (s.getType() == Constants.INITIATOR ||
+          s.getType() == Constants.SOMA)
+          ((Controllable)s).showControls();
+    }
+  }
+
+  public void hideControls() {
+    for (Interactive s : fObjs) {
+      if (s.getType() == Constants.INITIATOR ||
+          s.getType() == Constants.SOMA)
+          ((Controllable)s).hideControls();
+    }
+  }
+
+  public void deselectAll() {
     fSelected = null;
     for (Interactive s : fObjs)
       s.deselect();
   }
 
-  Interactive getSelected() {
+  public Interactive getSelected() {
     return fSelected;
   }
-  
-  void add(Interactive s) {
+
+  public void add(Interactive s) {
     if (s != null)
       fObjs.add(s);
   }
 
-  void remove(Interactive s) {
+  public void remove(Interactive s) {
     if (s != null)
       fObjs.remove(s);
   }
-  
+
   public boolean onMouseDown(float x, float y) {
     for (Interactive s : fObjs)
       if (s.onMouseDown(x, y))

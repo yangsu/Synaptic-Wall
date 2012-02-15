@@ -1,5 +1,6 @@
 public abstract class Cell extends Shape implements Controllable {
   private boolean fControlActive;
+  private boolean fControlVisible;
 
   protected ArrayList<Path> fDendrites;
   protected ArrayList<Control> fControls;
@@ -11,13 +12,32 @@ public abstract class Cell extends Shape implements Controllable {
     fControls = new ArrayList<Control>();
 	}
 
-  void addPath(Path p) {
+  public void addPath(Path p) {
     fDendrites.add(p);
+  }
+
+  public void showControls() {
+    fControlVisible = true;
+  }
+
+  public void hideControls() {
+    fControlVisible = false;
+  }
+
+  public void drawControls () {
+    for (Control c : fControls)
+      c.draw();
+  }
+
+  public void draw() {
+    if (fControlVisible) {
+      this.drawControls();
+    }
   }
 	public boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
-  
+
   public boolean onMouseDown(float x, float y) {
     fControlActive = false;
     for (Control c : fControls) {
@@ -29,7 +49,7 @@ public abstract class Cell extends Shape implements Controllable {
     }
     return super.onMouseDown(x,y);
   }
-  
+
   public void translate(PVector change) {
   	if (fMovable) {
       for (Path dendrite : fDendrites)
@@ -55,14 +75,14 @@ public abstract class Cell extends Shape implements Controllable {
     else
       return super.onMouseDragged(x,y);
   }
-  
+
   public boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
       if (c.onMouseMoved(x,y))
         return true;
     return super.onMouseMoved(x,y);
   }
-  
+
   public boolean onMouseUp(float x, float y) {
     fControlActive = false;
     for (Control c : fControls)

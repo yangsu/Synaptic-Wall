@@ -12,10 +12,10 @@ public class Initiator extends Cell {
   private int fStep, fStop;
 
   public Initiator(float x, float y, float size, color cc) {
-    this(x, y, size, cc, Constants.DEFAULT_RHYTHMICITY, 
+    this(x, y, size, cc, Constants.DEFAULT_RHYTHMICITY,
          Constants.DEFAULT_BURSTINESS, Constants.DEFAULT_FREQUENCY);
   }
-  
+
   public Initiator(float x, float y, float size, color cc, float rhythmicity, int burstiness, float frequency) {
     super(x, y, size, cc);
     fRhythmicity = rhythmicity;
@@ -26,18 +26,18 @@ public class Initiator extends Cell {
 
     // Add controls
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
-  
+
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
                                      0, TWO_PI/3,
                                      fRhythmicity, 0, Constants.MAX_RHYTHMICITY,
                                      RHYTHMICITY, this));
-    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize, 
-                                     TWO_PI/3, 2 * TWO_PI/3, 
-                                     fBurstiness, 1, Constants.MAX_BURSTINESS, 
+    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
+                                     TWO_PI/3, 2 * TWO_PI/3,
+                                     fBurstiness, 1, Constants.MAX_BURSTINESS,
                                      BURSTINESS, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize, 
-                                     2 * TWO_PI/3, TWO_PI, 
-                                     fFreq, 0, Constants.MAX_FREQUENCY, 
+    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
+                                     2 * TWO_PI/3, TWO_PI,
+                                     fFreq, 0, Constants.MAX_FREQUENCY,
                                      FREQUENCY, this));
     fPropChanged = false;
     fStep = 30;
@@ -60,9 +60,9 @@ public class Initiator extends Cell {
 
   private void fireSignal() {
     for (Path p : fDendrites)
-        p.addSignal(new PostsynapticPotential(Constants.SIGNAL_DEFAULT_SPEED, 
-                                              Constants.SIGNAL_DEFAULT_LENGTH, 
-                                              Constants.SIGNAL_DEFAULT_STRENGTH, 
+        p.addSignal(new PostsynapticPotential(Constants.SIGNAL_DEFAULT_SPEED,
+                                              Constants.SIGNAL_DEFAULT_LENGTH,
+                                              Constants.SIGNAL_DEFAULT_STRENGTH,
                                               p));
   }
   private void processFiringPattern() {
@@ -88,10 +88,9 @@ public class Initiator extends Cell {
     }
   }
 
-  public void draw() {    
+  public void draw() {
+    super.draw();
     pushStyle();
-      for (Control c : fControls)
-        c.draw();
       this.drawInitiator();
       this.processFiringPattern();
       this.visualizeChange();

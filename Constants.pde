@@ -77,7 +77,7 @@ static class Constants {
   // Slider Settings
   static final color SLIDER_BG_COLOR        = 0x64FFFFFF;
   static final color SLIDER_BAR_COLOR       = 0xFFCCCCCC;
-  static final color SLIDER_HANDLE_COLOR    = 0xFF000000;
+  static final color SLIDER_HANDLE_COLOR    = BG_COLOR;
   static final float SLIDER_BAR_WIDTH       = 7.5;
   static final float SLIDER_BAR_LENGTH      = 0.1;
   static final float SLIDER_HANDLE_WIDTH    = 0.03;

@@ -96,9 +96,8 @@ class Soma extends Cell {
   }
 
   public void draw() {
+    super.draw();
     pushStyle();
-      for (Control c : fControls)
-        c.draw();
       this.drawSoma();
       this.drawControlDisplays();
     popStyle();
