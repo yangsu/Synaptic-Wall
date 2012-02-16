@@ -14,7 +14,7 @@ static class Constants {
   static final int DENDRITE  = 3;
   static final int SYNAPSE   = 4;
   static final int SIGNAL    = 5;
-  static final int CONTROL   = 5;
+  static final int CONTROL   = 6;
 
   // Global Settings
   static final color BG_COLOR           = 0xFF4C4C4C;
@@ -53,8 +53,8 @@ static class Constants {
   static final int    EPSP  = 1;
   static final int    IPSP  = -1;
   static final int    AP    = 0;
-  static final int    EPSP_COLOR = 0xFFFEFB98;
-  static final int    IPSP_COLOR = 0xFF66A3CF;
+  static final int    EPSP_COLOR = 0xFFD2C277;
+  static final int    IPSP_COLOR = 0xFF67A4D0;
   static final int    AP_COLOR = 0xFFF8F8F8;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
   static final int    SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;

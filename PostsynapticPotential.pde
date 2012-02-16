@@ -1,8 +1,6 @@
 class PostsynapticPotential extends Signal {
-  color fSignalColor;
   PostsynapticPotential(float speed, float length, float strength, Path p) {
     super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, strength, p);
-    fSignalColor = (fStrength >= 0) ? Constants.EPSP_COLOR : Constants.IPSP_COLOR;
   }
 
   public Signal makeCopy(Path p) {
@@ -19,23 +17,43 @@ class PostsynapticPotential extends Signal {
       int t2 = round(constrain(fCurrIndex - offset, 0, fEndIndex));
       int t3 = round(constrain(fCurrIndex + offset, 0, fEndIndex));
       int t4 = round(constrain(fCurrIndex + offset + fLength, 0, fEndIndex));
-
-      for (int i = t1, j = t4-1; i < t2 && j >= t3; ++i, --j) {
-        stroke(lerpColor(fColor, fSignalColor, float(i-t1)/(t2-t1)));
-        begin = fPath.fVertices.get(i);
-        end = fPath.fVertices.get(i+1);
-        line(begin.x, begin.y, end.x, end.y);
-        begin = fPath.fVertices.get(j);
-        end = fPath.fVertices.get(j+1);
-        line(begin.x, begin.y, end.x, end.y);
+      int i = t1, j = t4-1;
+      for (int it = 0; it < fLength; ++it) {
+        stroke(lerpColor(0xFFFFFF & fColor, fHighlightColor, it/fLength));
+        if (i < t2) {
+          begin = fPath.fVertices.get(i);
+          end = fPath.fVertices.get(i+1);
+          line(begin.x, begin.y, end.x, end.y);
+        }
+        if (j >= t3) {
+          begin = fPath.fVertices.get(j);
+          end = fPath.fVertices.get(j+1);
+          line(begin.x, begin.y, end.x, end.y);
+        }
+        ++i;
+        --j;
       }
+      // Debug Code
+      // PVector p;
+      // p = fPath.fVertices.get(t1);
+      // fill(255, 0, 0);
+      // ellipse(p.x, p.y, 2, 2);
+      // p = fPath.fVertices.get(t2);
+      // fill(0, 255, 0);
+      // ellipse(p.x, p.y, 2, 2);
+      // p = fPath.fVertices.get(t3);
+      // fill(0, 0, 255);
+      // ellipse(p.x, p.y, 2, 2);
+      // p = fPath.fVertices.get(t4);
+      // fill(255, 255, 255);
+      // ellipse(p.x, p.y, 2, 2);
     popStyle();
   }
   void draw() {
     pushStyle();
       strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
       stroke(fColor);
-      fill(fSignalColor);
+      fill(fHighlightColor);
       float s = abs(fStrength) + Constants.SIGNAL_WIDTH/2;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
