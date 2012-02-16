@@ -192,7 +192,7 @@ void onMousePressed() {
       if (initiator == null)
         initiator = new Initiator(mouseX,
                                   mouseY,
-                                  Constants.INITIATOR_SIZE,
+                                  Constants.SOMA_SIZE,
                                   Constants.EX_COLOR);
       // if initiator is already present, then create a SOMA
       else if (currShape == null)

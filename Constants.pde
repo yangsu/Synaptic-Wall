@@ -30,7 +30,6 @@ static class Constants {
 
   static final int  CELL_TIMING = 500;
   // Initiator Settings
-  static final int  INITIATOR_SIZE = 40;
 
   // Soma Settings
   static final int   SOMA_SIZE              = 30;
