@@ -2,15 +2,21 @@ class ThresholdSlider extends CircularSlider {
   static final int BEGIN = 1;
   static final int END = 2;
 
-  ThresholdSlider(float x, float y, float size, int id, Controllable target) {
+  ThresholdSlider(float x, float y, float size,
+                  int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, 0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD, id, target);
   }
 
-  ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
+  ThresholdSlider(float x, float y, float size,
+                  float val, float min, float max,
+                  int id, Controllable target) {
     this(x, y, size, PI + min/Constants.SOMA_MAX_THRESHOLD * PI, PI + max/Constants.SOMA_MAX_THRESHOLD*PI, val, min, max, id, target);
   }
 
-  ThresholdSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
+  ThresholdSlider(float x, float y, float size,
+                  float begin, float end,
+                  float val, float min, float max,
+                  int id, Controllable target) {
     super(x, y, size, begin, end, val, min, max, id, target);
   }
 
@@ -28,15 +34,22 @@ class ThresholdSlider extends CircularSlider {
       arc(fLoc.x, fLoc.y, temp, temp, fSlider, PI);
     }
 
-    fill((fHover && (fState == BEGIN)) ? Constants.IN_HIGHLIGHT_COLOR : Constants.IN_COLOR);
+    fill((fHover && (fState == BEGIN))
+          ? Constants.IN_HIGHLIGHT_COLOR
+          : Constants.IN_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fBegin, fBegin + Constants.THRESHOLD_HANDLE_WIDTH);
-    fill((fHover && (fState == END)) ? Constants.EX_HIGHLIGHT_COLOR : Constants.EX_COLOR);
+    fill((fHover && (fState == END))
+      ? Constants.EX_HIGHLIGHT_COLOR
+      : Constants.EX_COLOR);
     arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.THRESHOLD_HANDLE_WIDTH, fEnd);
     fill(Constants.BG_COLOR);
 
     // added 0.02 offset to cover up extraneous pixels
-    arc(fLoc.x, fLoc.y, fSize, fSize, constrain(fBegin-0.02, -0.02, PI - Constants.THRESHOLD_HANDLE_WIDTH),
-    constrain(fEnd+0.02, PI + Constants.THRESHOLD_HANDLE_WIDTH, TWO_PI+0.02));
+    arc(fLoc.x, fLoc.y, fSize, fSize,
+        constrain(fBegin - 0.02, -0.02, PI - Constants.THRESHOLD_HANDLE_WIDTH),
+        constrain(fEnd + 0.02,
+                  PI + Constants.THRESHOLD_HANDLE_WIDTH,
+                  TWO_PI+0.02));
   }
 
   void addChange(float signal) {
