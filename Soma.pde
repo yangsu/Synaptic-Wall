@@ -1,5 +1,5 @@
 class Soma extends Cell {
-  private float[] fReceivedAPs;
+  private float[] fReceivedPSPs;
 
   private ThresholdSlider fThresholdSlider;
   private float fSpeed, fLength, fStrength;
@@ -20,7 +20,7 @@ class Soma extends Cell {
 
   Soma(float x, float y, float size, color cc, float positivet, float negativet) {
     super(x, y, size, cc);
-    fReceivedAPs = new float[0];
+    fReceivedPSPs = new float[0];
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
     fLength = Constants.SIGNAL_DEFAULT_LENGTH;
     fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
@@ -63,7 +63,7 @@ class Soma extends Cell {
       fTimer = millis();
       if (fTimer > fMid && !fFired) {
         // Fire signal
-        fReceivedAPs = new float[0];
+        fReceivedPSPs = new float[0];
         //Generate AP
         for (Path p : fDendrites)
           p.addSignal(new ActionPotential(fSpeed, fStrength, p));
@@ -150,7 +150,7 @@ class Soma extends Cell {
 
   public void onSignal(Signal s) {
     fThresholdSlider.addChange(s.fStrength);
-    fReceivedAPs = append(fReceivedAPs, s.fStrength);
+    fReceivedPSPs = append(fReceivedPSPs, s.fStrength);
   }
 
   public void onEvent(int controlID, float value) {

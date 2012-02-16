@@ -122,9 +122,9 @@ public abstract class Path extends Interactive implements Signalable{
 
     processSignals();
     for (Signal s : fSignals)
-      s.drawRange();
-    for (Signal s : fSignals)
       s.draw();
+    for (Signal s : fSignals)
+      s.drawRange();
   }
   private void drawPath() {
     pushStyle();

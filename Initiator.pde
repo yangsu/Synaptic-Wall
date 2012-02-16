@@ -82,10 +82,9 @@ public class Initiator extends Cell {
 
   private void fireSignal() {
     for (Path p : fDendrites)
-        p.addSignal(new PostsynapticPotential(Constants.SIGNAL_DEFAULT_SPEED,
-                                              Constants.SIGNAL_DEFAULT_LENGTH,
-                                              Constants.SIGNAL_DEFAULT_STRENGTH,
-                                              p));
+        p.addSignal(new ActionPotential(Constants.SIGNAL_DEFAULT_SPEED,
+                                        Constants.SIGNAL_DEFAULT_STRENGTH,
+                                        p));
   }
   private void processFiringPattern() {
     int interval = (int)(30/fFreq);

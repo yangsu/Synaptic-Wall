@@ -7,7 +7,6 @@ public class Synapse extends Shape {
   private int fTimer;
   private int fEndTime;
   private int fMid;
-  private Signal fSigTemplate;
 
   public Synapse(Path axon, float x, float y, color cc) {
     this(axon, x, y, cc, Constants.SYNAPSE_DEFAULT_STRENGTH);
@@ -25,7 +24,6 @@ public class Synapse extends Shape {
     fTimer = 0;
     fEndTime = 0;
     fMid = 0;
-    fSigTemplate = null;
   }
 
   public int getType() {
@@ -44,8 +42,12 @@ public class Synapse extends Shape {
     if (fTimer < fEndTime) {
       drawActivation();
       fTimer = millis();
-      if (fTimer > fMid && fDendrite != null && !fFired && fSigTemplate != null) {
-        fDendrite.addSignal(fSigTemplate.makeCopy(fDendrite));
+      if (fTimer > fMid && fDendrite != null && !fFired) {
+        fDendrite.addSignal(new PostsynapticPotential(
+                              Constants.SIGNAL_DEFAULT_SPEED,
+                              Constants.SIGNAL_DEFAULT_LENGTH,
+                              fStrength,
+                              fDendrite));
         fFired = true;
       }
     }
@@ -81,9 +83,6 @@ public class Synapse extends Shape {
       fTimer = millis();
       fEndTime = fTimer + Constants.SYNAPSE_TIMING;
       fMid = fTimer + Constants.SYNAPSE_TIMING/2;
-      // TODO: do processing on signal
-      if (fDendrite != null)
-        fSigTemplate = s.makeCopy(fDendrite);
     }
   }
 

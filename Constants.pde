@@ -57,10 +57,10 @@ static class Constants {
   static final int    IPSP_COLOR = 0xFF66A3CF;
   static final int    AP_COLOR = 0xFFF8F8F8;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
-  static final int    SIGNAL_DEFAULT_LENGTH   = 15;
+  static final int    SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
   static final float  SIGNAL_DEFAULT_STRENGTH = 4;
   static final int    SIGNAL_MAX_SPEED        = 5;
-  static final int    SIGNAL_MAX_LENGTH       = 20;
+  static final int    SIGNAL_MAX_LENGTH       = 30;
   static final float  SIGNAL_MAX_STRENGTH     = 8.0;
 
   static final float SIGNAL_CONTROL_LENGTH = 3.0;

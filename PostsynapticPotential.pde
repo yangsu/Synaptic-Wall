@@ -12,7 +12,7 @@ class PostsynapticPotential extends Signal {
   void drawRange() {
     if (fLength <= 1) return;
     pushStyle();
-      strokeWeight(Constants.SIGNAL_WIDTH - Constants.SIGNAL_BORDER_WIDTH);
+      strokeWeight(Constants.SIGNAL_WIDTH - 2*Constants.SIGNAL_BORDER_WIDTH);
       int offset = (int)(abs(fStrength)/Constants.SIGNAL_RESOLUTION);
       PVector begin, end;
       int t1 = round(constrain(fCurrIndex - offset - fLength, 0, fEndIndex));
