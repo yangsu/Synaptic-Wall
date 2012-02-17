@@ -115,9 +115,8 @@ public abstract class Path extends Interactive implements Signalable{
   public void draw() {
     pushStyle();
       drawPath();
-      if (fHover) {
-        drawJunction(fVertices.get(fCurrIndex).x, fVertices.get(fCurrIndex).y);
-      }
+      // if (fHover)
+      //   drawJunction(getVertex(fCurrIndex));
     popStyle();
 
     processSignals();
