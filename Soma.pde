@@ -9,6 +9,7 @@ class Soma extends Cell {
   private static final int STRENGTH = 3;
   private static final int THRESHOLD = 4;
 
+  private int fLastFired;
   Soma(float x, float y, float size, color cc, float threshold) {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
   }
@@ -39,6 +40,8 @@ class Soma extends Cell {
                                             0, negativet, positivet,
                                             THRESHOLD, this);
     fControls.add(fThresholdSlider);
+
+    fLastFired = 0;
   }
 
   public int getType() {
@@ -50,7 +53,8 @@ class Soma extends Cell {
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
     float val = fThresholdSlider.getValue();
-    if (val == 1.0) {
+    if (val == 1.0 && (millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
+      fLastFired = millis();
       for (Path p : fDendrites)
         p.addSignal(new ActionPotential(fSpeed, fStrength, p));
     }

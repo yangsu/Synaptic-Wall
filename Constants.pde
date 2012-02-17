@@ -33,6 +33,7 @@ static class Constants {
 
   // Soma Settings
   static final int   SOMA_SIZE              = 30;
+  static final int   SOMA_FIRING_DELAY      = 300;
   static final float SOMA_RING_WIDTH        = 8.0;
   static final float SOMA_DEFAULT_THRESHOLD = 5.0;
   static final float SOMA_MAX_THRESHOLD     = 10.0;
