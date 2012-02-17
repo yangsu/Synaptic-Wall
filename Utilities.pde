@@ -20,6 +20,7 @@ static class Utilities {
   static color highlight(color c) {
     return c + 0x222222;
   }
+
   static float convertToArcCoord(float val) {
     if (val > -PI && val < HALF_PI)
       val += (PI + HALF_PI);
@@ -27,6 +28,7 @@ static class Utilities {
       val -= HALF_PI;
     return val;
   }
+
   static float getAngleNorm(float x1, float y1, float x2, float y2) {
     float temp = atan2(y2-y1, x2-x1);
     return (temp < 0) ? temp + TWO_PI : temp;
@@ -38,9 +40,11 @@ static class Utilities {
       temp -= TWO_PI;
     return temp;
   }
+
   static float getAngle(float x1, float y1, float x2, float y2) {
     return atan2(y2-y1, x2-x1);
   }
+
   static float constrain(float value, float min, float max) {
     float mid = (min + max)/2;
     float temp = mid + PI;
