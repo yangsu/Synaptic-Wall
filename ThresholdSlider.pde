@@ -46,8 +46,8 @@ class ThresholdSlider extends CircularSlider {
   private void drawThresholdArc(float x, float y, float s, float b, float e) {
     float bb = Utilities.convertToArcCoord(b);
     float ee = Utilities.convertToArcCoord(e);
-    if (b * e >= 0 /* same sign */||
-        (ee >= (PI + HALF_PI) && ee <= TWO_PI)) {
+    if ((b * e >= 0 && ee >= bb) /* same sign */||
+        (ee >= (PI + HALF_PI) && ee < TWO_PI)) {
       arc(x, y, s, s, bb, ee);
     }
     else {
@@ -72,12 +72,12 @@ class ThresholdSlider extends CircularSlider {
       else
         this.drawThresholdArc(fLoc.x, fLoc.y, size, -fOffset, fOffset);
       fill((fHover && (fState == BEGIN))
-            ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
-            : Constants.THRESHOLD_POSITIVE_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fBegin + fOffset);
-      fill((fHover && (fState == END))
             ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
             : Constants.THRESHOLD_NEGATIVE_COLOR);
+      this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fBegin + fOffset);
+      fill((fHover && (fState == END))
+            ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
+            : Constants.THRESHOLD_POSITIVE_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, size, fEnd - fOffset, fEnd);
 
       fill(Constants.BG_COLOR);
