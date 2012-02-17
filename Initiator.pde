@@ -5,7 +5,7 @@ public class Initiator extends Cell {
 
   private float fRhythmicity, fFreq;
   private int fBurstiness;
-  private int fBirthTime;
+  private int fLastFireTime;
 
   private int fTimer;
   private int fEndTime;
@@ -42,7 +42,7 @@ public class Initiator extends Cell {
                                      2 * TWO_PI/3, TWO_PI,
                                      fFreq, 0, Constants.MAX_FREQUENCY,
                                      FREQUENCY, this));
-    fBirthTime = frameCount;
+    fLastFireTime = millis();
 
     fTimer = 0;
     fEndTime = 0;
@@ -87,15 +87,18 @@ public class Initiator extends Cell {
                                         p));
   }
   private void processFiringPattern() {
-    int interval = (int)(30/fFreq);
-    if ((frameCount - fBirthTime)%interval == 0 && random(1.0) <= fRhythmicity) {
+    int interval = (int)(1000/fFreq);
+    println(interval);
+    int time = millis();
+    if ((time - fLastFireTime) > interval && random(1.0) <= fRhythmicity) {
+      fLastFireTime = time;
       //fire
       this.startTimer();
       //add burst
       for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
-        fFiringQueue = append(fFiringQueue, frameCount + i * Constants.BURST_DELAY);
+        fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
     }
-    if (fFiringQueue.length > 0 && fFiringQueue[0] <= frameCount) {
+    if (fFiringQueue.length > 0 && fFiringQueue[0] <= time) {
       //fire
       this.startTimer();
       fFiringQueue = subset(fFiringQueue, 1);
