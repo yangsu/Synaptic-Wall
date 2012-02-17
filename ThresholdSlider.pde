@@ -5,46 +5,32 @@ class ThresholdSlider extends CircularSlider {
   private float fOffset;
   public ThresholdSlider(float x, float y, float size,
                   int id, Controllable target) {
-    this(x, y, size, 0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD, id, target);
+    this(x, y, size,
+        0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD,
+        id, target);
   }
 
   public ThresholdSlider(float x, float y, float size,
                   float val, float min, float max,
                   int id, Controllable target) {
-    // this(x, y, size, PI + min/Constants.SOMA_MAX_THRESHOLD * PI, PI + max/Constants.SOMA_MAX_THRESHOLD*PI, val, min, max, id, target);
     super(x, y, size,
           (min/Constants.SOMA_MAX_THRESHOLD) * PI,
           (max/Constants.SOMA_MAX_THRESHOLD) * PI,
           val, min, max, id, target);
-    // fBegin = (min/Constants.SOMA_MAX_THRESHOLD) * PI;
-    // fEnd = (max/Constants.SOMA_MAX_THRESHOLD) * PI;
     fSlider = HALF_PI;
     fOffset = Constants.THRESHOLD_HANDLE_WIDTH;
   }
 
-  // public ThresholdSlider(float x, float y, float size,
-  //                 float begin, float end,
-  //                 float val, float min, float max,
-  //                 int id, Controllable target) {
-  //   super(x, y, size, begin, end, val, min, max, id, target);
-  // }
   public float getValue() {
-    if (fSlider > 0) {
+    if (fSlider > 0)
       return map(fSlider, fOffset, fEnd - fOffset, 0, fMax);
-    }
-    else if (fSlider < 0) {
+    else if (fSlider < 0)
       return map(fSlider, fBegin + fOffset, -fOffset, fMin, 0);
-    }
     else
       return 0;
   }
+
   private void drawThresholdArc(float x, float y, float s, float b, float e) {
-    // if (!(b <= 0 && b >= -PI)) {
-    //   println("begin has an incorrect value :"+ b);
-    // }
-    // if (!(e >= 0 && e <= PI)) {
-    //   println("end has an incorrect value :"+ e);
-    // }
     float bb = Utilities.convertToArcCoord(b);
     float ee = Utilities.convertToArcCoord(e);
     if (b * e >= 0 /* same sign */||
@@ -56,6 +42,7 @@ class ThresholdSlider extends CircularSlider {
       arc(x, y, s, s, 0, ee);
     }
   }
+
   public void draw() {
     pushStyle();
       if (!fVisible) return;
@@ -86,7 +73,6 @@ class ThresholdSlider extends CircularSlider {
   }
 
   public void addChange(float signal) {
-    // if the value is greater than max or less than min, meaning that the last signal caused the slider to go over the threshold, change the
     float temp = this.getValue();
     if (temp >= fMax)
       this.setValue(fMax - temp);
@@ -125,11 +111,11 @@ class ThresholdSlider extends CircularSlider {
       switch (fState) {
         case BEGIN:
           fBegin = constrain(angle, -PI, -2*fOffset);
-          // fMin = - (PI - fBegin)/PI * Constants.SOMA_MAX_THRESHOLD;
+          fMin = fBegin/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
           fEnd = constrain(angle, 2*fOffset, PI);
-          // fMax = (fEnd - PI)/PI * Constants.SOMA_MAX_THRESHOLD;
+          fMax = fEnd/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }
       fSlider = constrain(fSlider, fBegin + fOffset, fEnd - fOffset);
