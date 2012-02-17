@@ -13,7 +13,7 @@ class ActionPotential extends Signal {
       strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
       stroke(Constants.BG_COLOR);
       fill(fColor);
-      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
+      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH + Constants.SIGNAL_BASE;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
   }

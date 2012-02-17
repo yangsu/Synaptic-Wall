@@ -1,9 +1,9 @@
 abstract class Signal extends Drawable {
-  protected int fType, fCurrIndex, fEndIndex;
+  public int fCurrIndex, fEndTime;
   public float fSpeed, fLength, fStrength;
+  protected int fType, fEndIndex;
   protected Path fPath;
   protected Signalable fDest;
-  public int fEndTime;
 
   Signal() {}
   Signal (int type, float speed, float length, float strength, Path p) {
@@ -26,14 +26,6 @@ abstract class Signal extends Drawable {
 
   public void setIndex(int i) {
     fCurrIndex = constrain(i, 0, fEndIndex);
-  }
-
-  public int getIndex() {
-    return fCurrIndex;
-  }
-
-  public float getValue() {
-    return fStrength;
   }
 
   public int step() {
