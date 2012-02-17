@@ -294,7 +294,7 @@ void onMouseDragged() {
 }
 
 void onMouseMoved() {
-  if (currentMode == Constants.INTERACTION) {
+  if (currentMode == Constants.INTERACTION || magnify) {
     objs.onMouseMoved(mouseX, mouseY);
     redraw();
   }
