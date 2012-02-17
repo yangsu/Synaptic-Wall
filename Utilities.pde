@@ -56,4 +56,8 @@ static class Utilities {
       return max;
     return value;
   }
+
+  static float pulse(float amplitude, int elapsed, int length) {
+    return amplitude * (-0.5 * cos(elapsed * TWO_PI/length) + 0.5);
+  }
 }

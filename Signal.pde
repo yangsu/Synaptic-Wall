@@ -1,8 +1,9 @@
 abstract class Signal extends Drawable {
   protected int fType, fCurrIndex, fEndIndex;
-  protected float fSpeed, fLength, fStrength;
+  public float fSpeed, fLength, fStrength;
   protected Path fPath;
   protected Signalable fDest;
+  public int fEndTime;
 
   Signal() {}
   Signal (int type, float speed, float length, float strength, Path p) {
@@ -16,31 +17,36 @@ abstract class Signal extends Drawable {
     fDest = p.fDest;
     fCurrIndex = 0;
     fEndIndex = p.fVertices.size() - 1;
-    // fCurrIndex = -round(delay / (1000.0/frameRate));
+    fEndTime = 0;
   }
+
   public int getType() {
     return Constants.SIGNAL;
   }
-  void setIndex(int i) {
+
+  public void setIndex(int i) {
     fCurrIndex = constrain(i, 0, fEndIndex);
   }
-  int getIndex() {
+
+  public int getIndex() {
     return fCurrIndex;
   }
 
-  float getValue() {
+  public float getValue() {
     return fStrength;
   }
 
-  int step() {
+  public int step() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
-    if (fCurrIndex >= fEndIndex)
+    if (fCurrIndex >= fEndIndex) {
+      fEndTime = millis();
       fDest.onSignal(this);
+    }
     return fCurrIndex;
   }
 
-  boolean reachedDestination() {
+  public boolean reachedDestination() {
     return fCurrIndex >= fEndIndex;
   }
 

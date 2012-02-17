@@ -1,5 +1,5 @@
 class Soma extends Cell {
-  private float[] fReceivedPSPs;
+  private ArrayList<Signal> fReceivedPSPs;
 
   private ThresholdSlider fThresholdSlider;
   private float fSpeed, fLength, fStrength;
@@ -9,18 +9,13 @@ class Soma extends Cell {
   private static final int STRENGTH = 3;
   private static final int THRESHOLD = 4;
 
-  // Animation
-  private int fTimer;
-  private int fEndTime;
-  private int fMid;
-  private boolean fFired;
   Soma(float x, float y, float size, color cc, float threshold) {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
   }
 
   Soma(float x, float y, float size, color cc, float negativet, float positivet) {
     super(x, y, size, cc);
-    fReceivedPSPs = new float[0];
+    fReceivedPSPs = new ArrayList<Signal>();
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
     fLength = Constants.SIGNAL_DEFAULT_LENGTH;
     fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
@@ -44,10 +39,6 @@ class Soma extends Cell {
                                             0, negativet, positivet,
                                             THRESHOLD, this);
     fControls.add(fThresholdSlider);
-    fTimer = 0;
-    fEndTime = 0;
-    fMid = 0;
-    fFired = true;
   }
 
   public int getType() {
@@ -58,30 +49,13 @@ class Soma extends Cell {
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
-    if (fTimer < fEndTime) {
-      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
-        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
-      fTimer = millis();
-      if (fTimer > fMid && !fFired) {
-        // Fire signal
-        fReceivedPSPs = new float[0];
-        //Generate AP
-        for (Path p : fDendrites)
-          p.addSignal(new ActionPotential(fSpeed, fStrength, p));
-        fFired = true;
-      }
+    float val = fThresholdSlider.getValue();
+    if (val == 1.0) {
+      for (Path p : fDendrites)
+        p.addSignal(new ActionPotential(fSpeed, fStrength, p));
     }
-    else {
-      fill(fHighlightColor);
-    }
+    fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, val));
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
-  }
-
-  private void startTimer() {
-    fFired = false;
-    fTimer = millis();
-    fEndTime = fTimer + Constants.CELL_TIMING;
-    fMid = fTimer + Constants.CELL_TIMING/2;
   }
 
   private void drawControlDisplays() {
@@ -125,7 +99,22 @@ class Soma extends Cell {
     popStyle();
   }
 
+  private void processSignals() {
+    float sum = 0;
+    int now = millis();
+    for (int i = fReceivedPSPs.size()-1; i >= 0; --i) {
+      Signal s = fReceivedPSPs.get(i);
+      int diff = now - s.fEndTime;
+      if (diff > Constants.SIGNAL_FIRING_TIME)
+        fReceivedPSPs.remove(s);
+      else
+        sum += Utilities.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
+    }
+    fThresholdSlider.setValue(sum);
+  }
+
   public void draw() {
+    this.processSignals();
     super.draw();
     pushStyle();
       if (!fControlVisible)
@@ -151,8 +140,7 @@ class Soma extends Cell {
   }
 
   public void onSignal(Signal s) {
-    fThresholdSlider.addChange(s.fStrength);
-    fReceivedPSPs = append(fReceivedPSPs, s.fStrength);
+    fReceivedPSPs.add(s);
   }
 
   public void onEvent(int controlID, float value) {
@@ -167,7 +155,6 @@ class Soma extends Cell {
         fStrength = value;
         break;
       case THRESHOLD:
-        this.startTimer();
         break;
       default:
         break;

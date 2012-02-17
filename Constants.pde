@@ -57,7 +57,7 @@ static class Constants {
   static final int    AP_COLOR = 0xFFF8F8F8;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
   static final int    SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float  SIGNAL_DEFAULT_STRENGTH = 8.0;
+  static final float  SIGNAL_DEFAULT_STRENGTH = 4.0;
   static final int    SIGNAL_MAX_SPEED        = 5;
   static final int    SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
   static final float  SIGNAL_MAX_STRENGTH     = 8.0;
@@ -65,6 +65,7 @@ static class Constants {
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 8.0;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
+  static final int   SIGNAL_FIRING_TIME    = 800;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;

@@ -21,11 +21,24 @@ class ThresholdSlider extends CircularSlider {
     fOffset = Constants.THRESHOLD_HANDLE_WIDTH;
   }
 
+  public void setValue(float val) {
+    fTarget.onEvent(fID, val);
+    fValue = constrain(val, fMin, fMax);
+    if (fValue > 0)
+      fSlider = map(fValue, 0, fMax, fOffset, fEnd - fOffset);
+    else if (fValue < 0)
+      fSlider = map(fValue, fMin, 0, fBegin + fOffset, -fOffset);
+    else
+      fSlider = 0;
+  }
+
   public float getValue() {
     if (fSlider > 0)
-      return map(fSlider, fOffset, fEnd - fOffset, 0, fMax);
+      // return map(fSlider, fOffset, fEnd - fOffset, 0, fMax);
+      return norm(fSlider, fOffset, fEnd - fOffset);
     else if (fSlider < 0)
-      return map(fSlider, fBegin + fOffset, -fOffset, fMin, 0);
+      // return map(fSlider, fBegin + fOffset, -fOffset, fMin, 0);
+      return norm(fSlider, fBegin + fOffset, -fOffset);
     else
       return 0;
   }
@@ -52,38 +65,24 @@ class ThresholdSlider extends CircularSlider {
       this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fEnd);
 
       fill(Constants.HIGHLIGHT_COLOR);
-      if (fSlider > 0) {
+      if (fSlider > 0)
         this.drawThresholdArc(fLoc.x, fLoc.y, size, -fOffset, fSlider);
-      }
-      else {
+      else if (fSlider < 0)
         this.drawThresholdArc(fLoc.x, fLoc.y, size, fSlider, fOffset);
-      }
+      else
+        this.drawThresholdArc(fLoc.x, fLoc.y, size, -fOffset, fOffset);
       fill((fHover && (fState == BEGIN))
             ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
             : Constants.THRESHOLD_POSITIVE_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fBegin + fOffset);
       fill((fHover && (fState == END))
-        ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
-        : Constants.THRESHOLD_NEGATIVE_COLOR);
+            ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
+            : Constants.THRESHOLD_NEGATIVE_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, size, fEnd - fOffset, fEnd);
 
       fill(Constants.BG_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin - 0.02, fEnd + 0.02);
    popStyle();
-  }
-
-  public void addChange(float signal) {
-    float temp = this.getValue();
-    if (temp >= fMax)
-      this.setValue(fMax - temp);
-    if (temp <= fMin)
-      this.setValue(temp - fMin);
-
-    temp = signal + this.getValue();
-    if ((temp >= fMax || temp <= fMin) && temp != 0 && fTarget != null) {
-        fTarget.onEvent(this.fID, temp);
-    }
-    this.setValue(signal + this.getValue());
   }
 
   public boolean isInBounds(float x, float y) {
