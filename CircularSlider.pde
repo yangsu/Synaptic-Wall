@@ -22,8 +22,8 @@ class CircularSlider extends Control {
     this(x, y, size, 0, TWO_PI, val, min, max, id, target);
   }
 
-  CircularSlider(float x, float y,
-                 float size, float begin, float end,
+  CircularSlider(float x, float y, float size,
+                 float begin, float end,
                  float val, float min, float max,
                  int id, Controllable target) {
     super(x, y, id, target);

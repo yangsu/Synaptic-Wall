@@ -76,12 +76,16 @@ static class Constants {
   static final int   BURST_DELAY         = 300;
 
   // Slider Settings
-  static final color SLIDER_BG_COLOR        = 0x64FFFFFF;
+  static final color SLIDER_BG_COLOR        = 0xFF7F7F7F;
   static final color SLIDER_BAR_COLOR       = 0xFFCCCCCC;
   static final color SLIDER_HANDLE_COLOR    = BG_COLOR;
   static final float SLIDER_BAR_WIDTH       = 7.5;
   static final float SLIDER_BAR_LENGTH      = 0.1;
   static final float SLIDER_HANDLE_WIDTH    = 0.03;
   static final float THRESHOLD_HANDLE_WIDTH = 0.15;
+  static final color THRESHOLD_POSITIVE_COLOR = 0xFFFF6725;
+  static final color THRESHOLD_POSITIVE_HIGHLIGHT = 0xFFFF8947;
+  static final color THRESHOLD_NEGATIVE_COLOR = 0xFF00329B;
+  static final color THRESHOLD_NEGATIVE_HIGHLIGHT = 0xFF2254BD;
 
 }

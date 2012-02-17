@@ -18,7 +18,7 @@ class Soma extends Cell {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
   }
 
-  Soma(float x, float y, float size, color cc, float positivet, float negativet) {
+  Soma(float x, float y, float size, color cc, float negativet, float positivet) {
     super(x, y, size, cc);
     fReceivedPSPs = new float[0];
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
@@ -43,6 +43,7 @@ class Soma extends Cell {
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH,
                                             0, negativet, positivet,
                                             THRESHOLD, this);
+    fControls.add(fThresholdSlider);
     fTimer = 0;
     fEndTime = 0;
     fMid = 0;
@@ -127,7 +128,8 @@ class Soma extends Cell {
   public void draw() {
     super.draw();
     pushStyle();
-      fThresholdSlider.draw();
+      if (!fControlVisible)
+        fThresholdSlider.draw();
       this.drawSoma();
       this.drawControlDisplays();
     popStyle();

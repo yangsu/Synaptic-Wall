@@ -88,7 +88,6 @@ public class Initiator extends Cell {
   }
   private void processFiringPattern() {
     int interval = (int)(1000/fFreq);
-    println(interval);
     int time = millis();
     if ((time - fLastFireTime) > interval && random(1.0) <= fRhythmicity) {
       fLastFireTime = time;

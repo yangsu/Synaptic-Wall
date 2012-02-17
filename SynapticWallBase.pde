@@ -200,7 +200,8 @@ void onMousePressed() {
                              mouseY,
                              Constants.SOMA_SIZE,
                              Constants.EX_COLOR,
-                             Constants.SOMA_DEFAULT_THRESHOLD);
+                             -7.5,
+                             7.5);
     }
   }
   else if (currentMode == Constants.DELETION) {

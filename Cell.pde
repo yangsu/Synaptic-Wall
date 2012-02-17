@@ -1,6 +1,6 @@
 public abstract class Cell extends Shape implements Controllable {
   private boolean fControlActive;
-  private boolean fControlVisible;
+  protected boolean fControlVisible;
 
   protected ArrayList<Path> fDendrites;
   protected ArrayList<Control> fControls;
