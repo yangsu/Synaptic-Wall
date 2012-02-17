@@ -9,7 +9,7 @@ public class Synapse extends Shape {
   private int fMid;
 
   public Synapse(Path axon, float x, float y, color cc) {
-    this(axon, x, y, cc, Constants.SYNAPSE_DEFAULT_STRENGTH);
+    this(axon, x, y, cc, Constants.SIGNAL_DEFAULT_STRENGTH);
     fColor = fHighlightColor;
     fHighlightColor = Utilities.highlight(fHighlightColor);
   }

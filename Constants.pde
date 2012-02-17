@@ -47,7 +47,6 @@ static class Constants {
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
   static final int SYNAPSE_TIMING             = 700; // Miliseconds
   static final float SYNAPSE_SIZE             = 20.0; // radius
-  static final float SYNAPSE_DEFAULT_STRENGTH = 5.0;
 
   // Signals Settings
   static final int    EPSP  = 1;
@@ -58,16 +57,15 @@ static class Constants {
   static final int    AP_COLOR = 0xFFF8F8F8;
   static final int    SIGNAL_DEFAULT_SPEED    = 1;
   static final int    SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float  SIGNAL_DEFAULT_STRENGTH = 4;
+  static final float  SIGNAL_DEFAULT_STRENGTH = 8.0;
   static final int    SIGNAL_MAX_SPEED        = 5;
-  static final int    SIGNAL_MAX_LENGTH       = 30;
+  static final int    SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
   static final float  SIGNAL_MAX_STRENGTH     = 8.0;
 
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 8.0;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
 
-  static final int AP_STROKE_WEIGHT = 2;
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;
   static final int   DEFAULT_BURSTINESS  = 1; // per firing

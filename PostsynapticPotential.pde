@@ -11,7 +11,7 @@ class PostsynapticPotential extends Signal {
     if (fLength <= 1) return;
     pushStyle();
       strokeWeight(Constants.SIGNAL_WIDTH - 2*Constants.SIGNAL_BORDER_WIDTH);
-      int offset = (int)(abs(fStrength)/Constants.SIGNAL_RESOLUTION);
+      int offset = (int)(Constants.SIGNAL_WIDTH/Constants.SIGNAL_RESOLUTION);
       PVector begin, end;
       int t1 = round(constrain(fCurrIndex - offset - fLength, 0, fEndIndex));
       int t2 = round(constrain(fCurrIndex - offset, 0, fEndIndex));
@@ -33,29 +33,30 @@ class PostsynapticPotential extends Signal {
         ++i;
         --j;
       }
-      // Debug Code
-      // PVector p;
-      // p = fPath.fVertices.get(t1);
-      // fill(255, 0, 0);
-      // ellipse(p.x, p.y, 2, 2);
-      // p = fPath.fVertices.get(t2);
-      // fill(0, 255, 0);
-      // ellipse(p.x, p.y, 2, 2);
-      // p = fPath.fVertices.get(t3);
-      // fill(0, 0, 255);
-      // ellipse(p.x, p.y, 2, 2);
-      // p = fPath.fVertices.get(t4);
-      // fill(255, 255, 255);
-      // ellipse(p.x, p.y, 2, 2);
     popStyle();
+    // Debug Code
+    // PVector p;
+    // p = fPath.fVertices.get(t1);
+    // fill(255, 0, 0);
+    // ellipse(p.x, p.y, 2, 2);
+    // p = fPath.fVertices.get(t2);
+    // fill(0, 255, 0);
+    // ellipse(p.x, p.y, 2, 2);
+    // p = fPath.fVertices.get(t3);
+    // fill(0, 0, 255);
+    // ellipse(p.x, p.y, 2, 2);
+    // p = fPath.fVertices.get(t4);
+    // fill(255, 255, 255);
+    // ellipse(p.x, p.y, 2, 2);
   }
   void draw() {
     pushStyle();
       strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
       stroke(fColor);
       fill(fHighlightColor);
-      float s = abs(fStrength) + Constants.SIGNAL_WIDTH/2;
+      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
+    this.drawRange();
   }
 }

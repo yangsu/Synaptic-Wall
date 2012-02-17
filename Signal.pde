@@ -32,7 +32,6 @@ abstract class Signal extends Drawable {
     return fStrength;
   }
 
-  void drawRange() {};
   int step() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
