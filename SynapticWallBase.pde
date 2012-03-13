@@ -342,8 +342,9 @@ void onMouseReleased() {
             currPath.add(tempPathNode.x, tempPathNode.y);
             currPath.setDest(c);
           }
-          else if (selected.getType() == Constants.DENDRITE ||
-                   selected.getType() == Constants.AXON) {
+          else if ((selected.getType() == Constants.DENDRITE ||
+                    selected.getType() == Constants.AXON) &&
+                    selected != currPath) {
             //add end to end?
             Path p = (Path)selected;
             PVector end = p.getCurrVertex();
