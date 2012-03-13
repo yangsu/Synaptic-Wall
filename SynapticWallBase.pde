@@ -189,13 +189,13 @@ void onMousePressed() {
     }
     else {
       // If nothing's selected and in CREATION mode, then try creating initiator
-      if (initiator == null)
+      if (initiator == null && mouseButton == RIGHT)
         initiator = new Initiator(mouseX,
                                   mouseY,
                                   Constants.SOMA_SIZE,
                                   Constants.EX_COLOR);
       // if initiator is already present, then create a SOMA
-      else if (currShape == null)
+      else if (currShape == null && mouseButton == LEFT)
         currShape = new Soma(mouseX,
                              mouseY,
                              Constants.SOMA_SIZE,
@@ -307,6 +307,7 @@ void onMouseReleased() {
     if (initiator != null && initiator.fMovable) { // Hack for now
       objs.add(initiator);
       initiator.setMovable(false);
+      initiator = null;
     }
     else if (currShape != null) {
       objs.add(currShape);
