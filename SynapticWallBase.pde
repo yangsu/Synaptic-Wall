@@ -335,8 +335,7 @@ void onMouseReleased() {
         Interactive selected = null;
         if (objs.select(mouseX, mouseY)) { // If selected object
           selected = objs.getSelected();
-          if (selected.getType() == Constants.INITIATOR ||
-              selected.getType() == Constants.SOMA) {
+          if (selected.getType() == Constants.SOMA) {
             Cell c = (Cell)selected;
             updateTempNode(c.x(), c.y(), c.fSize);
             currPath.add(tempPathNode.x, tempPathNode.y);
@@ -351,9 +350,11 @@ void onMouseReleased() {
             tempPathNode2.set(end.x, end.y, 0);
             currPath.setDest(p);
           }
-          currPath.reduce();
-          currPath.attachToSource();
-          objs.add(currPath);
+          if (selected.getType() != Constants.INITIATOR) {
+            currPath.reduce();
+            currPath.attachToSource();
+            objs.add(currPath);
+          }
         }
       }
       currPath = null;
