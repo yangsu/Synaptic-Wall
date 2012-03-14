@@ -112,7 +112,7 @@ public class Initiator extends Cell {
     popStyle();
   }
 
-  void onEvent(int controlID, float value) {
+  public void onEvent(int controlID, float value) {
     switch (controlID) {
       case RHYTHMICITY:
         fRhythmicity = value;
@@ -128,7 +128,7 @@ public class Initiator extends Cell {
     }
   }
 
-  void onSignal(Signal s) {
+  public void onSignal(Signal s) {
     println("Something's wrong! Initiator is getting a signal!");
   }
 }
