@@ -120,8 +120,7 @@ public abstract class Path extends Interactive implements Signalable{
     popStyle();
 
     processSignals();
-    for (Signal s : fSignals)
-      s.draw();
+    // Signals are drawn via drawSignals() method. Not called here by default
   }
   private void drawPath() {
     pushStyle();
@@ -136,6 +135,10 @@ public abstract class Path extends Interactive implements Signalable{
       }
     endShape();
     popStyle();
+  }
+  public void drawSignals() {
+    for (Signal s : fSignals)
+      s.draw();
   }
   private void drawJunction(float x, float y) {
     pushStyle();

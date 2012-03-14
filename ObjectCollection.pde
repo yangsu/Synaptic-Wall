@@ -1,11 +1,13 @@
 public class ObjectCollection {
   private Interactive fSelected;
   private ArrayList<Interactive> fObjs;
+  private ArrayList<Path> fPaths;
   private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
 
   public ObjectCollection() {
     fSelected = null;
     fObjs = new ArrayList<Interactive>();
+    fPaths = new ArrayList<Path>();
     fInitiatorIndex = 0;
     fSomaIndex = 0;
     fAxonIndex = 0;
@@ -16,6 +18,8 @@ public class ObjectCollection {
   public void draw() {
     for (Interactive s : fObjs)
       s.draw();
+    for (Path p : fPaths)
+      p.drawSignals();
   }
 
   public boolean select(float x, float y) {
@@ -77,6 +81,8 @@ public class ObjectCollection {
           fInitiatorIndex++;
       }
       fObjs.add(index, s);
+      if (s.getType() == Constants.AXON || s.getType() == Constants.DENDRITE)
+      fPaths.add((Path)s);
     }
   }
 
