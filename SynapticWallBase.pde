@@ -352,7 +352,8 @@ void onMouseReleased() {
             tempPathNode2.set(end.x, end.y, 0);
             currPath.setDest(p);
           }
-          if (selected.getType() != Constants.INITIATOR) {
+          if (selected.getType() != Constants.INITIATOR &&
+              selected.getType() != Constants.SYNAPSE) {
             currPath.reduce();
             currPath.attachToSource();
             objs.add(currPath);
