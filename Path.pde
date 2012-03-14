@@ -189,13 +189,16 @@ public abstract class Path extends Interactive implements Signalable{
   public boolean isInBounds(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
+    float mindist = 9999, dist;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
-      if (PVector.dist(mouse, temp) <= Constants.SIGNAL_WIDTH) {
+      dist = PVector.dist(mouse, temp);
+      if (dist <= Constants.SIGNAL_WIDTH/2 &&
+          dist <= mindist) {
         fCurrIndex = i;
-        return true;
+        mindist = dist;
       }
     }
-    return false;
+    return mindist != 9999;
   }
 }
