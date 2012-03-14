@@ -138,6 +138,7 @@ class Soma extends Cell {
         fColor = Constants.EX_COLOR;
         fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
       }
+      fStrength = -fStrength;
       return true;
     }
     return false;

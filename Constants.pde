@@ -49,7 +49,8 @@ static class Constants {
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
   static final int   SYNAPSE_TIMING           = 700; // Miliseconds
   static final float SYNAPSE_SIZE             = 12.0; // radius
-  static final float SYNAPSE_STRENGTH         = 4.0; // Thickness
+  static final float SYNAPSE_STRENGTH         = 1.0; // Thickness
+  static final float SYNAPSE_MULT             = 4.0;
 
   // Signals Settings
   static final int    EPSP  = 1;

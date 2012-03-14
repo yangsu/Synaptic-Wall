@@ -1,5 +1,6 @@
 public class Synapse extends Shape {
   private float fStrength;
+  private float fSignalStrength;
   private Path fAxon;
   private Path fDendrite;
   private boolean fDisabled;
@@ -17,6 +18,7 @@ public class Synapse extends Shape {
   public Synapse(Path axon, float x, float y, color cc, float strength) {
     super(x, y, Constants.SYNAPSE_SIZE, cc);
     fStrength = strength;
+    fSignalStrength = 0;
     fAxon = axon;
     fDendrite = null;
     fDisabled = false;
@@ -46,7 +48,7 @@ public class Synapse extends Shape {
         fDendrite.addSignal(new PostsynapticPotential(
                               Constants.SIGNAL_DEFAULT_SPEED,
                               Constants.SIGNAL_DEFAULT_LENGTH,
-                              fStrength,
+                              fSignalStrength*fStrength,
                               fDendrite));
         fFired = true;
       }
@@ -60,7 +62,7 @@ public class Synapse extends Shape {
     pushStyle();
       noStroke();
       fill((fHover) ? fHighlightColor : fColor);
-      ellipse(fLoc.x, fLoc.y, fSize + fStrength, fSize + fStrength);
+      ellipse(fLoc.x, fLoc.y, fSize+fStrength*Constants.SYNAPSE_MULT, fSize+fStrength*Constants.SYNAPSE_MULT);
       fill(Constants.BG_COLOR);
       ellipse(fLoc.x, fLoc.y, fSize, fSize);
       updateState();
@@ -83,6 +85,7 @@ public class Synapse extends Shape {
       fTimer = millis();
       fEndTime = fTimer + Constants.SYNAPSE_TIMING;
       fMid = fTimer + Constants.SYNAPSE_TIMING/2;
+      fSignalStrength = s.fStrength;
     }
   }
 
