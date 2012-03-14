@@ -106,32 +106,32 @@ public class ObjectCollection {
   }
 
   public boolean onMouseDown(float x, float y) {
-    for (Interactive s : fObjs)
-      if (s.onMouseDown(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onMouseDown(x, y))
         return true;
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
-    for (Interactive s : fObjs)
-      if (s.onMouseDragged(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onMouseDragged(x, y))
         return true;
     return false;
   }
   public boolean onMouseMoved(float x, float y) {
-    for (Interactive s : fObjs)
-      if (s.onMouseMoved(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onMouseMoved(x, y))
         return true;
     return false;
   }
   public boolean onMouseUp(float x, float y) {
-    for (Interactive s : fObjs)
-      if (s.onMouseUp(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onMouseUp(x, y))
         return true;
     return false;
   }
   public boolean onDblClick(float x, float y) {
-    for (Interactive s : fObjs)
-      if (s.onDblClick(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onDblClick(x, y))
         return true;
     return false;
   }
