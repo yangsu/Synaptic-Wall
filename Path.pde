@@ -70,18 +70,13 @@ public abstract class Path extends Interactive implements Signalable{
     float py = prev.y;
 
     //Find the difference between the previous location and the current one, and normalizes dx and dy using that difference
-    float num;
-    if(abs(x-px)>abs(y-py))
-      num = abs(x-px);
-    else
-      num = abs(y-py);
+    float num = max(abs(x-px), abs(y-py));
     float dx=(x-px)/num;
     float dy=(y-py)/num;
 
     //Add all the fVertices in between the previous and current fVertices using dx and dy
-    for(int i = 1;i<=num;i++) {
+    for(int i = 1;i<=num;i++)
       fVertices.add(new PVector(px+i*dx,py+i*dy));
-    }
   }
   public void add(PVector p) {
     if (fClosed) return;
@@ -159,7 +154,8 @@ public abstract class Path extends Interactive implements Signalable{
       if (curr.reachedDestination())
         fSignals.remove(curr);
       else {
-        for (int j = i; j >= 0; --j) { //Combine adjacent signals
+        //Combine adjacent signals
+        for (int j = i; j >= 0; --j) {
           Signal s = fSignals.get(j);
           if (s != curr && PVector.dist(s.fLoc, curr.fLoc) <= abs(s.fStrength) &&
               s.fType != 0 && curr.fType != 0) {
@@ -173,6 +169,7 @@ public abstract class Path extends Interactive implements Signalable{
             break;
           }
         }
+        //Copy Signals to connected paths
         for (Path p : fConnectedPaths) {
           if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_RESOLUTION)
             p.addSignal(curr.makeCopy(p));
