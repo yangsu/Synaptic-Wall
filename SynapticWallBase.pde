@@ -275,10 +275,7 @@ void onMouseDragged() {
         else if (lastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)lastSelected;
           if (!s.isComplete()) {
-            currPath = new Dendrite(s, s.x(), s.y(),
-                                    (s.fColor == Constants.EX_HIGHLIGHT_COLOR)
-                                     ? Constants.EX_COLOR
-                                     : Constants.IN_COLOR);
+            currPath = new Dendrite(s, s.x(), s.y(), Constants.DENDRITE_COLOR);
             currPath.add(tempPathNode.x, tempPathNode.y);
           }
         }
