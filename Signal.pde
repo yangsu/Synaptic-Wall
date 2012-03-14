@@ -4,6 +4,7 @@ abstract class Signal extends Drawable {
   protected int fType, fEndIndex;
   protected Path fPath;
   protected Signalable fDest;
+  protected boolean fFired;
 
   Signal() {}
   Signal (int type, float speed, float length, float strength, Path p) {
@@ -18,6 +19,7 @@ abstract class Signal extends Drawable {
     fCurrIndex = 0;
     fEndIndex = p.fVertices.size() - 1;
     fEndTime = 0;
+    fFired = false;
   }
 
   public int getType() {
@@ -30,13 +32,19 @@ abstract class Signal extends Drawable {
     fLoc = new PVector(temp.x, temp.y, temp.z);
   }
 
+  protected void fire() {
+    if (!fFired) {
+      fDest.onSignal(this);
+      fEndTime = millis();
+      fFired = true;
+    }
+  }
+
   public int step() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
-    if (fCurrIndex >= fEndIndex) {
-      fEndTime = millis();
-      fDest.onSignal(this);
-    }
+    if (reachedDestination())
+      fire();
     return fCurrIndex;
   }
 

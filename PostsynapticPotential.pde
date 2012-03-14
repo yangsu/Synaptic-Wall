@@ -43,6 +43,10 @@ class PostsynapticPotential extends Signal {
         ++i;
         --j;
       }
+
+      // Temporary Fix with fFired flag
+      if (t4 >= fEndIndex && !fFired)
+        fire();
     popStyle();
   }
 
