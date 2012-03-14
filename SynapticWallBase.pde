@@ -173,12 +173,12 @@ void onMousePressed() {
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
         tempPathNode.set(p.getCurrVertex());
-        currPath = new Dendrite(p, tempPathNode.x, tempPathNode.y, p.fColor);
+        currPath = new Dendrite(p, tempPathNode.x, tempPathNode.y, Constants.DENDRITE_COLOR);
       }
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
         tempPathNode.set(p.getCurrVertex());
-        currPath = new Axon(p, tempPathNode.x, tempPathNode.y, p.fColor);
+        currPath = new Axon(p, tempPathNode.x, tempPathNode.y, Constants.AXON_COLOR);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {

@@ -1,6 +1,14 @@
 class PostsynapticPotential extends Signal {
   PostsynapticPotential(float speed, float length, float strength, Path p) {
     super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, strength, p);
+    if (fType == Constants.EPSP) {
+      fColor = Constants.EX_COLOR;
+      fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
+    }
+    else {
+      fColor = Constants.IN_COLOR;
+      fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+    }
   }
 
   public Signal makeCopy(Path p) {

@@ -1,7 +1,6 @@
 static class Constants {
   static final int DBL_CLICK_THRESHOLD = 300;
 
-
   // Modes
   static final int CREATION    = 0;
   static final int DELETION    = 1;
@@ -43,7 +42,8 @@ static class Constants {
   static final color DENDRITE_COLOR = 0xFFB08B47;
 
   // Axon Settings
-  static final float AXON_WIDTH     = 8.0;
+  static final float AXON_WIDTH = 8.0;
+  static final color AXON_COLOR = 0xFFD2C277;
 
   // Synapse Settings
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
@@ -53,19 +53,19 @@ static class Constants {
   static final float SYNAPSE_MULT             = 4.0;
 
   // Signals Settings
-  static final int    EPSP  = 1;
-  static final int    IPSP  = -1;
-  static final int    AP    = 0;
-  static final int    EPSP_COLOR = 0xFFD2C277;
-  static final int    IPSP_COLOR = 0xFF67A4D0;
-  static final int    AP_COLOR = 0xFFF8F8F8;
-  static final float  SIGNAL_BASE = 2.0;
-  static final int    SIGNAL_DEFAULT_SPEED    = 1;
-  static final int    SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float  SIGNAL_DEFAULT_STRENGTH = 4.0;
-  static final int    SIGNAL_MAX_SPEED        = 5;
-  static final int    SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
-  static final float  SIGNAL_MAX_STRENGTH     = 12.0;
+  static final int   EPSP  = 1;
+  static final int   IPSP  = -1;
+  static final int   AP    = 0;
+  static final int   EPSP_COLOR = 0xFFD2C277;
+  static final int   IPSP_COLOR = 0xFF67A4D0;
+  static final int   AP_COLOR = 0xFFF8F8F8;
+  static final float SIGNAL_BASE = 2.0;
+  static final int   SIGNAL_DEFAULT_SPEED    = 1;
+  static final int   SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
+  static final float SIGNAL_DEFAULT_STRENGTH = 4.0;
+  static final int   SIGNAL_MAX_SPEED        = 5;
+  static final int   SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
+  static final float SIGNAL_MAX_STRENGTH     = 12.0;
 
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = SIGNAL_MAX_STRENGTH;
