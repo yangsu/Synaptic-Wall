@@ -8,7 +8,7 @@ class PostsynapticPotential extends Signal {
   }
 
   public void drawSignalBody() {
-    if (fLength <= 1) return;
+    if (fLength <= 1 || fStrength == 0) return;
     pushStyle();
       strokeWeight(Constants.SIGNAL_RANGE_WIDTH);
       int offset = ceil((abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) *
@@ -62,10 +62,11 @@ class PostsynapticPotential extends Signal {
 
   public void draw() {
     pushStyle();
-      strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
-      stroke(fColor);
+      fill(fColor);
+      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
+      float bs = max(Constants.SIGNAL_DEFAULT_STRENGTH, s) + Constants.SIGNAL_BORDER_WIDTH;
+      ellipse(fLoc.x, fLoc.y, bs, bs);
       fill(fHighlightColor);
-      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH + Constants.SIGNAL_BASE;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
   }
