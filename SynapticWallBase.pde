@@ -312,11 +312,11 @@ void onMouseReleased() {
       currShape = null;
     }
     else if (currPath != null) {
-      currPath.setMovable(false);
-      if (currPath.getType() == Constants.AXON) {
-        int l = currPath.size();
-        if (l < 2) println ("ERROR! currPath has a length less than 2");
-        else {
+      int l = currPath.size();
+      if (l < 2) println ("ERROR! currPath has a length less than 2");
+      else {
+        currPath.setMovable(false);
+        if (currPath.getType() == Constants.AXON) {
           // Calculate offset so the edge of the Synapse is at the end of the path
           PVector diff = PVector.sub(currPath.getVertex(l-1),
                                      currPath.getVertex(l-2));
@@ -329,31 +329,31 @@ void onMouseReleased() {
           objs.add(currPath);
           objs.add(s);
         }
-      }
-      else if (currPath.getType() == Constants.DENDRITE) {
-        Interactive selected = null;
-        if (objs.select(mouseX, mouseY)) { // If selected object
-          selected = objs.getSelected();
-          if (selected.getType() == Constants.SOMA) {
-            Cell c = (Cell)selected;
-            updateTempNode(c.x(), c.y(), c.fSize);
-            currPath.add(tempPathNode.x, tempPathNode.y);
-            currPath.setDest(c);
-          }
-          else if ((selected.getType() == Constants.DENDRITE ||
-                    selected.getType() == Constants.AXON) &&
-                    selected != currPath) {
-            //add end to end?
-            Path p = (Path)selected;
-            PVector end = p.getCurrVertex();
-            tempPathNode2.set(end.x, end.y, 0);
-            currPath.setDest(p);
-          }
-          if (selected.getType() != Constants.INITIATOR &&
-              selected.getType() != Constants.SYNAPSE) {
-            currPath.reduce();
-            currPath.attachToSource();
-            objs.add(currPath);
+        else if (currPath.getType() == Constants.DENDRITE) {
+          Interactive selected = null;
+          if (objs.select(mouseX, mouseY)) { // If selected object
+            selected = objs.getSelected();
+            if (selected.getType() == Constants.SOMA) {
+              Cell c = (Cell)selected;
+              updateTempNode(c.x(), c.y(), c.fSize);
+              currPath.add(tempPathNode.x, tempPathNode.y);
+              currPath.setDest(c);
+            }
+            else if ((selected.getType() == Constants.DENDRITE ||
+                      selected.getType() == Constants.AXON) &&
+                      selected != currPath) {
+              //add end to end?
+              Path p = (Path)selected;
+              PVector end = p.getCurrVertex();
+              tempPathNode2.set(end.x, end.y, 0);
+              currPath.setDest(p);
+            }
+            if (selected.getType() != Constants.INITIATOR &&
+                selected.getType() != Constants.SYNAPSE) {
+              currPath.reduce();
+              currPath.attachToSource();
+              objs.add(currPath);
+            }
           }
         }
       }
