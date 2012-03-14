@@ -157,7 +157,7 @@ public abstract class Path extends Interactive implements Signalable{
         //Combine adjacent signals
         for (int j = i; j >= 0; --j) {
           Signal s = fSignals.get(j);
-          if (s != curr && PVector.dist(s.fLoc, curr.fLoc) <= abs(s.fStrength) &&
+          if (s != curr && PVector.dist(s.fLoc, curr.fLoc) <= 2*abs(s.fStrength) &&
               s.fType != 0 && curr.fType != 0) {
             PostsynapticPotential p = new PostsynapticPotential((s.fSpeed + curr.fSpeed)/2,
                                                                 (s.fLength + curr.fLength)/2,
