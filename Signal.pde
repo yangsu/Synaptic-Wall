@@ -8,7 +8,7 @@ abstract class Signal extends Drawable {
 
   Signal() {}
   Signal (int type, float speed, float length, float strength, Path p) {
-    super(p.fVertices.get(0).x, p.fVertices.get(0).y, p.fColor);
+    super(p.fVertices.get(0).x, p.fVertices.get(0).y, (type == Constants.EPSP) ? Constants.EX_COLOR : Constants.IN_COLOR);
     fType = type;
     fSpeed = speed;
     fLength = length;
