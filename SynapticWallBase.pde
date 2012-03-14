@@ -270,7 +270,7 @@ void onMouseDragged() {
         if (lastSelected.getType() == Constants.INITIATOR ||
             lastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)lastSelected;
-          currPath = new Axon(c, tempPathNode.x, tempPathNode.y, c.fColor);
+          currPath = new Axon(c, tempPathNode.x, tempPathNode.y, Constants.AXON_COLOR);
         }
         else if (lastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)lastSelected;

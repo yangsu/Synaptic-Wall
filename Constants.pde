@@ -1,3 +1,4 @@
+
 static class Constants {
   static final int DBL_CLICK_THRESHOLD = 300;
 
@@ -43,7 +44,7 @@ static class Constants {
 
   // Axon Settings
   static final float AXON_WIDTH = 8.0;
-  static final color AXON_COLOR = 0xFFD2C277;
+  static final color AXON_COLOR = 0xFFB08B47;
 
   // Synapse Settings
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
