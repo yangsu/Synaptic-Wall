@@ -1,10 +1,16 @@
 public class ObjectCollection {
-  Interactive fSelected;
-  ArrayList<Interactive> fObjs;
+  private Interactive fSelected;
+  private ArrayList<Interactive> fObjs;
+  private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
 
   public ObjectCollection() {
     fSelected = null;
     fObjs = new ArrayList<Interactive>();
+    fInitiatorIndex = 0;
+    fSomaIndex = 0;
+    fAxonIndex = 0;
+    fSynapseIndex = 0;
+    fDendriteIndex = 0;
   }
 
   public void draw() {
@@ -14,7 +20,8 @@ public class ObjectCollection {
 
   public boolean select(float x, float y) {
     this.deselectAll();
-    for (Interactive s : fObjs) {
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive s = fObjs.get(i);
       if (s.select(x, y)) {
         fSelected = s;
         return true;
@@ -50,13 +57,46 @@ public class ObjectCollection {
   }
 
   public void add(Interactive s) {
-    if (s != null)
-      fObjs.add(s);
+    if (s != null) {
+      int index = -1;
+      switch(s.getType()) {
+        case Constants.AXON:
+          index = (index == -1) ? fAxonIndex : index;
+          fAxonIndex++;
+        case Constants.SYNAPSE:
+          index = (index == -1) ? fSynapseIndex : index;
+          fSynapseIndex++;
+        case Constants.DENDRITE:
+          index = (index == -1) ? fDendriteIndex : index;
+          fDendriteIndex++;
+        case Constants.SOMA:
+          index = (index == -1) ? fSomaIndex : index;
+          fSomaIndex++;
+        case Constants.INITIATOR:
+          index = (index == -1) ? fInitiatorIndex : index;
+          fInitiatorIndex++;
+      }
+      fObjs.add(index, s);
+    }
   }
 
   public void remove(Interactive s) {
-    if (s != null)
+    // TODO: check for off by 1 error
+    if (s != null) {
+      switch(s.getType()) {
+        case Constants.AXON:
+          fAxonIndex--;
+        case Constants.SYNAPSE:
+          fSynapseIndex--;
+        case Constants.DENDRITE:
+          fDendriteIndex--;
+        case Constants.SOMA:
+          fSomaIndex--;
+        case Constants.INITIATOR:
+          fInitiatorIndex--;
+      }
       fObjs.remove(s);
+    }
   }
 
   public boolean onMouseDown(float x, float y) {

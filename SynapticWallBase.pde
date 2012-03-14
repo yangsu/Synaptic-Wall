@@ -319,17 +319,19 @@ void onMouseReleased() {
       if (currPath.getType() == Constants.AXON) {
         int l = currPath.size();
         if (l < 2) println ("ERROR! currPath has a length less than 2");
-        // Calculate offset so the edge of the Synapse is at the end of the path
-        PVector diff = PVector.sub(currPath.getVertex(l-1),
-                                   currPath.getVertex(l-2));
-        PVector center = PVector.add(currPath.getVertex(l-1),
-                          PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SIGNAL_DEFAULT_STRENGTH + 1));
-        Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
-        currPath.setDest(s);
-        currPath.reduce();
-        currPath.attachToSource();
-        objs.add(currPath);
-        objs.add(s);
+        else {
+          // Calculate offset so the edge of the Synapse is at the end of the path
+          PVector diff = PVector.sub(currPath.getVertex(l-1),
+                                     currPath.getVertex(l-2));
+          PVector center = PVector.add(currPath.getVertex(l-1),
+                            PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SIGNAL_DEFAULT_STRENGTH + 1));
+          Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
+          currPath.setDest(s);
+          currPath.reduce();
+          currPath.attachToSource();
+          objs.add(currPath);
+          objs.add(s);
+        }
       }
       else if (currPath.getType() == Constants.DENDRITE) {
         Interactive selected = null;
