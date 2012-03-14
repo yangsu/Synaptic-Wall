@@ -26,6 +26,8 @@ abstract class Signal extends Drawable {
 
   public void setIndex(int i) {
     fCurrIndex = constrain(i, 0, fEndIndex);
+    PVector temp = fPath.fVertices.get(fCurrIndex);
+    fLoc = new PVector(temp.x, temp.y, temp.z);
   }
 
   public int step() {
