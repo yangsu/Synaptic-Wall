@@ -37,7 +37,7 @@ class PostsynapticPotential extends Signal {
       }
 
       // Temporary Fix with fFired flag
-      if (t4 >= fEndIndex && !fFired)
+      if (t4 >= fEndIndex && !fFired && ((Drawable)fDest).getType() == Constants.SOMA)
         fire();
     popStyle();
   }
