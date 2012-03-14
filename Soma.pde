@@ -52,13 +52,7 @@ class Soma extends Cell {
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
-    float val = fThresholdSlider.getValue();
-    if (val == 1.0 && (millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
-      fLastFired = millis();
-      for (Path p : fDendrites)
-        p.addSignal(new ActionPotential(fSpeed, fStrength, p));
-    }
-    fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, val));
+    fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue()));
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
   }
 
@@ -115,6 +109,12 @@ class Soma extends Cell {
         sum += Utilities.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
     }
     fThresholdSlider.setValue(sum);
+    // the ThresholdSlider will be at 1.0 if the maximum is reached
+    if (fThresholdSlider.getValue() >= 1.0 && (millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
+      fLastFired = millis();
+      for (Path p : fDendrites)
+        p.addSignal(new ActionPotential(fSpeed, fStrength, p));
+    }
   }
 
   public void draw() {
