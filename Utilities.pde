@@ -61,7 +61,6 @@ static class Utilities {
     return amplitude * (-0.5 * cos(elapsed * TWO_PI/length) + 0.5);
   }
 
-
   static PVector[] simplifyPath(PVector[] ptl, float epsilon) {
     //Find the point with the maximum distance
     float dmax = 0;
@@ -83,6 +82,27 @@ static class Utilities {
       return new PVector[]{ptl[0], ptl[ptl.length-1]};
   }
 
+  static List<PVector> simplifyPath(List<PVector> ptl, float epsilon) {
+    //Find the point with the maximum distance
+    float dmax = 0;
+    int index = 0;
+    for (int i = 1; i < ptl.size()-1; i++) {
+      float d = ptToLineDist(ptl.get(0), ptl.get(ptl.size()-1), ptl.get(i));
+      if (d > dmax) {
+        index = i;
+        dmax = d;
+      }
+    }
+    //If max distance is greater than epsilon, recursively simplify
+    if (dmax >= epsilon) {
+      List<PVector> r1 = simplifyPath(ptl.subList(0,index), epsilon);
+      List<PVector> r2 = simplifyPath(ptl.subList(index, ptl.size()), epsilon);
+      r1.subList(0, r1.size()-1).addAll(r2);
+      return r1;
+    }
+    else
+      return new ArrayList<PVector>(Arrays.asList(ptl.get(0), ptl.get(ptl.size()-1)));
+  }
   static float ptToLineDist(PVector a, PVector b, PVector p) {
     return abs((p.x-a.x)*(b.y-a.y)-(p.y-a.y)*(b.x-a.x))/PVector.dist(a, b);
   }
