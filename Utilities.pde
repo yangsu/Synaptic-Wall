@@ -60,4 +60,30 @@ static class Utilities {
   static float pulse(float amplitude, int elapsed, int length) {
     return amplitude * (-0.5 * cos(elapsed * TWO_PI/length) + 0.5);
   }
+
+
+  static PVector[] simplifyPath(PVector[] ptl, float epsilon) {
+    //Find the point with the maximum distance
+    float dmax = 0;
+    int index = 0;
+    for (int i = 1; i < ptl.length-1; i++) {
+      float d = ptToLineDist(ptl[0], ptl[ptl.length-1], ptl[i]);
+      if (d > dmax) {
+        index = i;
+        dmax = d;
+      }
+    }
+    //If max distance is greater than epsilon, recursively simplify
+    if (dmax >= epsilon) {
+      PVector[] r1 = simplifyPath((PVector[])subset(ptl, 0,index), epsilon);
+      PVector[] r2 = simplifyPath((PVector[])subset(ptl, index, max(ptl.length-index, 0)), epsilon);
+      return (PVector[])concat(subset(r1, 0, max(r1.length-1, 0)), r2);
+    }
+    else
+      return new PVector[]{ptl[0], ptl[ptl.length-1]};
+  }
+
+  static float ptToLineDist(PVector a, PVector b, PVector p) {
+    return abs((p.x-a.x)*(b.y-a.y)-(p.y-a.y)*(b.x-a.x))/PVector.dist(a, b);
+  }
 }
