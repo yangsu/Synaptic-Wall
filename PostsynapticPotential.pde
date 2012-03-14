@@ -7,7 +7,7 @@ class PostsynapticPotential extends Signal {
     return new PostsynapticPotential(fSpeed, fLength, fStrength, p);
   }
 
-  private void drawRange() {
+  public void drawSignalBody() {
     if (fLength <= 1) return;
     pushStyle();
       strokeWeight(Constants.SIGNAL_RANGE_WIDTH);
@@ -36,7 +36,6 @@ class PostsynapticPotential extends Signal {
         --j;
       }
     popStyle();
-    // this.debug(t1, t2, t3, t4);
   }
 
   private void debug(int t1, int t2, int t3, int t4) {
@@ -65,6 +64,5 @@ class PostsynapticPotential extends Signal {
       float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH + Constants.SIGNAL_BASE;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
-    this.drawRange();
   }
 }

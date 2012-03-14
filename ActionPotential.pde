@@ -8,7 +8,7 @@ class ActionPotential extends Signal {
     return new ActionPotential(fSpeed, fStrength, p);
   }
 
-  void draw() {
+  public void draw() {
     pushStyle();
       strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
       stroke(Constants.BG_COLOR);
