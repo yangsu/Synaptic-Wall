@@ -1,59 +1,59 @@
-boolean magnify;
-float scale;
-int currentMode;
-PImage temp;
+boolean gMagnify;
+int gCurrentMode;
+PImage gMagnified;
 
-ObjectCollection objs;
-Interactive lastSelected;
-Initiator initiator;
-Soma currShape;
-Path currPath;
-PVector tempPathNode;
-PVector tempPathNode2;
-color tempPathNodeColor;
-boolean canCreatePath;
+ObjectCollection gObjs;
+
+Interactive gLastSelected;
+Initiator gCurrInitiator;
+Soma gCurrShape;
+Path gCurrPath;
+PVector gTempPathNode;
+PVector gTempPathNode2;
+
+boolean gCanCreatePath;
 
 Grid gGrid;
 
 void setup() {
-  size(800, 800);
-  temp = createImage(width/2, height/2, ARGB);
+  size(Constants.WIDTH, Constants.HEIGHT);
+  gMagnified = createImage(width/2, height/2, ARGB);
   //Settings
   ellipseMode(RADIUS);
+  rectMode(RADIUS);
   strokeCap(ROUND);
   smooth();
   // noLoop();
   noStroke();
-  Button a = new Button();
   //initialization
-  magnify = false;
-  currentMode = Constants.CREATION;
+  gMagnify = false;
+  gCurrentMode = Constants.CREATION;
 
-  objs = new ObjectCollection();
-  currShape = null;
-  currPath = null;
-  tempPathNode = new PVector(-999, -999);
-  tempPathNode2 = new PVector(-999, -999);
-  canCreatePath = true;
-  lastSelected = null;
-  initiator = null;
+  gObjs = new ObjectCollection();
+  gCurrShape = null;
+  gCurrPath = null;
+  gTempPathNode = new PVector(-999, -999);
+  gTempPathNode2 = new PVector(-999, -999);
+  gCanCreatePath = true;
+  gLastSelected = null;
+  gCurrInitiator = null;
 
-  gGrid = new Grid(800, 20);
+  gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 }
 void updateTempNode(float x, float y, float size) {
   float angle = Utilities.getAngleNorm(x, y, mouseX, mouseY);
   float tloc = size-Constants.SOMA_RING_WIDTH/2;
-  tempPathNode.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
+  gTempPathNode.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
 }
 void clearTempPathNode() {
-  tempPathNode.set(-999, -999, 0);
-  tempPathNode2.set(-999, -999, 0);
+  gTempPathNode.set(-999, -999, 0);
+  gTempPathNode2.set(-999, -999, 0);
 }
 void drawTempPathNode() {
   pushStyle();
     fill(255);
-    ellipse(tempPathNode.x, tempPathNode.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
-    ellipse(tempPathNode2.x, tempPathNode2.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
+    ellipse(gTempPathNode.x, gTempPathNode.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
+    ellipse(gTempPathNode2.x, gTempPathNode2.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
   popStyle();
 }
 void drawBackground(color cc) {
@@ -65,13 +65,13 @@ void drawBackground(color cc) {
 }
 void drawContent() {
   drawBackground(Constants.BG_COLOR);
-  objs.draw();
-  if (currShape != null)
-    currShape.draw();
-  if (currPath != null)
-    currPath.draw();
-  if (initiator != null && initiator.fMovable)
-    initiator.draw();
+  gObjs.draw();
+  if (gCurrShape != null)
+    gCurrShape.draw();
+  if (gCurrPath != null)
+    gCurrPath.draw();
+  if (gCurrInitiator != null && gCurrInitiator.fMovable)
+    gCurrInitiator.draw();
   gGrid.draw();
 }
 void drawMagnified() {
@@ -85,18 +85,18 @@ void drawMagnified() {
       drawContent();
     popMatrix();
 
-    int tempX = constrain(mouseX-width/4, 0, width);
-    int tempY = constrain(mouseY-height/4, 0, height);
-    temp = get(tempX, tempY, temp.width, temp.height);
+    int gMagnifiedX = constrain(mouseX-width/4, 0, width);
+    int gMagnifiedY = constrain(mouseY-height/4, 0, height);
+    gMagnified = get(gMagnifiedX, gMagnifiedY, gMagnified.width, gMagnified.height);
 
     drawContent();
 
-    image(temp, tempX, tempY);
+    image(gMagnified, gMagnifiedX, gMagnifiedY);
 
     noFill();
     stroke(255);
     strokeWeight(5);
-    rect(tempX, tempY, temp.width, temp.height);
+    rect(gMagnifiedX, gMagnifiedY, gMagnified.width, gMagnified.height);
   popStyle();
 }
 
@@ -104,7 +104,7 @@ void drawText() {
   pushStyle();
     fill(255);
     String s = "";
-    switch (currentMode) {
+    switch (gCurrentMode) {
       case Constants.CREATION:
         s = "CREATION";
         break;
@@ -120,7 +120,7 @@ void drawText() {
 }
 
 void draw() {
-  if (magnify)
+  if (gMagnify)
     drawMagnified();
   else
     drawContent();
@@ -128,10 +128,10 @@ void draw() {
   drawText();
 }
 void clear() {
-  objs = new ObjectCollection();
-  currShape = null;
-  currPath = null;
-  initiator = null;
+  gObjs = new ObjectCollection();
+  gCurrShape = null;
+  gCurrPath = null;
+  gCurrInitiator = null;
   clearTempPathNode();
 }
 
@@ -139,8 +139,8 @@ boolean released = true;
 int lastclick = 0;
 void mousePressed() {
   if (millis() - lastclick < Constants.DBL_CLICK_THRESHOLD &&
-      currentMode == Constants.INTERACTION) {
-    objs.onDblClick(mouseX, mouseY);
+      gCurrentMode == Constants.INTERACTION) {
+    gObjs.onDblClick(mouseX, mouseY);
   }
   lastclick = millis();
   if (released) {
@@ -168,11 +168,11 @@ void mouseReleased() {
 void onMousePressed() {
   cursor(CROSS);
   Interactive selected = null;
-  if (currentMode == Constants.CREATION) {
-    if (objs.select(mouseX, mouseY)) {
-      selected = objs.getSelected();
-      lastSelected = selected;
-      // If selected is the initiator, then create axon
+  if (gCurrentMode == Constants.CREATION) {
+    if (gObjs.select(mouseX, mouseY)) {
+      selected = gObjs.getSelected();
+      gLastSelected = selected;
+      // If selected is the gCurrInitiator, then create axon
       if (selected.getType() == Constants.INITIATOR ||
           selected.getType() == Constants.SOMA) {
         Cell c = (Cell)selected;
@@ -181,13 +181,13 @@ void onMousePressed() {
       // if selected is a dendrite or an axon
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
-        tempPathNode.set(p.getCurrVertex());
-        currPath = new Dendrite(p, tempPathNode.x, tempPathNode.y, Constants.DENDRITE_COLOR);
+        gTempPathNode.set(p.getCurrVertex());
+        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, Constants.DENDRITE_COLOR);
       }
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
-        tempPathNode.set(p.getCurrVertex());
-        currPath = new Axon(p, tempPathNode.x, tempPathNode.y, Constants.AXON_COLOR);
+        gTempPathNode.set(p.getCurrVertex());
+        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, Constants.AXON_COLOR);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -197,15 +197,15 @@ void onMousePressed() {
       else {}
     }
     else {
-      // If nothing's selected and in CREATION mode, then try creating initiator
-      if (initiator == null && mouseButton == RIGHT)
-        initiator = new Initiator(mouseX,
+      // If nothing's selected and in CREATION mode, then try creating gCurrInitiator
+      if (gCurrInitiator == null && mouseButton == RIGHT)
+        gCurrInitiator = new Initiator(mouseX,
                                   mouseY,
                                   Constants.SOMA_SIZE,
                                   Constants.EX_COLOR);
-      // if initiator is already present, then create a SOMA
-      else if (currShape == null && mouseButton == LEFT)
-        currShape = new Soma(mouseX,
+      // if gCurrInitiator is already present, then create a SOMA
+      else if (gCurrShape == null && mouseButton == LEFT)
+        gCurrShape = new Soma(mouseX,
                              mouseY,
                              Constants.SOMA_SIZE,
                              Constants.EX_COLOR,
@@ -213,9 +213,9 @@ void onMousePressed() {
                              7.5);
     }
   }
-  else if (currentMode == Constants.DELETION) {
-    if (objs.select(mouseX, mouseY)) {
-      selected = objs.getSelected();
+  else if (gCurrentMode == Constants.DELETION) {
+    if (gObjs.select(mouseX, mouseY)) {
+      selected = gObjs.getSelected();
       switch (selected.getType()) {
         case Constants.INITIATOR :
           break;
@@ -230,8 +230,8 @@ void onMousePressed() {
       }
     }
   }
-  else if (currentMode == Constants.INTERACTION) {
-    objs.onMouseDown(mouseX, mouseY);
+  else if (gCurrentMode == Constants.INTERACTION) {
+    gObjs.onMouseDown(mouseX, mouseY);
   }
   else {
     // Do nothing
@@ -240,32 +240,32 @@ void onMousePressed() {
 }
 
 void onMouseDragged() {
-  if (currentMode == Constants.CREATION) {
-    if (initiator != null && initiator.fMovable)
-      initiator.translate(new PVector(mouseX - initiator.x(), mouseY - initiator.y()));
-    if (currShape != null)
-      currShape.translate(new PVector(mouseX - currShape.x(), mouseY - currShape.y()));
-    if (currPath != null) {
-      currPath.add(mouseX, mouseY);
+  if (gCurrentMode == Constants.CREATION) {
+    if (gCurrInitiator != null && gCurrInitiator.fMovable)
+      gCurrInitiator.translate(new PVector(mouseX - gCurrInitiator.x(), mouseY - gCurrInitiator.y()));
+    if (gCurrShape != null)
+      gCurrShape.translate(new PVector(mouseX - gCurrShape.x(), mouseY - gCurrShape.y()));
+    if (gCurrPath != null) {
+      gCurrPath.add(mouseX, mouseY);
     }
 
     Interactive selected = null;
-    if (objs.select(mouseX, mouseY)) { // If selected object
-      selected = objs.getSelected();
-      if (selected != lastSelected) {
+    if (gObjs.select(mouseX, mouseY)) { // If selected object
+      selected = gObjs.getSelected();
+      if (selected != gLastSelected) {
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
-          if (currPath != null) currPath.close();
+          if (gCurrPath != null) gCurrPath.close();
         }
         else if (selected.getType() == Constants.DENDRITE ||
                  selected.getType() == Constants.AXON) {
         }
         else if (selected.getType() == Constants.SYNAPSE) {
         }
-        lastSelected = selected;
+        gLastSelected = selected;
       }
       else { // If not different from the last
-        // If still in the initiator or the last selected soma
+        // If still in the gCurrInitiator or the last selected soma
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA ||
             selected.getType() == Constants.SYNAPSE) {
@@ -275,24 +275,24 @@ void onMouseDragged() {
       }
     }
     else { // if not selected anything
-      if (lastSelected != null && currPath == null) {
-        if (lastSelected.getType() == Constants.INITIATOR ||
-            lastSelected.getType() == Constants.SOMA) {
-          Cell c = (Cell)lastSelected;
-          currPath = new Axon(c, tempPathNode.x, tempPathNode.y, Constants.AXON_COLOR);
+      if (gLastSelected != null && gCurrPath == null) {
+        if (gLastSelected.getType() == Constants.INITIATOR ||
+            gLastSelected.getType() == Constants.SOMA) {
+          Cell c = (Cell)gLastSelected;
+          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, Constants.AXON_COLOR);
         }
-        else if (lastSelected.getType() == Constants.SYNAPSE) {
-          Synapse s = (Synapse)lastSelected;
+        else if (gLastSelected.getType() == Constants.SYNAPSE) {
+          Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
-            currPath = new Dendrite(s, s.x(), s.y(), Constants.DENDRITE_COLOR);
-            currPath.add(tempPathNode.x, tempPathNode.y);
+            gCurrPath = new Dendrite(s, s.x(), s.y(), Constants.DENDRITE_COLOR);
+            gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
           }
         }
       }
     }
   }
-  else if (currentMode == Constants.INTERACTION) {
-    objs.onMouseDragged(mouseX, mouseY);
+  else if (gCurrentMode == Constants.INTERACTION) {
+    gObjs.onMouseDragged(mouseX, mouseY);
   }
   else {
     // Do nothing
@@ -301,78 +301,78 @@ void onMouseDragged() {
 }
 
 void onMouseMoved() {
-  if (currentMode == Constants.INTERACTION || magnify) {
-    objs.onMouseMoved(mouseX, mouseY);
+  if (gCurrentMode == Constants.INTERACTION || gMagnify) {
+    gObjs.onMouseMoved(mouseX, mouseY);
     redraw();
   }
 }
 
 void onMouseReleased() {
   cursor(ARROW);
-  if (currentMode == Constants.CREATION) {
-    if (initiator != null && initiator.fMovable) { // Hack for now
-      objs.add(initiator);
-      initiator.setMovable(false);
-      initiator = null;
+  if (gCurrentMode == Constants.CREATION) {
+    if (gCurrInitiator != null && gCurrInitiator.fMovable) { // Hack for now
+      gObjs.add(gCurrInitiator);
+      gCurrInitiator.setMovable(false);
+      gCurrInitiator = null;
     }
-    else if (currShape != null) {
-      objs.add(currShape);
-      currShape.setMovable(false);
-      currShape = null;
+    else if (gCurrShape != null) {
+      gObjs.add(gCurrShape);
+      gCurrShape.setMovable(false);
+      gCurrShape = null;
     }
-    else if (currPath != null) {
-      int l = currPath.size();
-      if (l < 2) println ("ERROR! currPath has a length less than 2");
+    else if (gCurrPath != null) {
+      int l = gCurrPath.size();
+      if (l < 2) println ("ERROR! gCurrPath has a length less than 2");
       else {
-        currPath.setMovable(false);
-        if (currPath.getType() == Constants.AXON) {
+        gCurrPath.setMovable(false);
+        if (gCurrPath.getType() == Constants.AXON) {
           // Calculate offset so the edge of the Synapse is at the end of the path
-          PVector diff = PVector.sub(currPath.getVertex(l-1),
-                                     currPath.getVertex(l-2));
-          PVector center = PVector.add(currPath.getVertex(l-1),
+          PVector diff = PVector.sub(gCurrPath.getVertex(l-1),
+                                     gCurrPath.getVertex(l-2));
+          PVector center = PVector.add(gCurrPath.getVertex(l-1),
                             PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SIGNAL_DEFAULT_STRENGTH + 1));
-          Synapse s = new Synapse(currPath, center.x, center.y, currPath.fColor);
-          currPath.setDest(s);
-          currPath.reduce();
-          currPath.attachToSource();
-          objs.add(currPath);
-          objs.add(s);
+          Synapse s = new Synapse(gCurrPath, center.x, center.y, gCurrPath.fColor);
+          gCurrPath.setDest(s);
+          gCurrPath.reduce();
+          gCurrPath.attachToSource();
+          gObjs.add(gCurrPath);
+          gObjs.add(s);
         }
-        else if (currPath.getType() == Constants.DENDRITE) {
+        else if (gCurrPath.getType() == Constants.DENDRITE) {
           Interactive selected = null;
-          if (objs.select(mouseX, mouseY)) { // If selected object
-            selected = objs.getSelected();
+          if (gObjs.select(mouseX, mouseY)) { // If selected object
+            selected = gObjs.getSelected();
             if (selected.getType() == Constants.SOMA) {
               Cell c = (Cell)selected;
               updateTempNode(c.x(), c.y(), c.fSize);
-              currPath.add(tempPathNode.x, tempPathNode.y);
-              currPath.setDest(c);
+              gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
+              gCurrPath.setDest(c);
             }
             else if ((selected.getType() == Constants.DENDRITE ||
                       selected.getType() == Constants.AXON) &&
-                      selected != currPath) {
+                      selected != gCurrPath) {
               //add end to end?
               Path p = (Path)selected;
               PVector end = p.getCurrVertex();
-              tempPathNode2.set(end.x, end.y, 0);
-              currPath.setDest(p);
+              gTempPathNode2.set(end.x, end.y, 0);
+              gCurrPath.setDest(p);
             }
             if (selected.getType() != Constants.INITIATOR &&
                 selected.getType() != Constants.SYNAPSE) {
-              currPath.reduce();
-              currPath.attachToSource();
-              objs.add(currPath);
+              gCurrPath.reduce();
+              gCurrPath.attachToSource();
+              gObjs.add(gCurrPath);
             }
           }
         }
       }
-      currPath = null;
+      gCurrPath = null;
     }
-    lastSelected = null;
+    gLastSelected = null;
     clearTempPathNode();
   }
-  else if (currentMode == Constants.INTERACTION)
-    objs.onMouseUp(mouseX, mouseY);
+  else if (gCurrentMode == Constants.INTERACTION)
+    gObjs.onMouseUp(mouseX, mouseY);
 
   redraw();
 }
@@ -380,19 +380,19 @@ void onMouseReleased() {
 void keyPressed() {
   switch (key) {
     case '1':
-      currentMode = Constants.CREATION;
-      objs.hideControls();
+      gCurrentMode = Constants.CREATION;
+      gObjs.hideControls();
       break;
     case '2':
-      currentMode = Constants.DELETION;
-      objs.hideControls();
+      gCurrentMode = Constants.DELETION;
+      gObjs.hideControls();
       break;
     case '3':
-      currentMode = Constants.INTERACTION;
-      objs.showControls();
+      gCurrentMode = Constants.INTERACTION;
+      gObjs.showControls();
       break;
     case 'm':
-      magnify = !magnify;
+      gMagnify = !gMagnify;
       break;
     case 'p':
       noLoop();

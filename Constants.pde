@@ -1,5 +1,8 @@
 
 static class Constants {
+  static final int WIDTH  = 800;
+  static final int HEIGHT = 800;
+
   static final int DBL_CLICK_THRESHOLD = 300;
 
   // Modes
@@ -101,4 +104,5 @@ static class Constants {
   static final color GRID_NODE_COLOR     = 0xFFAAAAAA;
   static final color GRID_NODE_HIGHLIGHT = 0xFFCCCCCC;
   static final float GRID_NODE_SIZE      = 1;
+  static final int GRID_RESOLUTION       = 40;
 }
