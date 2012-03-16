@@ -33,14 +33,14 @@ public class Grid extends Interactive{
       for (int j = 0; j <= fVerticalCount; j++) {
         PVector p = fGrid[i][j];
         fill(Constants.GRID_NODE_COLOR);
-        ellipse(p.x, p.y, Constants.GRID_NODE_SIZE, Constants.GRID_NODE_SIZE);
+        rect(p.x, p.y, Constants.GRID_NODE_SIZE, Constants.GRID_NODE_SIZE);
       }
     }
     if (fCurrent != null) {
       fill(Constants.GRID_NODE_HIGHLIGHT);
-      ellipse(fCurrent.x, fCurrent.y,
-              Constants.GRID_NODE_SIZE,
-              Constants.GRID_NODE_SIZE);
+      rect(fCurrent.x, fCurrent.y,
+           Constants.GRID_NODE_SIZE,
+           Constants.GRID_NODE_SIZE);
     }
   }
 
