@@ -25,7 +25,7 @@ public abstract class Interactive extends Drawable{
   }
 
   public boolean onMouseDragged(float x, float y) {
-    return false;
+    return (fHover = this.isInBounds(x,y));
   }
 
   public boolean onMouseUp(float x, float y) {

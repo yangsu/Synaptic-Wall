@@ -15,6 +15,7 @@ static class Constants {
   static final int SYNAPSE   = 4;
   static final int SIGNAL    = 5;
   static final int CONTROL   = 6;
+  static final int GRID      = 7;
 
   // Global Settings
   static final color BG_COLOR           = 0xFF4C4C4C;
@@ -96,4 +97,8 @@ static class Constants {
   static final color THRESHOLD_NEGATIVE_COLOR     = 0xFF00329B;
   static final color THRESHOLD_NEGATIVE_HIGHLIGHT = 0xFF2254BD;
 
+  // Grid Settings
+  static final color GRID_NODE_COLOR     = 0xFFAAAAAA;
+  static final color GRID_NODE_HIGHLIGHT = 0xFFCCCCCC;
+  static final float GRID_NODE_SIZE      = 1;
 }

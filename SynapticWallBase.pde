@@ -13,6 +13,8 @@ PVector tempPathNode2;
 color tempPathNodeColor;
 boolean canCreatePath;
 
+Grid gGrid;
+
 void setup() {
   size(800, 800);
   temp = createImage(width/2, height/2, ARGB);
@@ -35,6 +37,8 @@ void setup() {
   canCreatePath = true;
   lastSelected = null;
   initiator = null;
+
+  gGrid = new Grid(800, 20);
 }
 void updateTempNode(float x, float y, float size) {
   float angle = Utilities.getAngleNorm(x, y, mouseX, mouseY);
@@ -68,6 +72,7 @@ void drawContent() {
     currPath.draw();
   if (initiator != null && initiator.fMovable)
     initiator.draw();
+  gGrid.draw();
 }
 void drawMagnified() {
   pushStyle();
@@ -142,18 +147,22 @@ void mousePressed() {
     released = false;
     onMousePressed();
   }
+  gGrid.onMouseDown(mouseX, mouseY);
 }
 void mouseDragged() {
   onMouseDragged();
+  gGrid.onMouseDragged(mouseX, mouseY);
 }
 void mouseMoved() {
   onMouseMoved();
+  gGrid.onMouseMoved(mouseX, mouseY);
 }
 void mouseReleased() {
   if (!released){
     onMouseReleased();
     released = true;
   }
+  gGrid.onMouseUp(mouseX, mouseY);
 }
 
 void onMousePressed() {
