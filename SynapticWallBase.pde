@@ -65,6 +65,7 @@ void drawBackground(color cc) {
 }
 void drawContent() {
   drawBackground(Constants.BG_COLOR);
+  gGrid.draw();
   gObjs.draw();
   if (gCurrShape != null)
     gCurrShape.draw();
@@ -72,7 +73,6 @@ void drawContent() {
     gCurrPath.draw();
   if (gCurrInitiator != null && gCurrInitiator.fMovable)
     gCurrInitiator.draw();
-  gGrid.draw();
 }
 void drawMagnified() {
   pushStyle();

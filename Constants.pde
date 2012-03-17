@@ -101,8 +101,8 @@ static class Constants {
   static final color THRESHOLD_NEGATIVE_HIGHLIGHT = 0xFF2254BD;
 
   // Grid Settings
-  static final color GRID_NODE_COLOR     = 0xFFAAAAAA;
-  static final color GRID_NODE_HIGHLIGHT = 0xFFCCCCCC;
+  static final color GRID_NODE_COLOR     = 0xFF666666;
+  static final color GRID_NODE_HIGHLIGHT = 0xFFAAAAAA;
   static final float GRID_NODE_SIZE      = 1;
   static final int GRID_RESOLUTION       = 40;
 }
