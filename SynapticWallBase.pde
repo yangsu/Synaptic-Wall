@@ -197,16 +197,17 @@ void onMousePressed() {
       else {}
     }
     else {
+      PVector pos = gGrid.getCurrent();
       // If nothing's selected and in CREATION mode, then try creating gCurrInitiator
       if (gCurrInitiator == null && mouseButton == RIGHT)
-        gCurrInitiator = new Initiator(mouseX,
-                                  mouseY,
-                                  Constants.SOMA_SIZE,
-                                  Constants.EX_COLOR);
+        gCurrInitiator = new Initiator(pos.x,
+                                      pos.y,
+                                      Constants.SOMA_SIZE,
+                                      Constants.EX_COLOR);
       // if gCurrInitiator is already present, then create a SOMA
       else if (gCurrShape == null && mouseButton == LEFT)
-        gCurrShape = new Soma(mouseX,
-                             mouseY,
+        gCurrShape = new Soma(pos.x,
+                             pos.y,
                              Constants.SOMA_SIZE,
                              Constants.EX_COLOR,
                              -7.5,
@@ -241,12 +242,13 @@ void onMousePressed() {
 
 void onMouseDragged() {
   if (gCurrentMode == Constants.CREATION) {
+    PVector pos = gGrid.getCurrent();
     if (gCurrInitiator != null && gCurrInitiator.fMovable)
-      gCurrInitiator.translate(new PVector(mouseX - gCurrInitiator.x(), mouseY - gCurrInitiator.y()));
+      gCurrInitiator.translate(new PVector(pos.x - gCurrInitiator.x(), pos.y - gCurrInitiator.y()));
     if (gCurrShape != null)
-      gCurrShape.translate(new PVector(mouseX - gCurrShape.x(), mouseY - gCurrShape.y()));
+      gCurrShape.translate(new PVector(pos.x - gCurrShape.x(), pos.y - gCurrShape.y()));
     if (gCurrPath != null) {
-      gCurrPath.add(mouseX, mouseY);
+      gCurrPath.add(pos.x, pos.y);
     }
 
     Interactive selected = null;
