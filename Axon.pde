@@ -1,12 +1,8 @@
 public class Axon extends Path {
   public Axon(Signalable src, float x, float y, color cc) {
     super(src, x, y, cc);
-    fColor = fHighlightColor;
-    fHighlightColor = Utilities.highlight(fHighlightColor);
-  }
-
-  public Axon(Path p, float x, float y, color cc) {
-    super(p, x, y, cc);
+    this.fColor = fHighlightColor;
+    this.fHighlightColor = Utilities.highlight(fHighlightColor);
   }
 
   public void draw() {
