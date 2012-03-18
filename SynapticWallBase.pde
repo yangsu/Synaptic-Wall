@@ -20,7 +20,6 @@ void setup() {
   gMagnified = createImage(width/2, height/2, ARGB);
   //Settings
   ellipseMode(RADIUS);
-  rectMode(RADIUS);
   strokeCap(ROUND);
   smooth();
   // noLoop();
