@@ -64,7 +64,7 @@ class PostsynapticPotential extends Signal {
     pushStyle();
       fill(fColor);
       float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
-      float bs = max(Constants.PSP_DEFAULT_WIDTH, s) + Constants.SIGNAL_BORDER_WIDTH;
+      float bs = max(Constants.SIGNAL_DEFAULT_WIDTH, s) + Constants.SIGNAL_BORDER_WIDTH;
       ellipse(fLoc.x, fLoc.y, bs, bs);
       fill(fHighlightColor);
       ellipse(fLoc.x, fLoc.y, s, s);

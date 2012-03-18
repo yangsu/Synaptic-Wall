@@ -74,10 +74,10 @@ static class Constants {
 
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 10.0;
+  static final float SIGNAL_DEFAULT_WIDTH     = SIGNAL_WIDTH/2;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
   static final float SIGNAL_RANGE_WIDTH    = DENDRITE_WIDTH - 2*SIGNAL_BORDER_WIDTH;
   static final int   SIGNAL_FIRING_TIME    = 800;
-  static final float PSP_DEFAULT_WIDTH     = SIGNAL_WIDTH/2;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;
