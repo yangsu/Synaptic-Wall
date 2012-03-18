@@ -67,7 +67,7 @@ static class Constants {
   static final int   AP_COLOR = 0xFFF8F8F8;
   static final int   SIGNAL_DEFAULT_SPEED    = 1;
   static final int   SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float SIGNAL_DEFAULT_STRENGTH = 5.0;
+  static final float SIGNAL_DEFAULT_STRENGTH = 6.0;
   static final int   SIGNAL_MAX_SPEED        = 5;
   static final int   SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
   static final float SIGNAL_MAX_STRENGTH     = 10.0;
