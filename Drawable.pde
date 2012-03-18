@@ -17,9 +17,12 @@ public abstract class Drawable {
     fLoc = new PVector(x, y);
     fVisible = fMovable = true;
     fColor = cc;
-    fHighlightColor = (cc == Constants.EX_COLOR || cc == Constants.EX_HIGHLIGHT_COLOR)
-                        ? Constants.EX_HIGHLIGHT_COLOR
-                        : Constants.IN_HIGHLIGHT_COLOR;
+    if (cc == Constants.EX_COLOR)
+      fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
+    else if (cc == Constants.IN_COLOR)
+      fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+    else
+      Utilities.highlight(fColor);
   }
 
   public abstract int getType();

@@ -44,11 +44,9 @@ static class Constants {
 
   // Dendrite Settings
   static final float DENDRITE_WIDTH = 8.0;
-  static final color DENDRITE_COLOR = 0xFFB08B47;
 
   // Axon Settings
   static final float AXON_WIDTH = 8.0;
-  static final color AXON_COLOR = 0xFFB08B47;
 
   // Synapse Settings
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;

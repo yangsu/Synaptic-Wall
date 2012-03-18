@@ -178,15 +178,15 @@ void onMousePressed() {
         updateTempNode(c.x(), c.y(), c.fSize);
       }
       // if selected is a dendrite or an axon
-      else if (selected.getType() == Constants.DENDRITE) {
-        Path p = (Path)selected;
-        gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, Constants.DENDRITE_COLOR);
-      }
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
         gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, Constants.AXON_COLOR);
+        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, Constants.EX_HIGHLIGHT_COLOR);
+      }
+      else if (selected.getType() == Constants.DENDRITE) {
+        Path p = (Path)selected;
+        gTempPathNode.set(p.getCurrVertex());
+        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, Constants.EX_COLOR);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -280,12 +280,12 @@ void onMouseDragged() {
         if (gLastSelected.getType() == Constants.INITIATOR ||
             gLastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)gLastSelected;
-          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, Constants.AXON_COLOR);
+          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, Constants.EX_HIGHLIGHT_COLOR);
         }
         else if (gLastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
-            gCurrPath = new Dendrite(s, s.x(), s.y(), Constants.DENDRITE_COLOR);
+            gCurrPath = new Dendrite(s, s.x(), s.y(), Constants.EX_COLOR);
             gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
           }
         }

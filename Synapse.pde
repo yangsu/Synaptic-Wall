@@ -11,8 +11,6 @@ public class Synapse extends Shape {
 
   public Synapse(Path axon, float x, float y, color cc) {
     this(axon, x, y, cc, Constants.SYNAPSE_STRENGTH);
-    fColor = fHighlightColor;
-    fHighlightColor = Utilities.highlight(fHighlightColor);
   }
 
   public Synapse(Path axon, float x, float y, color cc, float strength) {
