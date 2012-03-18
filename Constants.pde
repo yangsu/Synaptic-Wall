@@ -55,7 +55,8 @@ static class Constants {
   static final int   SYNAPSE_TIMING           = 700; // Miliseconds
   static final float SYNAPSE_SIZE             = 12.0; // radius
   static final float SYNAPSE_STRENGTH         = 1.0; // Thickness
-  static final float SYNAPSE_MULT             = 4.0;
+  static final float SYNAPSE_MULT             = 2.0;
+  static final float SYNAPSE_BASE             = 2.0;
 
   // Signals Settings
   static final int   EPSP  = 1;
@@ -64,19 +65,19 @@ static class Constants {
   static final int   EPSP_COLOR = 0xFFD2C277;
   static final int   IPSP_COLOR = 0xFF67A4D0;
   static final int   AP_COLOR = 0xFFF8F8F8;
-  static final float SIGNAL_BASE = 2.0;
   static final int   SIGNAL_DEFAULT_SPEED    = 1;
   static final int   SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float SIGNAL_DEFAULT_STRENGTH = 4.0;
+  static final float SIGNAL_DEFAULT_STRENGTH = 5.0;
   static final int   SIGNAL_MAX_SPEED        = 5;
   static final int   SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
-  static final float SIGNAL_MAX_STRENGTH     = 12.0;
+  static final float SIGNAL_MAX_STRENGTH     = 10.0;
 
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
-  static final float SIGNAL_WIDTH          = SIGNAL_MAX_STRENGTH;
+  static final float SIGNAL_WIDTH          = 10.0;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
   static final float SIGNAL_RANGE_WIDTH    = DENDRITE_WIDTH - 2*SIGNAL_BORDER_WIDTH;
   static final int   SIGNAL_FIRING_TIME    = 800;
+  static final float PSP_DEFAULT_WIDTH     = SIGNAL_WIDTH/2;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;

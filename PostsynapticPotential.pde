@@ -12,8 +12,8 @@ class PostsynapticPotential extends Signal {
     pushStyle();
       strokeWeight(Constants.SIGNAL_RANGE_WIDTH);
       int offset = ceil((abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) *
-                       Constants.SIGNAL_WIDTH/Constants.SIGNAL_RESOLUTION +
-                       Constants.SIGNAL_BASE - Constants.SIGNAL_BORDER_WIDTH);
+                       Constants.SIGNAL_WIDTH/Constants.SIGNAL_RESOLUTION -
+                       Constants.SIGNAL_BORDER_WIDTH);
       int t1 = round(constrain(fCurrIndex - offset - fLength, 0, fEndIndex));
       int t2 = ceil(constrain(fCurrIndex - offset, 0, fEndIndex));
       int t3 = floor(constrain(fCurrIndex + offset, 0, fEndIndex));
@@ -64,7 +64,7 @@ class PostsynapticPotential extends Signal {
     pushStyle();
       fill(fColor);
       float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
-      float bs = max(Constants.SIGNAL_DEFAULT_STRENGTH, s) + Constants.SIGNAL_BORDER_WIDTH;
+      float bs = max(Constants.PSP_DEFAULT_WIDTH, s) + Constants.SIGNAL_BORDER_WIDTH;
       ellipse(fLoc.x, fLoc.y, bs, bs);
       fill(fHighlightColor);
       ellipse(fLoc.x, fLoc.y, s, s);
