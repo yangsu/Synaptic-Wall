@@ -125,15 +125,6 @@ class Soma extends Cell {
   public void flipColor() {
     super.flipColor();
     fStrength = -fStrength;
-    for (Path p : fDendrites)
-      p.flipColor();
-  }
-  public boolean onDblClick(float x, float y) {
-    if (isInBounds(x, y)) {
-      this.flipColor();
-      return true;
-    }
-    return false;
   }
 
   public void onSignal(Signal s) {

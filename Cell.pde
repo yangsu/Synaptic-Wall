@@ -6,11 +6,11 @@ public abstract class Cell extends Shape implements Controllable {
   protected ArrayList<Control> fControls;
 
   public Cell(float x, float y, float size, color cc) {
-		super(x, y, size, cc);
+    super(x, y, size, cc);
 
     fDendrites = new ArrayList<Path>();
     fControls = new ArrayList<Control>();
-	}
+  }
 
   public void addPath(Path p) {
     fDendrites.add(p);
@@ -34,8 +34,22 @@ public abstract class Cell extends Shape implements Controllable {
       this.drawControls();
     }
   }
-	public boolean isInBounds(float x, float y) {
+  public boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
+  }
+
+  public void flipColor() {
+    super.flipColor();
+    for (Path p : fDendrites)
+      p.flipColor();
+  }
+
+  public boolean onDblClick(float x, float y) {
+    if (isInBounds(x, y)) {
+      this.flipColor();
+      return true;
+    }
+    return false;
   }
 
   public boolean onMouseDown(float x, float y) {
@@ -51,13 +65,13 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public void translate(PVector change) {
-  	if (fMovable) {
+    if (fMovable) {
       for (Path dendrite : fDendrites)
         dendrite.translate(change);
       for (Control c : fControls)
         c.translate(change);
       super.translate(change);
-  	}
+    }
   }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
