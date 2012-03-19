@@ -332,7 +332,7 @@ void onMouseReleased() {
           PVector diff = PVector.sub(gCurrPath.getVertex(l-1),
                                      gCurrPath.getVertex(l-2));
           PVector center = PVector.add(gCurrPath.getVertex(l-1),
-                            PVector.mult(diff, Constants.SYNAPSE_SIZE- Constants.SIGNAL_DEFAULT_STRENGTH + 1));
+                            PVector.mult(diff, Constants.SYNAPSE_OUTER_SIZE));
           Synapse s = new Synapse(gCurrPath, center.x, center.y, gCurrPath.fColor);
           gCurrPath.setDest(s);
           gCurrPath.reduce();

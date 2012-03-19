@@ -55,6 +55,7 @@ static class Constants {
   static final float SYNAPSE_STRENGTH         = 1.0; // Thickness
   static final float SYNAPSE_MULT             = 2.0;
   static final float SYNAPSE_BASE             = 2.0;
+  static final float SYNAPSE_OUTER_SIZE       = SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE;
 
   // Signals Settings
   static final int   EPSP  = 1;
