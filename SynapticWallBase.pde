@@ -182,12 +182,12 @@ void onMousePressed() {
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
         gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, Constants.EX_HIGHLIGHT_COLOR);
+        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, p.fColor);
       }
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
         gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, Constants.EX_COLOR);
+        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, p.fColor);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -243,12 +243,17 @@ void onMousePressed() {
 void onMouseDragged() {
   if (gCurrentMode == Constants.CREATION) {
     PVector pos = gGrid.getCurrent();
-    if (gCurrInitiator != null && gCurrInitiator.fMovable)
+    if (gCurrInitiator != null && gCurrInitiator.fMovable) {
       gCurrInitiator.translate(new PVector(pos.x - gCurrInitiator.x(), pos.y - gCurrInitiator.y()));
-    if (gCurrShape != null)
+      return;
+    }
+    if (gCurrShape != null) {
       gCurrShape.translate(new PVector(pos.x - gCurrShape.x(), pos.y - gCurrShape.y()));
+      return;
+    }
     if (gCurrPath != null) {
       gCurrPath.add(pos.x, pos.y);
+      return;
     }
 
     Interactive selected = null;
@@ -281,12 +286,12 @@ void onMouseDragged() {
         if (gLastSelected.getType() == Constants.INITIATOR ||
             gLastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)gLastSelected;
-          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, Constants.EX_HIGHLIGHT_COLOR);
+          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, c.fHighlightColor);
         }
         else if (gLastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
-            gCurrPath = new Dendrite(s, s.x(), s.y(), Constants.EX_COLOR);
+            gCurrPath = new Dendrite(s, s.x(), s.y(), (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR);
             gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
           }
         }
