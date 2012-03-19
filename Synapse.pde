@@ -69,7 +69,8 @@ public class Synapse extends Shape {
 
   public void flipColor() {
     super.flipColor();
-    fDendrite.flipColor();
+    if (fDendrite != null)
+      fDendrite.flipColor();
   }
 
   public void addPath(Path p) {
