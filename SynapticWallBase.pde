@@ -253,7 +253,6 @@ void onMouseDragged() {
     }
     if (gCurrPath != null) {
       gCurrPath.add(pos.x, pos.y);
-      return;
     }
 
     Interactive selected = null;
