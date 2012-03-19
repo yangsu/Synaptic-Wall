@@ -120,6 +120,7 @@ public abstract class Path extends Interactive implements Signalable{
   private void drawPath() {
     pushStyle();
     noFill();
+    strokeWeight(Constants.PATH_WIDTH);
     stroke((fHover) ? fHighlightColor : fColor);
     beginShape();
       PVector temp = fVertices.get(0);

@@ -69,9 +69,6 @@ public class ObjectCollection {
     if (s != null) {
       int index = -1;
       switch(s.getType()) {
-        case Constants.AXON:
-          index = (index == -1) ? fAxonIndex : index;
-          fAxonIndex++;
         case Constants.SYNAPSE:
           index = (index == -1) ? fSynapseIndex : index;
           fSynapseIndex++;
@@ -84,10 +81,13 @@ public class ObjectCollection {
         case Constants.INITIATOR:
           index = (index == -1) ? fInitiatorIndex : index;
           fInitiatorIndex++;
+        case Constants.AXON:
+          index = (index == -1) ? fAxonIndex : index;
+          fAxonIndex++;
       }
       fObjs.add(index, s);
       if (s.getType() == Constants.AXON || s.getType() == Constants.DENDRITE)
-      fPaths.add((Path)s);
+        fPaths.add((Path)s);
     }
   }
 
@@ -95,8 +95,6 @@ public class ObjectCollection {
     // TODO: check for off by 1 error
     if (s != null) {
       switch(s.getType()) {
-        case Constants.AXON:
-          fAxonIndex--;
         case Constants.SYNAPSE:
           fSynapseIndex--;
         case Constants.DENDRITE:
@@ -105,6 +103,8 @@ public class ObjectCollection {
           fSomaIndex--;
         case Constants.INITIATOR:
           fInitiatorIndex--;
+        case Constants.AXON:
+          fAxonIndex--;
       }
       fObjs.remove(s);
     }

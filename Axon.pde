@@ -7,12 +7,6 @@ public class Axon extends Path {
     super.flipColor();
     ((Drawable)fDest).flipColor();
   }
-  public void draw() {
-    pushStyle();
-    strokeWeight(Constants.AXON_WIDTH);
-    super.draw();
-    popStyle();
-  }
 
   public int getType() {
     return Constants.AXON;

@@ -4,12 +4,9 @@ public class Dendrite extends Path {
   }
 
   public void draw() {
-    pushStyle();
-      // Draw start vertex
-      drawJunction(getVertex(0));
-      strokeWeight(Constants.DENDRITE_WIDTH);
-      super.draw();
-    popStyle();
+    // Draw start vertex
+    drawJunction(getVertex(0));
+    super.draw();
   }
 
   public int getType() {

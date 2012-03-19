@@ -42,11 +42,8 @@ static class Constants {
   static final float SOMA_DEFAULT_THRESHOLD = 5.0;
   static final float SOMA_MAX_THRESHOLD     = 10.0;
 
-  // Dendrite Settings
-  static final float DENDRITE_WIDTH = 8.0;
-
-  // Axon Settings
-  static final float AXON_WIDTH = 8.0;
+  // Path Settings
+  static final float PATH_WIDTH = 8.0;
 
   // Synapse Settings
   static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
@@ -75,7 +72,7 @@ static class Constants {
   static final float SIGNAL_WIDTH          = 10.0;
   static final float SIGNAL_DEFAULT_WIDTH     = SIGNAL_WIDTH/2;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
-  static final float SIGNAL_RANGE_WIDTH    = DENDRITE_WIDTH - 2*SIGNAL_BORDER_WIDTH;
+  static final float SIGNAL_RANGE_WIDTH    = PATH_WIDTH - 2*SIGNAL_BORDER_WIDTH;
   static final int   SIGNAL_FIRING_TIME    = 800;
 
   // Initiator Settings
