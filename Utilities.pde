@@ -22,7 +22,7 @@ static class Utilities {
   }
 
   static float convertToArcCoord(float val) {
-    if (val > -PI && val < HALF_PI)
+    if (val >= -PI && val < HALF_PI)
       val += (PI + HALF_PI);
     else
       val -= HALF_PI;
@@ -55,6 +55,15 @@ static class Utilities {
     if ((value < oppMid) && ((max == TWO_PI) || (value > max && max != TWO_PI)))
       return max;
     return value;
+  }
+
+  static float thresholdConstrain(float value, float min, float max) {
+    if (value >= min && value <= max)
+      return constrain(value, min, max);
+    else {
+      float mid = (min + max)/2;
+      return (value > -mid) ? min : max;
+    }
   }
 
   static float pulse(float amplitude, int elapsed, int length) {

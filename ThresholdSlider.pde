@@ -80,7 +80,6 @@ class ThresholdSlider extends CircularSlider {
             ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
             : Constants.THRESHOLD_POSITIVE_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, size, fEnd - fOffset, fEnd);
-
       fill(Constants.BG_COLOR);
       this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin - 0.02, fEnd + 0.02);
    popStyle();
@@ -110,11 +109,11 @@ class ThresholdSlider extends CircularSlider {
       float angle = Utilities.thresholdAngle(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case BEGIN:
-          fBegin = constrain(angle, -PI, -2*fOffset);
+          fBegin = Utilities.thresholdConstrain(angle, -PI, -2*fOffset);
           fMin = fBegin/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
-          fEnd = constrain(angle, 2*fOffset, PI);
+          fEnd = Utilities.thresholdConstrain(angle, 2*fOffset, PI);
           fMax = fEnd/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }
