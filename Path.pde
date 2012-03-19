@@ -137,13 +137,16 @@ public abstract class Path extends Interactive implements Signalable{
     for (Signal s : fSignals)
       s.drawSignalBody();
   }
-  private void drawJunction(float x, float y) {
+
+  protected void drawJunction(float x, float y) {
     pushStyle();
-      fill(fColor);
-      ellipse(x, y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
+      fill((fHover) ? fHighlightColor : fColor);
+      float s = Constants.SIGNAL_DEFAULT_WIDTH;
+      ellipse(x, y, s, s);
     popStyle();
   }
-  private void drawJunction(PVector p) {
+
+  protected void drawJunction(PVector p) {
     drawJunction(p.x, p.y);
   }
 
