@@ -3,7 +3,6 @@ public class Synapse extends Shape {
   private float fSignalStrength;
   private Path fAxon;
   private Path fDendrite;
-  private boolean fDisabled;
   private boolean fFired;
   private int fTimer;
   private int fEndTime;
@@ -19,7 +18,6 @@ public class Synapse extends Shape {
     fSignalStrength = 0;
     fAxon = axon;
     fDendrite = null;
-    fDisabled = false;
     fFired = true;
     fTimer = 0;
     fEndTime = 0;
@@ -51,9 +49,6 @@ public class Synapse extends Shape {
         fFired = true;
       }
     }
-    else {
-      fDisabled = false;
-    }
   }
 
   public void draw() {
@@ -83,14 +78,11 @@ public class Synapse extends Shape {
   }
 
   public void onSignal(Signal s) {
-    if (!fDisabled) {
-      fDisabled = true;
-      fFired = false;
-      fTimer = millis();
-      fEndTime = fTimer + Constants.SYNAPSE_TIMING;
-      fMid = fTimer + Constants.SYNAPSE_TIMING/2;
-      fSignalStrength = s.fStrength;
-    }
+    fFired = false;
+    fTimer = millis();
+    fEndTime = fTimer + Constants.SYNAPSE_TIMING;
+    fMid = fTimer + Constants.SYNAPSE_TIMING/2;
+    fSignalStrength = s.fStrength;
   }
 
   public boolean isInBounds(float x, float y) {
