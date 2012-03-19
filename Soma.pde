@@ -128,17 +128,15 @@ class Soma extends Cell {
     popStyle();
   }
 
+  public void flipColor() {
+    super.flipColor();
+    fStrength = -fStrength;
+    for (Path p : fDendrites)
+      p.flipColor();
+  }
   public boolean onDblClick(float x, float y) {
     if (isInBounds(x, y)) {
-      if (fColor == Constants.EX_COLOR) {
-        fColor = Constants.IN_COLOR;
-        fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
-      }
-      else {
-        fColor = Constants.EX_COLOR;
-        fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
-      }
-      fStrength = -fStrength;
+      this.flipColor();
       return true;
     }
     return false;

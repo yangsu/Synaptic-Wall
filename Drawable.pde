@@ -25,6 +25,28 @@ public abstract class Drawable {
       Utilities.highlight(fColor);
   }
 
+  public void flipColor() {
+    if (fColor == Constants.EX_COLOR) {
+      fColor = Constants.IN_COLOR;
+      fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+    }
+    else if (fColor == Constants.IN_COLOR) {
+      fColor = Constants.EX_COLOR;
+      fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
+    }
+    else if (fColor == Constants.EX_HIGHLIGHT_COLOR) {
+      fColor = Constants.IN_HIGHLIGHT_COLOR;
+      fHighlightColor = Utilities.highlight(fColor);
+    }
+    else if (fColor == Constants.IN_HIGHLIGHT_COLOR) {
+      fColor = Constants.EX_HIGHLIGHT_COLOR;
+      fHighlightColor = Utilities.highlight(fColor);
+    }
+    else {
+      println("unknow color");
+    }
+  }
+
   public abstract int getType();
 
   public void translate(PVector change) {

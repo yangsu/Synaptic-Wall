@@ -204,4 +204,10 @@ public abstract class Path extends Interactive implements Signalable{
     }
     return mindist != 9999;
   }
+
+  public void flipColor() {
+    super.flipColor();
+    for (Path p : fConnectedPaths)
+      p.flipColor();
+  }
 }

@@ -3,6 +3,10 @@ public class Axon extends Path {
     super(src, x, y, cc);
   }
 
+  public void flipColor() {
+    super.flipColor();
+    ((Drawable)fDest).flipColor();
+  }
   public void draw() {
     pushStyle();
     strokeWeight(Constants.AXON_WIDTH);
