@@ -21,6 +21,7 @@ void setup() {
   //Settings
   ellipseMode(RADIUS);
   strokeCap(ROUND);
+  strokeJoin(ROUND);
   smooth();
   // noLoop();
   noStroke();
