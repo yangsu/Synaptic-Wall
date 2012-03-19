@@ -109,12 +109,6 @@ class Soma extends Cell {
         sum += Utilities.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
     }
     fThresholdSlider.setValue(sum);
-    // the ThresholdSlider will be at 1.0 if the maximum is reached
-    if (fThresholdSlider.getValue() >= 1.0 && (millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
-      fLastFired = millis();
-      for (Path p : fDendrites)
-        p.addSignal(new ActionPotential(fSpeed, fStrength, p));
-    }
   }
 
   public void draw() {
@@ -158,6 +152,11 @@ class Soma extends Cell {
         fStrength = value;
         break;
       case THRESHOLD:
+        if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
+          fLastFired = millis();
+          for (Path p : fDendrites)
+            p.addSignal(new ActionPotential(fSpeed, fStrength, p));
+        }
         break;
       default:
         break;
