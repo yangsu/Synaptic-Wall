@@ -22,7 +22,7 @@ public abstract class Drawable {
     else if (cc == Constants.IN_COLOR)
       fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
     else
-      Utilities.highlight(fColor);
+      fHighlightColor = Utilities.highlight(fColor);
   }
 
   public void flipColor() {
