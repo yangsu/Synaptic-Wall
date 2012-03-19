@@ -40,12 +40,11 @@ abstract class Signal extends Drawable {
     }
   }
 
-  public int step() {
+  public void update() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
     if (reachedDestination())
       fire();
-    return fCurrIndex;
   }
 
   public boolean reachedDestination() {

@@ -107,14 +107,14 @@ public abstract class Path extends Interactive implements Signalable{
     }
   }
 
-  public void draw() {
-    pushStyle();
-      drawPath();
-      // if (fHover)
-      //   drawJunction(getVertex(fCurrIndex));
-    popStyle();
-
+  public void update() {
     processSignals();
+  }
+
+  public void draw() {
+    drawPath();
+    if (fHover)
+      drawJunction(getVertex(fCurrIndex));
     // Signals are drawn via drawSignals() method. Not called here by default
   }
   private void drawPath() {
@@ -150,7 +150,7 @@ public abstract class Path extends Interactive implements Signalable{
   private void processSignals() {
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
-      curr.step();
+      curr.update();
       if (curr.reachedDestination())
         fSignals.remove(curr);
       else {

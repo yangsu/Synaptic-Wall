@@ -21,6 +21,11 @@ public class ObjectCollection {
     for (Path p : fPaths)
       p.drawSignals();
   }
+  public void drawAndUpdate() {
+    for (Interactive s : fObjs)
+      s.update();
+    draw();
+  }
 
   public boolean select(float x, float y) {
     this.deselectAll();

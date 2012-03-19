@@ -63,4 +63,11 @@ public abstract class Drawable {
   }
 
   public abstract void draw();
+  public void update() {
+    //Perform functions that produce animations or other forms of change over time
+  };
+  public void drawAndUpdate() {
+    update();
+    draw();
+  }
 }

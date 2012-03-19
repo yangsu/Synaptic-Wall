@@ -63,16 +63,27 @@ void drawBackground(color cc) {
     rect(0, 0, width, height);
   popStyle();
 }
-void drawContent() {
+void drawContent(boolean update) {
   drawBackground(Constants.BG_COLOR);
   gGrid.draw();
-  gObjs.draw();
-  if (gCurrShape != null)
-    gCurrShape.draw();
-  if (gCurrPath != null)
-    gCurrPath.draw();
-  if (gCurrInitiator != null && gCurrInitiator.fMovable)
-    gCurrInitiator.draw();
+  if (update) {
+    gObjs.drawAndUpdate();
+    if (gCurrShape != null)
+      gCurrShape.drawAndUpdate();
+    if (gCurrPath != null)
+      gCurrPath.drawAndUpdate();
+    if (gCurrInitiator != null && gCurrInitiator.fMovable)
+      gCurrInitiator.drawAndUpdate();
+  }
+  else {
+    gObjs.draw();
+    if (gCurrShape != null)
+      gCurrShape.draw();
+    if (gCurrPath != null)
+      gCurrPath.draw();
+    if (gCurrInitiator != null && gCurrInitiator.fMovable)
+      gCurrInitiator.draw();
+  }
 }
 void drawMagnified() {
   pushStyle();
@@ -82,14 +93,14 @@ void drawMagnified() {
       translate(-mouseX, -mouseY);
       fill(Constants.FADE_COLOR);
       rect(0, 0, width, height);
-      drawContent();
+      drawContent(false);
     popMatrix();
 
     int gMagnifiedX = constrain(mouseX-width/4, 0, width);
     int gMagnifiedY = constrain(mouseY-height/4, 0, height);
     gMagnified = get(gMagnifiedX, gMagnifiedY, gMagnified.width, gMagnified.height);
 
-    drawContent();
+    drawContent(false);
 
     image(gMagnified, gMagnifiedX, gMagnifiedY);
 
@@ -123,7 +134,7 @@ void draw() {
   if (gMagnify)
     drawMagnified();
   else
-    drawContent();
+    drawContent(true);
   drawTempPathNode();
   drawText();
 }

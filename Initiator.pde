@@ -56,22 +56,24 @@ public class Initiator extends Cell {
   }
 
   private void drawInitiator() {
+    pushStyle();
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, fSize, fSize);
     noStroke();
     if (fTimer < fEndTime) {
       fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
         1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
-      fTimer = millis();
-      if (fTimer > fMid && !fFired) {
-        this.fireSignal();
-        fFired = true;
-      }
+      // fTimer = millis();
+      // if (fTimer > fMid && !fFired) {
+      //   this.fireSignal();
+      //   fFired = true;
+      // }
     }
     else {
       fill(fHighlightColor);
     }
     ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
+    popStyle();
   }
 
   private void startTimer() {
@@ -105,12 +107,17 @@ public class Initiator extends Cell {
     }
   }
 
+  public void update() {
+    fTimer = millis();
+    if (fTimer > fMid && !fFired) {
+      this.fireSignal();
+      fFired = true;
+    }
+    this.processFiringPattern();
+  }
   public void draw() {
     super.draw();
-    pushStyle();
-      this.drawInitiator();
-      this.processFiringPattern();
-    popStyle();
+    this.drawInitiator();
   }
 
   public void flipColor() {

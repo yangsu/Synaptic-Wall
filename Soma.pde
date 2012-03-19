@@ -111,8 +111,11 @@ class Soma extends Cell {
     fThresholdSlider.setValue(sum);
   }
 
-  public void draw() {
+  public void update() {
     this.processSignals();
+  }
+
+  public void draw() {
     super.draw();
     pushStyle();
       if (!fControlVisible)
