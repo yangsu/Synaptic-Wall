@@ -21,7 +21,7 @@ public class Grid extends Interactive{
         fGrid[i][j] = new PVector(i*fCellWidth, j*fCellHeight);
       }
     }
-    this.fCurrent = null;
+    this.fCurrent = new PVector(0, 0);
   }
 
   public int getType() {
@@ -51,7 +51,9 @@ public class Grid extends Interactive{
   protected boolean isInBounds(float x, float y) {
     int xi = round(mouseX/fCellWidth);
     int yi = round(mouseY/fCellHeight);
-    fCurrent = fGrid[xi][yi];
+    if (fGrid.length > 0 && fGrid[0].length > 0 &&
+        xi < fGrid.length && yi < fGrid[0].length)
+      fCurrent = fGrid[xi][yi];
     return true;
   }
 }
