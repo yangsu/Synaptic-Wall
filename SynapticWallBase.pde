@@ -52,8 +52,8 @@ void clearTempPathNode() {
 void drawTempPathNode() {
   pushStyle();
     fill(255);
-    ellipse(gTempPathNode.x, gTempPathNode.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
-    ellipse(gTempPathNode2.x, gTempPathNode2.y, Constants.SIGNAL_DEFAULT_STRENGTH, Constants.SIGNAL_DEFAULT_STRENGTH);
+    ellipse(gTempPathNode.x, gTempPathNode.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
+    ellipse(gTempPathNode2.x, gTempPathNode2.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
   popStyle();
 }
 void drawBackground(color cc) {
