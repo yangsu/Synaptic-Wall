@@ -15,10 +15,10 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public void addPath(Path p) {
-    if (p.getType() ==  Constants.DENDRITE)
-        fDendrites.add(p);
-    else if (p.getType() ==  Constants.AXON)
-        fAxons.add(p);
+    if (p.getType() ==Constants.DENDRITE)
+      fDendrites.add(p);
+    else if (p.getType() == Constants.AXON)
+      fAxons.add(p);
   }
 
   public void showControls() {
