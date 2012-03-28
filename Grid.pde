@@ -1,7 +1,7 @@
 public class Grid extends Interactive{
   private PVector[][] fGrid;
   private int fHorizontalCount, fVerticalCount;
-  private float fCellWidth, fCellHeight;
+  private float fCellWidth, fCellHeight, fCellDiagonal;
   private float fWidth, fHeight;
   private PVector fCurrent;
 
@@ -15,6 +15,7 @@ public class Grid extends Interactive{
     this.fVerticalCount = vc;
     this.fCellWidth = w/hc;
     this.fCellHeight = h/vc;
+    this.fCellDiagonal = sqrt(sq(fCellWidth) + sq(fCellHeight));
     this.fGrid = new PVector[fHorizontalCount+1][fVerticalCount+1];
     for (int i = 0; i <= fHorizontalCount; i++) {
       for (int j = 0; j <= fVerticalCount; j++) {
@@ -26,6 +27,18 @@ public class Grid extends Interactive{
 
   public int getType() {
     return Constants.GRID;
+  }
+
+  public float getCellWidth() {
+    return fCellWidth;
+  }
+
+  public float getCellHeight() {
+    return fCellHeight;
+  }
+
+  public float getCellDiagonal() {
+    return fCellDiagonal;
   }
 
   public void draw() {
