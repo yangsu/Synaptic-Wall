@@ -52,7 +52,8 @@ public class Grid extends Interactive{
     int xi = round(mouseX/fCellWidth);
     int yi = round(mouseY/fCellHeight);
     if (fGrid.length > 0 && fGrid[0].length > 0 &&
-        xi < fGrid.length && yi < fGrid[0].length)
+        xi < fGrid.length && yi < fGrid[0].length &&
+        xi >= 0 && yi >= 0)
       fCurrent = fGrid[xi][yi];
     return true;
   }
