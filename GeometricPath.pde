@@ -110,7 +110,7 @@ public class GeometricPath extends Path {
 
   @Override
   public void reduce() {
-    recontructOptimal();
+    // recontructOptimal();
     this.removeJags();
   }
 

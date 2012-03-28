@@ -340,7 +340,7 @@ void onMouseReleased() {
       gCurrShape = null;
     }
     else if (gCurrPath != null) {
-      gCurrPath.add(new PVector(mouseX, mouseY));
+      gCurrPath.add(gGrid.getCurrent());
       int l = gCurrPath.size();
       if (l < 2) println ("ERROR! gCurrPath has a length less than 2");
       else {
