@@ -41,7 +41,7 @@ void setup() {
   gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 }
 void updateTempNode(float x, float y, float size) {
-  float angle = Utilities.getAngleNorm(x, y, mouseX, mouseY);
+  float angle = Util.getAngleNorm(x, y, mouseX, mouseY);
   float tloc = size-Constants.SOMA_RING_WIDTH/2;
   gTempPathNode.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
 }

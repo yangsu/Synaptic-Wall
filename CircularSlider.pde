@@ -79,7 +79,7 @@ class CircularSlider extends Control {
   boolean isInBounds(float x, float y) {
     boolean inBounds = false;
     float dist = PVector.dist(fLoc, new PVector(x, y));
-    float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
+    float angle = Util.getAngleNorm(fLoc.x, fLoc.y, x, y);
     if (angle < fEnd && angle > fBegin) {
       fState = SLIDER;
       inBounds = true;
@@ -88,8 +88,8 @@ class CircularSlider extends Control {
   }
 
   void updateSlider(float x, float y) {
-    float angle = Utilities.getAngleNorm(fLoc.x, fLoc.y, x, y);
-    fSlider = Utilities.constrain(angle, fBegin, fEnd);
+    float angle = Util.getAngleNorm(fLoc.x, fLoc.y, x, y);
+    fSlider = Util.constrain(angle, fBegin, fEnd);
     fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
     if (fTarget != null) fTarget.onEvent(fID, fValue);
   }

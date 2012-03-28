@@ -106,7 +106,7 @@ class Soma extends Cell {
       if (diff > Constants.SIGNAL_FIRING_TIME)
         fReceivedPSPs.remove(s);
       else
-        sum += Utilities.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
+        sum += Util.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
     }
     fThresholdSlider.setValue(sum);
   }

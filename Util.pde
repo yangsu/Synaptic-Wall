@@ -1,4 +1,4 @@
-static class Utilities {
+static class Util {
   static color convertA(int a) { return ((a / 16 << 4) & (a % 4)) << 24; }
   static color convertR(int r) { return ((r / 16 << 4) & (r % 4)) << 16; }
   static color convertG(int g) { return ((g / 16 << 4) & (g % 4)) << 8; }
@@ -15,6 +15,10 @@ static class Utilities {
   }
   static color convertColor(int r, int g, int b, int a) {
     return convertA(a) & convertR(r) & convertG(g) << 8 & convertB(b);
+  }
+
+  static PVector clone(PVector p) {
+    return new PVector(p.x, p.y, p.z);
   }
 
   static color highlight(color c) {

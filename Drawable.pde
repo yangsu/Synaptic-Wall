@@ -22,7 +22,7 @@ public abstract class Drawable {
     else if (cc == Constants.IN_COLOR)
       fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
     else
-      fHighlightColor = Utilities.highlight(fColor);
+      fHighlightColor = Util.highlight(fColor);
   }
 
   public void flipColor() {
@@ -36,11 +36,11 @@ public abstract class Drawable {
     }
     else if (fColor == Constants.EX_HIGHLIGHT_COLOR) {
       fColor = Constants.IN_HIGHLIGHT_COLOR;
-      fHighlightColor = Utilities.highlight(fColor);
+      fHighlightColor = Util.highlight(fColor);
     }
     else if (fColor == Constants.IN_HIGHLIGHT_COLOR) {
       fColor = Constants.EX_HIGHLIGHT_COLOR;
-      fHighlightColor = Utilities.highlight(fColor);
+      fHighlightColor = Util.highlight(fColor);
     }
     else {
       println("unknow color");

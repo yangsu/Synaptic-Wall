@@ -45,8 +45,8 @@ class ThresholdSlider extends CircularSlider {
   }
 
   private void drawThresholdArc(float x, float y, float s, float b, float e) {
-    float bb = Utilities.convertToArcCoord(b);
-    float ee = Utilities.convertToArcCoord(e);
+    float bb = Util.convertToArcCoord(b);
+    float ee = Util.convertToArcCoord(e);
     if ((b * e >= 0 && ee >= bb) /* same sign */||
         (ee >= (PI + HALF_PI) && ee < TWO_PI)) {
       arc(x, y, s, s, bb, ee);
@@ -88,7 +88,7 @@ class ThresholdSlider extends CircularSlider {
   public boolean isInBounds(float x, float y) {
     boolean inBounds = true;
     float dist = PVector.dist(fLoc, new PVector(x, y));
-    float angle = Utilities.thresholdAngle(fLoc.x, fLoc.y, x, y);
+    float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
     if (angle >= fEnd - fOffset && angle <= fEnd)
       fState = END;
     else if (angle >= fBegin && angle <= fBegin + fOffset)
@@ -106,14 +106,14 @@ class ThresholdSlider extends CircularSlider {
 
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
-      float angle = Utilities.thresholdAngle(fLoc.x, fLoc.y, x, y);
+      float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
       switch (fState) {
         case BEGIN:
-          fBegin = Utilities.thresholdConstrain(angle, -PI, -2*fOffset);
+          fBegin = Util.thresholdConstrain(angle, -PI, -2*fOffset);
           fMin = fBegin/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
         case END:
-          fEnd = Utilities.thresholdConstrain(angle, 2*fOffset, PI);
+          fEnd = Util.thresholdConstrain(angle, 2*fOffset, PI);
           fMax = fEnd/PI * Constants.SOMA_MAX_THRESHOLD;
           break;
       }
