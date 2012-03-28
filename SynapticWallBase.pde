@@ -364,6 +364,7 @@ void onMouseReleased() {
               updateTempNode(c.x(), c.y(), c.fSize);
               gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
               gCurrPath.setDest(c);
+              c.addPath(gCurrPath);
             }
             else if ((selected.getType() == Constants.DENDRITE ||
                       selected.getType() == Constants.AXON) &&

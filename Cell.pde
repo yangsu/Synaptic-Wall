@@ -2,18 +2,23 @@ public abstract class Cell extends Shape implements Controllable {
   private boolean fControlActive;
   protected boolean fControlVisible;
 
+  protected ArrayList<Path> fAxons;
   protected ArrayList<Path> fDendrites;
   protected ArrayList<Control> fControls;
 
   public Cell(float x, float y, float size, color cc) {
     super(x, y, size, cc);
 
+    fAxons = new ArrayList<Path>();
     fDendrites = new ArrayList<Path>();
     fControls = new ArrayList<Control>();
   }
 
   public void addPath(Path p) {
-    fDendrites.add(p);
+    if (p.getType() ==  Constants.DENDRITE)
+        fDendrites.add(p);
+    else if (p.getType() ==  Constants.AXON)
+        fAxons.add(p);
   }
 
   public void showControls() {
@@ -40,6 +45,8 @@ public abstract class Cell extends Shape implements Controllable {
 
   public void flipColor() {
     super.flipColor();
+    for (Path p : fAxons)
+      p.flipColor();
     for (Path p : fDendrites)
       p.flipColor();
   }
@@ -66,7 +73,7 @@ public abstract class Cell extends Shape implements Controllable {
 
   public void translate(PVector change) {
     if (fMovable) {
-      for (Path dendrite : fDendrites)
+      for (Path dendrite : fAxons)
         dendrite.translate(change);
       for (Control c : fControls)
         c.translate(change);
