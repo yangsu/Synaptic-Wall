@@ -127,7 +127,7 @@ public abstract class Path extends Interactive implements Signalable{
       vertex(temp.x, temp.y);
       for (int i = 1; i < fVertices.size() - 1; ++i) {
         temp = fVertices.get(i);
-        curveVertex(temp.x,temp.y);
+        vertex(temp.x,temp.y);
       }
     endShape();
     popStyle();

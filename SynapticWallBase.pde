@@ -193,12 +193,12 @@ void onMousePressed() {
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
         gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Axon(p, gTempPathNode.x, gTempPathNode.y, p.fColor);
+        gCurrPath = new GeometricPath(p, gTempPathNode.x, gTempPathNode.y, p.fColor, Constants.AXON, gGrid);
       }
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
         gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new Dendrite(p, gTempPathNode.x, gTempPathNode.y, p.fColor);
+        gCurrPath = new GeometricPath(p, gTempPathNode.x, gTempPathNode.y, p.fColor, Constants.DENDRITE, gGrid);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -296,12 +296,14 @@ void onMouseDragged() {
         if (gLastSelected.getType() == Constants.INITIATOR ||
             gLastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)gLastSelected;
-          gCurrPath = new Axon(c, gTempPathNode.x, gTempPathNode.y, c.fHighlightColor);
+          gCurrPath = new GeometricPath(c, gTempPathNode.x, gTempPathNode.y, c.fHighlightColor, Constants.AXON, gGrid);
         }
         else if (gLastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
-            gCurrPath = new Dendrite(s, s.x(), s.y(), (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR);
+            gCurrPath = new GeometricPath(s, s.x(), s.y(),
+                                          (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR,
+                                          Constants.DENDRITE, gGrid);
             gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
           }
         }
@@ -338,9 +340,15 @@ void onMouseReleased() {
       gCurrShape = null;
     }
     else if (gCurrPath != null) {
+      gCurrPath.add(new PVector(mouseX, mouseY));
       int l = gCurrPath.size();
       if (l < 2) println ("ERROR! gCurrPath has a length less than 2");
       else {
+        if (gCurrPath.getType() == Constants.GEOPATH) {
+          gCurrPath.reduce();
+          gCurrPath = ((GeometricPath)gCurrPath).convertToPath();
+          l = gCurrPath.size();
+        }
         gCurrPath.setMovable(false);
         if (gCurrPath.getType() == Constants.AXON) {
           // Calculate offset so the edge of the Synapse is at the end of the path
