@@ -20,6 +20,7 @@ Grid gGrid;
 void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
   gMagnified = createImage(width/2, height/2, ARGB);
+
   //Settings
   ellipseMode(RADIUS);
   strokeCap(ROUND);
@@ -97,19 +98,20 @@ void drawMagnified() {
       rect(0, 0, width, height);
       drawContent(false);
     popMatrix();
-
-    int gMagnifiedX = constrain(mouseX-width/4, 0, width);
-    int gMagnifiedY = constrain(mouseY-height/4, 0, height);
-    gMagnified = get(gMagnifiedX, gMagnifiedY, gMagnified.width, gMagnified.height);
+    int hw = width/2;
+    int hh = height/2;
+    int magnifiedX = constrain(mouseX-width/4, 0, hw);
+    int magnifiedY = constrain(mouseY-height/4, 0, hh);
+    gMagnified = get(magnifiedX, magnifiedY, hw, hh);
 
     drawContent(false);
 
-    image(gMagnified, gMagnifiedX, gMagnifiedY);
+    image(gMagnified, magnifiedX, magnifiedY);
 
     noFill();
     stroke(255);
     strokeWeight(5);
-    rect(gMagnifiedX, gMagnifiedY, gMagnified.width, gMagnified.height);
+    rect(magnifiedX, magnifiedY, hw, hh);
   popStyle();
 }
 
