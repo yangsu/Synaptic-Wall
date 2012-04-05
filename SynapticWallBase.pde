@@ -10,8 +10,8 @@ Interactive gLastSelected;
 Initiator gCurrInitiator;
 Soma gCurrShape;
 Path gCurrPath;
-PVector gTempPathNode;
-PVector gTempPathNode2;
+PVector gIndicator;
+PVector gIndicator2;
 
 boolean gCanCreatePath;
 
@@ -35,28 +35,28 @@ void setup() {
   gObjs = new ObjectCollection();
   gCurrShape = null;
   gCurrPath = null;
-  gTempPathNode = new PVector(-999, -999);
-  gTempPathNode2 = new PVector(-999, -999);
+  gIndicator = new PVector(-999, -999);
+  gIndicator2 = new PVector(-999, -999);
   gCanCreatePath = true;
   gLastSelected = null;
   gCurrInitiator = null;
 
   gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 }
-void updateTempNode(float x, float y, float size) {
+void snapIndicators(float x, float y, float size) {
   float angle = Util.getAngleNorm(x, y, mouseX, mouseY);
   float tloc = size-Constants.SOMA_RING_WIDTH/2;
-  gTempPathNode.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
+  gIndicator.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
 }
-void clearTempPathNode() {
-  gTempPathNode.set(-999, -999, 0);
-  gTempPathNode2.set(-999, -999, 0);
+void clearIndicators() {
+  gIndicator.set(-999, -999, 0);
+  gIndicator2.set(-999, -999, 0);
 }
-void drawTempPathNode() {
+void drawIndicators() {
   pushStyle();
     fill(255);
-    ellipse(gTempPathNode.x, gTempPathNode.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
-    ellipse(gTempPathNode2.x, gTempPathNode2.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
+    ellipse(gIndicator.x, gIndicator.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
+    ellipse(gIndicator2.x, gIndicator2.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
   popStyle();
 }
 void drawBackground(color cc) {
@@ -139,7 +139,7 @@ void draw() {
     drawMagnified();
   else
     drawContent(true);
-  drawTempPathNode();
+  drawIndicators();
   drawText();
 }
 void clear() {
@@ -147,7 +147,7 @@ void clear() {
   gCurrShape = null;
   gCurrPath = null;
   gCurrInitiator = null;
-  clearTempPathNode();
+  clearIndicators();
 }
 
 boolean released = true;
@@ -191,44 +191,44 @@ void onMousePressed() {
       if (selected.getType() == Constants.INITIATOR ||
           selected.getType() == Constants.SOMA) {
         Cell c = (Cell)selected;
-        updateTempNode(c.x(), c.y(), c.fSize);
+        snapIndicators(c.x(), c.y(), c.fSize);
       }
       // if selected is a dendrite or an axon
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
-        gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new GeometricPath(p, gTempPathNode.x, gTempPathNode.y, p.fColor, Constants.AXON, gGrid);
+        gIndicator.set(p.getCurrVertex());
+        gCurrPath = new GeometricPath(p, gIndicator.x, gIndicator.y, p.fColor, Constants.AXON, gGrid);
       }
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
-        gTempPathNode.set(p.getCurrVertex());
-        gCurrPath = new GeometricPath(p, gTempPathNode.x, gTempPathNode.y, p.fColor, Constants.DENDRITE, gGrid);
+        gIndicator.set(p.getCurrVertex());
+        gCurrPath = new GeometricPath(p, gIndicator.x, gIndicator.y, p.fColor, Constants.DENDRITE, gGrid);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
         Synapse s = (Synapse)selected;
-        updateTempNode(s.x(), s.y(), s.fSize);
+        snapIndicators(s.x(), s.y(), s.fSize);
       }
       else {}
     }
     else {
       PVector pos = gGrid.getCurrent();
       if (mouseButton == RIGHT)
-	gCurrInitiator = new Initiator(
-	  pos.x,
-	  pos.y,
-	  Constants.SOMA_SIZE,
-	  Constants.EX_COLOR
-	);
+        gCurrInitiator = new Initiator(
+          pos.x,
+          pos.y,
+          Constants.SOMA_SIZE,
+          Constants.EX_COLOR
+        );
       else if (mouseButton == LEFT)
-	gCurrShape = new Soma(
-	  pos.x,
-	  pos.y,
-	  Constants.SOMA_SIZE,
-	  Constants.EX_COLOR,
-	  Constants.SOMA_INIT_NEG_THRESHOLD,
-	  Constants.SOMA_INIT_POS_THRESHOLD
-	);
+        gCurrShape = new Soma(
+          pos.x,
+          pos.y,
+          Constants.SOMA_SIZE,
+          Constants.EX_COLOR,
+          Constants.SOMA_INIT_NEG_THRESHOLD,
+          Constants.SOMA_INIT_POS_THRESHOLD
+        );
     }
   }
   else if (gCurrentMode == Constants.DELETION) {
@@ -262,15 +262,15 @@ void onMouseDragged() {
     PVector gridPoint = gGrid.getCurrent();
     if (gCurrInitiator != null && gCurrInitiator.fMovable) {
       gCurrInitiator.translate(new PVector(
-	gridPoint.x - gCurrInitiator.x(),
-	gridPoint.y - gCurrInitiator.y()
+        gridPoint.x - gCurrInitiator.x(),
+        gridPoint.y - gCurrInitiator.y()
       ));
       return;
     }
     if (gCurrShape != null && gCurrShape.fMovable) {
       gCurrShape.translate(new PVector(
-	gridPoint.x - gCurrShape.x(),
-	gridPoint.y - gCurrShape.y()
+        gridPoint.x - gCurrShape.x(),
+        gridPoint.y - gCurrShape.y()
       ));
       return;
     }
@@ -280,20 +280,21 @@ void onMouseDragged() {
 
     Interactive selected = null;
     if (gObjs.select(mouseX, mouseY) ||
-	gObjs.select(gridPoint.x, gridPoint.y)) {
+        gObjs.select(gridPoint.x, gridPoint.y)) {
 
       selected = gObjs.getSelected();
       if (selected != gLastSelected) {
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
-	  if (gCurrPath != null) {
-	    gCurrPath.close();
-	  }
+          if (gCurrPath != null) {
+            gCurrPath.close();
+          }
         }
         else if (selected.getType() == Constants.DENDRITE ||
                  selected.getType() == Constants.AXON) {
-        }
-        else if (selected.getType() == Constants.SYNAPSE) {
+          // Show Indicator
+          PVector end = ((Path)selected).getCurrVertex();
+          gIndicator2.set(end.x, end.y, 0);
         }
         gLastSelected = selected;
       }
@@ -303,7 +304,7 @@ void onMouseDragged() {
             selected.getType() == Constants.SOMA ||
             selected.getType() == Constants.SYNAPSE) {
           Shape s = (Shape)selected;
-          updateTempNode(s.x(), s.y(), s.fSize);
+          snapIndicators(s.x(), s.y(), s.fSize);
         }
       }
     }
@@ -312,15 +313,14 @@ void onMouseDragged() {
         if (gLastSelected.getType() == Constants.INITIATOR ||
             gLastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)gLastSelected;
-          gCurrPath = new GeometricPath(c, gTempPathNode.x, gTempPathNode.y, c.fHighlightColor, Constants.AXON, gGrid);
+          gCurrPath = new GeometricPath(c, gIndicator.x, gIndicator.y, c.fHighlightColor, Constants.AXON, gGrid);
         }
         else if (gLastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
-            gCurrPath = new GeometricPath(s, s.x(), s.y(),
-                                          (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR,
-                                          Constants.DENDRITE, gGrid);
-            gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
+            color c = (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR;
+            gCurrPath = new GeometricPath(s, s.x(), s.y(), c, Constants.DENDRITE, gGrid);
+            gCurrPath.add(gIndicator.x, gIndicator.y);
           }
         }
       }
@@ -380,15 +380,16 @@ void onMouseReleased() {
         }
         else if (gCurrPath.getType() == Constants.DENDRITE) {
           Interactive selected = null;
-	  PVector gridPoint = gGrid.getCurrent();
-	  if (gObjs.select(mouseX, mouseY) ||
-	      gObjs.select(gridPoint.x, gridPoint.y)) {
+          PVector gridPoint = gGrid.getCurrent();
+          if (gObjs.select(mouseX, mouseY) ||
+              gObjs.select(gridPoint.x, gridPoint.y)) {
 
             selected = gObjs.getSelected();
             if (selected.getType() == Constants.SOMA) {
               Cell c = (Cell)selected;
-              updateTempNode(c.x(), c.y(), c.fSize);
-              gCurrPath.add(gTempPathNode.x, gTempPathNode.y);
+              // Add the indicator point to the path
+              snapIndicators(c.x(), c.y(), c.fSize);
+              gCurrPath.add(gIndicator.x, gIndicator.y);
               gCurrPath.setDest(c);
               c.addPath(gCurrPath);
             }
@@ -398,7 +399,7 @@ void onMouseReleased() {
               //add end to end?
               Path p = (Path)selected;
               PVector end = p.getCurrVertex();
-              gTempPathNode2.set(end.x, end.y, 0);
+              gIndicator2.set(end.x, end.y, 0);
               gCurrPath.setDest(p);
             }
             if (selected.getType() != Constants.INITIATOR &&
@@ -413,7 +414,7 @@ void onMouseReleased() {
       gCurrPath = null;
     }
     gLastSelected = null;
-    clearTempPathNode();
+    clearIndicators();
   }
   else if (gCurrentMode == Constants.INTERACTION)
     gObjs.onMouseUp(mouseX, mouseY);
