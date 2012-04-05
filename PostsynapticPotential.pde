@@ -19,8 +19,8 @@ class PostsynapticPotential extends Signal {
     pushStyle();
       strokeWeight(Constants.PSP_BORDER_WIDTH);
       float s = Constants.PSP_WIDTH;
-      float n = fStrength/Constants.SIGNAL_STRENGTH/2 + 0.5;
-      fill(lerpColor(Constants.IN_HIGHLIGHT_COLOR, Constants.EX_HIGHLIGHT_COLOR, n));
+      float n = fStrength/Constants.SIGNAL_STRENGTH;
+      fill(lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n));
       stroke(fColor);
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
