@@ -153,6 +153,7 @@ void clear() {
 boolean released = true;
 int lastclick = 0;
 void mousePressed() {
+  gGrid.onMouseDown(mouseX, mouseY);
   if (millis() - lastclick < Constants.DBL_CLICK_THRESHOLD &&
       gCurrentMode == Constants.INTERACTION) {
     gObjs.onDblClick(mouseX, mouseY);
@@ -162,22 +163,21 @@ void mousePressed() {
     released = false;
     onMousePressed();
   }
-  gGrid.onMouseDown(mouseX, mouseY);
 }
 void mouseDragged() {
-  onMouseDragged();
   gGrid.onMouseDragged(mouseX, mouseY);
+  onMouseDragged();
 }
 void mouseMoved() {
-  onMouseMoved();
   gGrid.onMouseMoved(mouseX, mouseY);
+  onMouseMoved();
 }
 void mouseReleased() {
+  gGrid.onMouseUp(mouseX, mouseY);
   if (!released){
     onMouseReleased();
     released = true;
   }
-  gGrid.onMouseUp(mouseX, mouseY);
 }
 
 void onMousePressed() {
@@ -213,20 +213,22 @@ void onMousePressed() {
     }
     else {
       PVector pos = gGrid.getCurrent();
-      // If nothing's selected and in CREATION mode, then try creating gCurrInitiator
-      if (gCurrInitiator == null && mouseButton == RIGHT)
-        gCurrInitiator = new Initiator(pos.x,
-                                      pos.y,
-                                      Constants.SOMA_SIZE,
-                                      Constants.EX_COLOR);
-      // if gCurrInitiator is already present, then create a SOMA
-      else if (gCurrShape == null && mouseButton == LEFT)
-        gCurrShape = new Soma(pos.x,
-                             pos.y,
-                             Constants.SOMA_SIZE,
-                             Constants.EX_COLOR,
-                             -7.5,
-                             7.5);
+      if (mouseButton == RIGHT)
+	gCurrInitiator = new Initiator(
+	  pos.x,
+	  pos.y,
+	  Constants.SOMA_SIZE,
+	  Constants.EX_COLOR
+	);
+      else if (mouseButton == LEFT)
+	gCurrShape = new Soma(
+	  pos.x,
+	  pos.y,
+	  Constants.SOMA_SIZE,
+	  Constants.EX_COLOR,
+	  Constants.SOMA_INIT_NEG_THRESHOLD,
+	  Constants.SOMA_INIT_POS_THRESHOLD
+	);
     }
   }
   else if (gCurrentMode == Constants.DELETION) {
@@ -257,26 +259,36 @@ void onMousePressed() {
 
 void onMouseDragged() {
   if (gCurrentMode == Constants.CREATION) {
-    PVector pos = gGrid.getCurrent();
+    PVector gridPoint = gGrid.getCurrent();
     if (gCurrInitiator != null && gCurrInitiator.fMovable) {
-      gCurrInitiator.translate(new PVector(pos.x - gCurrInitiator.x(), pos.y - gCurrInitiator.y()));
+      gCurrInitiator.translate(new PVector(
+	gridPoint.x - gCurrInitiator.x(),
+	gridPoint.y - gCurrInitiator.y()
+      ));
       return;
     }
-    if (gCurrShape != null) {
-      gCurrShape.translate(new PVector(pos.x - gCurrShape.x(), pos.y - gCurrShape.y()));
+    if (gCurrShape != null && gCurrShape.fMovable) {
+      gCurrShape.translate(new PVector(
+	gridPoint.x - gCurrShape.x(),
+	gridPoint.y - gCurrShape.y()
+      ));
       return;
     }
     if (gCurrPath != null) {
-      gCurrPath.add(pos.x, pos.y);
+      gCurrPath.add(gridPoint.x, gridPoint.y);
     }
 
     Interactive selected = null;
-    if (gObjs.select(mouseX, mouseY)) { // If selected object
+    if (gObjs.select(mouseX, mouseY) ||
+	gObjs.select(gridPoint.x, gridPoint.y)) {
+
       selected = gObjs.getSelected();
       if (selected != gLastSelected) {
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
-          if (gCurrPath != null) gCurrPath.close();
+	  if (gCurrPath != null) {
+	    gCurrPath.close();
+	  }
         }
         else if (selected.getType() == Constants.DENDRITE ||
                  selected.getType() == Constants.AXON) {
@@ -344,7 +356,6 @@ void onMouseReleased() {
       gCurrShape = null;
     }
     else if (gCurrPath != null) {
-      gCurrPath.add(gGrid.getCurrent());
       int l = gCurrPath.size();
       if (l < 2) println ("ERROR! gCurrPath has a length less than 2");
       else {
@@ -369,7 +380,10 @@ void onMouseReleased() {
         }
         else if (gCurrPath.getType() == Constants.DENDRITE) {
           Interactive selected = null;
-          if (gObjs.select(mouseX, mouseY)) { // If selected object
+	  PVector gridPoint = gGrid.getCurrent();
+	  if (gObjs.select(mouseX, mouseY) ||
+	      gObjs.select(gridPoint.x, gridPoint.y)) {
+
             selected = gObjs.getSelected();
             if (selected.getType() == Constants.SOMA) {
               Cell c = (Cell)selected;
