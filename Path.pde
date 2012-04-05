@@ -64,10 +64,14 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void add(float x, float y) {
     if (fClosed) return;
+
     //Get the coordinates of the previously added point.
     PVector prev = (PVector)fVertices.get(fVertices.size()-1);
     float px = prev.x;
     float py = prev.y;
+
+    // If the new point is the same as the latest point then abort
+    if (px == x && py == y) return;
 
     //Find the difference between the previous location and the current one, and normalizes dx and dy using that difference
     float num = max(abs(x-px), abs(y-py));
@@ -122,7 +126,7 @@ public abstract class Path extends Interactive implements Signalable{
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
-      for (int i = 1; i < fVertices.size() - 1; ++i) {
+      for (int i = 1; i < fVertices.size(); ++i) {
         temp = fVertices.get(i);
         vertex(temp.x + offsetx,temp.y + offsety);
       }

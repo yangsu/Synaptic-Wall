@@ -8,12 +8,10 @@ public class GeometricPath extends Path {
     fGrid = g;
   }
 
-  // public void draw() {
-  //   super.draw();
-  // }
-
   @Override
   public void add(float x, float y) {
+    if (fClosed) return;
+
     if (fVertices.size() > 0) {
       PVector last = fVertices.get(fVertices.size() - 1);
       if (last.x == x && last.y == y)
@@ -122,6 +120,7 @@ public class GeometricPath extends Path {
       p = new Dendrite(fSrc, fLoc.x, fLoc.y, fColor);
     else
       return null;
+
     for (PVector v : fVertices)
       p.add(v);
     return p;
