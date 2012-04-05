@@ -37,6 +37,8 @@ static class Constants {
   // Initiator Settings
 
   // Soma Settings
+  static final int   EXCITATORY = 0;
+  static final int   INHIBITORY = 1;
   static final int   SOMA_SIZE              = 30;
   static final int   SOMA_FIRING_DELAY      = 300;
   static final float SOMA_RING_WIDTH        = 8.0;
@@ -62,16 +64,20 @@ static class Constants {
   static final int   EPSP_COLOR = 0xFFD2C277;
   static final int   IPSP_COLOR = 0xFF67A4D0;
   static final int   AP_COLOR = 0xFFF8F8F8;
-  static final int   SIGNAL_DEFAULT_SPEED    = 1;
-  static final int   SIGNAL_DEFAULT_LENGTH   = 20/SIGNAL_RESOLUTION;
-  static final float SIGNAL_DEFAULT_STRENGTH = 6.0;
-  static final int   SIGNAL_MAX_SPEED        = 5;
-  static final int   SIGNAL_MAX_LENGTH       = 30/SIGNAL_RESOLUTION;
-  static final float SIGNAL_MAX_STRENGTH     = 10.0;
 
+  static final boolean SIGNAL_LINEAR_DECAY = true;
+  static final int   SIGNAL_DEFAULT_SPEED  = 1;
+  static final int   SIGNAL_DEFAULT_LENGTH = 20/SIGNAL_RESOLUTION;
+  static final float SIGNAL_DEFAULT_DECAY  = 1.0; // No decay
+  static final int   SIGNAL_MAX_SPEED      = 5;
+  static final int   SIGNAL_MAX_LENGTH     = 30/SIGNAL_RESOLUTION;
+  static final float SIGNAL_MAX_DECAY      = 0.1; // Halves
+
+
+  static final float SIGNAL_STRENGTH = 5.0;
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
-  static final float SIGNAL_WIDTH          = 10.0;
-  static final float SIGNAL_DEFAULT_WIDTH     = SIGNAL_WIDTH/2;
+  static final float SIGNAL_WIDTH          = 8.0;
+  static final float SIGNAL_DEFAULT_WIDTH  = SIGNAL_WIDTH/2;
   static final float SIGNAL_BORDER_WIDTH   = 2.0;
   static final float SIGNAL_RANGE_WIDTH    = PATH_WIDTH - 2*SIGNAL_BORDER_WIDTH;
   static final int   SIGNAL_FIRING_TIME    = 800;

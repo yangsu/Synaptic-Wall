@@ -1,19 +1,19 @@
 class PostsynapticPotential extends Signal {
-  PostsynapticPotential(float speed, float length, float strength, Path p) {
-    super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, strength, p);
+  PostsynapticPotential(int cellType, float speed, float length, float decay, Path p) {
+    super((cellType == Constants.EXCITATORY) ? Constants.EPSP : Constants.IPSP, cellType, speed, length, decay, p);
   }
 
   public Signal makeCopy(Path p) {
-    return new PostsynapticPotential(fSpeed, fLength, fStrength, p);
+    return new PostsynapticPotential(fCellType, fSpeed, fLength, fDecay, p);
   }
 
   public void drawSignalBody() {
     if (fLength <= 1 || fStrength == 0) return;
     pushStyle();
       strokeWeight(Constants.SIGNAL_RANGE_WIDTH);
-      int offset = ceil((abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) *
-                       Constants.SIGNAL_WIDTH/Constants.SIGNAL_RESOLUTION -
-                       Constants.SIGNAL_BORDER_WIDTH);
+      int offset = round((abs(fStrength)/Constants.SIGNAL_STRENGTH) *
+                         Constants.SIGNAL_WIDTH/Constants.SIGNAL_RESOLUTION -
+                         Constants.SIGNAL_BORDER_WIDTH);
       int t1 = round(constrain(fCurrIndex - offset - fLength, 0, fEndIndex));
       int t2 = ceil(constrain(fCurrIndex - offset, 0, fEndIndex));
       int t3 = floor(constrain(fCurrIndex + offset, 0, fEndIndex));
@@ -63,7 +63,7 @@ class PostsynapticPotential extends Signal {
   public void draw() {
     pushStyle();
       fill(fColor);
-      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH;
+      float s = (abs(fStrength)/Constants.SIGNAL_STRENGTH) * Constants.SIGNAL_WIDTH;
       float bs = max(Constants.SIGNAL_DEFAULT_WIDTH, s) + Constants.SIGNAL_BORDER_WIDTH;
       ellipse(fLoc.x, fLoc.y, bs, bs);
       fill(fHighlightColor);

@@ -1,11 +1,11 @@
 class ActionPotential extends Signal {
-  ActionPotential(float speed, float strength, Path p) {
-    super(Constants.AP, speed, 1, strength, p);
+  ActionPotential(int cellType, float speed, float length, float decay, Path p) {
+    super(Constants.AP, cellType, speed, length, decay, p);
     fColor = Constants.AP_COLOR;
   }
 
   public Signal makeCopy(Path p) {
-    return new ActionPotential(fSpeed, fStrength, p);
+    return new ActionPotential(fCellType, fSpeed, fLength, fDecay, p);
   }
 
   public void draw() {
@@ -13,7 +13,7 @@ class ActionPotential extends Signal {
       strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
       stroke(Constants.BG_COLOR);
       fill(fColor);
-      float s = (abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH) * Constants.SIGNAL_WIDTH + Constants.SIGNAL_BORDER_WIDTH/2;
+      float s = (abs(fStrength)/Constants.SIGNAL_STRENGTH) * Constants.SIGNAL_WIDTH + Constants.SIGNAL_BORDER_WIDTH/2;
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
   }

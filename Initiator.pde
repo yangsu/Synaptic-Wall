@@ -3,8 +3,8 @@ public class Initiator extends Cell {
   private static final int BURSTINESS = 2;
   private static final int FREQUENCY = 3;
 
-  private float fRhythmicity, fFreq, fStrength;
-  private int fBurstiness;
+  private float fRhythmicity, fFreq;
+  private int fBurstiness, fType;
   private int fLastFireTime;
 
   private int fTimer;
@@ -24,7 +24,7 @@ public class Initiator extends Cell {
     fRhythmicity = rhythmicity;
     fBurstiness = burstiness;
     fFreq = frequency;
-    fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
+    fType = Constants.EXCITATORY;
 
     fFiringQueue = new int[0]; // Using append() and subset() is probably inefficient
 
@@ -84,10 +84,13 @@ public class Initiator extends Cell {
   }
 
   private void fireSignal() {
-    for (Path p : fDendrites)
-        p.addSignal(new ActionPotential(Constants.SIGNAL_DEFAULT_SPEED,
-                                        fStrength,
-                                        p));
+    for (Path p : fAxons)
+        p.addSignal(new ActionPotential(
+          fType,
+          Constants.SIGNAL_DEFAULT_SPEED,
+          Constants.SIGNAL_DEFAULT_LENGTH,
+          Constants.SIGNAL_DEFAULT_DECAY,
+          p));
   }
   private void processFiringPattern() {
     int interval = (int)(1000/fFreq);
@@ -122,7 +125,7 @@ public class Initiator extends Cell {
 
   public void flipColor() {
     super.flipColor();
-    fStrength = -fStrength;
+    fType ^= 1; // Flip between EXCITATORY and INHIBITORY
   }
 
   public void onEvent(int controlID, float value) {

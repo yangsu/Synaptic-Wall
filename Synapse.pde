@@ -1,6 +1,6 @@
 public class Synapse extends Shape {
   private float fStrength;
-  private float fSignalStrength;
+  private Signal fLatestSignal;
   private Path fAxon;
   private Path fDendrite;
   private boolean fFired;
@@ -15,7 +15,7 @@ public class Synapse extends Shape {
   public Synapse(Path axon, float x, float y, color cc, float strength) {
     super(x, y, Constants.SYNAPSE_SIZE, cc);
     fStrength = strength;
-    fSignalStrength = 0;
+    fLatestSignal = null;
     fAxon = axon;
     fDendrite = null;
     fFired = true;
@@ -42,9 +42,10 @@ public class Synapse extends Shape {
       fTimer = millis();
       if (fTimer > fMid && fDendrite != null && !fFired) {
         fDendrite.addSignal(new PostsynapticPotential(
-                              Constants.SIGNAL_DEFAULT_SPEED,
-                              Constants.SIGNAL_DEFAULT_LENGTH,
-                              fSignalStrength*fStrength,
+                              fLatestSignal.fCellType,
+                              fLatestSignal.fSpeed,
+                              fLatestSignal.fLength*fStrength,
+                              fLatestSignal.fDecay,
                               fDendrite));
         fFired = true;
       }
@@ -77,7 +78,7 @@ public class Synapse extends Shape {
     fTimer = millis();
     fEndTime = fTimer + Constants.SYNAPSE_TIMING;
     fMid = fTimer + Constants.SYNAPSE_TIMING/2;
-    fSignalStrength = s.fStrength;
+    fLatestSignal = s;
   }
 
   public boolean isInBounds(float x, float y) {

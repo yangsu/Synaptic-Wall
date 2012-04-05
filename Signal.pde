@@ -1,18 +1,20 @@
 abstract class Signal extends Drawable {
   public int fCurrIndex, fEndTime;
-  public float fSpeed, fLength, fStrength;
-  protected int fType, fEndIndex;
+  public float fSpeed, fLength, fDecay, fStrength;
+  protected int fType, fCellType, fEndIndex;
   protected Path fPath;
   protected Signalable fDest;
   protected boolean fFired;
 
   Signal() {}
-  Signal (int type, float speed, float length, float strength, Path p) {
+  Signal (int type, int cellType, float speed, float length, float decay, Path p) {
     super(p.fVertices.get(0).x, p.fVertices.get(0).y, (type == Constants.EPSP) ? Constants.EX_COLOR : Constants.IN_COLOR);
     fType = type;
+    fCellType = cellType;
     fSpeed = speed;
     fLength = length;
-    fStrength = strength;
+    fDecay = decay;
+    fStrength = (type == Constants.IPSP) ? -Constants.SIGNAL_STRENGTH : Constants.SIGNAL_STRENGTH;
     fPath = p;
     //fDest is private ?
     fDest = p.fDest;
@@ -43,6 +45,10 @@ abstract class Signal extends Drawable {
   public void update() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
+    if (Constants.SIGNAL_LINEAR_DECAY)
+      fStrength = lerp(Constants.SIGNAL_STRENGTH, fDecay * Constants.SIGNAL_STRENGTH, (float)fCurrIndex/fEndIndex);
+    else
+      fStrength *= fDecay;
     if (reachedDestination())
       fire();
   }

@@ -161,18 +161,19 @@ public abstract class Path extends Interactive implements Signalable{
         //Combine adjacent signals
         for (int j = i; j >= 0; --j) {
           Signal s = fSignals.get(j);
-          if (s != curr &&
-              PVector.dist(s.fLoc, curr.fLoc) <= (abs(s.fStrength) + abs(curr.fStrength)) &&
-              s.fType != 0 && curr.fType != 0) {
-            PostsynapticPotential p = new PostsynapticPotential((s.fSpeed + curr.fSpeed)/2,
-                                                                (s.fLength + curr.fLength)/2,
-                                                                s.fStrength + curr.fStrength, this);
-            p.setIndex(s.fCurrIndex);
-            this.addSignal(p);
-            fSignals.remove(curr);
-            fSignals.remove(s);
-            break;
-          }
+          // TODO
+          // if (s != curr &&
+          //     PVector.dist(s.fLoc, curr.fLoc) <= (abs(s.fStrength) + abs(curr.fStrength)) &&
+          //     s.fType != 0 && curr.fType != 0) {
+          //   PostsynapticPotential p = new PostsynapticPotential((s.fSpeed + curr.fSpeed)/2,
+          //                                                       (s.fLength + curr.fLength)/2,
+          //                                                       s.fStrength + curr.fStrength, this);
+          //   p.setIndex(s.fCurrIndex);
+          //   this.addSignal(p);
+          //   fSignals.remove(curr);
+          //   fSignals.remove(s);
+          //   break;
+          // }
         }
         //Copy Signals to connected paths
         for (Path p : fConnectedPaths) {

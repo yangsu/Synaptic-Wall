@@ -2,14 +2,14 @@ class Soma extends Cell {
   private ArrayList<Signal> fReceivedPSPs;
 
   private ThresholdSlider fThresholdSlider;
-  private float fSpeed, fLength, fStrength;
+  private float fSpeed, fLength, fDecay;
   // Control IDS
   private static final int SPEED = 1;
   private static final int LENGTH = 2;
-  private static final int STRENGTH = 3;
+  private static final int DECAY = 3;
   private static final int THRESHOLD = 4;
 
-  private int fLastFired;
+  private int fLastFired, fType;
   Soma(float x, float y, float size, color cc, float threshold) {
     this(x, y, size, cc, (threshold > 0) ? threshold : 0, (threshold < 0) ? threshold : 0);
   }
@@ -19,7 +19,8 @@ class Soma extends Cell {
     fReceivedPSPs = new ArrayList<Signal>();
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
     fLength = Constants.SIGNAL_DEFAULT_LENGTH;
-    fStrength = Constants.SIGNAL_DEFAULT_STRENGTH;
+    fDecay = Constants.SIGNAL_DEFAULT_DECAY;
+    fType = Constants.EXCITATORY;
 
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
 
@@ -33,8 +34,8 @@ class Soma extends Cell {
                                      LENGTH, this));
     fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
                                      2 * TWO_PI/3, TWO_PI,
-                                     fStrength, -Constants.SIGNAL_MAX_STRENGTH, Constants.SIGNAL_MAX_STRENGTH,
-                                     STRENGTH, this));
+                                     fDecay, Constants.SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
+                                     DECAY, this));
 
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH,
                                             0, negativet, positivet,
@@ -58,7 +59,7 @@ class Soma extends Cell {
 
   private void drawControlDisplays() {
     pushStyle();
-      color cc = (fStrength > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
+      color cc = (fDecay > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
 
       //Speed
       noStroke();
@@ -89,9 +90,9 @@ class Soma extends Cell {
       vertex(fLoc.x + l + sl, y);
       endShape();
 
-      //Strength
+      //DECAY
       noStroke();
-      color alpha = (int)(abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH * 255) << 24 | 0xFFFFFF;
+      color alpha = (int)(abs(fDecay)/Constants.SIGNAL_MAX_DECAY * 255) << 24 | 0xFFFFFF;
       fill(cc & alpha);
       ellipse(fLoc.x, fLoc.y + 12, 3, 3);
     popStyle();
@@ -127,7 +128,7 @@ class Soma extends Cell {
 
   public void flipColor() {
     super.flipColor();
-    fStrength = -fStrength;
+    fType ^= 1; // Flip between EXCITATORY and INHIBITORY
   }
 
   public void onSignal(Signal s) {
@@ -142,14 +143,14 @@ class Soma extends Cell {
       case LENGTH:
         fLength = value;
         break;
-      case STRENGTH:
-        fStrength = value;
+      case DECAY:
+        fDecay = value;
         break;
       case THRESHOLD:
         if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
           fLastFired = millis();
           for (Path p : fAxons)
-            p.addSignal(new ActionPotential(fSpeed, fStrength, p));
+            p.addSignal(new ActionPotential(fType, fSpeed, fLength, fDecay, p));
         }
         break;
       default:
