@@ -44,10 +44,6 @@ abstract class Signal extends Drawable {
   public void update() {
     fCurrIndex = constrain(fCurrIndex + (int)fSpeed, 0, fEndIndex);
     fLoc.set(fPath.fVertices.get(fCurrIndex));
-    if (Constants.SIGNAL_LINEAR_DECAY)
-      fStrength = lerp(Constants.SIGNAL_STRENGTH, fDecay * Constants.SIGNAL_STRENGTH, (float)fCurrIndex/fEndIndex);
-    else
-      fStrength *= fDecay;
     if (reachedDestination())
       fire();
   }

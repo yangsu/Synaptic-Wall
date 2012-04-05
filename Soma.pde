@@ -149,8 +149,9 @@ class Soma extends Cell {
       case THRESHOLD:
         if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
           fLastFired = millis();
+          float val = (fType == Constants.EXCITATORY) ? Constants.SIGNAL_STRENGTH : -Constants.SIGNAL_STRENGTH;
           for (Path p : fAxons)
-            p.addSignal(new ActionPotential(fType, fSpeed, fLength, fDecay, p));
+            p.addSignal(new ActionPotential(fSpeed, fLength, fDecay, val, p));
         }
         break;
       default:
