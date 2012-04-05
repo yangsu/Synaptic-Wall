@@ -10,10 +10,15 @@ class ActionPotential extends Signal {
 
   public void draw() {
     pushStyle();
-      strokeWeight(Constants.SIGNAL_BORDER_WIDTH);
-      stroke(Constants.BG_COLOR);
-      fill(fColor);
-      float s = Constants.SIGNAL_WIDTH + Constants.SIGNAL_BORDER_WIDTH/2;
+      strokeWeight(Constants.AP_BORDER_WIDTH);
+      float s = Constants.AP_WIDTH;
+
+      fill(Constants.SHADOW_COLOR);
+      stroke(Constants.SHADOW_COLOR);
+      ellipse(fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, s, s);
+
+      fill(Constants.BG_COLOR);
+      stroke(fColor);
       ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
   }

@@ -67,7 +67,7 @@ static class Constants {
   static final int   AP    = 0;
   static final int   EPSP_COLOR = 0xFFD2C277;
   static final int   IPSP_COLOR = 0xFF67A4D0;
-  static final int   AP_COLOR = 0xFFF8F8F8;
+  static final int   AP_COLOR = 0xFFFDFB98;
 
   static final boolean SIGNAL_LINEAR_DECAY = true;
   static final int   SIGNAL_DEFAULT_SPEED  = 1;
@@ -77,6 +77,8 @@ static class Constants {
   static final int   SIGNAL_MAX_LENGTH     = 30/SIGNAL_RESOLUTION;
   static final float SIGNAL_MAX_DECAY      = 0.1; // Halves
 
+  static final float AP_WIDTH        = 4.0;
+  static final float AP_BORDER_WIDTH = 3.0;
 
   static final float SIGNAL_STRENGTH = 5.0;
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
