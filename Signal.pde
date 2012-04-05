@@ -1,20 +1,19 @@
 abstract class Signal extends Drawable {
   public int fCurrIndex, fEndTime;
   public float fSpeed, fLength, fDecay, fStrength;
-  protected int fType, fCellType, fEndIndex;
+  protected int fType, fEndIndex;
   protected Path fPath;
   protected Signalable fDest;
   protected boolean fFired;
 
   Signal() {}
-  Signal (int type, int cellType, float speed, float length, float decay, Path p) {
+  Signal (int type, float speed, float length, float decay, float strength, Path p) {
     super(p.fVertices.get(0).x, p.fVertices.get(0).y, (type == Constants.EPSP) ? Constants.EX_COLOR : Constants.IN_COLOR);
     fType = type;
-    fCellType = cellType;
     fSpeed = speed;
     fLength = length;
     fDecay = decay;
-    fStrength = (type == Constants.IPSP) ? -Constants.SIGNAL_STRENGTH : Constants.SIGNAL_STRENGTH;
+    fStrength = strength;
     fPath = p;
     //fDest is private ?
     fDest = p.fDest;

@@ -1,11 +1,11 @@
 class ActionPotential extends Signal {
-  ActionPotential(int cellType, float speed, float length, float decay, Path p) {
-    super(Constants.AP, cellType, speed, length, decay, p);
+  ActionPotential(float speed, float length, float decay, float strength, Path p) {
+    super(Constants.AP, speed, length, decay, strength, p);
     fColor = Constants.AP_COLOR;
   }
 
   public Signal makeCopy(Path p) {
-    return new ActionPotential(fCellType, fSpeed, fLength, fDecay, p);
+    return new ActionPotential(fSpeed, fLength, fDecay, fStrength, p);
   }
 
   public void draw() {

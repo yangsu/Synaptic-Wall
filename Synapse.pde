@@ -42,10 +42,10 @@ public class Synapse extends Shape {
       fTimer = millis();
       if (fTimer > fMid && fDendrite != null && !fFired) {
         fDendrite.addSignal(new PostsynapticPotential(
-                              fLatestSignal.fCellType,
                               fLatestSignal.fSpeed,
-                              fLatestSignal.fLength*fStrength,
+                              fLatestSignal.fLength,
                               fLatestSignal.fDecay,
+                              fLatestSignal.fStrength * fStrength,
                               fDendrite));
         fFired = true;
       }

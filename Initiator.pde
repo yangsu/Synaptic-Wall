@@ -86,10 +86,10 @@ public class Initiator extends Cell {
   private void fireSignal() {
     for (Path p : fAxons)
         p.addSignal(new ActionPotential(
-          fType,
           Constants.SIGNAL_DEFAULT_SPEED,
           Constants.SIGNAL_DEFAULT_LENGTH,
           Constants.SIGNAL_DEFAULT_DECAY,
+          Constants.SIGNAL_STRENGTH,
           p));
   }
   private void processFiringPattern() {

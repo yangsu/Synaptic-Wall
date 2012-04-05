@@ -1,10 +1,10 @@
 class PostsynapticPotential extends Signal {
-  PostsynapticPotential(int cellType, float speed, float length, float decay, Path p) {
-    super((cellType == Constants.EXCITATORY) ? Constants.EPSP : Constants.IPSP, cellType, speed, length, decay, p);
+  PostsynapticPotential(float speed, float length, float decay, float strength, Path p) {
+    super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, decay, strength, p);
   }
 
   public Signal makeCopy(Path p) {
-    return new PostsynapticPotential(fCellType, fSpeed, fLength, fDecay, p);
+    return new PostsynapticPotential(fSpeed, fLength, fDecay, fStrength, p);
   }
 
   public void drawSignalBody() {
