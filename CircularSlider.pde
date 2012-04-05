@@ -61,19 +61,17 @@ class CircularSlider extends Control {
     float temp = fSize + Constants.SLIDER_BAR_WIDTH;
 
     fill(Constants.SLIDER_BG_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fEnd);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fEnd, Constants.SLIDER_BAR_WIDTH);
 
     if (fHover)
       fill(Constants.HIGHLIGHT_COLOR);
     else
       fill(Constants.SLIDER_BAR_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin, fSlider);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, Constants.SLIDER_BAR_WIDTH);
     // Added 0.02 for minor offset to cover up extraneous pixels
     fill(Constants.SLIDER_HANDLE_COLOR);
-    arc(fLoc.x, fLoc.y, temp, temp, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH);
-    arc(fLoc.x, fLoc.y, temp, temp, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02);
-    fill(Constants.BG_COLOR);
-    ellipse(fLoc.x, fLoc.y, fSize, fSize);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH, Constants.SLIDER_BAR_WIDTH);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02, Constants.SLIDER_BAR_WIDTH);
   }
 
   boolean isInBounds(float x, float y) {

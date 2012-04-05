@@ -1,3 +1,5 @@
+boolean gDebug = false;
+
 boolean gMagnify;
 int gCurrentMode;
 PImage gMagnified;

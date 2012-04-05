@@ -49,39 +49,36 @@ class ThresholdSlider extends CircularSlider {
     float ee = Util.convertToArcCoord(e);
     if ((b * e >= 0 && ee >= bb) /* same sign */||
         (ee >= (PI + HALF_PI) && ee < TWO_PI)) {
-      arc(x, y, s, s, bb, ee);
+      arcWithThickness(s, x, y, bb, ee, Constants.SLIDER_BAR_WIDTH);
     }
     else {
-      arc(x, y, s, s, bb, TWO_PI);
-      arc(x, y, s, s, 0, ee);
+      arcWithThickness(s, x, y, bb, TWO_PI, Constants.SLIDER_BAR_WIDTH);
+      arcWithThickness(s, x, y, 0, ee, Constants.SLIDER_BAR_WIDTH);
     }
   }
 
   public void draw() {
     pushStyle();
       if (!fVisible) return;
-      float size = fSize + Constants.SLIDER_BAR_WIDTH;
 
       fill(Constants.SLIDER_BG_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fEnd);
+      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fEnd);
 
       fill(Constants.HIGHLIGHT_COLOR);
       if (fSlider > 0)
-        this.drawThresholdArc(fLoc.x, fLoc.y, size, -fOffset, fSlider);
+        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fSlider);
       else if (fSlider < 0)
-        this.drawThresholdArc(fLoc.x, fLoc.y, size, fSlider, fOffset);
+        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fSlider, fOffset);
       else
-        this.drawThresholdArc(fLoc.x, fLoc.y, size, -fOffset, fOffset);
+        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fOffset);
       fill((fHover && (fState == BEGIN))
             ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
             : Constants.THRESHOLD_NEGATIVE_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, size, fBegin, fBegin + fOffset);
+      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fBegin + fOffset);
       fill((fHover && (fState == END))
             ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
             : Constants.THRESHOLD_POSITIVE_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, size, fEnd - fOffset, fEnd);
-      fill(Constants.BG_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin - 0.02, fEnd + 0.02);
+      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fEnd - fOffset, fEnd);
    popStyle();
   }
 
