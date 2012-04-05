@@ -80,6 +80,9 @@ static class Constants {
   static final float AP_WIDTH        = 4.0;
   static final float AP_BORDER_WIDTH = 3.0;
 
+  static final float PSP_WIDTH        = 6.0;
+  static final float PSP_BORDER_WIDTH = 6.0;
+
   static final float SIGNAL_STRENGTH = 5.0;
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 8.0;
