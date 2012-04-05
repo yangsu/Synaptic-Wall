@@ -14,8 +14,7 @@ public class GeometricPath extends Path {
 
     if (fVertices.size() > 0) {
       PVector last = fVertices.get(fVertices.size() - 1);
-      if (last.x == x && last.y == y)
-        return;
+      if (last.x == x && last.y == y) return;
     }
     fVertices.add(new PVector(x, y));
   }

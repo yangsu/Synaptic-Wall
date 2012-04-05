@@ -209,7 +209,7 @@ public abstract class Path extends Interactive implements Signalable{
   public boolean isInBounds(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
-    float mindist = 9999, dist;
+    float mindist = Constants.MAX, dist;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       dist = PVector.dist(mouse, temp);
@@ -219,7 +219,7 @@ public abstract class Path extends Interactive implements Signalable{
         mindist = dist;
       }
     }
-    return mindist != 9999;
+    return mindist != Constants.MAX;
   }
 
   public void flipColor() {

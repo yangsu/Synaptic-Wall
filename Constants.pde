@@ -1,5 +1,7 @@
 
 static class Constants {
+  static final int MAX = 99999;
+
   static final int WIDTH  = 800;
   static final int HEIGHT = 800;
 
