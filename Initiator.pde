@@ -57,8 +57,12 @@ public class Initiator extends Cell {
 
   private void drawInitiator() {
     pushStyle();
+    float s = fSize - Constants.SOMA_RING_WIDTH;
     fill(fColor);
-    ellipse(fLoc.x, fLoc.y, fSize, fSize);
+    ellipse(fLoc.x, fLoc.y, s, s);
+    noStroke();
+    fill(Constants.SHADOW_COLOR);
+    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
     noStroke();
     if (fTimer < fEndTime) {
       fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
@@ -72,7 +76,7 @@ public class Initiator extends Cell {
     else {
       fill(fHighlightColor);
     }
-    ellipse(fLoc.x, fLoc.y, fSize - Constants.SOMA_RING_WIDTH, fSize - Constants.SOMA_RING_WIDTH);
+    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
     popStyle();
   }
 
