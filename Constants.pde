@@ -25,10 +25,14 @@ static class Constants {
   static final color BG_COLOR           = 0xFF4C4C4C;
   static final color FADE_COLOR         = 0xB4646464;
   static final color EX_COLOR           = 0xFFB08B47;
-  static final color EX_HIGHLIGHT_COLOR = 0xFFD2C277;
+  static final color EX_HIGHLIGHT_COLOR = 0xFFFDFB98;
   static final color IN_COLOR           = 0xFF0A6891;
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
   static final color HIGHLIGHT_COLOR    = 0xBBFFFFFF;
+
+  static final color SHADOW_COLOR    = 0xBB323232;
+  static final int SHADOW_OFFSETX    = 3;
+  static final int SHADOW_OFFSETY    = 3;
 
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
@@ -41,7 +45,7 @@ static class Constants {
   static final int   INHIBITORY = 1;
   static final int   SOMA_SIZE              = 30;
   static final int   SOMA_FIRING_DELAY      = 300;
-  static final float SOMA_RING_WIDTH        = 8.0;
+  static final float SOMA_RING_WIDTH        = 10.0;
   static final float SOMA_DEFAULT_THRESHOLD = 5.0;
   static final float SOMA_MAX_THRESHOLD     = 10.0;
 

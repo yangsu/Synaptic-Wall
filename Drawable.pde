@@ -72,6 +72,9 @@ public abstract class Drawable {
   }
 
   // Extensions to the drawMethods
+  public void ring(float r, float cx, float cy, float t) {
+    arcWithThickness(r, cx, cy, 0, TWO_PI, t);
+  }
   // Arcs
   public void arcWithThickness(float r, float cx, float cy, float startAngle, float endAngle, float t) {
     beginShape();

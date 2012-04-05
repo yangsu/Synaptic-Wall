@@ -55,11 +55,10 @@ public class Synapse extends Shape {
   public void draw() {
     pushStyle();
       noStroke();
+      fill(Constants.SHADOW_COLOR);
+      ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE);
       fill((fHover) ? fHighlightColor : fColor);
-      float s = fSize+fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE;
-      ellipse(fLoc.x, fLoc.y, s, s);
-      fill(Constants.BG_COLOR);
-      ellipse(fLoc.x, fLoc.y, fSize, fSize);
+      ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE);
       updateState();
     popStyle();
   }

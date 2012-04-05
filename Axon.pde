@@ -11,4 +11,15 @@ public class Axon extends Path {
   public int getType() {
     return Constants.AXON;
   }
+  @Override
+  protected void drawPath() {
+    pushStyle();
+    noFill();
+    strokeWeight(Constants.PATH_WIDTH);
+    stroke(Constants.SHADOW_COLOR);
+    this.drawPathShape(Constants.SHADOW_OFFSETX, Constants.SHADOW_OFFSETY);
+    stroke((fHover) ? fHighlightColor : fColor);
+    this.drawPathShape(0, 0);
+    popStyle();
+  }
 }

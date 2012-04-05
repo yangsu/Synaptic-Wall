@@ -69,15 +69,15 @@ public class ObjectCollection {
     if (s != null) {
       int index = -1;
       switch(s.getType()) {
-        case Constants.SYNAPSE:
-          index = (index == -1) ? fSynapseIndex : index;
-          fSynapseIndex++;
-        case Constants.DENDRITE:
-          index = (index == -1) ? fDendriteIndex : index;
-          fDendriteIndex++;
         case Constants.SOMA:
           index = (index == -1) ? fSomaIndex : index;
           fSomaIndex++;
+        case Constants.DENDRITE:
+          index = (index == -1) ? fDendriteIndex : index;
+          fDendriteIndex++;
+        case Constants.SYNAPSE:
+          index = (index == -1) ? fSynapseIndex : index;
+          fSynapseIndex++;
         case Constants.INITIATOR:
           index = (index == -1) ? fInitiatorIndex : index;
           fInitiatorIndex++;
@@ -95,12 +95,12 @@ public class ObjectCollection {
     // TODO: check for off by 1 error
     if (s != null) {
       switch(s.getType()) {
-        case Constants.SYNAPSE:
-          fSynapseIndex--;
-        case Constants.DENDRITE:
-          fDendriteIndex--;
         case Constants.SOMA:
           fSomaIndex--;
+        case Constants.DENDRITE:
+          fDendriteIndex--;
+        case Constants.SYNAPSE:
+          fSynapseIndex--;
         case Constants.INITIATOR:
           fInitiatorIndex--;
         case Constants.AXON:

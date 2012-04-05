@@ -117,21 +117,27 @@ public abstract class Path extends Interactive implements Signalable{
       drawJunction(getVertex(fCurrIndex));
     // Signals are drawn via drawSignals() method. Not called here by default
   }
-  private void drawPath() {
-    pushStyle();
-    noFill();
-    strokeWeight(Constants.PATH_WIDTH);
-    stroke((fHover) ? fHighlightColor : fColor);
+
+  protected void drawPathShape(float offsetx, float offsety) {
     beginShape();
       PVector temp = fVertices.get(0);
       vertex(temp.x, temp.y);
       for (int i = 1; i < fVertices.size() - 1; ++i) {
         temp = fVertices.get(i);
-        vertex(temp.x,temp.y);
+        vertex(temp.x + offsetx,temp.y + offsety);
       }
     endShape();
+  }
+
+  protected void drawPath() {
+    pushStyle();
+    noFill();
+    strokeWeight(Constants.PATH_WIDTH);
+    stroke((fHover) ? fHighlightColor : fColor);
+    this.drawPathShape(0, 0);
     popStyle();
   }
+
   public void drawSignals() {
     for (Signal s : fSignals)
       s.draw();
