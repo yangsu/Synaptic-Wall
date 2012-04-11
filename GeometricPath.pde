@@ -101,7 +101,6 @@ public class GeometricPath extends Path {
       diff = PVector.sub(last, curr);
       ax = abs(diff.x);
       ay = abs(diff.y);
-      println(diff);
     }
   }
 

@@ -55,31 +55,6 @@ public class Initiator extends Cell {
     return Constants.INITIATOR;
   }
 
-  private void drawInitiator() {
-    pushStyle();
-    float s = fSize - Constants.SOMA_RING_WIDTH;
-    fill(fColor);
-    ellipse(fLoc.x, fLoc.y, s, s);
-    noStroke();
-    fill(Constants.SHADOW_COLOR);
-    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
-    noStroke();
-    if (fTimer < fEndTime) {
-      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
-        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
-      // fTimer = millis();
-      // if (fTimer > fMid && !fFired) {
-      //   this.fireSignal();
-      //   fFired = true;
-      // }
-    }
-    else {
-      fill(fHighlightColor);
-    }
-    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
-    popStyle();
-  }
-
   private void startTimer() {
     fFired = false;
     fTimer = millis();
@@ -124,7 +99,36 @@ public class Initiator extends Cell {
   }
   public void draw() {
     super.draw();
-    this.drawInitiator();
+
+    float s = fSize - Constants.SOMA_RING_WIDTH;
+    pushStyle();
+
+    fill(fColor);
+    ellipse(fLoc.x, fLoc.y, s, s);
+
+    this.drawDendrites();
+
+    noStroke();
+    fill(Constants.SHADOW_COLOR);
+    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
+
+    this.drawAxons();
+
+    noStroke();
+    if (fTimer < fEndTime) {
+      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
+        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
+      // fTimer = millis();
+      // if (fTimer > fMid && !fFired) {
+      //   this.fireSignal();
+      //   fFired = true;
+      // }
+    }
+    else {
+      fill(fHighlightColor);
+    }
+    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
+    popStyle();
   }
 
   public void flipColor() {

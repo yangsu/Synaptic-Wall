@@ -22,7 +22,15 @@ static class Util {
   }
 
   static color highlight(color c) {
-    return c + 0x222222;
+    int inc = 10;
+    int a = c >> 24 & 0xFF;
+    int r = min(c >> 16 & 0xFF + inc, 255);
+    // println(c >> 16 & 0xFF);
+    int g = min(c >> 8 & 0xFF + inc, 255);
+    // println(c >> 8 & 0xFF);
+    int b = min(c & 0xFF + inc, 255);
+    // println(c & 0xFF + inc);
+    return (a << 24) + (r << 16) + (g << 8) + b;
   }
 
   static float convertToArcCoord(float val) {

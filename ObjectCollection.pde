@@ -16,10 +16,10 @@ public class ObjectCollection {
   }
 
   public void draw() {
+    // for (int i = 0; i < fInitiatorIndex; i++)
+    //   fObjs.get(i).draw();
     for (Interactive s : fObjs)
       s.draw();
-    for (Path p : fPaths)
-      p.drawSignals();
   }
   public void drawAndUpdate() {
     for (Interactive s : fObjs)
@@ -69,21 +69,21 @@ public class ObjectCollection {
     if (s != null) {
       int index = -1;
       switch(s.getType()) {
-        case Constants.SOMA:
-          index = (index == -1) ? fSomaIndex : index;
-          fSomaIndex++;
         case Constants.DENDRITE:
           index = (index == -1) ? fDendriteIndex : index;
           fDendriteIndex++;
-        case Constants.SYNAPSE:
-          index = (index == -1) ? fSynapseIndex : index;
-          fSynapseIndex++;
-        case Constants.INITIATOR:
-          index = (index == -1) ? fInitiatorIndex : index;
-          fInitiatorIndex++;
         case Constants.AXON:
           index = (index == -1) ? fAxonIndex : index;
           fAxonIndex++;
+        case Constants.SYNAPSE:
+          index = (index == -1) ? fSynapseIndex : index;
+          fSynapseIndex++;
+        case Constants.SOMA:
+          index = (index == -1) ? fSomaIndex : index;
+          fSomaIndex++;
+        case Constants.INITIATOR:
+          index = (index == -1) ? fInitiatorIndex : index;
+          fInitiatorIndex++;
       }
       fObjs.add(index, s);
       if (s.getType() == Constants.AXON || s.getType() == Constants.DENDRITE)
@@ -97,12 +97,12 @@ public class ObjectCollection {
       switch(s.getType()) {
         case Constants.SOMA:
           fSomaIndex--;
+        case Constants.INITIATOR:
+          fInitiatorIndex--;
         case Constants.DENDRITE:
           fDendriteIndex--;
         case Constants.SYNAPSE:
           fSynapseIndex--;
-        case Constants.INITIATOR:
-          fInitiatorIndex--;
         case Constants.AXON:
           fAxonIndex--;
       }

@@ -119,7 +119,7 @@ public abstract class Path extends Interactive implements Signalable{
     drawPath();
     if (fHover)
       drawJunction(getVertex(fCurrIndex));
-    // Signals are drawn via drawSignals() method. Not called here by default
+    drawSignals();
   }
 
   protected void drawPathShape(float offsetx, float offsety) {
@@ -152,7 +152,7 @@ public abstract class Path extends Interactive implements Signalable{
   protected void drawJunction(float x, float y) {
     pushStyle();
       fill((fHover) ? fHighlightColor : fColor);
-      float s = Constants.SIGNAL_DEFAULT_WIDTH;
+      float s = Constants.SIGNAL_WIDTH/2;
       ellipse(x, y, s, s);
     popStyle();
   }
@@ -213,7 +213,7 @@ public abstract class Path extends Interactive implements Signalable{
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       dist = PVector.dist(mouse, temp);
-      if (dist <= Constants.SIGNAL_WIDTH/2 &&
+      if (dist <= Constants.PATH_WIDTH/2 &&
           dist <= mindist) {
         fCurrIndex = i;
         mindist = dist;

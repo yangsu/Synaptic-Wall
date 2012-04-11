@@ -29,9 +29,19 @@ public abstract class Cell extends Shape implements Controllable {
     fControlVisible = false;
   }
 
-  public void drawControls () {
+  public void drawControls() {
     for (Control c : fControls)
       c.draw();
+  }
+
+  protected void drawDendrites() {
+    for (Path p : fDendrites)
+      p.draw();
+  }
+
+  protected void drawAxons() {
+    for (Path p : fAxons)
+      p.draw();
   }
 
   public void draw() {
@@ -39,6 +49,7 @@ public abstract class Cell extends Shape implements Controllable {
       this.drawControls();
     }
   }
+
   public boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
@@ -68,7 +79,13 @@ public abstract class Cell extends Shape implements Controllable {
         return true;
       }
     }
-    return super.onMouseDown(x,y);
+    // for (Path p : fAxons)
+    //   if (p.onMouseDown(x, y))
+    //     return true;
+    // for (Path p : fDendrites)
+    //   if (p.onMouseDown(x, y))
+    //     return true;
+    return super.onMouseDown(x, y);
   }
 
   public void translate(PVector change) {
@@ -84,7 +101,7 @@ public abstract class Cell extends Shape implements Controllable {
     if (fSelected) {
       if (fControlActive) {
         for (Control c : fControls)
-          if (c.onMouseDragged(x,y))
+          if (c.onMouseDragged(x, y))
             return true;
         return false;
       }
@@ -93,22 +110,39 @@ public abstract class Cell extends Shape implements Controllable {
         return true;
       }
     }
-    else
-      return super.onMouseDragged(x,y);
+    // for (Path p : fAxons)
+    //   if (p.onMouseDragged(x, y))
+    //     return true;
+    // for (Path p : fDendrites)
+    //   if (p.onMouseDragged(x, y))
+    //     return true;
+    return super.onMouseDragged(x, y);
   }
 
   public boolean onMouseMoved(float x, float y) {
     for (Control c : fControls)
-      if (c.onMouseMoved(x,y))
+      if (c.onMouseMoved(x, y))
         return true;
-    return super.onMouseMoved(x,y);
+    // for (Path p : fAxons)
+    //   if (p.onMouseMoved(x, y))
+    //     return true;
+    // for (Path p : fDendrites)
+    //   if (p.onMouseMoved(x, y))
+    //     return true;
+    return super.onMouseMoved(x, y);
   }
 
   public boolean onMouseUp(float x, float y) {
     fControlActive = false;
     for (Control c : fControls)
-      if (c.onMouseUp(x,y))
+      if (c.onMouseUp(x, y))
         return true;
-    return super.onMouseUp(x,y);
+    // for (Path p : fAxons)
+    //   if (p.onMouseUp(x, y))
+    //     return true;
+    // for (Path p : fDendrites)
+    //   if (p.onMouseUp(x, y))
+    //     return true;
+    return super.onMouseUp(x, y);
   }
 }

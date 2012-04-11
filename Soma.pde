@@ -49,17 +49,6 @@ class Soma extends Cell {
     return Constants.SOMA;
   }
 
-  private void drawSoma() {
-    float s = fSize - Constants.SOMA_RING_WIDTH;
-    fill(fColor);
-    ellipse(fLoc.x, fLoc.y, s, s);
-    noStroke();
-    fill(Constants.SHADOW_COLOR);
-    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
-    fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue()));
-    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
-  }
-
   private void drawControlDisplays() {
     pushStyle();
       color cc = (fDecay > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
@@ -124,8 +113,24 @@ class Soma extends Cell {
     pushStyle();
       if (!fControlVisible)
         fThresholdSlider.draw();
-      this.drawSoma();
+
+      // this.drawDendrites();
+
+      float s = fSize - Constants.SOMA_RING_WIDTH;
+      fill(fColor);
+      ellipse(fLoc.x, fLoc.y, s, s);
+
       this.drawControlDisplays();
+
+      noStroke();
+      fill(Constants.SHADOW_COLOR);
+      ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
+
+      // this.drawAxons();
+
+      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue()));
+      ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
+
     popStyle();
   }
 

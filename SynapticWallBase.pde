@@ -13,8 +13,6 @@ Path gCurrPath;
 PVector gIndicator;
 PVector gIndicator2;
 
-boolean gCanCreatePath;
-
 Grid gGrid;
 
 void setup() {
@@ -37,7 +35,6 @@ void setup() {
   gCurrPath = null;
   gIndicator = new PVector(-999, -999);
   gIndicator2 = new PVector(-999, -999);
-  gCanCreatePath = true;
   gLastSelected = null;
   gCurrInitiator = null;
 
@@ -337,9 +334,9 @@ void onMouseDragged() {
 
 void onMouseMoved() {
   if (gCurrentMode == Constants.INTERACTION || gMagnify) {
-    gObjs.onMouseMoved(mouseX, mouseY);
-    redraw();
   }
+  gObjs.onMouseMoved(mouseX, mouseY);
+  redraw();
 }
 
 void onMouseReleased() {
