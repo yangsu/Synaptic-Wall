@@ -109,15 +109,15 @@ public class Initiator extends Cell {
     this.drawDendrites();
 
     noStroke();
-    fill(Constants.SHADOW_COLOR);
-    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
+    color c = Constants.SHADOW_COLOR;
+    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
 
     this.drawAxons();
 
     noStroke();
     if (fTimer < fEndTime) {
-      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
-        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING)));
+      c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
+        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING));
       // fTimer = millis();
       // if (fTimer > fMid && !fFired) {
       //   this.fireSignal();
@@ -125,9 +125,9 @@ public class Initiator extends Cell {
       // }
     }
     else {
-      fill(fHighlightColor);
+      c = fHighlightColor;
     }
-    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
+    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
     popStyle();
   }
 

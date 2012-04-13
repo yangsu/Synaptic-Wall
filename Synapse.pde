@@ -55,10 +55,10 @@ public class Synapse extends Shape {
   public void draw() {
     pushStyle();
       noStroke();
-      fill(Constants.SHADOW_COLOR);
-      ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE);
-      fill((fHover) ? fHighlightColor : fColor);
-      ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE);
+      color c = Constants.SHADOW_COLOR;
+      ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
+      c = (fHover) ? fHighlightColor : fColor;
+      ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
       updateState();
     popStyle();
   }

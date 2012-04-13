@@ -124,13 +124,13 @@ class Soma extends Cell {
       this.drawControlDisplays();
 
       noStroke();
-      fill(Constants.SHADOW_COLOR);
-      ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH);
+      color c = Constants.SHADOW_COLOR;
+      ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
 
       // this.drawAxons();
 
-      fill(lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue()));
-      ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH);
+      c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
+      ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
 
     popStyle();
   }

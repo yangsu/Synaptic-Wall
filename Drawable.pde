@@ -72,8 +72,14 @@ public abstract class Drawable {
   }
 
   // Extensions to the drawMethods
-  public void ring(float r, float cx, float cy, float t) {
-    arcWithThickness(r, cx, cy, 0, TWO_PI, t);
+  public void ring(float r, float cx, float cy, float t, color c) {
+    pushStyle();
+    strokeWeight(t);
+    float newr = r + t/2 - 0.2;
+    noFill();
+    stroke(c);
+    ellipse(cx, cy, newr, newr);
+    popStyle();
   }
   // Arcs
   public void arcWithThickness(float r, float cx, float cy, float startAngle, float endAngle, float t) {
