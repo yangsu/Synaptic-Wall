@@ -30,8 +30,8 @@ public class Synapse extends Shape {
 
   private void drawActivation() {
     pushStyle();
-      fill(lerpColor(Constants.BG_COLOR, fHighlightColor,
-          1.0 - 2*abs((fTimer - fMid)/(float)Constants.SYNAPSE_TIMING)));
+      float s = 1 - 2*abs((fTimer - fMid)/(float)Constants.SYNAPSE_TIMING);
+      fill(lerpColor(fHighlightColor & 0xFFFFFF, fHighlightColor, s));
       // Adde slight offset to cover holes
       ellipse(fLoc.x, fLoc.y, fSize + 0.2, fSize + 0.2);
     popStyle();
