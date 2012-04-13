@@ -51,14 +51,14 @@ class Soma extends Cell {
 
   private void drawControlDisplays() {
     pushStyle();
-      color cc = (fDecay > 0) ? Constants.EX_COLOR : Constants.IN_COLOR;
+      color cc = fHighlightColor;
 
       //Speed
       noStroke();
       fill(cc);
-      float h = 3;
+      float h = 3/Constants.SCALE;
       float w = h * sqrt(3);
-      float y = fLoc.y - 7;
+      float y = fLoc.y - 7/Constants.SCALE;
       float temp = -fSpeed/2 * w;
       for (int i = 0; i < fSpeed; ++i) {
         triangle(fLoc.x + w/3 + temp, y - h,
@@ -70,23 +70,24 @@ class Soma extends Cell {
       //Length
       noFill();
       stroke(cc);
-      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 9;
+      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 9/Constants.SCALE;
       float sl = (fSize - 2*l)/2;
-      y = fLoc.y + 4;
+      y = fLoc.y + 4/Constants.SCALE;
+      float y2 = y - 5/Constants.SCALE;
       beginShape();
       vertex(fLoc.x - l - sl, y);
       vertex(fLoc.x - l, y);
-      vertex(fLoc.x - l, y - 5);
-      vertex(fLoc.x + l, y - 5);
+      vertex(fLoc.x - l, y2);
+      vertex(fLoc.x + l, y2);
       vertex(fLoc.x + l, y);
       vertex(fLoc.x + l + sl, y);
       endShape();
 
       //DECAY
       noStroke();
-      color alpha = (int)(abs(fDecay)/Constants.SIGNAL_MAX_DECAY * 255) << 24 | 0xFFFFFF;
-      fill(cc & alpha);
-      ellipse(fLoc.x, fLoc.y + 12, 3, 3);
+      color tempc = lerpColor(cc & 0xFFFFFF, cc, fDecay);
+      fill(tempc);
+      ellipse(fLoc.x, fLoc.y + 12/Constants.SCALE, 3/Constants.SCALE, 3/Constants.SCALE);
     popStyle();
   }
 

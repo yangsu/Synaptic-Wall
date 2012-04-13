@@ -35,8 +35,8 @@ static class Constants {
   static final color HIGHLIGHT_COLOR    = 0xBBFFFFFF;
 
   static final color SHADOW_COLOR   = 0xBB323232;
-  static final int   SHADOW_OFFSETX = 3;
-  static final int   SHADOW_OFFSETY = 3;
+  static final float SHADOW_OFFSETX = 3/SCALE;
+  static final float SHADOW_OFFSETY = 3/SCALE;
 
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
