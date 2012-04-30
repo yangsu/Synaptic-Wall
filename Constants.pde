@@ -32,7 +32,7 @@ static class Constants {
   static final color EX_HIGHLIGHT_COLOR = 0xFFFDFB98;
   static final color IN_COLOR           = 0xFF0A6891;
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
-  static final color HIGHLIGHT_COLOR    = 0xBBFFFFFF;
+  static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
 
   static final color SHADOW_COLOR   = 0xBB323232;
   static final float SHADOW_OFFSETX = 3/SCALE;
