@@ -60,6 +60,27 @@ class Soma extends Cell {
     return Constants.SOMA;
   }
 
+  public float getThresholdValue() {
+    return fThresholdSlider.getValue();
+  }
+
+  public float getMinThreshold() {
+    return fThresholdSlider.getMin();
+  }
+
+  public void setMinThreshold(float value) {
+    fThresholdSlider.setMin(value);
+  }
+
+  public float getMaxThreshold() {
+    return fThresholdSlider.getMax();
+  }
+
+  public void setMaxThreshold(float value) {
+    fThresholdSlider.setMax(value);
+  }
+
+
   private void drawControlDisplays() {
     pushStyle();
       color cc = fHighlightColor;
@@ -163,6 +184,8 @@ class Soma extends Cell {
     fLengthSlider.setValue(fLength);
     fDecay = s.fDecay;
     fDecaySlider.setValue(fDecay);
+    this.setMinThreshold(s.getMinThreshold());
+    this.setMaxThreshold(s.getMaxThreshold());
   }
 
   public void onEvent(int controlID, float value) {

@@ -44,6 +44,24 @@ class ThresholdSlider extends CircularSlider {
       return 0;
   }
 
+  public float getMin() {
+    return fMin;
+  }
+
+  public void setMin(float value) {
+    fMin = value;
+    fBegin = fMin * PI / Constants.SOMA_MAX_THRESHOLD;
+  }
+
+  public float getMax() {
+    return fMax;
+  }
+
+  public void setMax(float value) {
+    fMax = value;
+    fEnd = fMax * PI / Constants.SOMA_MAX_THRESHOLD;
+  }
+
   private void drawThresholdArc(float x, float y, float s, float b, float e) {
     float bb = Util.convertToArcCoord(b);
     float ee = Util.convertToArcCoord(e);
