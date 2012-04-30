@@ -167,17 +167,31 @@ public class ObjectCollection {
     fSelectStart = fSelectEnd = null;
     return fSelectedObjs.size() != 0;
   }
-
+  private void syncAttributes(Interactive curr) {
+    for (Interactive s : fSelectedObjs) {
+      if (curr != s && curr.getType() == s.getType()) {
+        ((Cell)s).copyAttributes((Cell)curr);
+      }
+    }
+  }
   public boolean onMouseDown(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onMouseDown(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.onMouseDown(x, y)) {
+        this.syncAttributes(curr);
         return true;
+      }
+    }
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onMouseDragged(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.onMouseDragged(x, y)) {
+        this.syncAttributes(curr);
         return true;
+      }
+    }
     return false;
   }
   public boolean onMouseMoved(float x, float y) {
@@ -187,9 +201,13 @@ public class ObjectCollection {
     return false;
   }
   public boolean onMouseUp(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onMouseUp(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.onMouseUp(x, y)) {
+        this.syncAttributes(curr);
         return true;
+      }
+    }
     return false;
   }
   public boolean onDblClick(float x, float y) {

@@ -2,6 +2,7 @@ class Soma extends Cell {
   private ArrayList<Signal> fReceivedPSPs;
 
   private ThresholdSlider fThresholdSlider;
+  private CircularSlider fSpeedSlider, fLengthSlider, fDecaySlider;
   private float fSpeed, fLength, fDecay;
   // Control IDS
   private static final int SPEED = 1;
@@ -24,18 +25,28 @@ class Soma extends Cell {
 
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
 
-    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     0, TWO_PI/3,
-                                     fSpeed, 1, Constants.SIGNAL_MAX_SPEED,
-                                     SPEED, this));
-    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     TWO_PI/3, 2 * TWO_PI/3,
-                                     fLength, 1, Constants.SIGNAL_MAX_LENGTH,
-                                     LENGTH, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     2 * TWO_PI/3, TWO_PI,
-                                     fDecay, Constants.SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
-                                     DECAY, this));
+    fSpeedSlider = new DiscreteCircularSlider(
+                    fLoc.x, fLoc.y, controlSize,
+                    0, TWO_PI/3,
+                    fSpeed, 1, Constants.SIGNAL_MAX_SPEED,
+                    SPEED, this
+                  );
+    fControls.add(fSpeedSlider);
+
+    fLengthSlider = new DiscreteCircularSlider(
+                      fLoc.x, fLoc.y, controlSize,
+                      TWO_PI/3, 2 * TWO_PI/3,
+                      fLength, 1, Constants.SIGNAL_MAX_LENGTH,
+                      LENGTH, this
+                    );
+    fControls.add(fLengthSlider);
+    fDecaySlider = new CircularSlider(
+                    fLoc.x, fLoc.y, controlSize,
+                    2 * TWO_PI/3, TWO_PI,
+                    fDecay, Constants.SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
+                    DECAY, this
+                  );
+    fControls.add(fDecaySlider);
 
     fThresholdSlider = new ThresholdSlider(x, y, fSize + Constants.SLIDER_BAR_WIDTH,
                                             0, negativet, positivet,
@@ -142,6 +153,16 @@ class Soma extends Cell {
 
   public void onSignal(Signal s) {
     fReceivedPSPs.add(s);
+  }
+
+  public void copyAttributes(Cell c) {
+    Soma s = (Soma)c;
+    fSpeed = s.fSpeed;
+    fSpeedSlider.setValue(fSpeed);
+    fLength = s.fLength;
+    fLengthSlider.setValue(fLength);
+    fDecay = s.fDecay;
+    fDecaySlider.setValue(fDecay);
   }
 
   public void onEvent(int controlID, float value) {

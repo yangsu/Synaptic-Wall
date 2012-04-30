@@ -21,6 +21,8 @@ public abstract class Cell extends Shape implements Controllable {
       fAxons.add(p);
   }
 
+  public abstract void copyAttributes(Cell c);
+
   public void showControls() {
     fControlVisible = true;
   }

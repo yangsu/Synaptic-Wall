@@ -7,6 +7,7 @@ public class Initiator extends Cell {
   private int fBurstiness, fType;
   private int fLastFireTime;
 
+  private CircularSlider fRhythmicitySlider, fFreqSlider, fBurstinessSlider;
   private int fTimer;
   private int fEndTime;
   private int fMid;
@@ -31,18 +32,21 @@ public class Initiator extends Cell {
     // Add controls
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
 
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     0, TWO_PI/3,
-                                     fRhythmicity, 0, Constants.MAX_RHYTHMICITY,
-                                     RHYTHMICITY, this));
-    fControls.add(new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     TWO_PI/3, 2 * TWO_PI/3,
-                                     fBurstiness, 1, Constants.MAX_BURSTINESS,
-                                     BURSTINESS, this));
-    fControls.add(new CircularSlider(fLoc.x, fLoc.y, controlSize,
-                                     2 * TWO_PI/3, TWO_PI,
-                                     fFreq, 0, Constants.MAX_FREQUENCY,
-                                     FREQUENCY, this));
+    fRhythmicitySlider = new CircularSlider(fLoc.x, fLoc.y, controlSize,
+                                   0, TWO_PI/3,
+                                   fRhythmicity, 0, Constants.MAX_RHYTHMICITY,
+                                   RHYTHMICITY, this);
+    fControls.add(fRhythmicitySlider);
+    fBurstinessSlider = new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
+                                   TWO_PI/3, 2 * TWO_PI/3,
+                                   fBurstiness, 1, Constants.MAX_BURSTINESS,
+                                   BURSTINESS, this);
+    fControls.add(fBurstinessSlider);
+    fFreqSlider = new CircularSlider(fLoc.x, fLoc.y, controlSize,
+                                   2 * TWO_PI/3, TWO_PI,
+                                   fFreq, 0, Constants.MAX_FREQUENCY,
+                                   FREQUENCY, this);
+    fControls.add(fFreqSlider);
     fLastFireTime = millis();
 
     fTimer = 0;
@@ -134,6 +138,16 @@ public class Initiator extends Cell {
   public void flipColor() {
     super.flipColor();
     fType ^= 1; // Flip between EXCITATORY and INHIBITORY
+  }
+
+  public void copyAttributes(Cell c) {
+    Initiator s = (Initiator)c;
+    fRhythmicity = s.fRhythmicity;
+    fRhythmicitySlider.setValue(fRhythmicity);
+    fBurstiness = s.fBurstiness;
+    fBurstinessSlider.setValue(fBurstiness);
+    fFreq = s.fFreq;
+    fFreqSlider.setValue(fFreq);
   }
 
   public void onEvent(int controlID, float value) {
