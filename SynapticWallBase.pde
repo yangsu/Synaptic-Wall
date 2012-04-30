@@ -1,6 +1,8 @@
 boolean gDebug = false;
 
 boolean gMagnify;
+boolean gSelection;
+boolean gSelected;
 int gCurrentMode;
 PImage gMagnified;
 
@@ -15,6 +17,7 @@ PVector gIndicator2;
 
 Grid gGrid;
 
+
 void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
   gMagnified = createImage(width/2, height/2, ARGB);
@@ -28,6 +31,8 @@ void setup() {
   noStroke();
   //initialization
   gMagnify = false;
+  gSelection = false;
+  gSelected = false;
   gCurrentMode = Constants.CREATION;
 
   gObjs = new ObjectCollection();
@@ -246,7 +251,13 @@ void onMousePressed() {
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    gObjs.onMouseDown(mouseX, mouseY);
+    if (!gObjs.onMouseDown(mouseX, mouseY)) {
+      gSelection = true;
+      gObjs.beginSelection(mouseX, mouseY);
+    }
+    else {
+      gSelection = false;
+    }
   }
   else {
     // Do nothing
@@ -324,7 +335,12 @@ void onMouseDragged() {
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    gObjs.onMouseDragged(mouseX, mouseY);
+    if (gSelection) {
+      gObjs.updateSelection(mouseX, mouseY);
+    }
+    else {
+      gObjs.onMouseDragged(mouseX, mouseY);
+    }
   }
   else {
     // Do nothing
@@ -335,7 +351,7 @@ void onMouseDragged() {
 void onMouseMoved() {
   if (gCurrentMode == Constants.INTERACTION || gMagnify) {
   }
-  gObjs.onMouseMoved(mouseX, mouseY);
+  // gObjs.onMouseMoved(mouseX, mouseY);
   redraw();
 }
 
@@ -413,8 +429,13 @@ void onMouseReleased() {
     gLastSelected = null;
     clearIndicators();
   }
-  else if (gCurrentMode == Constants.INTERACTION)
+  else if (gCurrentMode == Constants.INTERACTION) {
+    if (gSelection) {
+      gSelected = gObjs.endSelection(mouseX, mouseY);
+      gSelection = false;
+    }
     gObjs.onMouseUp(mouseX, mouseY);
+  }
 
   redraw();
 }

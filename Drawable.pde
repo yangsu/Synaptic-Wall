@@ -49,6 +49,10 @@ public abstract class Drawable {
 
   public abstract int getType();
 
+  public PVector getLoc() {
+    return fLoc;
+  }
+
   public void translate(PVector change) {
     if (fMovable)
       fLoc.add(change);

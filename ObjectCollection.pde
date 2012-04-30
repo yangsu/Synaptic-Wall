@@ -1,18 +1,36 @@
 public class ObjectCollection {
   private Interactive fSelected;
   private ArrayList<Interactive> fObjs;
+  private ArrayList<Interactive> fSelectedObjs;
   private ArrayList<Path> fPaths;
   private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
+
+  private PVector fSelectStart, fSelectEnd;
 
   public ObjectCollection() {
     fSelected = null;
     fObjs = new ArrayList<Interactive>();
+    fSelectedObjs = new ArrayList<Interactive>();
     fPaths = new ArrayList<Path>();
     fInitiatorIndex = 0;
     fSomaIndex = 0;
     fAxonIndex = 0;
     fSynapseIndex = 0;
     fDendriteIndex = 0;
+
+    fSelectStart = fSelectEnd = null;
+  }
+
+  private void drawSelection() {
+    if (fSelectStart != null && fSelectEnd != null) {
+      pushStyle();
+      stroke(Constants.SELECTION_BORDER_COLOR);
+      strokeWeight(Constants.SELECTION_BORDER_WIDTH);
+      fill(Constants.SELECTION_COLOR);
+      PVector size = PVector.sub(fSelectEnd, fSelectStart);
+      rect(fSelectStart.x, fSelectStart.y, size.x, size.y);
+      popStyle();
+    }
   }
 
   public void draw() {
@@ -20,6 +38,9 @@ public class ObjectCollection {
     //   fObjs.get(i).draw();
     for (Interactive s : fObjs)
       s.draw();
+    if (fSelectStart != null && fSelectEnd != null) {
+      drawSelection();
+    }
   }
   public void drawAndUpdate() {
     for (Interactive s : fObjs)
@@ -28,7 +49,7 @@ public class ObjectCollection {
   }
 
   public boolean select(float x, float y) {
-    this.deselectAll();
+    deselectAll();
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive s = fObjs.get(i);
       if (s.select(x, y)) {
@@ -40,7 +61,7 @@ public class ObjectCollection {
   }
 
   public void showControls() {
-    for (Interactive s : fObjs) {
+    for (Interactive s : fSelectedObjs) {
       if (s.getType() == Constants.INITIATOR ||
           s.getType() == Constants.SOMA)
           ((Controllable)s).showControls();
@@ -48,7 +69,7 @@ public class ObjectCollection {
   }
 
   public void hideControls() {
-    for (Interactive s : fObjs) {
+    for (Interactive s : fSelectedObjs) {
       if (s.getType() == Constants.INITIATOR ||
           s.getType() == Constants.SOMA)
           ((Controllable)s).hideControls();
@@ -107,7 +128,44 @@ public class ObjectCollection {
           fAxonIndex--;
       }
       fObjs.remove(s);
+      // TODO: remove from paths as well
     }
+  }
+
+  public void beginSelection(float x, float y) {
+    hideControls();
+    fSelectedObjs = new ArrayList<Interactive>();
+    fSelectStart = new PVector(x, y);
+    fSelectEnd = new PVector(x, y);
+  }
+
+  public void updateSelection(float x, float y) {
+    fSelectEnd.set(x, y, 0);
+  }
+
+  public boolean endSelection(float x, float y) {
+    fSelectEnd.set(x, y, 0);
+    PVector minCoord = new PVector(min(fSelectStart.x, fSelectEnd.x), min(fSelectStart.y, fSelectEnd.y));
+    PVector maxCoord = new PVector(max(fSelectStart.x, fSelectEnd.x), max(fSelectStart.y, fSelectEnd.y));
+    for (Interactive s : fObjs) {
+      switch(s.getType()) {
+        case Constants.SOMA:
+        case Constants.INITIATOR:
+          PVector p = s.getLoc();
+          if (p.x >= minCoord.x && p.y >= minCoord.y &&
+              p.x <= maxCoord.x && p.y <= maxCoord.y) {
+            fSelectedObjs.add(s);
+            ((Controllable)s).showControls();
+          }
+          break;
+        case Constants.DENDRITE:
+        case Constants.SYNAPSE:
+        case Constants.AXON:
+          break;
+      }
+    }
+    fSelectStart = fSelectEnd = null;
+    return fSelectedObjs.size() != 0;
   }
 
   public boolean onMouseDown(float x, float y) {

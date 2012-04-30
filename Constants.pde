@@ -34,6 +34,12 @@ static class Constants {
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
   static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
 
+  // Selection Selection
+  static final color SELECTION_COLOR        = 0x44FFFFFF;
+  static final color SELECTION_BORDER_COLOR = 0x88FFFFFF;
+  static final int   SELECTION_BORDER_WIDTH = 2;
+
+
   static final color SHADOW_COLOR   = 0xBB323232;
   static final float SHADOW_OFFSETX = 3/SCALE;
   static final float SHADOW_OFFSETY = 3/SCALE;

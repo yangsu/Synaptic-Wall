@@ -71,12 +71,14 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public boolean onMouseDown(float x, float y) {
-    fControlActive = false;
-    for (Control c : fControls) {
-      fControlActive = c.onMouseDown(x, y);
-      if (fControlActive) {
-        fSelected = true;
-        return true;
+    if (fControlVisible) {
+      fControlActive = false;
+      for (Control c : fControls) {
+        fControlActive = c.onMouseDown(x, y);
+        if (fControlActive) {
+          fSelected = true;
+          return true;
+        }
       }
     }
     // for (Path p : fAxons)
@@ -99,7 +101,7 @@ public abstract class Cell extends Shape implements Controllable {
   }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
-      if (fControlActive) {
+      if (fControlActive && fControlVisible) {
         for (Control c : fControls)
           if (c.onMouseDragged(x, y))
             return true;
@@ -133,10 +135,12 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public boolean onMouseUp(float x, float y) {
+    if (fControlActive && fControlVisible) {
+      for (Control c : fControls)
+        if (c.onMouseUp(x, y))
+          return true;
+    }
     fControlActive = false;
-    for (Control c : fControls)
-      if (c.onMouseUp(x, y))
-        return true;
     // for (Path p : fAxons)
     //   if (p.onMouseUp(x, y))
     //     return true;
