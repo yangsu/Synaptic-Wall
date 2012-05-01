@@ -132,9 +132,13 @@ public class ObjectCollection {
     }
   }
 
-  public void beginSelection(float x, float y) {
+  private void resetSelection() {
     hideControls();
     fSelectedObjs = new ArrayList<Interactive>();
+  }
+
+  public void beginSelection(float x, float y) {
+    resetSelection();
     fSelectStart = new PVector(x, y);
     fSelectEnd = new PVector(x, y);
   }
@@ -174,14 +178,26 @@ public class ObjectCollection {
       }
     }
   }
-  public boolean onMouseDown(float x, float y) {
+  public boolean onMouseDown(float x, float y, int key, int keyCode) {
+
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
-        syncAttributes(curr);
+        if (curr.getType() == Constants.INITIATOR || curr.getType() == Constants.SOMA) {
+          if (!fSelectedObjs.contains(curr)) {
+              fSelectedObjs.add(curr);
+              ((Controllable)curr).showControls();
+          }
+          else if (key == CODED && keyCode == ALT) {
+              fSelectedObjs.remove(curr);
+              ((Controllable)curr).hideControls();
+          }
+        }
         return true;
       }
     }
+    if (!(key == CODED && keyCode == SHIFT))
+      resetSelection();
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
@@ -204,7 +220,6 @@ public class ObjectCollection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseUp(x, y)) {
-        syncAttributes(curr);
         return true;
       }
     }

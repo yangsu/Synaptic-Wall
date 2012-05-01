@@ -19,6 +19,8 @@ class ThresholdSlider extends CircularSlider {
           val, min, max, id, target);
     fSlider = HALF_PI;
     fOffset = Constants.THRESHOLD_HANDLE_WIDTH;
+
+    fVisible = true;
   }
 
   public void setValue(float val) {
@@ -135,5 +137,10 @@ class ThresholdSlider extends CircularSlider {
       fSlider = constrain(fSlider, fBegin + fOffset, fEnd - fOffset);
     }
     return fSelected;
+  }
+
+  // Threshold is always visible
+  public void setVisible(boolean visible) {
+    fVisible = true;
   }
 }

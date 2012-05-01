@@ -34,6 +34,8 @@ public class CircularSlider extends Control {
     fMin = min;
     fMax = max;
     setValue(val);
+    // Circular Sliders are initially hidden
+    fVisible = false;
   }
 
   public float getValue() {

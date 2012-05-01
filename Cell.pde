@@ -1,7 +1,4 @@
 public abstract class Cell extends Shape implements Controllable {
-  private boolean fControlActive;
-  protected boolean fControlVisible;
-
   protected ArrayList<Path> fAxons;
   protected ArrayList<Path> fDendrites;
   protected ArrayList<Control> fControls;
@@ -24,11 +21,15 @@ public abstract class Cell extends Shape implements Controllable {
   public abstract void copyAttributes(Cell c);
 
   public void showControls() {
-    fControlVisible = true;
+    for (Control c : fControls) {
+      c.setVisible(true);
+    }
   }
 
   public void hideControls() {
-    fControlVisible = false;
+    for (Control c : fControls) {
+      c.setVisible(false);
+    }
   }
 
   public void drawControls() {
@@ -47,12 +48,11 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public void draw() {
-    if (fControlVisible) {
-      drawControls();
-    }
+    drawControls();
   }
 
   public boolean isInBounds(float x, float y) {
+    println(PVector.dist(fLoc, new PVector(x, y)) <= fSize);
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
 
@@ -73,13 +73,10 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public boolean onMouseDown(float x, float y) {
-    if (fControlVisible) {
-      fControlActive = false;
-      for (Control c : fControls) {
-        fControlActive = c.onMouseDown(x, y);
-        if (fControlActive) {
-          fSelected = true;
-          return true;
+    for (Control c : fControls) {
+      if (c.fVisible) {
+        if (c.onMouseDown(x, y)) {
+          return (fSelected = true);
         }
       }
     }
@@ -103,16 +100,12 @@ public abstract class Cell extends Shape implements Controllable {
   }
   public boolean onMouseDragged(float x, float y) {
     if (fSelected) {
-      if (fControlActive && fControlVisible) {
-        for (Control c : fControls)
-          if (c.onMouseDragged(x, y))
-            return true;
-        return false;
-      }
-      else {
-        translate(new PVector(x - fLoc.x, y - fLoc.y));
-        return true;
-      }
+      for (Control c : fControls)
+        if (c.fVisible && c.onMouseDragged(x, y))
+          return true;
+
+      translate(new PVector(x - fLoc.x, y - fLoc.y));
+      return true;
     }
     // for (Path p : fAxons)
     //   if (p.onMouseDragged(x, y))
@@ -137,12 +130,9 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public boolean onMouseUp(float x, float y) {
-    if (fControlActive && fControlVisible) {
-      for (Control c : fControls)
-        if (c.onMouseUp(x, y))
-          return true;
-    }
-    fControlActive = false;
+    for (Control c : fControls)
+      if (c.fVisible && c.onMouseUp(x, y))
+        return true;
     // for (Path p : fAxons)
     //   if (p.onMouseUp(x, y))
     //     return true;

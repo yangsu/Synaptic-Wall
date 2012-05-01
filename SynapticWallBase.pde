@@ -18,7 +18,6 @@ PVector gIndicator2;
 
 Grid gGrid;
 
-
 void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
   gMagnified = createImage(width/2, height/2, ARGB);
@@ -253,7 +252,7 @@ void onMousePressed() {
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    if (!gObjs.onMouseDown(mouseX, mouseY)) {
+    if (!gObjs.onMouseDown(mouseX, mouseY, key, keyCode)) {
       gSelection = true;
       gObjs.beginSelection(mouseX, mouseY);
     }

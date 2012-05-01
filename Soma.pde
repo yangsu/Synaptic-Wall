@@ -144,25 +144,23 @@ class Soma extends Cell {
   public void draw() {
     super.draw();
     pushStyle();
-      if (!fControlVisible)
-        fThresholdSlider.draw();
 
-      // drawDendrites();
+    // drawDendrites();
 
-      float s = fSize - Constants.SOMA_RING_WIDTH;
-      fill(fColor);
-      ellipse(fLoc.x, fLoc.y, s, s);
+    float s = fSize - Constants.SOMA_RING_WIDTH;
+    fill(fColor);
+    ellipse(fLoc.x, fLoc.y, s, s);
 
-      drawControlDisplays();
+    drawControlDisplays();
 
-      noStroke();
-      color c = Constants.SHADOW_COLOR;
-      ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
+    noStroke();
+    color c = Constants.SHADOW_COLOR;
+    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
 
-      // drawAxons();
+    // drawAxons();
 
-      c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
-      ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
+    c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
+    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
 
     popStyle();
   }
