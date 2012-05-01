@@ -52,7 +52,6 @@ public abstract class Cell extends Shape implements Controllable {
   }
 
   public boolean isInBounds(float x, float y) {
-    println(PVector.dist(fLoc, new PVector(x, y)) <= fSize);
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }
 
