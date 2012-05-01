@@ -1,6 +1,6 @@
 public interface Controllable{
-  void drawControls();
-  void showControls();
-  void hideControls();
-  void onEvent(int controlID, float value);
+  public void drawControls();
+  public void showControls();
+  public void hideControls();
+  public void onEvent(int controlID, float value);
 }

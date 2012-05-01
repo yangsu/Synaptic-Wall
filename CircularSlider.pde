@@ -1,28 +1,28 @@
-class CircularSlider extends Control {
-  float fSize, fMin, fMax, fValue;
-  float fBegin, fEnd, fSlider;
+public class CircularSlider extends Control {
+  protected float fSize, fMin, fMax, fValue;
+  protected float fBegin, fEnd, fSlider;
 
-  int fState;
-  static final int SLIDER = 0;
+  protected int fState;
+  protected static final int SLIDER = 0;
 
-  CircularSlider(float x, float y, float size,
+  public CircularSlider(float x, float y, float size,
                  int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI, id, target);
   }
 
-  CircularSlider(float x, float y, float size,
+  public CircularSlider(float x, float y, float size,
                  float begin, float end,
                  int id, Controllable target) {
     this(x, y, size, begin, end, begin, begin, end, id, target);
   }
 
-  CircularSlider(float x, float y, float size,
+  public CircularSlider(float x, float y, float size,
                  float val, float min, float max,
                  int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, val, min, max, id, target);
   }
 
-  CircularSlider(float x, float y, float size,
+  public CircularSlider(float x, float y, float size,
                  float begin, float end,
                  float val, float min, float max,
                  int id, Controllable target) {
@@ -33,30 +33,30 @@ class CircularSlider extends Control {
     fEnd = end;
     fMin = min;
     fMax = max;
-    this.setValue(val);
+    setValue(val);
   }
 
-  float getValue() {
+  public float getValue() {
     return fValue;
   }
 
-  void setValue(float val) {
+  public void setValue(float val) {
     fValue = constrain(val, fMin, fMax);
     fSlider = constrain(map(val, fMin, fMax, fBegin, fEnd), fBegin, fEnd);
   }
 
-  void setSliderBounds(float begin, float end) {
+  public void setSliderBounds(float begin, float end) {
     fBegin = begin;
     fEnd = end;
     fSlider = constrain(fSlider, fBegin, fEnd);
   }
 
-  void setValueRange(float min, float max) {
+  public void setValueRange(float min, float max) {
     fMin = min;
     fMax = max;
   }
 
-  void draw() {
+  public void draw() {
     if (!fVisible) return;
     float temp = fSize + Constants.SLIDER_BAR_WIDTH;
 
@@ -74,7 +74,7 @@ class CircularSlider extends Control {
     arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02, Constants.SLIDER_BAR_WIDTH);
   }
 
-  boolean isInBounds(float x, float y) {
+  public boolean isInBounds(float x, float y) {
     boolean inBounds = false;
     float dist = PVector.dist(fLoc, new PVector(x, y));
     float angle = Util.getAngleNorm(fLoc.x, fLoc.y, x, y);
@@ -85,7 +85,7 @@ class CircularSlider extends Control {
     return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
 
-  void updateSlider(float x, float y) {
+  public void updateSlider(float x, float y) {
     float angle = Util.getAngleNorm(fLoc.x, fLoc.y, x, y);
     fSlider = Util.constrain(angle, fBegin, fEnd);
     fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
@@ -93,7 +93,7 @@ class CircularSlider extends Control {
   }
 
   public boolean onMouseDown(float x, float y) {
-    fSelected = this.isInBounds(x, y);
+    fSelected = isInBounds(x, y);
     if (fSelected)
       updateSlider(x, y);
     return fSelected;

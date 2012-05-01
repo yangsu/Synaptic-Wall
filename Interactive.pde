@@ -17,15 +17,15 @@ public abstract class Interactive extends Drawable{
   protected abstract boolean isInBounds(float x, float y);
 
   public boolean onMouseDown(float x, float y) {
-    return (fSelected = this.isInBounds(x, y));
+    return (fSelected = isInBounds(x, y));
   }
 
   public boolean onMouseMoved(float x, float y) {
-    return (fHover = this.isInBounds(x,y));
+    return (fHover = isInBounds(x,y));
   }
 
   public boolean onMouseDragged(float x, float y) {
-    return (fHover = this.isInBounds(x,y));
+    return (fHover = isInBounds(x,y));
   }
 
   public boolean onMouseUp(float x, float y) {
@@ -41,7 +41,7 @@ public abstract class Interactive extends Drawable{
   }
 
   public boolean select(float x, float y) {
-    return (fSelected = this.isInBounds(x, y));
+    return (fSelected = isInBounds(x, y));
   }
 
   public void deselect() {

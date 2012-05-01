@@ -17,10 +17,10 @@ public class Axon extends Path {
     noFill();
     strokeWeight(Constants.PATH_WIDTH);
     stroke(Constants.SHADOW_COLOR);
-    this.drawPathShape(Constants.SHADOW_OFFSETX, Constants.SHADOW_OFFSETY);
+    drawPathShape(Constants.SHADOW_OFFSETX, Constants.SHADOW_OFFSETY);
 
     stroke((fHover) ? fHighlightColor : fColor);
-    this.drawPathShape(0, 0);
+    drawPathShape(0, 0);
     popStyle();
   }
 }

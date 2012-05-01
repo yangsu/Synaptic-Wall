@@ -48,7 +48,7 @@ public abstract class Cell extends Shape implements Controllable {
 
   public void draw() {
     if (fControlVisible) {
-      this.drawControls();
+      drawControls();
     }
   }
 
@@ -66,7 +66,7 @@ public abstract class Cell extends Shape implements Controllable {
 
   public boolean onDblClick(float x, float y) {
     if (isInBounds(x, y)) {
-      this.flipColor();
+      flipColor();
       return true;
     }
     return false;
@@ -110,7 +110,7 @@ public abstract class Cell extends Shape implements Controllable {
         return false;
       }
       else {
-        this.translate(new PVector(x - this.fLoc.x, y - this.fLoc.y));
+        translate(new PVector(x - fLoc.x, y - fLoc.y));
         return true;
       }
     }

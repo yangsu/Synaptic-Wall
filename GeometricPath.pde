@@ -107,7 +107,7 @@ public class GeometricPath extends Path {
 
   public Path convertToPath() {
         // recontructOptimal();
-    this.removeJags();
+    removeJags();
 
     Path p = null;
     if (fPathType == Constants.AXON)

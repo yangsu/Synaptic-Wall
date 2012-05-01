@@ -138,7 +138,7 @@ class Soma extends Cell {
   }
 
   public void update() {
-    this.processSignals();
+    processSignals();
   }
 
   public void draw() {
@@ -147,19 +147,19 @@ class Soma extends Cell {
       if (!fControlVisible)
         fThresholdSlider.draw();
 
-      // this.drawDendrites();
+      // drawDendrites();
 
       float s = fSize - Constants.SOMA_RING_WIDTH;
       fill(fColor);
       ellipse(fLoc.x, fLoc.y, s, s);
 
-      this.drawControlDisplays();
+      drawControlDisplays();
 
       noStroke();
       color c = Constants.SHADOW_COLOR;
       ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
 
-      // this.drawAxons();
+      // drawAxons();
 
       c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
       ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
@@ -184,8 +184,8 @@ class Soma extends Cell {
     fLengthSlider.setValue(fLength);
     fDecay = s.fDecay;
     fDecaySlider.setValue(fDecay);
-    this.setMinThreshold(s.getMinThreshold());
-    this.setMaxThreshold(s.getMaxThreshold());
+    setMinThreshold(s.getMinThreshold());
+    setMaxThreshold(s.getMaxThreshold());
   }
 
   public void onEvent(int controlID, float value) {

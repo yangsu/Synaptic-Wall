@@ -80,23 +80,23 @@ class ThresholdSlider extends CircularSlider {
       if (!fVisible) return;
 
       fill(Constants.SLIDER_BG_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fEnd);
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fEnd);
 
       fill(Constants.HIGHLIGHT_COLOR);
       if (fSlider > 0)
-        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fSlider);
+        drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fSlider);
       else if (fSlider < 0)
-        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fSlider, fOffset);
+        drawThresholdArc(fLoc.x, fLoc.y, fSize, fSlider, fOffset);
       else
-        this.drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fOffset);
+        drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fOffset);
       fill((fHover && (fState == BEGIN))
             ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
             : Constants.THRESHOLD_NEGATIVE_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fBegin + fOffset);
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fBegin + fOffset);
       fill((fHover && (fState == END))
             ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
             : Constants.THRESHOLD_POSITIVE_COLOR);
-      this.drawThresholdArc(fLoc.x, fLoc.y, fSize, fEnd - fOffset, fEnd);
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, fEnd - fOffset, fEnd);
    popStyle();
   }
 
@@ -116,7 +116,7 @@ class ThresholdSlider extends CircularSlider {
   }
 
   public boolean onMouseDown(float x, float y) {
-    return (fSelected = this.isInBounds(x, y));
+    return (fSelected = isInBounds(x, y));
   }
 
   public boolean onMouseDragged(float x, float y) {

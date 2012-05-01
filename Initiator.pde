@@ -81,14 +81,14 @@ public class Initiator extends Cell {
     if ((time - fLastFireTime) > interval && random(1.0) <= fRhythmicity) {
       fLastFireTime = time;
       //fire
-      this.startTimer();
+      startTimer();
       //add burst
       for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
         fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
     }
     if (fFiringQueue.length > 0 && fFiringQueue[0] <= time) {
       //fire
-      this.startTimer();
+      startTimer();
       fFiringQueue = subset(fFiringQueue, 1);
     }
   }
@@ -96,10 +96,10 @@ public class Initiator extends Cell {
   public void update() {
     fTimer = millis();
     if (fTimer > fMid && !fFired) {
-      this.fireSignal();
+      fireSignal();
       fFired = true;
     }
-    this.processFiringPattern();
+    processFiringPattern();
   }
   public void draw() {
     super.draw();
@@ -110,13 +110,13 @@ public class Initiator extends Cell {
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, s, s);
 
-    this.drawDendrites();
+    drawDendrites();
 
     noStroke();
     color c = Constants.SHADOW_COLOR;
     ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
 
-    this.drawAxons();
+    drawAxons();
 
     noStroke();
     if (fTimer < fEndTime) {
@@ -124,7 +124,7 @@ public class Initiator extends Cell {
         1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING));
       // fTimer = millis();
       // if (fTimer > fMid && !fFired) {
-      //   this.fireSignal();
+      //   fireSignal();
       //   fFired = true;
       // }
     }

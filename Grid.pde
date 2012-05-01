@@ -9,20 +9,20 @@ public class Grid extends Interactive{
     this(size, size, count, count);
   }
   public Grid(float w, float h, int hc, int vc) {
-    this.fWidth = w;
-    this.fHeight = h;
-    this.fHorizontalCount = hc;
-    this.fVerticalCount = vc;
-    this.fCellWidth = w/hc;
-    this.fCellHeight = h/vc;
-    this.fCellDiagonal = sqrt(sq(fCellWidth) + sq(fCellHeight));
-    this.fGrid = new PVector[fHorizontalCount+1][fVerticalCount+1];
+    fWidth = w;
+    fHeight = h;
+    fHorizontalCount = hc;
+    fVerticalCount = vc;
+    fCellWidth = w/hc;
+    fCellHeight = h/vc;
+    fCellDiagonal = sqrt(sq(fCellWidth) + sq(fCellHeight));
+    fGrid = new PVector[fHorizontalCount+1][fVerticalCount+1];
     for (int i = 0; i <= fHorizontalCount; i++) {
       for (int j = 0; j <= fVerticalCount; j++) {
         fGrid[i][j] = new PVector(i*fCellWidth, j*fCellHeight);
       }
     }
-    this.fCurrent = new PVector(0, 0);
+    fCurrent = new PVector(0, 0);
   }
 
   public int getType() {

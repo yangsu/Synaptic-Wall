@@ -41,7 +41,7 @@ public abstract class Path extends Interactive implements Signalable{
     fClosed = true;
 
     // recontructOptimal();
-    this.removeJags();
+    removeJags();
   }
 
   public void setDest(Signalable obj) {
@@ -80,7 +80,7 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void add(PVector p) {
     if (fClosed) return;
-    this.add(p.x, p.y);
+    add(p.x, p.y);
   }
 
   public void addPath(Path p) {
@@ -127,7 +127,7 @@ public abstract class Path extends Interactive implements Signalable{
     noFill();
     strokeWeight(Constants.PATH_WIDTH);
     stroke((fHover) ? fHighlightColor : fColor);
-    this.drawPathShape(0, 0);
+    drawPathShape(0, 0);
     popStyle();
   }
 
@@ -170,7 +170,7 @@ public abstract class Path extends Interactive implements Signalable{
               s.fStrength + curr.fStrength,
               this);
             p.setIndex(s.fCurrIndex);
-            this.addSignal(p);
+            addSignal(p);
             fSignals.remove(curr);
             fSignals.remove(s);
             break;
@@ -192,7 +192,7 @@ public abstract class Path extends Interactive implements Signalable{
   public void onSignal(Signal s) {
     Signal copy = s.makeCopy(this);
     copy.setIndex(s.fPath.fDestPos);
-    this.addSignal(copy);
+    addSignal(copy);
   }
 
   public boolean isInBounds(float x, float y) {

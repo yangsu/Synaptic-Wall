@@ -178,7 +178,7 @@ public class ObjectCollection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
-        this.syncAttributes(curr);
+        syncAttributes(curr);
         return true;
       }
     }
@@ -188,7 +188,7 @@ public class ObjectCollection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDragged(x, y)) {
-        this.syncAttributes(curr);
+        syncAttributes(curr);
         return true;
       }
     }
@@ -204,7 +204,7 @@ public class ObjectCollection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseUp(x, y)) {
-        this.syncAttributes(curr);
+        syncAttributes(curr);
         return true;
       }
     }

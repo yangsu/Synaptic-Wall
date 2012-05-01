@@ -65,7 +65,6 @@ static class Constants {
   static final float PATH_WIDTH = 8.0 / SCALE;
 
   // Synapse Settings
-  static final color SYNAPSE_ACTIVATION_COLOR = 0xFF000000;
   static final int   SYNAPSE_TIMING           = 700; // Miliseconds
   static final float SYNAPSE_SIZE             = 12.0 / SCALE; // radius
   static final float SYNAPSE_STRENGTH         = 1.0; // Thickness
