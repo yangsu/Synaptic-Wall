@@ -100,6 +100,8 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void draw() {
     drawPath();
+    for (PVector p : fVertices)
+      drawJunction(p.x, p.y);
     if (fHover)
       drawJunction(getVertex(fCurrIndex));
     drawSignals();
@@ -139,7 +141,7 @@ public abstract class Path extends Interactive implements Signalable{
   protected void drawJunction(float x, float y) {
     pushStyle();
       fill((fHover) ? fHighlightColor : fColor);
-      float s = Constants.SIGNAL_WIDTH/2;
+      float s = Constants.SIGNAL_WIDTH;
       ellipse(x, y, s, s);
     popStyle();
   }
@@ -298,6 +300,7 @@ public abstract class Path extends Interactive implements Signalable{
   }
 
   public boolean onSmoothToggle(boolean smooth) {
+    if (fSmooth == smooth) return false;
     fSmooth = smooth;
     int last = fVertices.size() - 1;
     if (fSmooth) {
