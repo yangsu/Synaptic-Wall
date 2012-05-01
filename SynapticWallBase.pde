@@ -3,6 +3,7 @@ boolean gDebug = false;
 boolean gMagnify;
 boolean gSelection;
 boolean gSelected;
+boolean gSmoothPaths;
 int gCurrentMode;
 PImage gMagnified;
 
@@ -33,6 +34,7 @@ void setup() {
   gMagnify = false;
   gSelection = false;
   gSelected = false;
+  gSmoothPaths = false;
   gCurrentMode = Constants.CREATION;
 
   gObjs = new ObjectCollection();
@@ -199,12 +201,12 @@ void onMousePressed() {
       else if (selected.getType() == Constants.AXON) {
         Path p = (Path)selected;
         gIndicator.set(p.getCurrVertex());
-        gCurrPath = new GeometricPath(p, gIndicator.x, gIndicator.y, p.fColor, Constants.AXON, gGrid);
+        gCurrPath = new Axon(p, gIndicator.x, gIndicator.y, p.fColor);
       }
       else if (selected.getType() == Constants.DENDRITE) {
         Path p = (Path)selected;
         gIndicator.set(p.getCurrVertex());
-        gCurrPath = new GeometricPath(p, gIndicator.x, gIndicator.y, p.fColor, Constants.DENDRITE, gGrid);
+        gCurrPath = new Dendrite(p, gIndicator.x, gIndicator.y, p.fColor);
       }
       // if selected is a synapse, the create an dendrite
       else if (selected.getType() == Constants.SYNAPSE) {
@@ -321,13 +323,13 @@ void onMouseDragged() {
         if (gLastSelected.getType() == Constants.INITIATOR ||
             gLastSelected.getType() == Constants.SOMA) {
           Cell c = (Cell)gLastSelected;
-          gCurrPath = new GeometricPath(c, gIndicator.x, gIndicator.y, c.fHighlightColor, Constants.AXON, gGrid);
+          gCurrPath = new Axon(c, gIndicator.x, gIndicator.y, c.fHighlightColor);
         }
         else if (gLastSelected.getType() == Constants.SYNAPSE) {
           Synapse s = (Synapse)gLastSelected;
           if (!s.isComplete()) {
             color c = (s.fColor == Constants.EX_HIGHLIGHT_COLOR) ? Constants.EX_COLOR : Constants.IN_COLOR;
-            gCurrPath = new GeometricPath(s, s.x(), s.y(), c, Constants.DENDRITE, gGrid);
+            gCurrPath = new Dendrite(s, s.x(), s.y(), c);
             gCurrPath.add(gIndicator.x, gIndicator.y);
           }
         }
@@ -370,23 +372,17 @@ void onMouseReleased() {
     }
     else if (gCurrPath != null) {
       int l = gCurrPath.size();
-      if (l < 2) println ("ERROR! gCurrPath has a length less than 2");
+      if (l < 4) println ("ERROR! gCurrPath has a length less than 4");
       else {
-        if (gCurrPath.getType() == Constants.GEOPATH) {
-          gCurrPath.reduce();
-          gCurrPath = ((GeometricPath)gCurrPath).convertToPath();
-          l = gCurrPath.size();
-        }
         gCurrPath.setMovable(false);
         if (gCurrPath.getType() == Constants.AXON) {
           // Calculate offset so the edge of the Synapse is at the end of the path
-          PVector diff = PVector.sub(gCurrPath.getVertex(l-1),
-                                     gCurrPath.getVertex(l-2));
-          PVector center = PVector.add(gCurrPath.getVertex(l-1),
-                            PVector.mult(diff, Constants.SYNAPSE_OUTER_SIZE));
+          PVector last = gCurrPath.getVertex(l-1);
+          PVector diff = PVector.sub(last, gCurrPath.getVertex(l-2));
+          diff.normalize();
+          PVector center = PVector.add(last, PVector.mult(diff, Constants.SYNAPSE_OUTER_SIZE));
           Synapse s = new Synapse(gCurrPath, center.x, center.y, gCurrPath.fColor);
           gCurrPath.setDest(s);
-          gCurrPath.reduce();
           gCurrPath.attachToSource();
           gObjs.add(gCurrPath);
           gObjs.add(s);
@@ -417,7 +413,7 @@ void onMouseReleased() {
             }
             if (selected.getType() != Constants.INITIATOR &&
                 selected.getType() != Constants.SYNAPSE) {
-              gCurrPath.reduce();
+              // gCurrPath.reduce();
               gCurrPath.attachToSource();
               gObjs.add(gCurrPath);
             }
@@ -465,6 +461,10 @@ void keyPressed() {
       break;
     case 'c':
       clear();
+      break;
+    case 's':
+      gSmoothPaths = !gSmoothPaths;
+      gObjs.onSmoothToggle(gSmoothPaths);
       break;
   }
   redraw();

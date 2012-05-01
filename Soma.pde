@@ -25,7 +25,7 @@ class Soma extends Cell {
 
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
 
-    fSpeedSlider = new DiscreteCircularSlider(
+    fSpeedSlider = new CircularSlider(
                     fLoc.x, fLoc.y, controlSize,
                     0, TWO_PI/3,
                     fSpeed, 1, Constants.SIGNAL_MAX_SPEED,

@@ -73,6 +73,7 @@ public class GeometricPath extends Path {
     for (int i = 0; i < count; i++)
       fVertices.add(new PVector(start.x + i*incx, start.y + i*incy));
   }
+
   private void recontructOptimal() {
     if (fVertices.size() <= 2)
       return;
@@ -104,13 +105,10 @@ public class GeometricPath extends Path {
     }
   }
 
-  @Override
-  public void reduce() {
-    // recontructOptimal();
-    this.removeJags();
-  }
-
   public Path convertToPath() {
+        // recontructOptimal();
+    this.removeJags();
+
     Path p = null;
     if (fPathType == Constants.AXON)
       p = new Axon(fSrc, fLoc.x, fLoc.y, fColor);

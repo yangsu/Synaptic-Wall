@@ -81,13 +81,13 @@ static class Constants {
   static final int   IPSP_COLOR = 0xFF67A4D0;
   static final int   AP_COLOR = 0xFFFDFB98;
 
-  static final boolean SIGNAL_LINEAR_DECAY = true;
-  static final int   SIGNAL_DEFAULT_SPEED  = 1;
-  static final int   SIGNAL_DEFAULT_LENGTH = 20/SIGNAL_RESOLUTION;
-  static final float SIGNAL_DEFAULT_DECAY  = 1.0; // No decay
-  static final int   SIGNAL_MAX_SPEED      = 5;
-  static final int   SIGNAL_MAX_LENGTH     = 30/SIGNAL_RESOLUTION;
-  static final float SIGNAL_MAX_DECAY      = 0.1; // Halves
+  static final boolean SIGNAL_LINEAR_DECAY   = true;
+  static final float   SIGNAL_DEFAULT_SPEED  = 1;
+  static final float   SIGNAL_DEFAULT_LENGTH = 20/SIGNAL_RESOLUTION;
+  static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
+  static final float   SIGNAL_MAX_SPEED      = 5;
+  static final float   SIGNAL_MAX_LENGTH     = 30/SIGNAL_RESOLUTION;
+  static final float   SIGNAL_MAX_DECAY      = 0.5; // Halves
 
   static final float AP_WIDTH        = 4.0 / SCALE;
   static final float AP_BORDER_WIDTH = 3.0 / SCALE;

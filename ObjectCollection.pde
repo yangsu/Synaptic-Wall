@@ -216,4 +216,11 @@ public class ObjectCollection {
         return true;
     return false;
   }
+
+  public boolean onSmoothToggle(boolean smooth) {
+    for (int i = fObjs.size()-1; i>=0; i--)
+      if (fObjs.get(i).onSmoothToggle(smooth))
+        return true;
+    return false;
+  }
 }

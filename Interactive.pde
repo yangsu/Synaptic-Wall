@@ -36,6 +36,10 @@ public abstract class Interactive extends Drawable{
     return false;
   }
 
+  public boolean onSmoothToggle(boolean smooth) {
+    return false;
+  }
+
   public boolean select(float x, float y) {
     return (fSelected = this.isInBounds(x, y));
   }
