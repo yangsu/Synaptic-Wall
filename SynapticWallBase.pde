@@ -353,7 +353,7 @@ void onMouseDragged() {
 void onMouseMoved() {
   if (gCurrentMode == Constants.INTERACTION || gMagnify) {
   }
-  // gObjs.onMouseMoved(mouseX, mouseY);
+  gObjs.onMouseMoved(mouseX, mouseY);
   redraw();
 }
 

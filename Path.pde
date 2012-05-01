@@ -100,8 +100,8 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void draw() {
     drawPath();
-    for (PVector p : fVertices)
-      drawJunction(p.x, p.y);
+    // for (PVector p : fVertices)
+    //   drawJunction(p.x, p.y);
     if (fHover)
       drawJunction(getVertex(fCurrIndex));
     drawSignals();
