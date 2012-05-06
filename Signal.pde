@@ -67,7 +67,7 @@ abstract class Signal extends Drawable {
     // note: use linear distance as an approximation
     if (fParamT >= 1.0) {
       // Move on to the next segment and reset time
-      fParamT = 0;
+      fParamT = fParamT - 1;
       fCurrIndex += 1;
       if (reachedDestination())
         fire();
@@ -76,7 +76,7 @@ abstract class Signal extends Drawable {
   }
 
   public boolean reachedDestination() {
-    return fCurrIndex == fEndIndex - ((gSmoothPaths) ? 3 : 1);
+    return fCurrIndex >= fEndIndex - ((gSmoothPaths) ? 3 : 1);
   }
 
   public boolean fired() {
