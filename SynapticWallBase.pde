@@ -383,6 +383,7 @@ void onMouseReleased() {
           Synapse s = new Synapse(gCurrPath, center.x, center.y, gCurrPath.fColor);
           gCurrPath.setDest(s);
           gCurrPath.attachToSource();
+          gCurrPath.simplify();
           gObjs.add(gCurrPath);
           gObjs.add(s);
         }
@@ -414,6 +415,7 @@ void onMouseReleased() {
                 selected.getType() != Constants.SYNAPSE) {
               // gCurrPath.reduce();
               gCurrPath.attachToSource();
+              gCurrPath.simplify();
               gObjs.add(gCurrPath);
             }
           }

@@ -39,9 +39,6 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void close() {
     fClosed = true;
-
-    // recontructOptimal();
-    removeJags();
   }
 
   public void setDest(Signalable obj) {
@@ -216,7 +213,7 @@ public abstract class Path extends Interactive implements Signalable{
       p.flipColor();
   }
 
-  private void removeJags() {
+  private void simplify() {
     if (fVertices.size() <= 2)
       return;
     boolean changed = true;
