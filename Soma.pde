@@ -141,12 +141,9 @@ class Soma extends Cell {
     processSignals();
   }
 
-  public void draw() {
-    super.draw();
+  public void drawBackground() {
+    drawControls();
     pushStyle();
-
-    // drawDendrites();
-
     float s = fSize - Constants.SOMA_RING_WIDTH;
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, s, s);
@@ -156,10 +153,16 @@ class Soma extends Cell {
     noStroke();
     color c = Constants.SHADOW_COLOR;
     ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
+    popStyle();
+  }
 
-    // drawAxons();
+  public void drawForeground() {
+    pushStyle();
 
-    c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
+    float s = fSize - Constants.SOMA_RING_WIDTH;
+    fill(fColor);
+    noStroke();
+    color c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
     ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
 
     popStyle();

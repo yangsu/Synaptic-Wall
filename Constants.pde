@@ -41,8 +41,8 @@ static class Constants {
 
 
   static final color SHADOW_COLOR   = 0xBB323232;
-  static final float SHADOW_OFFSETX = 3/SCALE;
-  static final float SHADOW_OFFSETY = 3/SCALE;
+  static final float SHADOW_OFFSETX = 2/SCALE;
+  static final float SHADOW_OFFSETY = 2/SCALE;
 
   static final float ZOOM_FACTOR        = 4.0;
   static final int   SIGNAL_RESOLUTION  = 1;
@@ -63,6 +63,7 @@ static class Constants {
 
   // Path Settings
   static final float PATH_WIDTH = 8.0 / SCALE;
+  static final float PATH_JUNCTION_WIDTH = 6.0 / SCALE;
 
   // Synapse Settings
   static final int   SYNAPSE_TIMING           = 700; // Miliseconds

@@ -8,13 +8,22 @@ class ActionPotential extends Signal {
     return new ActionPotential(fSpeed, fLength, fDecay, fStrength, p);
   }
 
-  public void draw() {
+  public void drawBackground() {
     pushStyle();
-      strokeWeight(Constants.AP_BORDER_WIDTH);
-      fill(Constants.BG_COLOR);
-      stroke(fColor);
-      float s = Constants.AP_WIDTH;
-      ellipse(fLoc.x, fLoc.y, s, s);
+    fill(Constants.SHADOW_COLOR);
+    noStroke();
+    float s = Constants.AP_WIDTH + Constants.AP_BORDER_WIDTH/2;
+    ellipse(fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, s, s);
+    popStyle();
+  }
+
+  public void drawForeground() {
+    pushStyle();
+    strokeWeight(Constants.AP_BORDER_WIDTH);
+    fill(Constants.BG_COLOR);
+    stroke(fColor);
+    float s = Constants.AP_WIDTH;
+    ellipse(fLoc.x, fLoc.y, s, s);
     popStyle();
   }
 }

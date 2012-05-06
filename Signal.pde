@@ -84,8 +84,4 @@ abstract class Signal extends Drawable {
   }
 
   public abstract Signal makeCopy(Path p);
-
-  public void drawSignalBody() {
-    //Empty by default. Can be used to draw signal bodies to the background
-  }
 }

@@ -98,13 +98,19 @@ public abstract class Path extends Interactive implements Signalable{
     processSignals();
   }
 
-  public void draw() {
+  public void drawBackground() {
+    for (Signal s : fSignals)
+      s.drawBackground();
+  }
+
+  public void drawForeground() {
     drawPath();
     // for (PVector p : fVertices)
     //   drawJunction(p.x, p.y);
     if (fHover)
       drawJunction(getVertex(fCurrIndex));
-    drawSignals();
+    for (Signal s : fSignals)
+      s.drawForeground();
   }
 
   protected void drawPathShape(float offsetx, float offsety) {
@@ -131,17 +137,10 @@ public abstract class Path extends Interactive implements Signalable{
     popStyle();
   }
 
-  public void drawSignals() {
-    for (Signal s : fSignals)
-      s.draw();
-    for (Signal s : fSignals)
-      s.drawSignalBody();
-  }
-
   protected void drawJunction(float x, float y) {
     pushStyle();
       fill((fHover) ? fHighlightColor : fColor);
-      float s = Constants.SIGNAL_WIDTH;
+      float s = Constants.PATH_JUNCTION_WIDTH;
       ellipse(x, y, s, s);
     popStyle();
   }

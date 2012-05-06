@@ -29,38 +29,48 @@ public class Synapse extends Shape {
   }
 
   private void drawActivation() {
-    pushStyle();
+    if (fTimer < fEndTime) {
+      pushStyle();
       float s = 1 - 2*abs((fTimer - fMid)/(float)Constants.SYNAPSE_TIMING);
       fill(lerpColor(fHighlightColor & 0xFFFFFF, fHighlightColor, s));
       // Adde slight offset to cover holes
       ellipse(fLoc.x, fLoc.y, fSize + 0.2, fSize + 0.2);
-    popStyle();
-  }
-  private void updateState() {
-    if (fTimer < fEndTime) {
-      drawActivation();
-      fTimer = millis();
-      if (fTimer > fMid && fDendrite != null && !fFired) {
-        fDendrite.addSignal(new PostsynapticPotential(
-                              fLatestSignal.fSpeed,
-                              fLatestSignal.fLength,
-                              fLatestSignal.fDecay,
-                              fLatestSignal.fStrength * fStrength,
-                              fDendrite));
-        fFired = true;
-      }
+      popStyle();
     }
   }
 
-  public void draw() {
+  private void updateState() {
+    fTimer = millis();
+    if (fTimer > fMid && fDendrite != null && !fFired) {
+      fDendrite.addSignal(new PostsynapticPotential(
+                            fLatestSignal.fSpeed,
+                            fLatestSignal.fLength,
+                            fLatestSignal.fDecay,
+                            fLatestSignal.fStrength * fStrength,
+                            fDendrite));
+      fFired = true;
+    }
+  }
+
+  public void drawBackground() {
     pushStyle();
-      noStroke();
-      color c = Constants.SHADOW_COLOR;
-      ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
-      c = (fHover) ? fHighlightColor : fColor;
-      ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
-      updateState();
+    noStroke();
+    color c = Constants.SHADOW_COLOR;
+    ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
     popStyle();
+  }
+
+  public void drawForeground() {
+    pushStyle();
+    noStroke();
+    color c = (fHover) ? fHighlightColor : fColor;
+    ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
+    drawActivation();
+    popStyle();
+  }
+
+  public void update() {
+    updateState();
   }
 
   public boolean isComplete() {

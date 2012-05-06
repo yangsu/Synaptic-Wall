@@ -12,15 +12,13 @@ public class Axon extends Path {
     return Constants.AXON;
   }
 
-  protected void drawPath() {
+  public void drawBackground() {
     pushStyle();
     noFill();
     strokeWeight(Constants.PATH_WIDTH);
     stroke(Constants.SHADOW_COLOR);
     drawPathShape(Constants.SHADOW_OFFSETX, Constants.SHADOW_OFFSETY);
-
-    stroke((fHover) ? fHighlightColor : fColor);
-    drawPathShape(0, 0);
     popStyle();
+    super.drawBackground();
   }
 }

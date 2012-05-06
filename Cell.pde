@@ -37,20 +37,6 @@ public abstract class Cell extends Shape implements Controllable {
       c.draw();
   }
 
-  protected void drawDendrites() {
-    for (Path p : fDendrites)
-      p.draw();
-  }
-
-  protected void drawAxons() {
-    for (Path p : fAxons)
-      p.draw();
-  }
-
-  public void draw() {
-    drawControls();
-  }
-
   public boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= fSize;
   }

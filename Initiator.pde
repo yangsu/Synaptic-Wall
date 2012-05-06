@@ -101,23 +101,23 @@ public class Initiator extends Cell {
     }
     processFiringPattern();
   }
-  public void draw() {
-    super.draw();
 
-    float s = fSize - Constants.SOMA_RING_WIDTH;
+  public void drawBackground() {
     pushStyle();
-
+    drawControls();
+    float s = fSize - Constants.SOMA_RING_WIDTH;
     fill(fColor);
-    ellipse(fLoc.x, fLoc.y, s, s);
-
-    drawDendrites();
-
     noStroke();
+    ellipse(fLoc.x, fLoc.y, s, s);
     color c = Constants.SHADOW_COLOR;
     ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
+    popStyle();
+  }
 
-    drawAxons();
-
+  public void drawForeground() {
+    pushStyle();
+    float s = fSize - Constants.SOMA_RING_WIDTH;
+    color c;
     noStroke();
     if (fTimer < fEndTime) {
       c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,

@@ -66,7 +66,14 @@ public abstract class Drawable {
     fMovable = movable;
   }
 
-  public abstract void draw();
+  public void drawBackground() {};
+  public void drawForeground() {};
+
+  public void draw() {
+    drawBackground();
+    drawForeground();
+  }
+
   public void update() {
     //Perform functions that produce animations or other forms of change over time
   };

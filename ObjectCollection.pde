@@ -37,7 +37,9 @@ public class ObjectCollection {
     // for (int i = 0; i < fInitiatorIndex; i++)
     //   fObjs.get(i).draw();
     for (Interactive s : fObjs)
-      s.draw();
+      s.drawBackground();
+    for (Interactive s : fObjs)
+      s.drawForeground();
     if (fSelectStart != null && fSelectEnd != null) {
       drawSelection();
     }

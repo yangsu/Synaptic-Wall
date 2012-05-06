@@ -3,10 +3,10 @@ public class Dendrite extends Path {
     super(src, x, y, cc);
   }
 
-  public void draw() {
+  public void drawForeground() {
     // Draw start vertex
     drawJunction(getVertex(0));
-    super.draw();
+    super.drawForeground();
   }
 
   public int getType() {

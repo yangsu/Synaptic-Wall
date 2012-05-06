@@ -15,7 +15,7 @@ class PostsynapticPotential extends Signal {
       fStrength *= fDecay;
   }
 
-  public void draw() {
+  public void drawForeground() {
     pushStyle();
       strokeWeight(Constants.PSP_BORDER_WIDTH);
       float s = Constants.PSP_WIDTH;
