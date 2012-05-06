@@ -3,6 +3,7 @@ public class ObjectCollection {
   private ArrayList<Interactive> fObjs;
   private ArrayList<Interactive> fSelectedObjs;
   private ArrayList<Path> fPaths;
+  private ArrayList<Path> fDendrites;
   private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
 
   private PVector fSelectStart, fSelectEnd;
@@ -12,6 +13,7 @@ public class ObjectCollection {
     fObjs = new ArrayList<Interactive>();
     fSelectedObjs = new ArrayList<Interactive>();
     fPaths = new ArrayList<Path>();
+    fDendrites = new ArrayList<Path>();
     fInitiatorIndex = 0;
     fSomaIndex = 0;
     fAxonIndex = 0;
@@ -34,12 +36,17 @@ public class ObjectCollection {
   }
 
   public void draw() {
-    // for (int i = 0; i < fInitiatorIndex; i++)
-    //   fObjs.get(i).draw();
-    for (Interactive s : fObjs)
-      s.drawBackground();
-    for (Interactive s : fObjs)
-      s.drawForeground();
+    int l = fObjs.size();
+    for (Path p : fDendrites)
+      p.draw();
+    for (int i = fDendriteIndex; i < l; i++)
+      fObjs.get(i).drawBackground();
+    for (int i = fDendriteIndex; i < l; i++)
+      fObjs.get(i).drawForeground();
+    // for (Interactive s : fObjs)
+    //   s.drawBackground();
+    // for (Interactive s : fObjs)
+    //   s.drawForeground();
     if (fSelectStart != null && fSelectEnd != null) {
       drawSelection();
     }
@@ -95,9 +102,12 @@ public class ObjectCollection {
         case Constants.DENDRITE:
           index = (index == -1) ? fDendriteIndex : index;
           fDendriteIndex++;
+          fDendrites.add((Path)s);
         case Constants.AXON:
           index = (index == -1) ? fAxonIndex : index;
           fAxonIndex++;
+          // Falls through so this is executed for bouth AXON and DENDRITE
+          fPaths.add((Path)s);
         case Constants.SYNAPSE:
           index = (index == -1) ? fSynapseIndex : index;
           fSynapseIndex++;
@@ -109,8 +119,6 @@ public class ObjectCollection {
           fInitiatorIndex++;
       }
       fObjs.add(index, s);
-      if (s.getType() == Constants.AXON || s.getType() == Constants.DENDRITE)
-        fPaths.add((Path)s);
     }
   }
 
