@@ -37,6 +37,21 @@ void setup() {
   gCurrentMode = Constants.CREATION;
 
   gObjs = new ObjectCollection();
+
+  // Initiate Control Panel
+  Soma s = new ControllerSoma(
+    0.8 * width,
+    0.75 * height,
+    Constants.SOMA_SIZE,
+    Constants.EX_COLOR,
+    Constants.SOMA_INIT_NEG_THRESHOLD,
+    Constants.SOMA_INIT_POS_THRESHOLD
+  );
+  // s.setVisible(false);
+  s.setMovable(false);
+  s.showControls();
+  gObjs.addControl(s);
+
   gCurrShape = null;
   gCurrPath = null;
   gIndicator = new PVector(-999, -999);
@@ -134,6 +149,9 @@ void drawText() {
         break;
     }
     text(s, 0, 20);
+    // Frame Rate
+    s = nf(frameRate, 2, 2) + " FPS";
+    text(s, width - 60, 20);
   popStyle();
 }
 
@@ -146,7 +164,7 @@ void draw() {
   drawText();
 }
 void clear() {
-  gObjs = new ObjectCollection();
+  gObjs.reset();
   gCurrShape = null;
   gCurrPath = null;
   gCurrInitiator = null;

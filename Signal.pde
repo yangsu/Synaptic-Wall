@@ -6,7 +6,7 @@ abstract class Signal extends Drawable {
   protected Signalable fDest;
   protected boolean fFired;
 
-  private float fParamT;
+  protected float fParamT;
 
   Signal() {}
   Signal (int type, float speed, float length, float decay, float strength, Path p) {
@@ -20,7 +20,7 @@ abstract class Signal extends Drawable {
     //fDest is private ?
     fDest = p.fDest;
     fCurrIndex = 0;
-    fEndIndex = p.fVertices.size();
+    fEndIndex = p.fVertices.size() - ((gSmoothPaths) ? 3 : 1);
     fEndTime = 0;
     fFired = false;
 
@@ -76,7 +76,7 @@ abstract class Signal extends Drawable {
   }
 
   public boolean reachedDestination() {
-    return fCurrIndex >= fEndIndex - ((gSmoothPaths) ? 3 : 1);
+    return fCurrIndex >= fEndIndex;
   }
 
   public boolean fired() {

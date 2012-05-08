@@ -1,9 +1,9 @@
 class Soma extends Cell {
   private ArrayList<Signal> fReceivedPSPs;
 
-  private ThresholdSlider fThresholdSlider;
-  private CircularSlider fSpeedSlider, fLengthSlider, fDecaySlider;
-  private float fSpeed, fLength, fDecay;
+  protected ThresholdSlider fThresholdSlider;
+  protected CircularSlider fSpeedSlider, fLengthSlider, fDecaySlider;
+  protected float fSpeed, fLength, fDecay;
   // Control IDS
   private static final int SPEED = 1;
   private static final int LENGTH = 2;

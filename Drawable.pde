@@ -70,8 +70,10 @@ public abstract class Drawable {
   public void drawForeground() {};
 
   public void draw() {
-    drawBackground();
-    drawForeground();
+    if (fVisible) {
+      drawBackground();
+      drawForeground();
+    }
   }
 
   public void update() {

@@ -45,7 +45,6 @@ static class Constants {
   static final float SHADOW_OFFSETY = 2/SCALE;
 
   static final float ZOOM_FACTOR        = 4.0;
-  static final int   SIGNAL_RESOLUTION  = 1;
 
   static final int  CELL_TIMING = 500;
   // Initiator Settings
@@ -83,10 +82,10 @@ static class Constants {
 
   static final boolean SIGNAL_LINEAR_DECAY   = true;
   static final float   SIGNAL_DEFAULT_SPEED  = 1;
-  static final float   SIGNAL_DEFAULT_LENGTH = 20/SIGNAL_RESOLUTION;
+  static final float   SIGNAL_DEFAULT_LENGTH = 1;
   static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
   static final float   SIGNAL_MAX_SPEED      = 5;
-  static final float   SIGNAL_MAX_LENGTH     = 30/SIGNAL_RESOLUTION;
+  static final float   SIGNAL_MAX_LENGTH     = 100;
   static final float   SIGNAL_MAX_DECAY      = 0.5; // Halves
 
   static final float AP_WIDTH        = 4.0 / SCALE;
@@ -131,4 +130,10 @@ static class Constants {
   static final color GRID_NODE_HIGHLIGHT = 0xFFAAAAAA;
   static final float GRID_NODE_SIZE      = 1;
   static final int   GRID_RESOLUTION     = 40;
+
+  // Control Panel Settings
+  static final color CP_TEXT_COLOR   = SLIDER_BAR_COLOR;
+  static final float CP_TEXT_OFFSET  = 30;
+  static final float CP_BORDER_WIDTH = 2;
+  static final float CP_PADDING      = 6;
 }

@@ -174,7 +174,7 @@ public abstract class Path extends Interactive implements Signalable{
         }
         //Copy Signals to connected paths
         for (Path p : fConnectedPaths) {
-          if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_RESOLUTION)
+          if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_WIDTH)
             p.addSignal(curr.makeCopy(p));
         }
       }

@@ -29,10 +29,8 @@ public class CircularSlider extends Control {
     super(x, y, id, target);
     fSize = size;
     fState = SLIDER;
-    fBegin = begin;
-    fEnd = end;
-    fMin = min;
-    fMax = max;
+    setValueRange(min, max);
+    setSliderBounds(begin, end);
     setValue(val);
     // Circular Sliders are initially hidden
     fVisible = false;
@@ -40,6 +38,10 @@ public class CircularSlider extends Control {
 
   public float getValue() {
     return fValue;
+  }
+
+  public float getTheta() {
+    return fSlider;
   }
 
   public void setValue(float val) {

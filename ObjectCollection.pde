@@ -1,7 +1,6 @@
 public class ObjectCollection {
   private Interactive fSelected;
-  private ArrayList<Interactive> fObjs;
-  private ArrayList<Interactive> fSelectedObjs;
+  private ArrayList<Interactive> fObjs, fSelectedObjs, fControls;
   private ArrayList<Path> fPaths;
   private ArrayList<Path> fDendrites;
   private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
@@ -9,18 +8,8 @@ public class ObjectCollection {
   private PVector fSelectStart, fSelectEnd;
 
   public ObjectCollection() {
-    fSelected = null;
-    fObjs = new ArrayList<Interactive>();
-    fSelectedObjs = new ArrayList<Interactive>();
-    fPaths = new ArrayList<Path>();
-    fDendrites = new ArrayList<Path>();
-    fInitiatorIndex = 0;
-    fSomaIndex = 0;
-    fAxonIndex = 0;
-    fSynapseIndex = 0;
-    fDendriteIndex = 0;
-
-    fSelectStart = fSelectEnd = null;
+    fControls = new ArrayList<Interactive>();
+    reset();
   }
 
   private void drawSelection() {
@@ -37,16 +26,15 @@ public class ObjectCollection {
 
   public void draw() {
     int l = fObjs.size();
-    for (Path p : fDendrites)
-      p.draw();
-    for (int i = fDendriteIndex; i < l; i++)
-      fObjs.get(i).drawBackground();
-    for (int i = fDendriteIndex; i < l; i++)
-      fObjs.get(i).drawForeground();
-    // for (Interactive s : fObjs)
-    //   s.drawBackground();
-    // for (Interactive s : fObjs)
-    //   s.drawForeground();
+    // Using draw for now
+    // for (Path p : fDendrites)
+    //   p.draw();
+    // for (int i = fDendriteIndex; i < l; i++)
+    //   fObjs.get(i).drawBackground();
+    // for (int i = fDendriteIndex; i < l; i++)
+    //   fObjs.get(i).drawForeground();
+    for (Interactive s : fObjs)
+      s.draw();
     if (fSelectStart != null && fSelectEnd != null) {
       drawSelection();
     }
@@ -122,6 +110,11 @@ public class ObjectCollection {
     }
   }
 
+  public void addControl(Interactive s) {
+    fControls.add(s);
+    add(s);
+  }
+
   public void remove(Interactive s) {
     // TODO: check for off by 1 error
     if (s != null) {
@@ -142,9 +135,29 @@ public class ObjectCollection {
     }
   }
 
+  public void reset() {
+    fObjs = new ArrayList<Interactive>();
+    fPaths = new ArrayList<Path>();
+    fDendrites = new ArrayList<Path>();
+    fSelectedObjs = new ArrayList<Interactive>();
+    fSelected = null;
+    fInitiatorIndex = 0;
+    fSomaIndex = 0;
+    fAxonIndex = 0;
+    fSynapseIndex = 0;
+    fDendriteIndex = 0;
+
+    fSelectStart = fSelectEnd = null;
+
+    // Adde controls back
+    fObjs.addAll(fControls);
+    fSelectedObjs.addAll(fControls);
+  }
+
   private void resetSelection() {
     hideControls();
     fSelectedObjs = new ArrayList<Interactive>();
+    fSelectedObjs.addAll(fControls);
   }
 
   public void beginSelection(float x, float y) {
@@ -179,7 +192,11 @@ public class ObjectCollection {
       }
     }
     fSelectStart = fSelectEnd = null;
-    return fSelectedObjs.size() != 0;
+    // Account for controls since they are always in selected
+    boolean selected = (fSelectedObjs.size() - fControls.size()) != 0;
+    for (Interactive i : fControls)
+      i.setVisible(selected);
+    return selected;
   }
   private void syncAttributes(Interactive curr) {
     for (Interactive s : fSelectedObjs) {
