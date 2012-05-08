@@ -119,4 +119,19 @@ static class Util {
   static float ptToLineDist(PVector a, PVector b, PVector p) {
     return abs((p.x-a.x)*(b.y-a.y)-(p.y-a.y)*(b.x-a.x))/PVector.dist(a, b);
   }
+
+  static float linear(float m, float b, float t) {
+    return m*t + b;
+  }
+  static float linear(float m, float b, float t, float slowingFactor) {
+    return m/slowingFactor*t + b;
+  }
+
+  static float expDecay(float a, float t, float tau) {
+    return a*exp(-t/tau);
+  }
+
+  // static float secondsElapsed(int origTime) {
+  //   return (millis() - origTime)/1000;
+  // }
 }

@@ -4,6 +4,7 @@ public abstract class Drawable {
   protected PVector fLoc;
   protected boolean fVisible;
   protected boolean fMovable;
+  protected int fBirthTime;
 
   public Drawable() {
     this(0, 0, color(255));
@@ -23,6 +24,7 @@ public abstract class Drawable {
       fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
     else
       fHighlightColor = Util.highlight(fColor);
+    fBirthTime = millis();
   }
 
   public void flipColor() {

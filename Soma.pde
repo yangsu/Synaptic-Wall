@@ -162,6 +162,7 @@ class Soma extends Cell {
     float s = fSize - Constants.SOMA_RING_WIDTH;
     fill(fColor);
     noStroke();
+    println(fThresholdSlider.getValue());
     color c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
     ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
 

@@ -55,7 +55,7 @@ static class Constants {
   static final int   SOMA_SIZE               = 30 / (int)SCALE;
   static final int   SOMA_FIRING_DELAY       = 300;
   static final float SOMA_RING_WIDTH         = 10.0 / SCALE;
-  static final float SOMA_MAX_THRESHOLD      = 5.0;
+  static final float SOMA_MAX_THRESHOLD      = 3.0;
   static final float SOMA_DEFAULT_THRESHOLD  = SOMA_MAX_THRESHOLD*0.5;
   static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD*0.25;
   static final float SOMA_INIT_NEG_THRESHOLD = SOMA_MAX_THRESHOLD*-0.75;
@@ -80,13 +80,14 @@ static class Constants {
   static final int   IPSP_COLOR = 0xFF67A4D0;
   static final int   AP_COLOR = 0xFFFDFB98;
 
-  static final boolean SIGNAL_LINEAR_DECAY   = true;
+  static final boolean SIGNAL_LINEAR_DECAY   = false;
   static final float   SIGNAL_DEFAULT_SPEED  = 1;
   static final float   SIGNAL_DEFAULT_LENGTH = 50;
-  static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
+  static final float   SIGNAL_DEFAULT_DECAY  = 0.5; // No decay
   static final float   SIGNAL_MAX_SPEED      = 5;
   static final float   SIGNAL_MAX_LENGTH     = 100;
   static final float   SIGNAL_MAX_DECAY      = 0.5; // Halves
+  static final float   DECAY_FACTOR          = 10;
 
   static final float AP_WIDTH        = 4.0 / SCALE;
   static final float AP_BORDER_WIDTH = 3.0 / SCALE;

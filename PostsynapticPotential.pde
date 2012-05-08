@@ -14,11 +14,17 @@ class PostsynapticPotential extends Signal {
 
   public void update() {
     super.update();
-    if (Constants.SIGNAL_LINEAR_DECAY)
-      // TODO: should not decay to 0
-      fStrength = lerp(Constants.SIGNAL_STRENGTH, 0, (float)fCurrIndex/fEndIndex);
-    else
-      fStrength *= fDecay;
+    // float time = Util.secondsElapsed(fBirthTime);
+    float time = float(millis() - fBirthTime)/1000;
+    float val;
+    if (Constants.SIGNAL_LINEAR_DECAY) {
+      val = Util.linear(- (1 - fDecay), 1, time, Constants.DECAY_FACTOR);
+    }
+    else {
+      // No need to check for zero because fDecay will never to to 0
+      val = Util.expDecay(1, time, lerp(0, Constants.DECAY_FACTOR/2, fDecay));
+    }
+    fStrength = constrain(val, 0, 1);
   }
 
   private PVector smoothSegment(int index, float t) {
