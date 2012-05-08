@@ -57,7 +57,7 @@ static class Constants {
   static final float SOMA_RING_WIDTH         = 10.0 / SCALE;
   static final float SOMA_MAX_THRESHOLD      = 5.0;
   static final float SOMA_DEFAULT_THRESHOLD  = SOMA_MAX_THRESHOLD*0.5;
-  static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD*0.75;
+  static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD*0.25;
   static final float SOMA_INIT_NEG_THRESHOLD = SOMA_MAX_THRESHOLD*-0.75;
 
   // Path Settings
@@ -82,7 +82,7 @@ static class Constants {
 
   static final boolean SIGNAL_LINEAR_DECAY   = true;
   static final float   SIGNAL_DEFAULT_SPEED  = 1;
-  static final float   SIGNAL_DEFAULT_LENGTH = 1;
+  static final float   SIGNAL_DEFAULT_LENGTH = 50;
   static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
   static final float   SIGNAL_MAX_SPEED      = 5;
   static final float   SIGNAL_MAX_LENGTH     = 100;
@@ -95,7 +95,7 @@ static class Constants {
   static final float PSP_BORDER_WIDTH = 6.0 / SCALE;
 
   static final float SIGNAL_STRENGTH       = 1.0;
-  static final float SIGNAL_MAX_STRENGTH   = 4.0;
+  static final float SIGNAL_MAX_STRENGTH   = 3.0;
   static final float SIGNAL_CONTROL_LENGTH = 3.0;
   static final float SIGNAL_WIDTH          = 8.0 / SCALE;
   static final float SIGNAL_DEFAULT_WIDTH  = SIGNAL_WIDTH/2;

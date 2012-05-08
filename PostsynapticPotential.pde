@@ -15,7 +15,8 @@ class PostsynapticPotential extends Signal {
   public void update() {
     super.update();
     if (Constants.SIGNAL_LINEAR_DECAY)
-      fStrength = lerp(Constants.SIGNAL_STRENGTH, fDecay * Constants.SIGNAL_STRENGTH, (float)fCurrIndex/fEndIndex);
+      // TODO: should not decay to 0
+      fStrength = lerp(Constants.SIGNAL_STRENGTH, 0, (float)fCurrIndex/fEndIndex);
     else
       fStrength *= fDecay;
   }
@@ -31,7 +32,7 @@ class PostsynapticPotential extends Signal {
   }
 
   private void determineRange() {
-    if (fCurrIndex + 1 >= fEndIndex) return;
+    // if (fCurrIndex + 1 >= fEndIndex) return;
     PVector a = fPath.fVertices.get(fCurrIndex);
     PVector b = fPath.fVertices.get(fCurrIndex + 1);
     // PVector c = fPath.fVertices.get(constrain(fCurrIndex + 2, 0, fEndIndex -1));
@@ -46,7 +47,9 @@ class PostsynapticPotential extends Signal {
       while (true) {
         currIndex--;
         if (currIndex < 0) {
+          // When the signal has not travelled far enough from its origin to show the full signal
           currIndex = 0;
+          extra = 1;
           break;
         }
         a = fPath.fVertices.get(currIndex);
@@ -83,34 +86,63 @@ class PostsynapticPotential extends Signal {
     }
   }
 
+  private void drawSignal() {
+    if (gSmoothPaths) {
+      beginShape();
+      for (int i = fPrevIndex + 1; i < fCurrIndex; i++) {
+        PVector p = fPath.fVertices.get(i);
+        curveVertex(p.x, p.y);
+      }
+      endShape();
+    }
+    else {
+      if (fCurrIndex == fPrevIndex) {
+        if (gDebug) stroke(255, 0, 0);
+        line(fPrevLoc.x, fPrevLoc.y, fLoc.x, fLoc.y);
+      }
+      else if ((fCurrIndex - fPrevIndex) == 1) {
+        if (gDebug) stroke(0, 255, 0);
+        PVector p = fPath.fVertices.get(fCurrIndex);
+        line(fPrevLoc.x, fPrevLoc.y, p.x, p.y);
+        line(p.x, p.y, fLoc.x, fLoc.y);
+      }
+      else {
+        if (gDebug) stroke(0, 0, 255);
+        PVector p = fPath.fVertices.get(fPrevIndex + 1);
+        line(fPrevLoc.x, fPrevLoc.y, p.x, p.y);
+        beginShape();
+        for (int i = fPrevIndex + 1; i <= fCurrIndex; i++) {
+          p = fPath.fVertices.get(i);
+          vertex(p.x, p.y);
+        }
+        endShape();
+        p = fPath.fVertices.get(fCurrIndex);
+        line(p.x, p.y, fLoc.x, fLoc.y);
+      }
+    }
+  }
+
   public void drawForeground() {
     pushStyle();
-      float s = Constants.PSP_WIDTH;
-      float n = fStrength/Constants.SIGNAL_MAX_STRENGTH;
-      fill(lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n));
-      stroke(fColor);
-      strokeWeight(Constants.PSP_BORDER_WIDTH);
-      ellipse(fLoc.x, fLoc.y, s, s);
+      float n = abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH;
+      color cc = lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n);
       if (fLength > 1) {
         determineRange();
 
-        beginShape();
-        println(fPrevIndex + 1 + "   " + fCurrIndex);
-        if (gSmoothPaths) {
-          for (int i = fPrevIndex + 1; i < fCurrIndex; i++) {
-            PVector p = fPath.fVertices.get(i);
-            curveVertex(p.x, p.y);
-          }
-        }
-        else {
-          for (int i = fPrevIndex + 1; i < fCurrIndex; i++) {
-            PVector p = fPath.fVertices.get(i);
-            vertex(p.x, p.y);
-          }
-        }
-        endShape();
+        stroke(fColor);
+        strokeWeight(3*Constants.PSP_BORDER_WIDTH);
+        drawSignal();
 
-        ellipse(fPrevLoc.x, fPrevLoc.y, s, s);
+        stroke(lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n));
+        strokeWeight(Constants.PSP_BORDER_WIDTH);
+        drawSignal();
+      }
+      else {
+        fill(cc);
+        stroke(fColor);
+        strokeWeight(Constants.PSP_BORDER_WIDTH);
+        float s = Constants.PSP_WIDTH;
+        ellipse(fLoc.x, fLoc.y, s, s);
       }
     popStyle();
   }

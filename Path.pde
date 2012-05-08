@@ -236,7 +236,7 @@ public abstract class Path extends Interactive implements Signalable{
           (d1.y == 0 && d1.mag() == gGrid.getCellWidth() &&
            d2.x == 0 && d2.mag() == gGrid.getCellHeight()) ||
           // overlap
-          sum.mag() == 0 || sum.x == 0 || sum.y == 0) {
+          sum.mag() == 0 || sum.x == 0 || sum.y == 0 || d2.mag() == 0) {
           fVertices.remove(p2);
           changed = true;
         }

@@ -47,7 +47,7 @@ void setup() {
     Constants.SOMA_INIT_NEG_THRESHOLD,
     Constants.SOMA_INIT_POS_THRESHOLD
   );
-  // s.setVisible(false);
+  s.setVisible(false);
   s.setMovable(false);
   s.showControls();
   gObjs.addControl(s);

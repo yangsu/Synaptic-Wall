@@ -20,7 +20,7 @@ abstract class Signal extends Drawable {
     //fDest is private ?
     fDest = p.fDest;
     fCurrIndex = 0;
-    fEndIndex = p.fVertices.size() - ((gSmoothPaths) ? 3 : 1);
+    fEndIndex = p.fVertices.size() - ((gSmoothPaths) ? 4 : 1);
     fEndTime = 0;
     fFired = false;
 
