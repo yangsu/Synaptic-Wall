@@ -45,7 +45,7 @@ class PostsynapticPotential extends Signal {
     else {
       // No need to check for zero because fDecay will never to to 0
       if (fDecay < 1)
-        val = Util.expDecay(1, time, lerp(0, Constants.DECAY_FACTOR/2, fDecay));
+        val = Util.expDecay(1, time, lerp(0, Constants.DECAY_FACTOR, fDecay));
       else
         val = fStrength;
     }
