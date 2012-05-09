@@ -6,7 +6,7 @@ abstract class Signal extends Drawable {
   protected Signalable fDest;
   protected boolean fFired;
 
-  protected float fParamT;
+  protected float fParam;
 
   Signal() {}
   Signal (int type, float speed, float length, float decay, float strength, Path p) {
@@ -24,7 +24,7 @@ abstract class Signal extends Drawable {
     fEndTime = 0;
     fFired = false;
 
-    fParamT = 0;
+    fParam = 0;
   }
 
   public int getType() {
@@ -45,41 +45,40 @@ abstract class Signal extends Drawable {
     }
   }
 
-  public void update() {
-    if (fFired) return;
-
-    PVector a = fPath.fVertices.get(fCurrIndex);
-    PVector b = fPath.fVertices.get(fCurrIndex + 1);
+  protected float advance(int index, float param, PVector p) {
+    PVector a = fPath.fVertices.get(index);
+    PVector b = fPath.fVertices.get(index + 1);
     if (gSmoothPaths) {
-      PVector c = fPath.fVertices.get(fCurrIndex + 2);
-      PVector d = fPath.fVertices.get(fCurrIndex + 3);
-      float x = curvePoint(a.x, b.x, c.x, d.x, fParamT);
-      float y = curvePoint(a.y, b.y, c.y, d.y, fParamT);
-      fLoc.set(x, y, 0);
+      PVector c = fPath.fVertices.get(index + 2);
+      PVector d = fPath.fVertices.get(index + 3);
+      float x = curvePoint(a.x, b.x, c.x, d.x, param);
+      float y = curvePoint(a.y, b.y, c.y, d.y, param);
+      p.set(x, y, 0);
 
-      fParamT += fSpeed / PVector.dist(b, c);
+      // note: use linear distance as an approximation
+      return param + fSpeed / PVector.dist(b, c);
     }
     else {
-      fLoc.set(lerp(a.x, b.x, fParamT), lerp(a.y, b.y, fParamT), 0);
-      fParamT += fSpeed / PVector.dist(a, b);
+      p.set(lerp(a.x, b.x, param), lerp(a.y, b.y, param), 0);
+      // note: use linear distance as an approximation
+      return param + fSpeed / PVector.dist(a, b);
     }
+  }
 
-    // note: use linear distance as an approximation
-    if (fParamT >= 1.0) {
-      // Move on to the next segment and reset time
-      fParamT = fParamT - 1;
+  public void update() {
+    if (fFired) return;
+    fParam = advance(fCurrIndex, fParam, fLoc);
+    if (fParam >= 1.0) {
+      // Move on to the next segment and reset parameter
+      fParam = fParam - 1;
       fCurrIndex += 1;
-      if (reachedDestination())
+      if (fCurrIndex >= fEndIndex) {
         fire();
+      }
     }
-
   }
 
-  public boolean reachedDestination() {
-    return fCurrIndex >= fEndIndex;
-  }
-
-  public boolean fired() {
+  public boolean firingComplete() {
     return fFired;
   }
 

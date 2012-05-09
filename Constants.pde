@@ -83,7 +83,7 @@ static class Constants {
   static final boolean SIGNAL_LINEAR_DECAY   = false;
   static final float   SIGNAL_DEFAULT_SPEED  = 1;
   static final float   SIGNAL_DEFAULT_LENGTH = 50;
-  static final float   SIGNAL_DEFAULT_DECAY  = 0.5; // No decay
+  static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
   static final float   SIGNAL_MAX_SPEED      = 5;
   static final float   SIGNAL_MAX_LENGTH     = 100;
   static final float   SIGNAL_MAX_DECAY      = 0.5; // Halves
@@ -102,7 +102,8 @@ static class Constants {
   static final float SIGNAL_DEFAULT_WIDTH  = SIGNAL_WIDTH/2;
   static final float SIGNAL_BORDER_WIDTH   = 2.0 / SCALE;
   static final float SIGNAL_RANGE_WIDTH    = (PATH_WIDTH - 2*SIGNAL_BORDER_WIDTH) / SCALE;
-  static final int   SIGNAL_FIRING_TIME    = 800;
+  static final int   SIGNAL_SINGLE_FIRING_TIME = 800;
+  static final int   SIGNAL_FIRING_MULTIPLIER  = 10;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;

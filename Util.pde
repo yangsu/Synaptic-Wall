@@ -70,7 +70,7 @@ static class Util {
     }
   }
 
-  static float pulse(float amplitude, int elapsed, int length) {
+  static float pulse(float amplitude, int elapsed, float length) {
     return amplitude * (-0.5 * cos(elapsed * TWO_PI/length) + 0.5);
   }
 

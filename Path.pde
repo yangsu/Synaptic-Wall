@@ -150,7 +150,7 @@ public abstract class Path extends Interactive implements Signalable{
     for (int i = fSignals.size() - 1; i >= 0; --i) {
       Signal curr = fSignals.get(i);
       curr.update();
-      if (curr.fired())
+      if (curr.firingComplete())
         fSignals.remove(curr);
       else {
         //Combine adjacent signals

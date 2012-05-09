@@ -1,5 +1,5 @@
 class Soma extends Cell {
-  private ArrayList<Signal> fReceivedPSPs;
+  private ArrayList<Signal> fReceivedSignals;
 
   protected ThresholdSlider fThresholdSlider;
   protected CircularSlider fSpeedSlider, fLengthSlider, fDecaySlider;
@@ -17,7 +17,7 @@ class Soma extends Cell {
 
   Soma(float x, float y, float size, color cc, float negativet, float positivet) {
     super(x, y, size, cc);
-    fReceivedPSPs = new ArrayList<Signal>();
+    fReceivedSignals = new ArrayList<Signal>();
     fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
     fLength = Constants.SIGNAL_DEFAULT_LENGTH;
     fDecay = Constants.SIGNAL_DEFAULT_DECAY;
@@ -126,13 +126,16 @@ class Soma extends Cell {
   private void processSignals() {
     float sum = 0;
     int now = millis();
-    for (int i = fReceivedPSPs.size()-1; i >= 0; --i) {
-      Signal s = fReceivedPSPs.get(i);
+    for (int i = fReceivedSignals.size()-1; i >= 0; --i) {
+      Signal s = fReceivedSignals.get(i);
       int diff = now - s.fEndTime;
-      if (diff > Constants.SIGNAL_FIRING_TIME)
-        fReceivedPSPs.remove(s);
-      else
-        sum += Util.pulse(s.fStrength, diff, Constants.SIGNAL_FIRING_TIME);
+      float actualLength = s.fLength*Constants.SIGNAL_FIRING_MULTIPLIER + Constants.SIGNAL_SINGLE_FIRING_TIME;
+      if (diff > actualLength)
+        fReceivedSignals.remove(s);
+      else {
+        float val = Util.pulse(s.fStrength, diff, actualLength);
+        sum += val;
+      }
     }
     fThresholdSlider.setValue(sum);
   }
@@ -162,7 +165,6 @@ class Soma extends Cell {
     float s = fSize - Constants.SOMA_RING_WIDTH;
     fill(fColor);
     noStroke();
-    println(fThresholdSlider.getValue());
     color c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
     ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
 
@@ -175,7 +177,7 @@ class Soma extends Cell {
   }
 
   public void onSignal(Signal s) {
-    fReceivedPSPs.add(s);
+    fReceivedSignals.add(s);
   }
 
   public void copyAttributes(Cell c) {
