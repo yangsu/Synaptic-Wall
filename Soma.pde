@@ -128,7 +128,7 @@ class Soma extends Cell {
     int now = millis();
     for (int i = fReceivedSignals.size()-1; i >= 0; --i) {
       Signal s = fReceivedSignals.get(i);
-      int diff = now - s.fEndTime;
+      int diff = now - s.fFiringTime;
       float actualLength = s.fLength*Constants.SIGNAL_FIRING_MULTIPLIER + Constants.SIGNAL_SINGLE_FIRING_TIME;
       if (diff > actualLength)
         fReceivedSignals.remove(s);

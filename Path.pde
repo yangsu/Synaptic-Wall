@@ -29,8 +29,7 @@ public abstract class Path extends Interactive implements Signalable{
 
   public Path(Path p, float x, float y, color cc) {
     this((Signalable)p, x, y, cc);
-    PVector temp = p.fVertices.get(p.fCurrIndex);
-    fSrcLoc = new PVector(temp.x, temp.y);
+    fSrcLoc = Util.clone(p.getCurrVertex());
   }
 
   public int size() {

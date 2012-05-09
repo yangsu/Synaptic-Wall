@@ -1,20 +1,26 @@
 class PostsynapticPotential extends Signal {
-  private float fPrevParam;
-  private int fPrevIndex;
-  private PVector fPrevLoc;
+  private float fEndParam;
+  private int fEndIndex;
+  private PVector fEndLoc;
 
   PostsynapticPotential(float speed, float length, float decay, float strength, Path p) {
     super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, decay, strength, p);
-    fPrevLoc = Util.clone(fPath.getVertex(fCurrIndex));
-    fPrevIndex = fCurrIndex;
-    fPrevParam = fParam;
+    setIndex(fCurrIndex);
   }
 
   public Signal makeCopy(Path p) {
     return new PostsynapticPotential(fSpeed, fLength, fDecay, fStrength, p);
   }
 
+  public void setIndex(int i) {
+    super.setIndex(i);
+    fEndLoc = Util.clone(fPath.getVertex(i));
+    fEndIndex = i;
+    fEndParam = 0;
+  }
   private float calcDistanceTraveled() {
+    // TODO: amortized calculation needed
+    // BUG: this distance is incorrect for signals that get added through sub paths
     float dist = 0;
     PVector p = fPath.getVertex(0);
     PVector p1;
@@ -44,61 +50,47 @@ class PostsynapticPotential extends Signal {
         val = fStrength;
     }
     fStrength = constrain(val, 0, 1);
-    if (fLength > 1)
-      determineRange();
+    if (fLength > 1 && calcDistanceTraveled() >= fLength) {
+      // Advance the end of the signal
+      fEndParam = advance(fEndIndex, fEndParam, fEndLoc);
+      if (fEndParam >= 1.0) {
+        // Move on to the next segment and reset parameter
+        fEndParam = fEndParam - 1;
+        fEndIndex += 1;
+      }
+    }
   }
 
   public boolean firingComplete() {
-    return super.firingComplete() && fPrevIndex >= fEndIndex;
-  }
-
-  private PVector smoothSegment(int index, float t) {
-    PVector a = fPath.getVertex(index);
-    PVector b = fPath.getVertex(index + 1);
-    PVector c = fPath.getVertex(index + 2);
-    PVector d = fPath.getVertex(index + 3);
-    float x = curvePoint(a.x, b.x, c.x, d.x, t);
-    float y = curvePoint(a.y, b.y, c.y, d.y, t);
-    return new PVector(x, y);
-  }
-
-  private void determineRange() {
-    if (calcDistanceTraveled() >= fLength) {
-      fPrevParam = advance(fPrevIndex, fPrevParam, fPrevLoc);
-      if (fPrevParam >= 1.0) {
-        // Move on to the next segment and reset parameter
-        fPrevParam = fPrevParam - 1;
-        fPrevIndex += 1;
-      }
-    }
+    return super.firingComplete() && fEndIndex >= fFinalIndex;
   }
 
   private void drawSignal() {
     if (gSmoothPaths) {
       beginShape();
-      for (int i = fPrevIndex + 1; i < fCurrIndex; i++) {
+      for (int i = fEndIndex + 1; i < fCurrIndex; i++) {
         PVector p = fPath.getVertex(i);
         curveVertex(p.x, p.y);
       }
       endShape();
     }
     else {
-      if (fCurrIndex == fPrevIndex) {
+      if (fCurrIndex == fEndIndex) {
         if (gDebug) stroke(255, 0, 0);
-        line(fPrevLoc.x, fPrevLoc.y, fLoc.x, fLoc.y);
+        line(fEndLoc.x, fEndLoc.y, fLoc.x, fLoc.y);
       }
-      else if ((fCurrIndex - fPrevIndex) == 1) {
+      else if ((fCurrIndex - fEndIndex) == 1) {
         if (gDebug) stroke(0, 255, 0);
         PVector p = fPath.getVertex(fCurrIndex);
-        line(fPrevLoc.x, fPrevLoc.y, p.x, p.y);
+        line(fEndLoc.x, fEndLoc.y, p.x, p.y);
         line(p.x, p.y, fLoc.x, fLoc.y);
       }
       else {
         if (gDebug) stroke(0, 0, 255);
-        PVector p = fPath.getVertex(fPrevIndex + 1);
-        line(fPrevLoc.x, fPrevLoc.y, p.x, p.y);
+        PVector p = fPath.getVertex(fEndIndex + 1);
+        line(fEndLoc.x, fEndLoc.y, p.x, p.y);
         beginShape();
-        for (int i = fPrevIndex + 1; i <= fCurrIndex; i++) {
+        for (int i = fEndIndex + 1; i <= fCurrIndex; i++) {
           p = fPath.getVertex(i);
           vertex(p.x, p.y);
         }
