@@ -114,6 +114,7 @@ class PostsynapticPotential extends Signal {
       float n = abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH;
       color cc = lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n);
       if (fLength > 1) {
+        noFill();
         // Draw outer shape
         stroke(fColor);
         strokeWeight(3*Constants.PSP_BORDER_WIDTH);
