@@ -1,10 +1,10 @@
 public class ControllerSoma extends Soma {
-  ControllerSoma(float x, float y, float size, color cc, float threshold) {
-    super(x, y, size, cc, threshold);
+  ControllerSoma(float x, float y) {
+    super(x, y);
     super.showControls();
   }
-  ControllerSoma(float x, float y, float size, color cc, float negativet, float positivet) {
-    super(x, y, size, cc, negativet, positivet);
+  ControllerSoma(float x, float y, float size, color cc, float negt, float post) {
+    super(x, y, size, cc, negt, post);
     super.showControls();
   }
 

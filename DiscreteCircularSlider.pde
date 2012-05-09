@@ -1,26 +1,18 @@
 public class DiscreteCircularSlider extends CircularSlider {
 
-  public DiscreteCircularSlider(float x, float y, float size,
-                         int id, Controllable target) {
+  public DiscreteCircularSlider(float x, float y, float size, int id, Controllable target) {
     super(x, y, size, id, target);
   }
 
-  public DiscreteCircularSlider(float x, float y, float size,
-                         float begin, float end,
-                         int id, Controllable target) {
+  public DiscreteCircularSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
     super(x, y, size, begin, end, id, target);
   }
 
-  public DiscreteCircularSlider(float x, float y, float size,
-                         float val, float min, float max,
-                         int id, Controllable target) {
+  public DiscreteCircularSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
     super(x, y, size, val, min, max, id, target);
   }
 
-  public DiscreteCircularSlider(float x, float y, float size,
-                         float begin, float end,
-                         float val, float min, float max,
-                         int id, Controllable target) {
+  public DiscreteCircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     super(x, y, size, begin, end, val, min, max, id, target);
   }
 

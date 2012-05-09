@@ -77,28 +77,30 @@ class ThresholdSlider extends CircularSlider {
     }
   }
 
-  public void draw() {
+  public void drawBackground() {
     pushStyle();
-      if (!fVisible) return;
+    fill(Constants.SLIDER_BG_COLOR);
+    drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fEnd);
+    popStyle();
+  }
 
-      fill(Constants.SLIDER_BG_COLOR);
-      drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fEnd);
-
-      fill(Constants.HIGHLIGHT_COLOR);
-      if (fSlider > 0)
-        drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fSlider);
-      else if (fSlider < 0)
-        drawThresholdArc(fLoc.x, fLoc.y, fSize, fSlider, fOffset);
-      else
-        drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fOffset);
-      fill((fHover && (fState == BEGIN))
-            ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
-            : Constants.THRESHOLD_NEGATIVE_COLOR);
-      drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fBegin + fOffset);
-      fill((fHover && (fState == END))
-            ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
-            : Constants.THRESHOLD_POSITIVE_COLOR);
-      drawThresholdArc(fLoc.x, fLoc.y, fSize, fEnd - fOffset, fEnd);
+  public void drawForeground() {
+    pushStyle();
+    fill(Constants.HIGHLIGHT_COLOR);
+    if (fSlider > 0)
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fSlider);
+    else if (fSlider < 0)
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, fSlider, fOffset);
+    else
+      drawThresholdArc(fLoc.x, fLoc.y, fSize, -fOffset, fOffset);
+    fill((fHover && (fState == BEGIN))
+          ? Constants.THRESHOLD_NEGATIVE_HIGHLIGHT
+          : Constants.THRESHOLD_NEGATIVE_COLOR);
+    drawThresholdArc(fLoc.x, fLoc.y, fSize, fBegin, fBegin + fOffset);
+    fill((fHover && (fState == END))
+          ? Constants.THRESHOLD_POSITIVE_HIGHLIGHT
+          : Constants.THRESHOLD_POSITIVE_COLOR);
+    drawThresholdArc(fLoc.x, fLoc.y, fSize, fEnd - fOffset, fEnd);
    popStyle();
   }
 
@@ -114,7 +116,7 @@ class ThresholdSlider extends CircularSlider {
       fState = SLIDER;
     else
       inBounds = false;
-    return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
+    return inBounds && dist >= fSize && dist <= (fSize + Constants.SLIDER_BAR_WIDTH);
   }
 
   public boolean onMouseDown(float x, float y) {

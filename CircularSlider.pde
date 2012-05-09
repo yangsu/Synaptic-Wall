@@ -5,27 +5,19 @@ public class CircularSlider extends Control {
   protected int fState;
   protected static final int SLIDER = 0;
 
-  public CircularSlider(float x, float y, float size,
-                 int id, Controllable target) {
+  public CircularSlider(float x, float y, float size, int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, 0, 0, TWO_PI, id, target);
   }
 
-  public CircularSlider(float x, float y, float size,
-                 float begin, float end,
-                 int id, Controllable target) {
+  public CircularSlider(float x, float y, float size, float begin, float end, int id, Controllable target) {
     this(x, y, size, begin, end, begin, begin, end, id, target);
   }
 
-  public CircularSlider(float x, float y, float size,
-                 float val, float min, float max,
-                 int id, Controllable target) {
+  public CircularSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
     this(x, y, size, 0, TWO_PI, val, min, max, id, target);
   }
 
-  public CircularSlider(float x, float y, float size,
-                 float begin, float end,
-                 float val, float min, float max,
-                 int id, Controllable target) {
+  public CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     super(x, y, id, target);
     fSize = size;
     fState = SLIDER;
@@ -60,22 +52,26 @@ public class CircularSlider extends Control {
     fMax = max;
   }
 
-  public void draw() {
-    if (!fVisible) return;
-    float temp = fSize + Constants.SLIDER_BAR_WIDTH;
-
+  public void drawBackground() {
+    pushStyle();
     fill(Constants.SLIDER_BG_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fEnd, Constants.SLIDER_BAR_WIDTH);
+    popStyle();
+  }
 
+  public void drawForeground() {
+    pushStyle();
+    float s = Constants.SLIDER_BAR_WIDTH;
     if (fHover)
       fill(Constants.HIGHLIGHT_COLOR);
     else
       fill(Constants.SLIDER_BAR_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, Constants.SLIDER_BAR_WIDTH);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, s);
     // Added 0.02 for minor offset to cover up extraneous pixels
     fill(Constants.SLIDER_HANDLE_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH, Constants.SLIDER_BAR_WIDTH);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02, Constants.SLIDER_BAR_WIDTH);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH, s);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02, s);
+    popStyle();
   }
 
   public boolean isInBounds(float x, float y) {

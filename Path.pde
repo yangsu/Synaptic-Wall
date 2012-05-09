@@ -172,8 +172,10 @@ public abstract class Path extends Interactive implements Signalable{
           }
         }
         //Copy Signals to connected paths
+        // TODO: Make threshold more precise/use specific signal width
+        float distThreshold = Constants.PATH_WIDTH;
         for (Path p : fConnectedPaths) {
-          if (PVector.dist(p.fSrcLoc, curr.fLoc) <= Constants.SIGNAL_WIDTH)
+          if (PVector.dist(p.fSrcLoc, curr.fLoc) <= distThreshold)
             p.addSignal(curr.makeCopy(p));
         }
       }

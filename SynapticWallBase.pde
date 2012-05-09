@@ -41,11 +41,7 @@ void setup() {
   // Initiate Control Panel
   Soma s = new ControllerSoma(
     0.8 * width,
-    0.75 * height,
-    Constants.SOMA_SIZE,
-    Constants.EX_COLOR,
-    Constants.SOMA_INIT_NEG_THRESHOLD,
-    Constants.SOMA_INIT_POS_THRESHOLD
+    0.8 * height
   );
   s.setVisible(false);
   s.setMovable(false);
@@ -54,8 +50,8 @@ void setup() {
 
   gCurrShape = null;
   gCurrPath = null;
-  gIndicator = new PVector(-999, -999);
-  gIndicator2 = new PVector(-999, -999);
+  gIndicator = new PVector(Constants.MIN, Constants.MIN);
+  gIndicator2 = new PVector(Constants.MIN, Constants.MIN);
   gLastSelected = null;
   gCurrInitiator = null;
 
@@ -67,14 +63,15 @@ void snapIndicators(float x, float y, float size) {
   gIndicator.set(cos(angle)*tloc+x, sin(angle)*tloc+y, 0);
 }
 void clearIndicators() {
-  gIndicator.set(-999, -999, 0);
-  gIndicator2.set(-999, -999, 0);
+  gIndicator.set(Constants.MIN, Constants.MIN, 0);
+  gIndicator2.set(Constants.MIN, Constants.MIN, 0);
 }
 void drawIndicators() {
   pushStyle();
     fill(255);
-    ellipse(gIndicator.x, gIndicator.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
-    ellipse(gIndicator2.x, gIndicator2.y, Constants.SIGNAL_DEFAULT_WIDTH, Constants.SIGNAL_DEFAULT_WIDTH);
+    float s = Constants.PATH_JUNCTION_WIDTH;
+    ellipse(gIndicator.x, gIndicator.y, s, s);
+    ellipse(gIndicator2.x, gIndicator2.y, s, s);
   popStyle();
 }
 void drawBackground(color cc) {
@@ -242,14 +239,7 @@ void onMousePressed() {
           Constants.EX_COLOR
         );
       else if (mouseButton == LEFT)
-        gCurrShape = new Soma(
-          pos.x,
-          pos.y,
-          Constants.SOMA_SIZE,
-          Constants.EX_COLOR,
-          Constants.SOMA_INIT_NEG_THRESHOLD,
-          Constants.SOMA_INIT_POS_THRESHOLD
-        );
+        gCurrShape = new Soma(pos.x, pos.y);
     }
   }
   else if (gCurrentMode == Constants.DELETION) {

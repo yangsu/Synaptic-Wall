@@ -32,20 +32,26 @@ public class Initiator extends Cell {
     // Add controls
     float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
 
-    fRhythmicitySlider = new CircularSlider(fLoc.x, fLoc.y, controlSize,
-                                   0, TWO_PI/3,
-                                   fRhythmicity, 0, Constants.MAX_RHYTHMICITY,
-                                   RHYTHMICITY, this);
+    fRhythmicitySlider = new CircularSlider(
+      fLoc.x, fLoc.y, controlSize,
+       0, TWO_PI/3,
+       fRhythmicity, 0, Constants.MAX_RHYTHMICITY,
+       RHYTHMICITY, this
+     );
     fControls.add(fRhythmicitySlider);
-    fBurstinessSlider = new DiscreteCircularSlider(fLoc.x, fLoc.y, controlSize,
-                                   TWO_PI/3, 2 * TWO_PI/3,
-                                   fBurstiness, 1, Constants.MAX_BURSTINESS,
-                                   BURSTINESS, this);
+    fBurstinessSlider = new DiscreteCircularSlider(
+      fLoc.x, fLoc.y, controlSize,
+      TWO_PI/3, 2 * TWO_PI/3,
+      fBurstiness, 1, Constants.MAX_BURSTINESS,
+      BURSTINESS, this
+     );
     fControls.add(fBurstinessSlider);
-    fFreqSlider = new CircularSlider(fLoc.x, fLoc.y, controlSize,
-                                   2 * TWO_PI/3, TWO_PI,
-                                   fFreq, 0, Constants.MAX_FREQUENCY,
-                                   FREQUENCY, this);
+    fFreqSlider = new CircularSlider(
+      fLoc.x, fLoc.y, controlSize,
+      2 * TWO_PI/3, TWO_PI,
+      fFreq, 0, Constants.MAX_FREQUENCY,
+      FREQUENCY, this
+     );
     fControls.add(fFreqSlider);
     fLastFireTime = millis();
 
@@ -62,8 +68,8 @@ public class Initiator extends Cell {
   private void startTimer() {
     fFired = false;
     fTimer = millis();
-    fEndTime = fTimer + Constants.CELL_TIMING;
-    fMid = fTimer + Constants.CELL_TIMING/2;
+    fEndTime = fTimer + Constants.INITIATOR_TIMING;
+    fMid = fTimer + Constants.INITIATOR_TIMING/2;
   }
 
   private void fireSignal() {
@@ -72,7 +78,7 @@ public class Initiator extends Cell {
           Constants.SIGNAL_DEFAULT_SPEED,
           Constants.SIGNAL_DEFAULT_LENGTH,
           Constants.SIGNAL_DEFAULT_DECAY,
-          Constants.SIGNAL_STRENGTH,
+          Constants.SIGNAL_DEFAULT_STRENGTH,
           p));
   }
   private void processFiringPattern() {
@@ -80,14 +86,12 @@ public class Initiator extends Cell {
     int time = millis();
     if ((time - fLastFireTime) > interval && random(1.0) <= fRhythmicity) {
       fLastFireTime = time;
-      //fire
       startTimer();
       //add burst
       for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
         fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
     }
     if (fFiringQueue.length > 0 && fFiringQueue[0] <= time) {
-      //fire
       startTimer();
       fFiringQueue = subset(fFiringQueue, 1);
     }
@@ -121,7 +125,7 @@ public class Initiator extends Cell {
     noStroke();
     if (fTimer < fEndTime) {
       c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
-        1.0 - 2*abs((fTimer - fMid)/(float)Constants.CELL_TIMING));
+        1.0 - 2*abs((fTimer - fMid)/(float)Constants.INITIATOR_TIMING));
       // fTimer = millis();
       // if (fTimer > fMid && !fFired) {
       //   fireSignal();

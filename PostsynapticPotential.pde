@@ -40,12 +40,12 @@ class PostsynapticPotential extends Signal {
     float time = float(millis() - fBirthTime)/1000;
     float val;
     if (Constants.SIGNAL_LINEAR_DECAY) {
-      val = Util.linear(- (1 - fDecay), 1, time, Constants.DECAY_FACTOR);
+      val = Util.linear(- (1 - fDecay), 1, time, Constants.SIGNAL_DECAY_FACTOR);
     }
     else {
       // No need to check for zero because fDecay will never to to 0
       if (fDecay < 1)
-        val = Util.expDecay(1, time, lerp(0, Constants.DECAY_FACTOR, fDecay));
+        val = Util.expDecay(1, time, lerp(0, Constants.SIGNAL_DECAY_FACTOR, fDecay));
       else
         val = fStrength;
     }

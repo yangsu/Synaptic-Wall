@@ -1,11 +1,13 @@
 
 static class Constants {
   static final int MAX = 99999;
+  static final int MIN = -99999;
 
   static final int WIDTH  = 800;
   static final int HEIGHT = 800;
 
   static final float SCALE = 1.0;
+  static final float ZOOM_FACTOR        = 4.0;
 
   static final int DBL_CLICK_THRESHOLD = 300;
 
@@ -15,17 +17,16 @@ static class Constants {
   static final int INTERACTION = 2;
 
   // Types
-  static final int INITIATOR = 0;
-  static final int SOMA      = 1;
-  static final int AXON      = 2;
-  static final int DENDRITE  = 3;
-  static final int SYNAPSE   = 4;
-  static final int SIGNAL    = 5;
-  static final int CONTROL   = 6;
-  static final int GRID      = 7;
-  static final int GEOPATH   = 8;
+  static final int INITIATOR   = 0;
+  static final int SOMA        = 1;
+  static final int AXON        = 2;
+  static final int DENDRITE    = 3;
+  static final int SYNAPSE     = 4;
+  static final int SIGNAL      = 5;
+  static final int CONTROL     = 6;
+  static final int GRID        = 7;
 
-  // Global Settings
+  // Color Settings
   static final color BG_COLOR           = 0xFF4C4C4C;
   static final color FADE_COLOR         = 0xB4646464;
   static final color EX_COLOR           = 0xFFB08B47;
@@ -33,77 +34,71 @@ static class Constants {
   static final color IN_COLOR           = 0xFF0A6891;
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
   static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
+  static final int   AP_COLOR   = 0xFFFDFB98;
 
-  // Selection Selection
+  // Selection Settings
   static final color SELECTION_COLOR        = 0x44FFFFFF;
   static final color SELECTION_BORDER_COLOR = 0x88FFFFFF;
   static final int   SELECTION_BORDER_WIDTH = 2;
 
-
+  // Shadow Settings
   static final color SHADOW_COLOR   = 0xBB323232;
   static final float SHADOW_OFFSETX = 2/SCALE;
   static final float SHADOW_OFFSETY = 2/SCALE;
 
-  static final float ZOOM_FACTOR        = 4.0;
-
-  static final int  CELL_TIMING = 500;
   // Initiator Settings
+  static final int INITIATOR_TIMING = 500;
 
   // Soma Settings
-  static final int   EXCITATORY = 0;
-  static final int   INHIBITORY = 1;
-  static final int   SOMA_SIZE               = 30 / (int)SCALE;
+  static final int   EXCITATORY              = 0;
+  static final int   INHIBITORY              = 1;
+  static final float SOMA_SIZE               = 30 / SCALE;
   static final int   SOMA_FIRING_DELAY       = 300;
-  static final float SOMA_RING_WIDTH         = 10.0 / SCALE;
+  static final float SOMA_RING_WIDTH         = 10 / SCALE;
   static final float SOMA_MAX_THRESHOLD      = 3.0;
-  static final float SOMA_DEFAULT_THRESHOLD  = SOMA_MAX_THRESHOLD*0.5;
-  static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD*0.25;
-  static final float SOMA_INIT_NEG_THRESHOLD = SOMA_MAX_THRESHOLD*-0.75;
+  static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD * 0.75;
+  static final float SOMA_INIT_NEG_THRESHOLD = SOMA_MAX_THRESHOLD * -0.75;
 
   // Path Settings
-  static final float PATH_WIDTH = 8.0 / SCALE;
+  static final float PATH_WIDTH          = 8.0 / SCALE;
   static final float PATH_JUNCTION_WIDTH = 6.0 / SCALE;
 
   // Synapse Settings
-  static final int   SYNAPSE_TIMING           = 700; // Miliseconds
-  static final float SYNAPSE_SIZE             = 12.0 / SCALE; // radius
-  static final float SYNAPSE_STRENGTH         = 1.0; // Thickness
-  static final float SYNAPSE_MULT             = 2.0;
-  static final float SYNAPSE_BASE             = 2.0;
-  static final float SYNAPSE_OUTER_SIZE       = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
+  static final int   SYNAPSE_TIMING     = 700; // Miliseconds
+  static final float SYNAPSE_SIZE       = 12.0 / SCALE; // radius
+  static final float SYNAPSE_STRENGTH   = 1.0; // Thickness
+  static final float SYNAPSE_MULT       = 2.0;
+  static final float SYNAPSE_BASE       = 2.0;
+  static final float SYNAPSE_OUTER_SIZE = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
 
   // Signals Settings
-  static final int   EPSP  = 1;
-  static final int   IPSP  = -1;
-  static final int   AP    = 0;
-  static final int   EPSP_COLOR = 0xFFD2C277;
-  static final int   IPSP_COLOR = 0xFF67A4D0;
-  static final int   AP_COLOR = 0xFFFDFB98;
+  static final int   EPSP       = 1;
+  static final int   IPSP       = -1;
+  static final int   AP         = 0;
 
-  static final boolean SIGNAL_LINEAR_DECAY   = false;
-  static final float   SIGNAL_DEFAULT_SPEED  = 1;
-  static final float   SIGNAL_DEFAULT_LENGTH = 50;
-  static final float   SIGNAL_DEFAULT_DECAY  = 1; // No decay
-  static final float   SIGNAL_MAX_SPEED      = 5;
-  static final float   SIGNAL_MAX_LENGTH     = 100;
-  static final float   SIGNAL_MAX_DECAY      = 0.5; // Halves
-  static final float   DECAY_FACTOR          = 10;
+  static final float   SIGNAL_DEFAULT_SPEED      = 1;
+  static final float   SIGNAL_MAX_SPEED          = 5;
 
-  static final float AP_WIDTH        = 4.0 / SCALE;
-  static final float AP_BORDER_WIDTH = 3.0 / SCALE;
+  static final float   SIGNAL_DEFAULT_STRENGTH   = 1;
+  static final float   SIGNAL_MAX_STRENGTH       = 3;
 
-  static final float PSP_WIDTH        = 6.0 / SCALE;
-  static final float PSP_BORDER_WIDTH = 6.0 / SCALE;
+  static final float   SIGNAL_DEFAULT_LENGTH     = 50;
+  static final float   SIGNAL_MAX_LENGTH         = 100;
 
-  static final float SIGNAL_STRENGTH       = 1.0;
-  static final float SIGNAL_MAX_STRENGTH   = 3.0;
-  static final float SIGNAL_CONTROL_LENGTH = 3.0;
-  static final float SIGNAL_WIDTH          = 8.0 / SCALE;
-  static final float SIGNAL_DEFAULT_WIDTH  = SIGNAL_WIDTH/2;
-  static final float SIGNAL_BORDER_WIDTH   = 2.0 / SCALE;
-  static final float SIGNAL_RANGE_WIDTH    = (PATH_WIDTH - 2*SIGNAL_BORDER_WIDTH) / SCALE;
-  static final int   SIGNAL_SINGLE_FIRING_TIME = 800;
-  static final int   SIGNAL_FIRING_MULTIPLIER  = 10;
+  static final boolean SIGNAL_LINEAR_DECAY       = false;
+  static final float   SIGNAL_DEFAULT_DECAY      = 1; // No decay
+  static final float   SIGNAL_MAX_DECAY          = 0.5; // Halves
+  static final float   SIGNAL_DECAY_FACTOR       = 10;
+
+
+  static final int     SIGNAL_SINGLE_FIRING_TIME = 800;
+  static final int     SIGNAL_FIRING_MULTIPLIER  = 10;
+
+  static final float   AP_WIDTH                  = 4.0 / SCALE;
+  static final float   AP_BORDER_WIDTH           = 3.0 / SCALE;
+
+  static final float   PSP_WIDTH                 = 6.0 / SCALE;
+  static final float   PSP_BORDER_WIDTH          = 6.0 / SCALE;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;
@@ -122,6 +117,7 @@ static class Constants {
   static final float SLIDER_BAR_LENGTH      = 0.1 / SCALE;
   static final float SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
   static final float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
+
   static final color THRESHOLD_POSITIVE_COLOR     = 0xFFFF6725;
   static final color THRESHOLD_POSITIVE_HIGHLIGHT = 0xFFFF8947;
   static final color THRESHOLD_NEGATIVE_COLOR     = 0xFF00329B;
