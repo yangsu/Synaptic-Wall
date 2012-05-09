@@ -1,4 +1,5 @@
 boolean gDebug = false;
+int gIDCount = 0;
 
 boolean gMagnify;
 boolean gSelection;

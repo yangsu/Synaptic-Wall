@@ -1,17 +1,13 @@
-public class Initiator extends Cell {
+public class Initiator extends Cell implements TimerSubscriber{
   private static final int RHYTHMICITY = 1;
   private static final int BURSTINESS = 2;
   private static final int FREQUENCY = 3;
 
   private float fRhythmicity, fFreq;
   private int fBurstiness, fType;
-  private int fLastFireTime;
 
   private CircularSlider fRhythmicitySlider, fFreqSlider, fBurstinessSlider;
-  private int fTimer;
-  private int fEndTime;
-  private int fMid;
-  private boolean fFired;
+  private Timer fTimer;
 
   private int[] fFiringQueue;
 
@@ -53,26 +49,16 @@ public class Initiator extends Cell {
       FREQUENCY, this
      );
     fControls.add(fFreqSlider);
-    fLastFireTime = millis();
 
-    fTimer = 0;
-    fEndTime = 0;
-    fMid = 0;
-    fFired = true;
+    fTimer = new Timer(this, Constants.INITIATOR_TIMING, 0.5, round(1000/fFreq));
+    fTimer.reset();
   }
 
   public int getType() {
     return Constants.INITIATOR;
   }
 
-  private void startTimer() {
-    fFired = false;
-    fTimer = millis();
-    fEndTime = fTimer + Constants.INITIATOR_TIMING;
-    fMid = fTimer + Constants.INITIATOR_TIMING/2;
-  }
-
-  private void fireSignal() {
+  public void onTimerFiring(int id, int time) {
     for (Path p : fAxons)
         p.addSignal(new ActionPotential(
           Constants.SIGNAL_DEFAULT_SPEED,
@@ -81,29 +67,20 @@ public class Initiator extends Cell {
           Constants.SIGNAL_DEFAULT_STRENGTH,
           p));
   }
-  private void processFiringPattern() {
-    int interval = (int)(1000/fFreq);
+
+  public void update() {
+    fTimer.update();
     int time = millis();
-    if ((time - fLastFireTime) > interval && random(1.0) <= fRhythmicity) {
-      fLastFireTime = time;
-      startTimer();
+    if (!fTimer.throttled() && random(1.0) <= fRhythmicity) {
+      fTimer.reset();
       //add burst
       for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
         fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
     }
     if (fFiringQueue.length > 0 && fFiringQueue[0] <= time) {
-      startTimer();
+      fTimer.reset();
       fFiringQueue = subset(fFiringQueue, 1);
     }
-  }
-
-  public void update() {
-    fTimer = millis();
-    if (fTimer > fMid && !fFired) {
-      fireSignal();
-      fFired = true;
-    }
-    processFiringPattern();
   }
 
   public void drawBackground() {
@@ -123,14 +100,9 @@ public class Initiator extends Cell {
     float s = fSize - Constants.SOMA_RING_WIDTH;
     color c;
     noStroke();
-    if (fTimer < fEndTime) {
+    if (!fTimer.ended()) {
       c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR,
-        1.0 - 2*abs((fTimer - fMid)/(float)Constants.INITIATOR_TIMING));
-      // fTimer = millis();
-      // if (fTimer > fMid && !fFired) {
-      //   fireSignal();
-      //   fFired = true;
-      // }
+        1.0 - 2*abs(fTimer.getProgress() - 0.5));
     }
     else {
       c = fHighlightColor;
