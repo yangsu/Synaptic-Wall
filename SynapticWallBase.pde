@@ -257,18 +257,7 @@ void onMousePressed() {
   else if (gCurrentMode == Constants.DELETION) {
     if (gObjs.select(mouseX, mouseY)) {
       selected = gObjs.getSelected();
-      switch (selected.getType()) {
-        case Constants.INITIATOR :
-          break;
-        case Constants.SOMA :
-          break;
-        case Constants.AXON :
-          break;
-        case Constants.DENDRITE :
-          break;
-        case Constants.SYNAPSE :
-          break;
-      }
+      gObjs.remove(selected);
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {

@@ -119,16 +119,16 @@ public class ObjectCollection {
     // TODO: check for off by 1 error
     if (s != null) {
       switch(s.getType()) {
+        case Constants.DENDRITE:
+          fDendriteIndex--;
+        case Constants.AXON:
+          fAxonIndex--;
+        case Constants.SYNAPSE:
+          fSynapseIndex--;
         case Constants.SOMA:
           fSomaIndex--;
         case Constants.INITIATOR:
           fInitiatorIndex--;
-        case Constants.DENDRITE:
-          fDendriteIndex--;
-        case Constants.SYNAPSE:
-          fSynapseIndex--;
-        case Constants.AXON:
-          fAxonIndex--;
       }
       fObjs.remove(s);
       // TODO: remove from paths as well
@@ -206,7 +206,6 @@ public class ObjectCollection {
     }
   }
   public boolean onMouseDown(float x, float y, int key, int keyCode) {
-
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
