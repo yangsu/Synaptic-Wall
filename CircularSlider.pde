@@ -4,6 +4,8 @@ public class CircularSlider extends Control {
 
   protected int fState;
   protected static final int SLIDER = 0;
+  protected static final int BEGIN = 1;
+  protected static final int END = 2;
 
   public CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     this(x, y, size, Constants.SLIDER_BAR_WIDTH, begin, end, val, min, max, id, target);

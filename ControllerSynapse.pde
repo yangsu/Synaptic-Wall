@@ -1,5 +1,6 @@
 public class ControllerSynapse extends Synapse{
-  private CircularSlider fRateSlider, fTimeSlider, fNormSlider, fSignalRangeSlider;
+  private CircularSlider fRateSlider, fTimeSlider, fNormSlider;
+  private DoubleEndedSlider fSignalRangeSlider;
   private float fRate, fTime, fNorm, fRangeMin, fRangeMax;
   private final int RATE = 0;
   private final int TIME = 1;
@@ -48,9 +49,10 @@ public class ControllerSynapse extends Synapse{
     fControls.add(fRateSlider);
 
     fSignalRangeSlider = new DoubleEndedSlider(
-      fLoc.x, fLoc.y, fSize + Constants.SLIDER_BAR_WIDTH,
+      fLoc.x, fLoc.y,
+      fSize + Constants.SLIDER_BAR_WIDTH*1.25, Constants.SLIDER_BAR_WIDTH*0.75,
       PI, TWO_PI,
-      fRangeMin, 0, 1,
+      fRangeMin, fRangeMax, 0, 1,
       RANGE, this
      );
     fControls.add(fSignalRangeSlider);
@@ -158,7 +160,9 @@ public class ControllerSynapse extends Synapse{
         fNorm = value;
         break;
       case RANGE:
-        fRangeMin = value;
+        fRangeMin = fSignalRangeSlider.getValue();
+        fRangeMax = fSignalRangeSlider.getValue2();
+        println("min " + fRangeMin + " max " + fRangeMax);
         break;
       default:
         break;

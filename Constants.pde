@@ -116,7 +116,7 @@ static class Constants {
   static final float SLIDER_BAR_LENGTH      = 0.1 / SCALE;
   static final float SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
   static final float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
-  static final float DBLSIDED_HANDLE_WIDTH  = 0.05 / SCALE;
+  static final float DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
 
   static final color THRESHOLD_POSITIVE_COLOR     = 0xFFFF6725;
   static final color THRESHOLD_POSITIVE_HIGHLIGHT = 0xFFFF8947;

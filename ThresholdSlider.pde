@@ -1,7 +1,4 @@
-class ThresholdSlider extends CircularSlider {
-  static final int BEGIN = 1;
-  static final int END = 2;
-
+public class ThresholdSlider extends CircularSlider {
   private float fOffset;
   public ThresholdSlider(float x, float y, float size, int id, Controllable target) {
     this(x, y, size, Constants.SLIDER_BAR_WIDTH,
