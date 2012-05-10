@@ -44,6 +44,10 @@ public abstract class Path extends Interactive implements Signalable{
     fDest = obj;
   }
 
+  public Signalable getDest() {
+    return fDest;
+  }
+
   public void setDest(Path p) {
     fDest = p;
     fDestPos = p.fCurrIndex;
@@ -51,6 +55,10 @@ public abstract class Path extends Interactive implements Signalable{
 
   public void attachToSource() {
     fSrc.addPath(this);
+  }
+
+  public ArrayList<Path> getConnectedPaths() {
+    return fConnectedPaths;
   }
 
   public PVector getCurrVertex() {

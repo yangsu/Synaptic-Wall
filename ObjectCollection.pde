@@ -130,8 +130,32 @@ public class ObjectCollection {
         case Constants.INITIATOR:
           fInitiatorIndex--;
       }
+
+      switch(s.getType()) {
+        case Constants.AXON:
+          remove((Interactive)((Path)s).getDest());
+        case Constants.DENDRITE:
+          Path path = (Path)s;
+          ArrayList<Path> paths = path.getConnectedPaths();
+          for (Path p : paths)
+            remove((Interactive)p);
+          break;
+        case Constants.SYNAPSE:
+          Synapse ss = (Synapse)s;
+          remove((Interactive)(ss.getDendrite()));
+          break;
+        case Constants.SOMA:
+        case Constants.INITIATOR:
+          Cell cell = (Cell)s;
+          ArrayList<Path> axons = cell.getAxons();
+          for (Path p : axons)
+            remove((Interactive)p);
+          ArrayList<Path> dendrites = cell.getDendrites();
+          for (Path p : dendrites)
+            remove((Interactive)p);
+          break;
+      }
       fObjs.remove(s);
-      // TODO: remove from paths as well
     }
   }
 

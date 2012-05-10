@@ -16,6 +16,14 @@ public abstract class Cell extends ControllableShape {
       fAxons.add(p);
   }
 
+  public ArrayList<Path> getAxons() {
+    return fAxons;
+  }
+
+  public ArrayList<Path> getDendrites() {
+    return fDendrites;
+  }
+
   public abstract void copyAttributes(Cell c);
 
   public boolean isInBounds(float x, float y) {

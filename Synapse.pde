@@ -22,6 +22,14 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
     return Constants.SYNAPSE;
   }
 
+  public Path getAxon() {
+    return fAxon;
+  }
+
+  public Path getDendrite() {
+    return fDendrite;
+  }
+
   public void drawBackground() {
     pushStyle();
     noStroke();
