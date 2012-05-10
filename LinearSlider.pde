@@ -18,6 +18,11 @@ public class LinearSlider extends Slider {
     pushStyle();
     fill((fHover) ? Constants.HIGHLIGHT_COLOR : Constants.SLIDER_BAR_COLOR);
     rect(fLoc.x, fLoc.y, fSlider - fBegin, fThickness);
+    stroke(Constants.CP_TEXT_COLOR);
+    strokeWeight(1);
+    String s = fLabel + " : " + nf(fValue, 1, 2);
+    float offset = textWidth(s)/2;
+    text(s, (fBegin + fEnd)/2 - offset, fLoc.y - Constants.SLIDER_LABEL_OFFSET);
     popStyle();
   }
 
@@ -28,7 +33,6 @@ public class LinearSlider extends Slider {
   public void updateSlider(float x, float y) {
     // TODO: add custom constrain function for correct snapping behavior
     fSlider = constrain(x, fBegin, fEnd);
-    println(fSlider);
     fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
     if (fTarget != null) fTarget.onEvent(fID, fValue);
   }
