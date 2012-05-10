@@ -72,7 +72,7 @@ public class ControllerSynapse extends Synapse{
     float textsize = 9;
 
     float v = fNormSlider.getValue();
-    float t = fNormSlider.getTheta();
+    float t = fNormSlider.getSliderPosition();
     String s ="I-Norm";
     float w = textWidth(s);
     float x = fLoc.x + cos(t)*r;
@@ -88,7 +88,7 @@ public class ControllerSynapse extends Synapse{
     text(s, x2, y2);
 
     v = fRateSlider.getValue();
-    t = fRateSlider.getTheta();
+    t = fRateSlider.getSliderPosition();
     s = "I-Rate";
     w = textWidth(s);
     x = fLoc.x + cos(t)*r;
@@ -104,7 +104,7 @@ public class ControllerSynapse extends Synapse{
     text(s, x2, y2);
 
     v = fTimeSlider.getValue();
-    t = fTimeSlider.getTheta();
+    t = fTimeSlider.getSliderPosition();
     s = "I-Time";
     w = textWidth(s);
     x = fLoc.x + cos(t)*r - w;

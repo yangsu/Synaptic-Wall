@@ -18,7 +18,7 @@ public abstract class Slider extends Control {
     return fValue;
   }
 
-  public float getTheta() {
+  public float getSliderPosition() {
     return fSlider;
   }
 

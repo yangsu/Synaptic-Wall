@@ -20,7 +20,7 @@ public class ControllerSoma extends Soma {
     float textsize = 9;
 
     float v = fDecaySlider.getValue();
-    float t = fDecaySlider.getTheta();
+    float t = fDecaySlider.getSliderPosition();
     String s ="I-Decay";
     float w = textWidth(s);
     float x = fLoc.x + cos(t)*r;
@@ -36,7 +36,7 @@ public class ControllerSoma extends Soma {
     text(s, x2, y2);
 
     v = fSpeedSlider.getValue();
-    t = fSpeedSlider.getTheta();
+    t = fSpeedSlider.getSliderPosition();
     s = "I-Speed";
     w = textWidth(s);
     x = fLoc.x + cos(t)*r;
@@ -52,7 +52,7 @@ public class ControllerSoma extends Soma {
     text(s, x2, y2);
 
     v = fLengthSlider.getValue();
-    t = fLengthSlider.getTheta();
+    t = fLengthSlider.getSliderPosition();
     s = "I-Duration";
     w = textWidth(s);
     x = fLoc.x + cos(t)*r - w;
