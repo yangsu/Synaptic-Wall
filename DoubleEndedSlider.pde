@@ -1,10 +1,11 @@
 public class DoubleEndedSlider extends CircularSlider {
   private float fValue2, fSlider2;
   public DoubleEndedSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
-    this(x, y, size, begin, end, val, val, min, max, id, target);
+    this(x, y, size, Constants.SLIDER_BAR_WIDTH, begin, end, val, val, min, max, id, target);
   }
-  public DoubleEndedSlider(float x, float y, float size, float begin, float end, float val, float val2, float min, float max, int id, Controllable target) {
-    super(x, y, size, begin, end, val, min, max, id, target);
+
+  public DoubleEndedSlider(float x, float y, float size, float thickness, float begin, float end, float val, float val2, float min, float max, int id, Controllable target) {
+    super(x, y, size, thickness, begin, end, val, min, max, id, target);
     setValue2(val2);
   }
 

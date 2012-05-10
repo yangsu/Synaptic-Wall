@@ -4,13 +4,17 @@ class ThresholdSlider extends CircularSlider {
 
   private float fOffset;
   public ThresholdSlider(float x, float y, float size, int id, Controllable target) {
-    this(x, y, size,
+    this(x, y, size, Constants.SLIDER_BAR_WIDTH,
         0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD,
         id, target);
   }
 
   public ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
-    super(x, y, size,
+    this(x, y, size, Constants.SLIDER_BAR_WIDTH, val, min, max, id, target);
+  }
+
+  public ThresholdSlider(float x, float y, float size, float thickness, float val, float min, float max, int id, Controllable target) {
+    super(x, y, size, thickness,
           (min/Constants.SOMA_MAX_THRESHOLD) * PI,
           (max/Constants.SOMA_MAX_THRESHOLD) * PI,
           val, min, max, id, target);
@@ -66,11 +70,11 @@ class ThresholdSlider extends CircularSlider {
     float ee = Util.convertToArcCoord(e);
     if ((b * e >= 0 && ee >= bb) /* same sign */||
         (ee >= (PI + HALF_PI) && ee < TWO_PI)) {
-      arcWithThickness(s, x, y, bb, ee, Constants.SLIDER_BAR_WIDTH);
+      arcWithThickness(s, x, y, bb, ee, fThickness);
     }
     else {
-      arcWithThickness(s, x, y, bb, TWO_PI, Constants.SLIDER_BAR_WIDTH);
-      arcWithThickness(s, x, y, 0, ee, Constants.SLIDER_BAR_WIDTH);
+      arcWithThickness(s, x, y, bb, TWO_PI, fThickness);
+      arcWithThickness(s, x, y, 0, ee, fThickness);
     }
   }
 
@@ -115,20 +119,18 @@ class ThresholdSlider extends CircularSlider {
   }
 
   public void updateSlider(float x, float y) {
-    if (fSelected) {
-      float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
-      switch (fState) {
-        case BEGIN:
-          fBegin = Util.thresholdConstrain(angle, -PI, -2*fOffset);
-          fMin = fBegin/PI * Constants.SOMA_MAX_THRESHOLD;
-          break;
-        case END:
-          fEnd = Util.thresholdConstrain(angle, 2*fOffset, PI);
-          fMax = fEnd/PI * Constants.SOMA_MAX_THRESHOLD;
-          break;
-      }
-      fSlider = constrain(fSlider, fBegin + fOffset, fEnd - fOffset);
+    float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
+    switch (fState) {
+      case BEGIN:
+        fBegin = Util.thresholdConstrain(angle, -PI, -2*fOffset);
+        fMin = fBegin/PI * Constants.SOMA_MAX_THRESHOLD;
+        break;
+      case END:
+        fEnd = Util.thresholdConstrain(angle, 2*fOffset, PI);
+        fMax = fEnd/PI * Constants.SOMA_MAX_THRESHOLD;
+        break;
     }
+    fSlider = constrain(fSlider, fBegin + fOffset, fEnd - fOffset);
   }
 
   public boolean onMouseDown(float x, float y) {
