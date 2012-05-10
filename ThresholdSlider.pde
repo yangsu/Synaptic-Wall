@@ -3,16 +3,13 @@ class ThresholdSlider extends CircularSlider {
   static final int END = 2;
 
   private float fOffset;
-  public ThresholdSlider(float x, float y, float size,
-                  int id, Controllable target) {
+  public ThresholdSlider(float x, float y, float size, int id, Controllable target) {
     this(x, y, size,
         0, -Constants.SOMA_MAX_THRESHOLD, Constants.SOMA_MAX_THRESHOLD,
         id, target);
   }
 
-  public ThresholdSlider(float x, float y, float size,
-                  float val, float min, float max,
-                  int id, Controllable target) {
+  public ThresholdSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
     super(x, y, size,
           (min/Constants.SOMA_MAX_THRESHOLD) * PI,
           (max/Constants.SOMA_MAX_THRESHOLD) * PI,
@@ -104,9 +101,7 @@ class ThresholdSlider extends CircularSlider {
    popStyle();
   }
 
-  public boolean isInBounds(float x, float y) {
-    boolean inBounds = true;
-    float dist = PVector.dist(fLoc, new PVector(x, y));
+  public boolean selectState(float x, float y) {
     float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
     if (angle >= fEnd - fOffset && angle <= fEnd)
       fState = END;
@@ -115,15 +110,11 @@ class ThresholdSlider extends CircularSlider {
     else if (angle < fEnd && angle > fBegin)
       fState = SLIDER;
     else
-      inBounds = false;
-    return inBounds && dist >= fSize && dist <= (fSize + Constants.SLIDER_BAR_WIDTH);
+      return false;
+    return true;
   }
 
-  public boolean onMouseDown(float x, float y) {
-    return (fSelected = isInBounds(x, y));
-  }
-
-  public boolean onMouseDragged(float x, float y) {
+  public void updateSlider(float x, float y) {
     if (fSelected) {
       float angle = Util.thresholdAngle(fLoc.x, fLoc.y, x, y);
       switch (fState) {
@@ -138,11 +129,12 @@ class ThresholdSlider extends CircularSlider {
       }
       fSlider = constrain(fSlider, fBegin + fOffset, fEnd - fOffset);
     }
-    return fSelected;
   }
 
+  public boolean onMouseDown(float x, float y) {
+    return (fSelected = isInBounds(x, y));
+  }
   // Threshold is always visible
   public void setVisible(boolean visible) {
-    fVisible = true;
   }
 }

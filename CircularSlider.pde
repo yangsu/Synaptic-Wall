@@ -74,15 +74,18 @@ public class CircularSlider extends Control {
     popStyle();
   }
 
-  public boolean isInBounds(float x, float y) {
-    boolean inBounds = false;
-    float dist = PVector.dist(fLoc, new PVector(x, y));
+  public boolean selectState(float x, float y) {
     float angle = Util.getAngleNorm(fLoc.x, fLoc.y, x, y);
     if (angle < fEnd && angle > fBegin) {
       fState = SLIDER;
-      inBounds = true;
+      return true;
     }
-    return inBounds && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
+    return false;
+  }
+
+  public boolean isInBounds(float x, float y) {
+    float dist = PVector.dist(fLoc, new PVector(x, y));
+    return selectState(x, y) && dist >= fSize && dist <= fSize + Constants.SLIDER_BAR_WIDTH;
   }
 
   public void updateSlider(float x, float y) {

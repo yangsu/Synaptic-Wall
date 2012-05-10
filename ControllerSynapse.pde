@@ -1,9 +1,10 @@
 public class ControllerSynapse extends Synapse{
-  private CircularSlider fRateSlider, fTimeSlider, fNormSlider;
-  private float fRate, fTime, fNorm;
+  private CircularSlider fRateSlider, fTimeSlider, fNormSlider, fSignalRangeSlider;
+  private float fRate, fTime, fNorm, fRangeMin, fRangeMax;
   private final int RATE = 0;
   private final int TIME = 1;
   private final int NORM = 2;
+  private final int RANGE = 3;
 
   public ControllerSynapse(float x, float y) {
     this(null, x, y, Constants.EX_HIGHLIGHT_COLOR);
@@ -18,11 +19,12 @@ public class ControllerSynapse extends Synapse{
     fRate = 0;
     fTime = 0;
     fNorm = 0;
+    fRangeMin = fRangeMax = 0.5;
     initControls();
   }
 
   private void initControls() {
-    float controlSize = fSize + 2 * Constants.SLIDER_BAR_WIDTH;
+    float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
     fNormSlider = new CircularSlider(
       fLoc.x, fLoc.y, controlSize,
       0, TWO_PI/3,
@@ -45,6 +47,15 @@ public class ControllerSynapse extends Synapse{
      );
     fControls.add(fRateSlider);
 
+    fSignalRangeSlider = new DoubleEndedSlider(
+      fLoc.x, fLoc.y, fSize + Constants.SLIDER_BAR_WIDTH,
+      PI, TWO_PI,
+      fRangeMin, 0, 1,
+      RANGE, this
+     );
+    fControls.add(fSignalRangeSlider);
+
+
     showControls();
   }
 
@@ -54,8 +65,8 @@ public class ControllerSynapse extends Synapse{
     strokeWeight(Constants.CP_BORDER_WIDTH);
     rectMode(CORNER);
     stroke(Constants.CP_TEXT_COLOR);
-    float r =  fSize + 2 * Constants.SLIDER_BAR_WIDTH + Constants.CP_TEXT_OFFSET;
-    float r2 =  fSize + 3 * Constants.SLIDER_BAR_WIDTH;
+    float r =  fSize + 3 * Constants.SLIDER_BAR_WIDTH + Constants.CP_TEXT_OFFSET;
+    float r2 =  fSize + 4 * Constants.SLIDER_BAR_WIDTH;
     float textsize = 9;
 
     float v = fNormSlider.getValue();
@@ -145,6 +156,9 @@ public class ControllerSynapse extends Synapse{
         break;
       case NORM:
         fNorm = value;
+        break;
+      case RANGE:
+        fRangeMin = value;
         break;
       default:
         break;

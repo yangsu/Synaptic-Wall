@@ -1,4 +1,3 @@
-
 static class Constants {
   static final int MAX = 99999;
   static final int MIN = -99999;
@@ -6,8 +5,8 @@ static class Constants {
   static final int WIDTH  = 800;
   static final int HEIGHT = 800;
 
-  static final float SCALE = 1.0;
-  static final float ZOOM_FACTOR        = 4.0;
+  static final float SCALE       = 1.0;
+  static final float ZOOM_FACTOR = 4.0;
 
   static final int DBL_CLICK_THRESHOLD = 300;
 
@@ -33,7 +32,7 @@ static class Constants {
   static final color EX_HIGHLIGHT_COLOR = 0xFFFDFB98;
   static final color IN_COLOR           = 0xFF0A6891;
   static final color IN_HIGHLIGHT_COLOR = 0xFF67A4D0;
-  static final color HIGHLIGHT_COLOR    = 0xFFFFFFFF;
+  static final color HIGHLIGHT_COLOR    = 0xFFCCCCCC;
   static final int   AP_COLOR   = 0xFFFDFB98;
 
   // Selection Settings
@@ -117,6 +116,7 @@ static class Constants {
   static final float SLIDER_BAR_LENGTH      = 0.1 / SCALE;
   static final float SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
   static final float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
+  static final float DBLSIDED_HANDLE_WIDTH  = 0.05 / SCALE;
 
   static final color THRESHOLD_POSITIVE_COLOR     = 0xFFFF6725;
   static final color THRESHOLD_POSITIVE_HIGHLIGHT = 0xFFFF8947;
