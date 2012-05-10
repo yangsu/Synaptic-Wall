@@ -19,6 +19,10 @@ PVector gIndicator2;
 
 Grid gGrid;
 
+final int SCALE = 0;
+final int ZOOM = 1;
+EventReceiver gEvents;
+
 void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
   gMagnified = createImage(width/2, height/2, ARGB);
@@ -60,6 +64,31 @@ void setup() {
 
   gObjs.addControl(sy);
 
+  gEvents = new EventReceiver();
+  Slider sss = new LinearSlider(
+    0.75 * width,
+    0.5 * height,
+    150,
+    Constants.SCALE, 1, Constants.MAX_SCALE,
+    SCALE, gEvents
+  );
+  sss.setLabel("Scale");
+  sss.setVisible(false);
+  sss.setMovable(false);
+  gObjs.addControl(sss);
+
+  sss = new LinearSlider(
+    0.75 * width,
+    0.45 * height,
+    150,
+    Constants.ZOOM_FACTOR, 1, Constants.MAX_ZOOM,
+    ZOOM, gEvents
+  );
+  sss.setLabel("Zoom");
+  sss.setVisible(false);
+  sss.setMovable(false);
+  gObjs.addControl(sss);
+
   gCurrShape = null;
   gCurrPath = null;
   gIndicator = new PVector(Constants.MIN, Constants.MIN);
@@ -68,6 +97,24 @@ void setup() {
   gCurrInitiator = null;
 
   gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
+}
+
+public class EventReceiver implements Controllable {
+  public EventReceiver() {}
+  public void drawControls() {}
+  public void showControls() {}
+  public void hideControls() {}
+  public void onEvent(int controlID, float value) {
+    switch (controlID) {
+      case SCALE:
+        Constants.SCALE = value;
+        Constants.recalculate();
+        break;
+      case ZOOM:
+        Constants.ZOOM_FACTOR = value;
+        break;
+    }
+  }
 }
 void snapIndicators(float x, float y, float size) {
   float angle = Util.getAngleNorm(x, y, mouseX, mouseY);

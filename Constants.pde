@@ -5,8 +5,10 @@ static class Constants {
   static final int WIDTH  = 800;
   static final int HEIGHT = 800;
 
-  static final float SCALE       = 1.0;
-  static final float ZOOM_FACTOR = 4.0;
+  static float SCALE           = 1.0;
+  static final float MAX_SCALE = 4.0;
+  static float ZOOM_FACTOR     = 4.0;
+  static final float MAX_ZOOM  = 10.0;
 
   static final int DBL_CLICK_THRESHOLD = 300;
 
@@ -42,8 +44,8 @@ static class Constants {
 
   // Shadow Settings
   static final color SHADOW_COLOR   = 0xBB323232;
-  static final float SHADOW_OFFSETX = 2/SCALE;
-  static final float SHADOW_OFFSETY = 2/SCALE;
+  static float SHADOW_OFFSETX = 2/SCALE;
+  static float SHADOW_OFFSETY = 2/SCALE;
 
   // Initiator Settings
   static final int INITIATOR_TIMING = 500;
@@ -51,24 +53,27 @@ static class Constants {
   // Soma Settings
   static final int   EXCITATORY              = 0;
   static final int   INHIBITORY              = 1;
-  static final float SOMA_SIZE               = 30 / SCALE;
   static final int   SOMA_FIRING_DELAY       = 300;
-  static final float SOMA_RING_WIDTH         = 10 / SCALE;
+
+  static float SOMA_SIZE               = 30 / SCALE;
+  static float SOMA_RING_WIDTH         = 10 / SCALE;
+
   static final float SOMA_MAX_THRESHOLD      = 3.0;
   static final float SOMA_INIT_POS_THRESHOLD = SOMA_MAX_THRESHOLD * 0.75;
   static final float SOMA_INIT_NEG_THRESHOLD = SOMA_MAX_THRESHOLD * -0.75;
 
   // Path Settings
-  static final float PATH_WIDTH          = 8.0 / SCALE;
-  static final float PATH_JUNCTION_WIDTH = 6.0 / SCALE;
+  static float PATH_WIDTH          = 8.0 / SCALE;
+  static float PATH_JUNCTION_WIDTH = 6.0 / SCALE;
 
   // Synapse Settings
   static final int   SYNAPSE_TIMING     = 700; // Miliseconds
-  static final float SYNAPSE_SIZE       = 12.0 / SCALE; // radius
   static final float SYNAPSE_STRENGTH   = 1.0; // Thickness
   static final float SYNAPSE_MULT       = 2.0;
-  static final float SYNAPSE_BASE       = 2.0;
-  static final float SYNAPSE_OUTER_SIZE = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
+
+  static float SYNAPSE_BASE       = 2.0 / SCALE;
+  static float SYNAPSE_SIZE       = 12.0 / SCALE; // radius
+  static float SYNAPSE_OUTER_SIZE = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
 
   // Signals Settings
   static final int   EPSP       = 1;
@@ -93,11 +98,11 @@ static class Constants {
   static final int     SIGNAL_SINGLE_FIRING_TIME = 800;
   static final int     SIGNAL_FIRING_MULTIPLIER  = 10;
 
-  static final float   AP_WIDTH                  = 4.0 / SCALE;
-  static final float   AP_BORDER_WIDTH           = 3.0 / SCALE;
+  static float   AP_WIDTH                  = 4.0 / SCALE;
+  static float   AP_BORDER_WIDTH           = 3.0 / SCALE;
 
-  static final float   PSP_WIDTH                 = 6.0 / SCALE;
-  static final float   PSP_BORDER_WIDTH          = 6.0 / SCALE;
+  static float   PSP_WIDTH                 = 6.0 / SCALE;
+  static float   PSP_BORDER_WIDTH          = 6.0 / SCALE;
 
   // Initiator Settings
   static final float DEFAULT_RHYTHMICITY = 1.0;
@@ -110,18 +115,20 @@ static class Constants {
 
   // Slider Settings
   static final color SLIDER_BG_COLOR        = 0xFF7F7F7F;
-  static final color SLIDER_BAR_COLOR       = 0xFFCCCCCC;
+  static final color SLIDER_BAR_COLOR       = 0xFFAAAAAA;
   static final color SLIDER_HANDLE_COLOR    = BG_COLOR;
-  static final float SLIDER_BAR_WIDTH       = 7.5 / SCALE;
-  static final float SLIDER_BAR_LENGTH      = 0.1 / SCALE;
-  static final float SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
-  static final float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
-  static final float DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
-
   static final color THRESHOLD_POSITIVE_COLOR     = 0xFFFF6725;
   static final color THRESHOLD_POSITIVE_HIGHLIGHT = 0xFFFF8947;
   static final color THRESHOLD_NEGATIVE_COLOR     = 0xFF00329B;
   static final color THRESHOLD_NEGATIVE_HIGHLIGHT = 0xFF2254BD;
+
+  static float SLIDER_BAR_WIDTH       = 7.5 / SCALE;
+  static float SLIDER_BAR_LENGTH      = 0.1 / SCALE;
+  static float SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
+  static float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
+  static float DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
+
+  static final float SLIDER_LABEL_OFFSET    = 5;
 
   // Grid Settings
   static final color GRID_NODE_COLOR     = 0xFF666666;
@@ -131,7 +138,32 @@ static class Constants {
 
   // Control Panel Settings
   static final color CP_TEXT_COLOR   = SLIDER_BAR_COLOR;
-  static final float CP_TEXT_OFFSET  = 30;
-  static final float CP_BORDER_WIDTH = 2;
-  static final float CP_PADDING      = 6;
+  static float CP_TEXT_OFFSET  = 30 / SCALE;
+  static float CP_BORDER_WIDTH = 2 / SCALE;
+  static float CP_PADDING      = 6 / SCALE;
+
+  static void recalculate() {
+    SHADOW_OFFSETX         = 2/SCALE;
+    SHADOW_OFFSETY         = 2/SCALE;
+    SOMA_SIZE              = 30 / SCALE;
+    SOMA_RING_WIDTH        = 10 / SCALE;
+    PATH_WIDTH             = 8.0 / SCALE;
+    PATH_JUNCTION_WIDTH    = 6.0 / SCALE;
+    SYNAPSE_BASE           = 2.0 / SCALE;
+    SYNAPSE_SIZE           = 12.0 / SCALE;
+    SYNAPSE_OUTER_SIZE     = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
+    AP_WIDTH               = 4.0 / SCALE;
+    AP_BORDER_WIDTH        = 3.0 / SCALE;
+    PSP_WIDTH              = 6.0 / SCALE;
+    PSP_BORDER_WIDTH       = 6.0 / SCALE;
+    SLIDER_BAR_WIDTH       = 7.5 / SCALE;
+    SLIDER_BAR_LENGTH      = 0.1 / SCALE;
+    SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
+    THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
+    DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
+    CP_TEXT_OFFSET         = 30 / SCALE;
+    CP_BORDER_WIDTH        = 2 / SCALE;
+    CP_PADDING             = 6 / SCALE;
+  }
+
 }

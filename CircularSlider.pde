@@ -24,10 +24,7 @@ public class CircularSlider extends Slider {
 
   public void drawForeground() {
     pushStyle();
-    if (fHover)
-      fill(Constants.HIGHLIGHT_COLOR);
-    else
-      fill(Constants.SLIDER_BAR_COLOR);
+    fill((fHover) ? Constants.HIGHLIGHT_COLOR : Constants.SLIDER_BAR_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, fThickness);
     // Added 0.02 for minor offset to cover up extraneous pixels
     fill(Constants.SLIDER_HANDLE_COLOR);

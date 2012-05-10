@@ -85,7 +85,7 @@ public class ObjectCollection {
 
   public void add(Interactive s) {
     if (s != null) {
-      int index = -1;
+      int index = fObjs.size();
       switch(s.getType()) {
         case Constants.DENDRITE:
           index = (index == -1) ? fDendriteIndex : index;
@@ -224,7 +224,8 @@ public class ObjectCollection {
   }
   private void syncAttributes(Interactive curr) {
     for (Interactive s : fSelectedObjs) {
-      if (curr != s && curr.getType() == s.getType()) {
+      if (curr != s && curr.getType() == s.getType() &&
+        (curr.getType() == Constants.SOMA || curr.getType() == Constants.INITIATOR)) {
         ((Cell)s).copyAttributes((Cell)curr);
       }
     }
