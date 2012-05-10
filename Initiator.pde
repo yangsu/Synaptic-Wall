@@ -45,12 +45,12 @@ public class Initiator extends Cell implements TimerSubscriber{
     fFreqSlider = new CircularSlider(
       fLoc.x, fLoc.y, controlSize,
       2 * TWO_PI/3, TWO_PI,
-      fFreq, 0, Constants.MAX_FREQUENCY,
+      fFreq, Constants.DEFAULT_FREQUENCY, Constants.MAX_FREQUENCY,
       FREQUENCY, this
      );
     fControls.add(fFreqSlider);
 
-    fTimer = new Timer(this, Constants.INITIATOR_TIMING, 0.5, round(1000/fFreq));
+    fTimer = new Timer(this, round(1000/fFreq), 0.5);
     fTimer.reset();
   }
 
@@ -58,7 +58,7 @@ public class Initiator extends Cell implements TimerSubscriber{
     return Constants.INITIATOR;
   }
 
-  public void onTimerFiring(int id, int time) {
+  protected boolean fireSignals() {
     for (Path p : fAxons)
         p.addSignal(new ActionPotential(
           Constants.SIGNAL_DEFAULT_SPEED,
@@ -66,19 +66,24 @@ public class Initiator extends Cell implements TimerSubscriber{
           Constants.SIGNAL_DEFAULT_DECAY,
           Constants.SIGNAL_DEFAULT_STRENGTH,
           p));
+    return true;
+  }
+
+  public void onTimerFiring(int id, int time) {
+    if (!fTimer.throttled() && random(1.0) <= fRhythmicity) {
+      for (int i = 0; i < fBurstiness; i+=1) {
+         // resulting in fBurstiness - 1 bursts
+        fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
+      }
+    }
   }
 
   public void update() {
     fTimer.update();
     int time = millis();
-    if (!fTimer.throttled() && random(1.0) <= fRhythmicity) {
-      fTimer.reset();
-      //add burst
-      for (int i = 1; i < fBurstiness; i+=1) // resulting in fBurstiness - 1 bursts
-        fFiringQueue = append(fFiringQueue, time + i * Constants.BURST_DELAY);
-    }
+    if (fTimer.ended()) fTimer.reset();
     if (fFiringQueue.length > 0 && fFiringQueue[0] <= time) {
-      fTimer.reset();
+      fire();
       fFiringQueue = subset(fFiringQueue, 1);
     }
   }
@@ -136,6 +141,7 @@ public class Initiator extends Cell implements TimerSubscriber{
         break;
       case FREQUENCY:
         fFreq = value;
+        fTimer.setLength(round(1000/fFreq));
         break;
       default:
         break;

@@ -35,6 +35,7 @@ public class Timer {
 
   public void reset() {
     if (gDebug) println(fID + " reset");
+    // println((fLastFiredTime - fStartTime) +"  "+ (fEndTime - fStartTime));
     fStartTime = millis();
     fEndTime = fStartTime + round(fLength * fFiringPos);
     fFired = false;
@@ -46,6 +47,10 @@ public class Timer {
 
   public int getLastFiredTime() {
     return fLastFiredTime;
+  }
+
+  public void setLength(int l) {
+    fLength = l;
   }
 
   public boolean throttled() {
