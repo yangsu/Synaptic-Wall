@@ -59,8 +59,10 @@ public abstract class Path extends Interactive implements Signalable{
   public PVector getVertex(int i) {
     if (i < fVertices.size())
       return fVertices.get(i);
-    else
+    else {
+      println("Invalid access: " + i + "th element in a list of " + fVertices.size());
       return null;
+    }
   }
 
   public void add(float x, float y) {

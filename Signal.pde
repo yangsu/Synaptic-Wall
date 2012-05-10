@@ -46,6 +46,8 @@ abstract class Signal extends Drawable {
   }
 
   protected float advance(int index, float param, PVector p) {
+    if (index + 1 == fPath.size()) return param;
+
     PVector a = fPath.getVertex(index);
     PVector b = fPath.getVertex(index + 1);
     if (gSmoothPaths) {
