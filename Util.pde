@@ -40,7 +40,7 @@ static class Util {
 
   static float thresholdAngle(float x1, float y1, float x2, float y2) {
     float temp = HALF_PI + atan2(y2 - y1, x2 - x1);
-    if (temp > PI && temp < (PI + HALF_PI))
+    if (temp >= PI && temp < (PI + HALF_PI))
       temp -= TWO_PI;
     return temp;
   }
