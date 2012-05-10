@@ -2,12 +2,43 @@ public abstract class Cell extends ControllableShape {
   protected ArrayList<Path> fAxons;
   protected ArrayList<Path> fDendrites;
 
+  protected int fTotalTime, fLastFired, fNumFired;
+  protected float fAvgFiringRate, fCurrentFiringRate;
+
   public Cell(float x, float y, float size, color cc) {
     super(x, y, size, cc);
 
     fAxons = new ArrayList<Path>();
     fDendrites = new ArrayList<Path>();
+    fLastFired = 0;
+    fNumFired = 0;
+    fAvgFiringRate = 0;
+    fCurrentFiringRate = 0;
   }
+
+  protected void fire() {
+    if (fireSignals()) {
+      int current = millis();
+      fNumFired++;
+      if (fNumFired > 1) {
+        int interval = (current - fLastFired);
+        fCurrentFiringRate = 1.0/interval;
+        fTotalTime += interval;
+        fAvgFiringRate = 1/(float(fTotalTime)/fNumFired);
+      }
+      fLastFired = current;
+    }
+  }
+
+  public float getAvgFiringRate() {
+    return fAvgFiringRate;
+  }
+
+  public float getCurrentFiringRate() {
+    return fCurrentFiringRate;
+  }
+
+  protected abstract boolean fireSignals();
 
   public void addPath(Path p) {
     if (p.getType() ==Constants.DENDRITE)

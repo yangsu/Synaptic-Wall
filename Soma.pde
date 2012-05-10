@@ -198,6 +198,15 @@ class Soma extends Cell {
     setMaxThreshold(s.getMaxThreshold());
   }
 
+  protected boolean fireSignals() {
+    if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
+      float val = (fType == Constants.EXCITATORY) ? Constants.SIGNAL_DEFAULT_STRENGTH : -Constants.SIGNAL_DEFAULT_STRENGTH;
+      for (Path p : fAxons)
+        p.addSignal(new ActionPotential(fSpeed, fLength, fDecay, val, p));
+      return true;
+    }
+    return false;
+  }
   public void onEvent(int controlID, float value) {
     switch (controlID) {
       case SPEED:
@@ -210,12 +219,7 @@ class Soma extends Cell {
         fDecay = value;
         break;
       case THRESHOLD:
-        if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
-          fLastFired = millis();
-          float val = (fType == Constants.EXCITATORY) ? Constants.SIGNAL_DEFAULT_STRENGTH : -Constants.SIGNAL_DEFAULT_STRENGTH;
-          for (Path p : fAxons)
-            p.addSignal(new ActionPotential(fSpeed, fLength, fDecay, val, p));
-        }
+        fire();
         break;
       default:
         break;

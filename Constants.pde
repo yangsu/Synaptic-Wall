@@ -47,9 +47,6 @@ static class Constants {
   static float SHADOW_OFFSETX = 2/SCALE;
   static float SHADOW_OFFSETY = 2/SCALE;
 
-  // Initiator Settings
-  static final int INITIATOR_TIMING = 500;
-
   // Soma Settings
   static final int   EXCITATORY              = 0;
   static final int   INHIBITORY              = 1;
@@ -67,9 +64,11 @@ static class Constants {
   static float PATH_JUNCTION_WIDTH = 6.0 / SCALE;
 
   // Synapse Settings
-  static final int   SYNAPSE_TIMING     = 700; // Miliseconds
-  static final float SYNAPSE_STRENGTH   = 1.0; // Thickness
-  static final float SYNAPSE_MULT       = 2.0;
+  static final int   SYNAPSE_TIMING       = 700; // Miliseconds
+  static final float SYNAPSE_STRENGTH     = 1.0;
+  static final float SYNAPSE_MIN_STRENGTH = 0.1;
+  static final float SYNAPSE_MAX_STRENGTH = 5.0;
+  static final float SYNAPSE_MULT         = 2.0;
 
   static float SYNAPSE_BASE       = 2.0 / SCALE;
   static float SYNAPSE_SIZE       = 12.0 / SCALE; // radius
@@ -110,7 +109,7 @@ static class Constants {
   static final float DEFAULT_FREQUENCY   = 0.5; // Hz
   static final float MAX_RHYTHMICITY     = 1.0;
   static final int   MAX_BURSTINESS      = 5; // per firing
-  static final float MAX_FREQUENCY       = 3.0; // Hz
+  static final float MAX_FREQUENCY       = 5.0; // Hz
   static final int   BURST_DELAY         = 300;
 
   // Slider Settings
@@ -141,6 +140,11 @@ static class Constants {
   static float CP_TEXT_OFFSET  = 30 / SCALE;
   static float CP_BORDER_WIDTH = 2 / SCALE;
   static float CP_PADDING      = 6 / SCALE;
+
+  // Plasticity
+  static final float AVG_INPUT = 0.5;
+  static final float AVG_OUTPUT = 0.5;
+  static final float LEARNING_K = 0.5;
 
   static void recalculate() {
     SHADOW_OFFSETX         = 2/SCALE;

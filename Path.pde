@@ -40,13 +40,18 @@ public abstract class Path extends Interactive implements Signalable{
     fClosed = true;
   }
 
-  public void setDest(Signalable obj) {
-    fDest = obj;
+  public Signalable getSrc() {
+    return fSrc;
   }
 
   public Signalable getDest() {
     return fDest;
   }
+
+  public void setDest(Signalable obj) {
+    fDest = obj;
+  }
+
 
   public void setDest(Path p) {
     fDest = p;

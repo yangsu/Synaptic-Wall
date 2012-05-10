@@ -1,8 +1,8 @@
 public class Synapse extends ControllableShape implements TimerSubscriber{
   private float fStrength;
   private Signal fLatestSignal;
-  private Path fAxon;
-  private Path fDendrite;
+  private Path fAxon, fDendrite;
+  private Cell fInput, fOutput;
   private Timer fTimer;
 
   public Synapse(Path axon, float x, float y, color cc) {
@@ -14,7 +14,11 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
     fStrength = strength;
     fLatestSignal = null;
     fAxon = axon;
+    //BUG: Assuming src is always a cell
+    if (axon != null)
+      fInput = (Cell)(axon.getSrc());
     fDendrite = null;
+    fOutput = null;
     fTimer = new Timer(this, Constants.SYNAPSE_TIMING, 0.5);
   }
 
@@ -57,6 +61,10 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
 
   public void update() {
     fTimer.update();
+    if (fInput != null && fOutput != null) {
+      fStrength += Constants.LEARNING_K * (fInput.getCurrentFiringRate() - fInput.getAvgFiringRate()) * (fOutput.getCurrentFiringRate() - fOutput.getAvgFiringRate());
+      fStrength = constrain(fStrength, Constants.SYNAPSE_MIN_STRENGTH, Constants.SYNAPSE_MAX_STRENGTH);
+    }
   }
 
   public boolean isComplete() {
@@ -64,8 +72,11 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
   }
 
   public void addPath(Path p) {
-    if (!isComplete())
+    if (!isComplete()) {
       fDendrite = p;
+      // BUG: Assuming dest is always a cell
+      fOutput = (Cell)(p.getDest());
+    }
   }
 
   public void onTimerFiring(int id, int time) {
