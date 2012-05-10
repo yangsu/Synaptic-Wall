@@ -1,7 +1,4 @@
-public class CircularSlider extends Control {
-  protected float fSize, fMin, fMax, fValue;
-  protected float fBegin, fEnd, fSlider, fThickness;
-
+public class CircularSlider extends Slider {
   protected int fState;
   protected static final int SLIDER = 0;
   protected static final int BEGIN = 1;
@@ -10,40 +7,12 @@ public class CircularSlider extends Control {
   public CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
     this(x, y, size, Constants.SLIDER_BAR_WIDTH, begin, end, val, min, max, id, target);
   }
+
   public CircularSlider(float x, float y, float size, float thickness, float begin, float end, float val, float min, float max, int id, Controllable target) {
-    super(x, y, id, target);
-    fSize = size;
-    fThickness = thickness;
+    super(x, y, size, thickness, begin, end, val, min, max, id, target);
     fState = SLIDER;
-    setValueRange(min, max);
-    setSliderBounds(begin, end);
-    setValue(val);
     // Circular Sliders are initially hidden
     fVisible = false;
-  }
-
-  public float getValue() {
-    return fValue;
-  }
-
-  public float getTheta() {
-    return fSlider;
-  }
-
-  public void setValue(float val) {
-    fValue = constrain(val, fMin, fMax);
-    fSlider = constrain(map(val, fMin, fMax, fBegin, fEnd), fBegin, fEnd);
-  }
-
-  public void setSliderBounds(float begin, float end) {
-    fBegin = begin;
-    fEnd = end;
-    fSlider = constrain(fSlider, fBegin, fEnd);
-  }
-
-  public void setValueRange(float min, float max) {
-    fMin = min;
-    fMax = max;
   }
 
   public void drawBackground() {
@@ -86,18 +55,5 @@ public class CircularSlider extends Control {
     fSlider = Util.constrain(angle, fBegin, fEnd);
     fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
     if (fTarget != null) fTarget.onEvent(fID, fValue);
-  }
-
-  public boolean onMouseDown(float x, float y) {
-    fSelected = isInBounds(x, y);
-    if (fSelected)
-      updateSlider(x, y);
-    return fSelected;
-  }
-
-  public boolean onMouseDragged(float x, float y) {
-    if (fSelected)
-      updateSlider(x, y);
-    return fSelected;
   }
 }
