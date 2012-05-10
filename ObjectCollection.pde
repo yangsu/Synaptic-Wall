@@ -49,7 +49,7 @@ public class ObjectCollection {
     deselectAll();
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive s = fObjs.get(i);
-      if (s.select(x, y)) {
+      if (s.select(x, y) && s.fVisible) {
         fSelected = s;
         return true;
       }
@@ -211,7 +211,7 @@ public class ObjectCollection {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
         if (curr.getType() == Constants.INITIATOR || curr.getType() == Constants.SOMA) {
-          if (!fSelectedObjs.contains(curr)) {
+          if (!fSelectedObjs.contains(curr) && curr.fVisible) {
               fSelectedObjs.add(curr);
               ((Controllable)curr).showControls();
           }
@@ -230,7 +230,7 @@ public class ObjectCollection {
   public boolean onMouseDragged(float x, float y) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
-      if (curr.onMouseDragged(x, y)) {
+      if (curr.fVisible && curr.onMouseDragged(x, y)) {
         syncAttributes(curr);
         return true;
       }
@@ -238,31 +238,37 @@ public class ObjectCollection {
     return false;
   }
   public boolean onMouseMoved(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onMouseMoved(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.fVisible && curr.onMouseMoved(x, y))
         return true;
+    }
     return false;
   }
   public boolean onMouseUp(float x, float y) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
-      if (curr.onMouseUp(x, y)) {
+      if (curr.fVisible && curr.onMouseUp(x, y)) {
         return true;
       }
     }
     return false;
   }
   public boolean onDblClick(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onDblClick(x, y))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.fVisible && curr.onDblClick(x, y))
         return true;
+    }
     return false;
   }
 
   public boolean onSmoothToggle(boolean smooth) {
-    for (int i = fObjs.size()-1; i>=0; i--)
-      if (fObjs.get(i).onSmoothToggle(smooth))
+    for (int i = fObjs.size()-1; i>=0; i--) {
+      Interactive curr = fObjs.get(i);
+      if (curr.fVisible && curr.onSmoothToggle(smooth))
         return true;
+    }
     return false;
   }
 }
