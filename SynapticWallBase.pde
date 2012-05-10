@@ -47,7 +47,18 @@ void setup() {
   s.setVisible(false);
   s.setMovable(false);
   s.showControls();
+
   gObjs.addControl(s);
+
+  ControllerSynapse sy = new ControllerSynapse(
+    0.8 * width,
+    0.6 * height
+  );
+  sy.setVisible(false);
+  sy.setMovable(false);
+  sy.showControls();
+
+  gObjs.addControl(sy);
 
   gCurrShape = null;
   gCurrPath = null;

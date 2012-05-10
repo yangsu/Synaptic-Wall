@@ -2,7 +2,6 @@ public abstract class Shape extends Interactive implements Signalable {
   protected float fSize;
 
   public Shape() {
-    super();
     fSize = 0;
     fSelected = false;
   }
@@ -10,6 +9,7 @@ public abstract class Shape extends Interactive implements Signalable {
   public Shape(float x, float y, float size, color cc) {
     super(x, y, cc);
     fSize = size;
+    fSelected = false;
   }
 
   public float x() { return fLoc.x; }

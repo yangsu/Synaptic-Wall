@@ -1,4 +1,4 @@
-public class Synapse extends Shape implements TimerSubscriber{
+public class Synapse extends ControllableShape implements TimerSubscriber{
   private float fStrength;
   private Signal fLatestSignal;
   private Path fAxon;
@@ -78,5 +78,8 @@ public class Synapse extends Shape implements TimerSubscriber{
 
   public boolean isInBounds(float x, float y) {
     return PVector.dist(fLoc, new PVector(x, y)) <= (fSize + fStrength);
+  }
+
+  public void onEvent(int controlID, float value) {
   }
 }
