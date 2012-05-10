@@ -62,7 +62,9 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
   public void update() {
     fTimer.update();
     if (fInput != null && fOutput != null) {
-      fStrength += Constants.LEARNING_K * (fInput.getCurrentFiringRate() - fInput.getAvgFiringRate()) * (fOutput.getCurrentFiringRate() - fOutput.getAvgFiringRate());
+      float inputDiff = fInput.getCurrentFiringRate() - fInput.getAvgFiringRate();
+      float outputDiff = fOutput.getCurrentFiringRate() - fOutput.getAvgFiringRate();
+      fStrength += Constants.LEARNING_K * inputDiff * outputDiff;
       fStrength = constrain(fStrength, Constants.SYNAPSE_MIN_STRENGTH, Constants.SYNAPSE_MAX_STRENGTH);
     }
   }
@@ -85,7 +87,8 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
         fLatestSignal.fSpeed,
         fLatestSignal.fLength,
         fLatestSignal.fDecay,
-        fLatestSignal.fStrength * fStrength,
+        // fLatestSignal.fStrength * fStrength,
+        fLatestSignal.fStrength,
         fDendrite
       ));
   }

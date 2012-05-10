@@ -10,7 +10,7 @@ class Soma extends Cell {
   private static final int DECAY = 3;
   private static final int THRESHOLD = 4;
 
-  private int fLastFired, fType;
+  private int fType;
   Soma(float x, float y) {
     this(
       x, y, Constants.SOMA_SIZE, Constants.EX_COLOR,
@@ -85,7 +85,6 @@ class Soma extends Cell {
   public void setMaxThreshold(float value) {
     fThresholdSlider.setMax(value);
   }
-
 
   private void drawControlDisplays() {
     pushStyle();

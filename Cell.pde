@@ -21,10 +21,11 @@ public abstract class Cell extends ControllableShape {
       int current = millis();
       fNumFired++;
       if (fNumFired > 1) {
-        int interval = (current - fLastFired);
+        float interval = (current - fLastFired)/1000.0;
         fCurrentFiringRate = 1.0/interval;
         fTotalTime += interval;
         fAvgFiringRate = 1/(float(fTotalTime)/fNumFired);
+        // println(fCurrentFiringRate + " " + fAvgFiringRate);
       }
       fLastFired = current;
     }

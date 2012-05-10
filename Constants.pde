@@ -144,7 +144,7 @@ static class Constants {
   // Plasticity
   static final float AVG_INPUT = 0.5;
   static final float AVG_OUTPUT = 0.5;
-  static final float LEARNING_K = 0.5;
+  static float LEARNING_K = 0.1;
 
   static void recalculate() {
     SHADOW_OFFSETX         = 2/SCALE;
