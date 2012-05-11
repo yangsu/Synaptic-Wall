@@ -67,7 +67,7 @@ void setup() {
   gEvents = new EventReceiver();
   Slider sss = new LinearSlider(
     0.75 * width,
-    0.5 * height,
+    0.1 * height,
     150,
     Constants.SCALE, 1, Constants.MAX_SCALE,
     SCALE, gEvents
@@ -79,7 +79,7 @@ void setup() {
 
   sss = new LinearSlider(
     0.75 * width,
-    0.45 * height,
+    0.05 * height,
     150,
     Constants.ZOOM_FACTOR, 1, Constants.MAX_ZOOM,
     ZOOM, gEvents

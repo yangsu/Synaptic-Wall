@@ -36,4 +36,8 @@ public class LinearSlider extends Slider {
     fValue = map(fSlider, fBegin, fEnd, fMin, fMax);
     if (fTarget != null) fTarget.onEvent(fID, fValue);
   }
+
+  public void setVisible(boolean visible) {
+    fVisible = true;
+  }
 }
