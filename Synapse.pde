@@ -84,7 +84,8 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
   public void onTimerFiring(int id, int time) {
     if (fDendrite != null)
       fDendrite.addSignal(new PostsynapticPotential(
-        fLatestSignal.fSpeed,
+        // fLatestSignal.fSpeed,
+        Constants.SIGNAL_DEFAULT_SPEED,
         fLatestSignal.fLength,
         fLatestSignal.fDecay,
         // fLatestSignal.fStrength * fStrength,
