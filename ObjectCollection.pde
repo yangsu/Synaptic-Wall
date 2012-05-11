@@ -194,6 +194,16 @@ public class ObjectCollection {
     fSelectEnd.set(x, y, 0);
   }
 
+  private boolean addToSelection(PVector minCoord, PVector maxCoord, Interactive s) {
+    PVector p = s.getLoc();
+    if (p.x >= minCoord.x && p.y >= minCoord.y &&
+        p.x <= maxCoord.x && p.y <= maxCoord.y) {
+      fSelectedObjs.add(s);
+      return true;
+    }
+    return false;
+  }
+
   public boolean endSelection(float x, float y) {
     fSelectEnd.set(x, y, 0);
     PVector minCoord = new PVector(min(fSelectStart.x, fSelectEnd.x), min(fSelectStart.y, fSelectEnd.y));
@@ -201,32 +211,75 @@ public class ObjectCollection {
     for (Interactive s : fObjs) {
       switch(s.getType()) {
         case Constants.SOMA:
-        case Constants.INITIATOR:
-          PVector p = s.getLoc();
-          if (p.x >= minCoord.x && p.y >= minCoord.y &&
-              p.x <= maxCoord.x && p.y <= maxCoord.y) {
-            fSelectedObjs.add(s);
+          if (addToSelection(minCoord, maxCoord, s))
             ((Controllable)s).showControls();
-          }
+          break;
+        case Constants.INITIATOR:
+          if (addToSelection(minCoord, maxCoord, s))
+            ((Controllable)s).showControls();
+          break;
+        case Constants.SYNAPSE:
+          addToSelection(minCoord, maxCoord, s);
           break;
         case Constants.DENDRITE:
-        case Constants.SYNAPSE:
         case Constants.AXON:
           break;
       }
     }
     fSelectStart = fSelectEnd = null;
+
+    showControlPanel();
     // Account for controls since they are always in selected
     boolean selected = (fSelectedObjs.size() - fControls.size()) != 0;
-    for (Interactive i : fControls)
-      i.setVisible(selected);
     return selected;
+  }
+  private void hideControlPanel() {
+    for (Interactive s : fControls)
+      s.setVisible(false);
+  }
+  private void showControlPanel() {
+    int initCount = 0;
+    int somaCount = 0;
+    int synapseCount = 0;
+    for (Interactive s : fSelectedObjs) {
+      // TODO: Temporary Hacks
+      if (!fControls.contains(s)) {
+        switch(s.getType()) {
+          case Constants.SOMA:
+            somaCount++;
+            break;
+          case Constants.INITIATOR:
+            initCount++;
+            break;
+          case Constants.SYNAPSE:
+            synapseCount++;
+            break;
+          case Constants.DENDRITE:
+          case Constants.AXON:
+            break;
+        }
+      }
+    }
+    if (somaCount + initCount + synapseCount > 0) {
+      for (Interactive i : fControls)
+        if ((i.getType() == Constants.SYNAPSE && synapseCount > 0) ||
+            (i.getType() == Constants.SOMA && somaCount > 0) ||
+            (i.getType() == Constants.INITIATOR && initCount > 0))
+        i.setVisible(true);
+    }
+    else {
+      hideControlPanel();
+    }
   }
   private void syncAttributes(Interactive curr) {
     for (Interactive s : fSelectedObjs) {
-      if (curr != s && curr.getType() == s.getType() &&
-        (curr.getType() == Constants.SOMA || curr.getType() == Constants.INITIATOR)) {
-        ((Cell)s).copyAttributes((Cell)curr);
+      if (curr != s && curr.getType() == s.getType()) {
+        if (curr.getType() == Constants.SOMA || curr.getType() == Constants.INITIATOR) {
+          ((Cell)s).copyAttributes((Cell)curr);
+        }
+        else if (curr.getType() == Constants.SYNAPSE) {
+
+        }
       }
     }
   }
@@ -238,8 +291,7 @@ public class ObjectCollection {
           if (!fSelectedObjs.contains(curr) && curr.fVisible) {
               fSelectedObjs.add(curr);
               ((Controllable)curr).showControls();
-              for (Interactive ii : fControls)
-                ii.setVisible(true);
+              showControlPanel();
           }
           else if (key == CODED && keyCode == ALT) {
               fSelectedObjs.remove(curr);
@@ -249,10 +301,9 @@ public class ObjectCollection {
         return true;
       }
     }
-    if (!(key == CODED && keyCode == SHIFT))
+    // if (!(key == CODED && keyCode == SHIFT))
       resetSelection();
-    for (Interactive i : fControls)
-      i.setVisible(false);
+    hideControlPanel();
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
