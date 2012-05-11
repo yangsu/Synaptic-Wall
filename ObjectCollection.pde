@@ -238,6 +238,8 @@ public class ObjectCollection {
           if (!fSelectedObjs.contains(curr) && curr.fVisible) {
               fSelectedObjs.add(curr);
               ((Controllable)curr).showControls();
+              for (Interactive ii : fControls)
+                ii.setVisible(true);
           }
           else if (key == CODED && keyCode == ALT) {
               fSelectedObjs.remove(curr);
@@ -249,6 +251,8 @@ public class ObjectCollection {
     }
     if (!(key == CODED && keyCode == SHIFT))
       resetSelection();
+    for (Interactive i : fControls)
+      i.setVisible(false);
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
