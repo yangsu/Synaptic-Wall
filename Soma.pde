@@ -128,21 +128,44 @@ class Soma extends Cell {
     popStyle();
   }
 
+  private static final float c = 2; // capacitance
+  private static final float r = 500; // resistance
+  private static final float rc = r * c;
+  private static final float ur =  -0.5; // reset potential
+  private static final float u0 = 0; // resting potential
+  private static final float q = 2.3; // total charge
+  private static final float tc = -100000;
+  private static final float th = 1; // the neuron threshold
+  private static final float taus = 500; // time constant
+
   private void processSignals() {
-    float sum = 0;
+    double seps = 0, eps = 0;
     int now = millis();
+    int timeSinceLastFiring = now - fLastFired;
     for (int i = fReceivedSignals.size()-1; i >= 0; --i) {
       Signal s = fReceivedSignals.get(i);
       int diff = now - s.fFiringTime;
       float actualLength = s.fLength*Constants.SIGNAL_FIRING_MULTIPLIER + Constants.SIGNAL_SINGLE_FIRING_TIME;
-      if (diff > actualLength)
-        fReceivedSignals.remove(s);
-      else {
-        float val = Util.pulse(s.fStrength, diff, actualLength);
-        sum += val;
+      if (fLastFired <= s.fFiringTime && s.fFiringTime <= now) {
+        eps = Math.exp(-diff/rc) - Math.exp(-diff/taus);
       }
+      if (s.fFiringTime < fLastFired && fLastFired <= now) {
+        eps = Math.exp(-(fLastFired - s.fFiringTime)/taus)*(Math.exp(-timeSinceLastFiring/rc) - Math.exp(-timeSinceLastFiring/taus));
+      }
+      if (eps <= 0.005) {
+        fReceivedSignals.remove(s);
+      }
+      seps += s.fStrength * eps;
+      // float val = Util.pulse(s.fStrength, diff, actualLength);
     }
-    fThresholdSlider.setValue(sum);
+
+    double value = u0 + (ur - u0) * Math.exp(-timeSinceLastFiring / rc) + q/c * 1/(1-taus/rc) * seps;
+    if (value >= th) { // generate spike
+      fLastFired = now;
+      value = ur;
+    }
+
+    fThresholdSlider.setValue((float)value);
   }
 
   public void update() {
