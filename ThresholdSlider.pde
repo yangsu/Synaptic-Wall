@@ -22,8 +22,8 @@ public class ThresholdSlider extends CircularSlider {
   }
 
   public void setValue(float val) {
-    if (val <= fMin || val >= fMax)
-      fTarget.onEvent(fID, val);
+    // if (val <= fMin || val >= fMax)
+    //   fTarget.onEvent(fID, val);
     fValue = constrain(val, fMin, fMax);
     if (fValue > 0)
       fSlider = map(fValue, 0, fMax, fOffset, fEnd - fOffset);

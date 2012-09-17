@@ -161,8 +161,8 @@ class Soma extends Cell {
 
     double value = u0 + (ur - u0) * Math.exp(-timeSinceLastFiring / rc) + q/c * 1/(1-taus/rc) * seps;
     if (value >= th) { // generate spike
-      fLastFired = now;
       value = ur;
+      fire();
     }
 
     fThresholdSlider.setValue((float)value);
@@ -241,7 +241,7 @@ class Soma extends Cell {
         fDecay = value;
         break;
       case THRESHOLD:
-        fire();
+        // fire();
         break;
       default:
         break;
