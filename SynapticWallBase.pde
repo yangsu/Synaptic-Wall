@@ -140,27 +140,28 @@ void drawBackground(color cc) {
     rect(0, 0, width, height);
   popStyle();
 }
-void drawContent(boolean update) {
+void drawAndUpdateContent() {
   drawBackground(Constants.BG_COLOR);
   gGrid.draw();
-  if (update) {
-    gObjs.drawAndUpdate();
-    if (gCurrShape != null)
-      gCurrShape.drawAndUpdate();
-    if (gCurrPath != null)
-      gCurrPath.drawAndUpdate();
-    if (gCurrInitiator != null && gCurrInitiator.fMovable)
-      gCurrInitiator.drawAndUpdate();
-  }
-  else {
-    gObjs.draw();
-    if (gCurrShape != null)
-      gCurrShape.draw();
-    if (gCurrPath != null)
-      gCurrPath.draw();
-    if (gCurrInitiator != null && gCurrInitiator.fMovable)
-      gCurrInitiator.draw();
-  }
+  gObjs.drawAndUpdate();
+  if (gCurrShape != null)
+    gCurrShape.drawAndUpdate();
+  if (gCurrPath != null)
+    gCurrPath.drawAndUpdate();
+  if (gCurrInitiator != null && gCurrInitiator.fMovable)
+    gCurrInitiator.drawAndUpdate();
+}
+
+void drawContent() {
+  drawBackground(Constants.BG_COLOR);
+  gGrid.draw();
+  gObjs.draw();
+  if (gCurrShape != null)
+    gCurrShape.draw();
+  if (gCurrPath != null)
+    gCurrPath.draw();
+  if (gCurrInitiator != null && gCurrInitiator.fMovable)
+    gCurrInitiator.draw();
 }
 void drawMagnified() {
   pushStyle();
