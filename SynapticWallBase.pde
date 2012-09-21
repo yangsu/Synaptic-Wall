@@ -17,15 +17,13 @@ Path gCurrPath;
 PVector gIndicator;
 PVector gIndicator2;
 
-Grid gGrid;
+ControlPanel gCPanel;
 
-final int SCALE = 0;
-final int ZOOM = 1;
-EventReceiver gEvents;
+Grid gGrid;
 
 void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
-  gMagnified = createImage(width/2, height/2, ARGB);
+  gMagnified = createImage(Constants.HALFWIDTH, Constants.HALFHEIGHT, ARGB);
 
   //Settings
   ellipseMode(RADIUS);
@@ -42,52 +40,7 @@ void setup() {
   gCurrentMode = Constants.CREATION;
 
   gObjs = new ObjectCollection();
-
-  // Initiate Control Panel
-  Soma s = new ControllerSoma(
-    0.8 * width,
-    0.8 * height
-  );
-  s.setVisible(false);
-  s.setMovable(false);
-  s.showControls();
-
-  gObjs.addControl(s);
-
-  ControllerSynapse sy = new ControllerSynapse(
-    0.8 * width,
-    0.6 * height
-  );
-  sy.setVisible(false);
-  sy.setMovable(false);
-  sy.showControls();
-
-  gObjs.addControl(sy);
-
-  gEvents = new EventReceiver();
-  Slider sss = new LinearSlider(
-    0.75 * width,
-    0.1 * height,
-    150,
-    Constants.SCALE, 1, Constants.MAX_SCALE,
-    SCALE, gEvents
-  );
-  sss.setLabel("Scale");
-  sss.setVisible(false);
-  sss.setMovable(false);
-  gObjs.addControl(sss);
-
-  sss = new LinearSlider(
-    0.75 * width,
-    0.05 * height,
-    150,
-    Constants.ZOOM_FACTOR, 1, Constants.MAX_ZOOM,
-    ZOOM, gEvents
-  );
-  sss.setLabel("Zoom");
-  sss.setVisible(false);
-  sss.setMovable(false);
-  gObjs.addControl(sss);
+  gCPanel = new ControlPanel(gObjs);
 
   gCurrShape = null;
   gCurrPath = null;
@@ -99,23 +52,6 @@ void setup() {
   gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 }
 
-public class EventReceiver implements Controllable {
-  public EventReceiver() {}
-  public void drawControls() {}
-  public void showControls() {}
-  public void hideControls() {}
-  public void onEvent(int controlID, float value) {
-    switch (controlID) {
-      case SCALE:
-        Constants.SCALE = value;
-        Constants.recalculate();
-        break;
-      case ZOOM:
-        Constants.ZOOM_FACTOR = value;
-        break;
-    }
-  }
-}
 void snapIndicators(float x, float y, float size) {
   float angle = Util.getAngleNorm(x, y, mouseX, mouseY);
   float tloc = size-Constants.SOMA_RING_WIDTH/2;
@@ -144,6 +80,7 @@ void drawAndUpdateContent() {
   drawBackground(Constants.BG_COLOR);
   gGrid.draw();
   gObjs.drawAndUpdate();
+  gCPanel.draw();
   if (gCurrShape != null)
     gCurrShape.drawAndUpdate();
   if (gCurrPath != null)
@@ -156,6 +93,7 @@ void drawContent() {
   drawBackground(Constants.BG_COLOR);
   gGrid.draw();
   gObjs.draw();
+  gCPanel.draw();
   if (gCurrShape != null)
     gCurrShape.draw();
   if (gCurrPath != null)
@@ -310,7 +248,7 @@ void onMousePressed() {
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    if (!gObjs.onMouseDown(mouseX, mouseY, key, keyCode)) {
+    if (!gObjs.onMouseDown(mouseX, mouseY, key, keyCode) && !gCPanel.onMouseDown(mouseX, mouseY)) {
       gSelection = true;
       gObjs.beginSelection(mouseX, mouseY);
     }
@@ -399,6 +337,7 @@ void onMouseDragged() {
     }
     else {
       gObjs.onMouseDragged(mouseX, mouseY);
+      gCPanel.onMouseDragged(mouseX, mouseY);
     }
   }
   else {
@@ -411,6 +350,7 @@ void onMouseMoved() {
   if (gCurrentMode == Constants.INTERACTION || gMagnify) {
   }
   gObjs.onMouseMoved(mouseX, mouseY);
+  gCPanel.onMouseMoved(mouseX, mouseY);
   redraw();
 }
 
@@ -490,6 +430,7 @@ void onMouseReleased() {
       gSelection = false;
     }
     gObjs.onMouseUp(mouseX, mouseY);
+    gCPanel.onMouseUp(mouseX, mouseY);
   }
 
   redraw();

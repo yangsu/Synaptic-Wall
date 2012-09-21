@@ -1,16 +1,9 @@
-public class ObjectCollection {
-  private Interactive fSelected;
-  private ArrayList<Interactive> fObjs, fSelectedObjs, fControls;
+public class ObjectCollection extends Collection {
   private ArrayList<Path> fPaths;
   private ArrayList<Path> fDendrites;
   private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
 
   private PVector fSelectStart, fSelectEnd;
-
-  public ObjectCollection() {
-    fControls = new ArrayList<Interactive>();
-    reset();
-  }
 
   private void drawSelection() {
     if (fSelectStart != null && fSelectEnd != null) {
@@ -110,11 +103,6 @@ public class ObjectCollection {
     }
   }
 
-  public void addControl(Interactive s) {
-    fControls.add(s);
-    add(s);
-  }
-
   public void remove(Interactive s) {
     // TODO: check for off by 1 error
     if (s != null) {
@@ -172,16 +160,6 @@ public class ObjectCollection {
     fDendriteIndex = 0;
 
     fSelectStart = fSelectEnd = null;
-
-    // Adde controls back
-    fObjs.addAll(fControls);
-    fSelectedObjs.addAll(fControls);
-  }
-
-  private void resetSelection() {
-    hideControls();
-    fSelectedObjs = new ArrayList<Interactive>();
-    fSelectedObjs.addAll(fControls);
   }
 
   public void beginSelection(float x, float y) {
@@ -228,61 +206,9 @@ public class ObjectCollection {
     }
     fSelectStart = fSelectEnd = null;
 
-    showControlPanel();
-    // Account for controls since they are always in selected
-    boolean selected = (fSelectedObjs.size() - fControls.size()) != 0;
-    return selected;
+    return false;
   }
-  private void hideControlPanel() {
-    for (Interactive s : fControls)
-      s.setVisible(false);
-  }
-  private void showControlPanel() {
-    int initCount = 0;
-    int somaCount = 0;
-    int synapseCount = 0;
-    for (Interactive s : fSelectedObjs) {
-      // TODO: Temporary Hacks
-      if (!fControls.contains(s)) {
-        switch(s.getType()) {
-          case Constants.SOMA:
-            somaCount++;
-            break;
-          case Constants.INITIATOR:
-            initCount++;
-            break;
-          case Constants.SYNAPSE:
-            synapseCount++;
-            break;
-          case Constants.DENDRITE:
-          case Constants.AXON:
-            break;
-        }
-      }
-    }
-    if (somaCount + initCount + synapseCount > 0) {
-      for (Interactive i : fControls)
-        if ((i.getType() == Constants.SYNAPSE && synapseCount > 0) ||
-            (i.getType() == Constants.SOMA && somaCount > 0) ||
-            (i.getType() == Constants.INITIATOR && initCount > 0))
-        i.setVisible(true);
-    }
-    else {
-      hideControlPanel();
-    }
-  }
-  private void syncAttributes(Interactive curr) {
-    for (Interactive s : fSelectedObjs) {
-      if (curr != s && curr.getType() == s.getType()) {
-        if (curr.getType() == Constants.SOMA || curr.getType() == Constants.INITIATOR) {
-          ((Cell)s).copyAttributes((Cell)curr);
-        }
-        else if (curr.getType() == Constants.SYNAPSE) {
 
-        }
-      }
-    }
-  }
   public boolean onMouseDown(float x, float y, int key, int keyCode) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
@@ -291,7 +217,7 @@ public class ObjectCollection {
           if (!fSelectedObjs.contains(curr) && curr.fVisible) {
               fSelectedObjs.add(curr);
               ((Controllable)curr).showControls();
-              showControlPanel();
+              // showControlPanel();
           }
           else if (key == CODED && keyCode == ALT) {
               fSelectedObjs.remove(curr);
@@ -302,51 +228,16 @@ public class ObjectCollection {
       }
     }
     // if (!(key == CODED && keyCode == SHIFT))
-      resetSelection();
-    hideControlPanel();
+    resetSelection();
     return false;
   }
   public boolean onMouseDragged(float x, float y) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.fVisible && curr.onMouseDragged(x, y)) {
-        syncAttributes(curr);
+        // syncAttributes(curr);
         return true;
       }
-    }
-    return false;
-  }
-  public boolean onMouseMoved(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--) {
-      Interactive curr = fObjs.get(i);
-      if (curr.fVisible && curr.onMouseMoved(x, y))
-        return true;
-    }
-    return false;
-  }
-  public boolean onMouseUp(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--) {
-      Interactive curr = fObjs.get(i);
-      if (curr.fVisible && curr.onMouseUp(x, y)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  public boolean onDblClick(float x, float y) {
-    for (int i = fObjs.size()-1; i>=0; i--) {
-      Interactive curr = fObjs.get(i);
-      if (curr.fVisible && curr.onDblClick(x, y))
-        return true;
-    }
-    return false;
-  }
-
-  public boolean onSmoothToggle(boolean smooth) {
-    for (int i = fObjs.size()-1; i>=0; i--) {
-      Interactive curr = fObjs.get(i);
-      if (curr.fVisible && curr.onSmoothToggle(smooth))
-        return true;
     }
     return false;
   }
