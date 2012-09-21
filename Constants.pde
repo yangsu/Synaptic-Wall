@@ -4,6 +4,10 @@ static class Constants {
 
   static final int WIDTH  = 800;
   static final int HEIGHT = 800;
+  static final int HALFWIDTH = WIDTH / 2;
+  static final int HALFHEIGHT = HEIGHT / 2;
+  static final int QUARTERWIDTH = WIDTH / 4;
+  static final int QUARTERHEIGHT = HEIGHT / 4;
 
   static float SCALE           = 1.0;
   static final float MAX_SCALE = 4.0;

@@ -170,22 +170,24 @@ void drawMagnified() {
       translate(-mouseX, -mouseY);
       fill(Constants.FADE_COLOR);
       rect(0, 0, width, height);
-      drawContent(false);
+      drawContent();
     popMatrix();
-    int hw = width/2;
-    int hh = height/2;
-    int magnifiedX = constrain(mouseX-width/4, 0, hw);
-    int magnifiedY = constrain(mouseY-height/4, 0, hh);
-    gMagnified = get(magnifiedX, magnifiedY, hw, hh);
+    int magnifiedX = constrain(mouseX-Constants.QUARTERWIDTH, 0, Constants.HALFWIDTH);
+    int magnifiedY = constrain(mouseY-Constants.QUARTERHEIGHT, 0, Constants.HALFHEIGHT);
+    gMagnified = get(magnifiedX, magnifiedY, Constants.HALFWIDTH, Constants.HALFHEIGHT);
 
-    drawContent(false);
+    drawContent();
 
     image(gMagnified, magnifiedX, magnifiedY);
 
     noFill();
     stroke(255);
     strokeWeight(5);
-    rect(magnifiedX, magnifiedY, hw, hh);
+    rect(magnifiedX, magnifiedY, Constants.HALFWIDTH, Constants.HALFHEIGHT);
+
+    drawIndicators();
+    drawText();
+
   popStyle();
 }
 
@@ -215,10 +217,9 @@ void draw() {
   if (gMagnify)
     drawMagnified();
   else
-    drawContent(true);
-  drawIndicators();
-  drawText();
+    drawAndUpdateContent();
 }
+
 void clear() {
   gObjs.reset();
   gCurrShape = null;
