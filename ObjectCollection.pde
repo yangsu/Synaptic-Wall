@@ -1,37 +1,14 @@
 public class ObjectCollection extends Collection {
-  private ArrayList<Path> fPaths;
-  private ArrayList<Path> fDendrites;
-  private int fInitiatorIndex, fSomaIndex, fAxonIndex, fSynapseIndex, fDendriteIndex;
-
-  private PVector fSelectStart, fSelectEnd;
-
-  private void drawSelection() {
-    if (fSelectStart != null && fSelectEnd != null) {
-      pushStyle();
-      stroke(Constants.SELECTION_BORDER_COLOR);
-      strokeWeight(Constants.SELECTION_BORDER_WIDTH);
-      fill(Constants.SELECTION_COLOR);
-      PVector size = PVector.sub(fSelectEnd, fSelectStart);
-      rect(fSelectStart.x, fSelectStart.y, size.x, size.y);
-      popStyle();
-    }
-  }
+  private ArrayList<Path> fAxons, fDendrites;
+  private ArrayList<Soma> fSomas;
+  private ArrayList<Initiator> fInitiators;
+  private ArrayList<Synapse> fSynapses;
 
   public void draw() {
-    int l = fObjs.size();
-    // Using draw for now
-    // for (Path p : fDendrites)
-    //   p.draw();
-    // for (int i = fDendriteIndex; i < l; i++)
-    //   fObjs.get(i).drawBackground();
-    // for (int i = fDendriteIndex; i < l; i++)
-    //   fObjs.get(i).drawForeground();
     for (Interactive s : fObjs)
       s.draw();
-    if (fSelectStart != null && fSelectEnd != null) {
-      drawSelection();
-    }
   }
+
   public void drawAndUpdate() {
     for (Interactive s : fObjs)
       s.update();
@@ -78,62 +55,49 @@ public class ObjectCollection extends Collection {
 
   public void add(Interactive s) {
     if (s != null) {
-      int index = fObjs.size();
       switch(s.getType()) {
         case Constants.DENDRITE:
-          index = (index == -1) ? fDendriteIndex : index;
-          fDendriteIndex++;
-          fDendrites.add((Path)s);
+          fDendrites.add((Dendrite)s);
+          break;
         case Constants.AXON:
-          index = (index == -1) ? fAxonIndex : index;
-          fAxonIndex++;
-          // Falls through so this is executed for bouth AXON and DENDRITE
-          fPaths.add((Path)s);
+          fAxons.add((Axon)s);
+          break;
         case Constants.SYNAPSE:
-          index = (index == -1) ? fSynapseIndex : index;
-          fSynapseIndex++;
+          fSynapses.add((Synapse)s);
+          break;
         case Constants.SOMA:
-          index = (index == -1) ? fSomaIndex : index;
-          fSomaIndex++;
+          fSomas.add((Soma)s);
+          break;
         case Constants.INITIATOR:
-          index = (index == -1) ? fInitiatorIndex : index;
-          fInitiatorIndex++;
+          fInitiators.add((Initiator)s);
+          break;
       }
-      fObjs.add(index, s);
+      fObjs.add(s);
     }
   }
 
   public void remove(Interactive s) {
-    // TODO: check for off by 1 error
     if (s != null) {
       switch(s.getType()) {
+        case Constants.AXON:
+          fAxons.remove((Axon)s);
         case Constants.DENDRITE:
-          fDendriteIndex--;
-        case Constants.AXON:
-          fAxonIndex--;
-        case Constants.SYNAPSE:
-          fSynapseIndex--;
-        case Constants.SOMA:
-          fSomaIndex--;
-        case Constants.INITIATOR:
-          fInitiatorIndex--;
-      }
-
-      switch(s.getType()) {
-        case Constants.AXON:
+          fDendrites.remove((Dendrite)s);
           remove((Interactive)((Path)s).getDest());
-        case Constants.DENDRITE:
           Path path = (Path)s;
           ArrayList<Path> paths = path.getConnectedPaths();
           for (Path p : paths)
             remove((Interactive)p);
           break;
         case Constants.SYNAPSE:
+          fSynapses.remove((Synapse)s);
           Synapse ss = (Synapse)s;
           remove((Interactive)(ss.getDendrite()));
           break;
         case Constants.SOMA:
+          fSomas.remove((Soma)s);
         case Constants.INITIATOR:
+          fInitiators.remove((Initiator)s);
           Cell cell = (Cell)s;
           ArrayList<Path> axons = cell.getAxons();
           for (Path p : axons)
@@ -149,64 +113,13 @@ public class ObjectCollection extends Collection {
 
   public void reset() {
     fObjs = new ArrayList<Interactive>();
-    fPaths = new ArrayList<Path>();
+    fAxons = new ArrayList<Path>();
     fDendrites = new ArrayList<Path>();
+    fSomas = new ArrayList<Soma>();
+    fSynapses = new ArrayList<Synapse>();
+    fInitiators = new ArrayList<Initiator>();
     fSelectedObjs = new ArrayList<Interactive>();
     fSelected = null;
-    fInitiatorIndex = 0;
-    fSomaIndex = 0;
-    fAxonIndex = 0;
-    fSynapseIndex = 0;
-    fDendriteIndex = 0;
-
-    fSelectStart = fSelectEnd = null;
-  }
-
-  public void beginSelection(float x, float y) {
-    resetSelection();
-    fSelectStart = new PVector(x, y);
-    fSelectEnd = new PVector(x, y);
-  }
-
-  public void updateSelection(float x, float y) {
-    fSelectEnd.set(x, y, 0);
-  }
-
-  private boolean addToSelection(PVector minCoord, PVector maxCoord, Interactive s) {
-    PVector p = s.getLoc();
-    if (p.x >= minCoord.x && p.y >= minCoord.y &&
-        p.x <= maxCoord.x && p.y <= maxCoord.y) {
-      fSelectedObjs.add(s);
-      return true;
-    }
-    return false;
-  }
-
-  public boolean endSelection(float x, float y) {
-    fSelectEnd.set(x, y, 0);
-    PVector minCoord = new PVector(min(fSelectStart.x, fSelectEnd.x), min(fSelectStart.y, fSelectEnd.y));
-    PVector maxCoord = new PVector(max(fSelectStart.x, fSelectEnd.x), max(fSelectStart.y, fSelectEnd.y));
-    for (Interactive s : fObjs) {
-      switch(s.getType()) {
-        case Constants.SOMA:
-          if (addToSelection(minCoord, maxCoord, s))
-            ((Controllable)s).showControls();
-          break;
-        case Constants.INITIATOR:
-          if (addToSelection(minCoord, maxCoord, s))
-            ((Controllable)s).showControls();
-          break;
-        case Constants.SYNAPSE:
-          addToSelection(minCoord, maxCoord, s);
-          break;
-        case Constants.DENDRITE:
-        case Constants.AXON:
-          break;
-      }
-    }
-    fSelectStart = fSelectEnd = null;
-
-    return false;
   }
 
   public boolean onMouseDown(float x, float y, int key, int keyCode) {
@@ -231,6 +144,7 @@ public class ObjectCollection extends Collection {
     resetSelection();
     return false;
   }
+
   public boolean onMouseDragged(float x, float y) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
