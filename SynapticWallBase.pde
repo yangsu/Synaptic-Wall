@@ -2,13 +2,15 @@ boolean gDebug = false;
 int gIDCount = 0;
 
 boolean gMagnify;
-boolean gSelected;
-Selector gSelector;
 boolean gSmoothPaths;
 int gCurrentMode;
+String gCurrentModeLabel;
 PImage gMagnified;
 
+Selector gSelector;
 ObjectCollection gObjs;
+ControlPanel gCPanel;
+Grid gGrid;
 
 Interactive gLastSelected;
 Initiator gCurrInitiator;
@@ -17,31 +19,27 @@ Path gCurrPath;
 PVector gIndicator;
 PVector gIndicator2;
 
-ControlPanel gCPanel;
-
-Grid gGrid;
-
 void setup() {
-  size(Constants.WIDTH, Constants.HEIGHT);
-  gMagnified = createImage(Constants.HALFWIDTH, Constants.HALFHEIGHT, ARGB);
-
-  gSelector = new Selector();
-
   //Settings
+  size(Constants.WIDTH, Constants.HEIGHT);
   ellipseMode(RADIUS);
   strokeCap(ROUND);
   strokeJoin(ROUND);
   smooth();
   // noLoop();
   noStroke();
-  //initialization
-  gMagnify = false;
-  gSelected = false;
-  gSmoothPaths = false;
-  gCurrentMode = Constants.CREATION;
 
+  //initialization
+  gCurrentMode = Constants.CREATION;
+  gCurrentModeLabel = "CREATION";
+  gMagnify = false;
+  gMagnified = createImage(Constants.HALFWIDTH, Constants.HALFHEIGHT, ARGB);
+  gSmoothPaths = false;
+
+  gSelector = new Selector();
   gObjs = new ObjectCollection();
   gCPanel = new ControlPanel(gObjs);
+  gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 
   gCurrShape = null;
   gCurrPath = null;
@@ -49,8 +47,6 @@ void setup() {
   gIndicator2 = new PVector(Constants.MIN, Constants.MIN);
   gLastSelected = null;
   gCurrInitiator = null;
-
-  gGrid = new Grid(Constants.WIDTH, Constants.GRID_RESOLUTION);
 }
 
 void snapIndicators(float x, float y, float size) {
@@ -62,26 +58,18 @@ void clearIndicators() {
   gIndicator.set(Constants.MIN, Constants.MIN, 0);
   gIndicator2.set(Constants.MIN, Constants.MIN, 0);
 }
-void drawIndicators() {
-  pushStyle();
-    fill(255);
-    float s = Constants.PATH_JUNCTION_WIDTH;
-    ellipse(gIndicator.x, gIndicator.y, s, s);
-    ellipse(gIndicator2.x, gIndicator2.y, s, s);
-  popStyle();
-}
 
 void drawBackground(color cc) {
   pushStyle();
     noStroke();
     fill(cc);
     rect(0, 0, width, height);
+    gGrid.draw();
   popStyle();
 }
 
 void drawAndUpdateContent() {
   drawBackground(Constants.BG_COLOR);
-  gGrid.draw();
   gObjs.drawAndUpdate();
   gCPanel.draw();
   if (gCurrShape != null)
@@ -94,7 +82,6 @@ void drawAndUpdateContent() {
 
 void drawContent() {
   drawBackground(Constants.BG_COLOR);
-  gGrid.draw();
   gObjs.draw();
   gCPanel.draw();
   if (gCurrShape != null)
@@ -128,41 +115,27 @@ void drawMagnified() {
     strokeWeight(5);
     rect(magnifiedX, magnifiedY, Constants.HALFWIDTH, Constants.HALFHEIGHT);
 
-    drawIndicators();
-    drawText();
-
-  popStyle();
-}
-
-void drawText() {
-  pushStyle();
-    fill(255);
-    String s = "";
-    switch (gCurrentMode) {
-      case Constants.CREATION:
-        s = "CREATION";
-        break;
-      case Constants.DELETION:
-        s = "DELETION";
-        break;
-      case Constants.INTERACTION:
-        s = "INTERACTION";
-        break;
-    }
-    text(s, 0, 20);
-    // Frame Rate
-    s = nf(frameRate, 2, 2) + " FPS";
-    text(s, width - 60, 20);
   popStyle();
 }
 
 void draw() {
   if (gMagnify)
     drawMagnified();
-  else {
+  else
     drawAndUpdateContent();
-  }
+
   gSelector.draw();
+
+  pushStyle();
+    fill(255);
+    float s = Constants.PATH_JUNCTION_WIDTH;
+    ellipse(gIndicator.x, gIndicator.y, s, s);
+    ellipse(gIndicator2.x, gIndicator2.y, s, s);
+
+    text(gCurrentModeLabel, 0, 20);
+    String fps = nf(frameRate, 2, 2) + " FPS";
+    text(fps, width - 60, 20);
+  popStyle();
 }
 
 void clear() {
@@ -442,12 +415,15 @@ void keyPressed() {
   switch (key) {
     case '1':
       gCurrentMode = Constants.CREATION;
+      gCurrentModeLabel = "CREATION";
       break;
     case '2':
       gCurrentMode = Constants.DELETION;
+      gCurrentModeLabel = "DELETION";
       break;
     case '3':
       gCurrentMode = Constants.INTERACTION;
+      gCurrentModeLabel = "INTERACTION";
       break;
     case 'm':
       gMagnify = !gMagnify;
