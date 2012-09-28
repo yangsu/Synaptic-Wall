@@ -2,8 +2,8 @@ boolean gDebug = false;
 int gIDCount = 0;
 
 boolean gMagnify;
-boolean gSelection;
 boolean gSelected;
+Selector gSelector;
 boolean gSmoothPaths;
 int gCurrentMode;
 PImage gMagnified;
@@ -25,6 +25,8 @@ void setup() {
   size(Constants.WIDTH, Constants.HEIGHT);
   gMagnified = createImage(Constants.HALFWIDTH, Constants.HALFHEIGHT, ARGB);
 
+  gSelector = new Selector();
+
   //Settings
   ellipseMode(RADIUS);
   strokeCap(ROUND);
@@ -34,7 +36,6 @@ void setup() {
   noStroke();
   //initialization
   gMagnify = false;
-  gSelection = false;
   gSelected = false;
   gSmoothPaths = false;
   gCurrentMode = Constants.CREATION;
@@ -69,6 +70,7 @@ void drawIndicators() {
     ellipse(gIndicator2.x, gIndicator2.y, s, s);
   popStyle();
 }
+
 void drawBackground(color cc) {
   pushStyle();
     noStroke();
@@ -76,6 +78,7 @@ void drawBackground(color cc) {
     rect(0, 0, width, height);
   popStyle();
 }
+
 void drawAndUpdateContent() {
   drawBackground(Constants.BG_COLOR);
   gGrid.draw();
@@ -101,6 +104,7 @@ void drawContent() {
   if (gCurrInitiator != null && gCurrInitiator.fMovable)
     gCurrInitiator.draw();
 }
+
 void drawMagnified() {
   pushStyle();
     pushMatrix();
@@ -155,8 +159,10 @@ void drawText() {
 void draw() {
   if (gMagnify)
     drawMagnified();
-  else
+  else {
     drawAndUpdateContent();
+  }
+  gSelector.draw();
 }
 
 void clear() {
@@ -249,11 +255,7 @@ void onMousePressed() {
   }
   else if (gCurrentMode == Constants.INTERACTION) {
     if (!gObjs.onMouseDown(mouseX, mouseY, key, keyCode) && !gCPanel.onMouseDown(mouseX, mouseY)) {
-      gSelection = true;
-      gObjs.beginSelection(mouseX, mouseY);
-    }
-    else {
-      gSelection = false;
+      gSelector.beginSelection(mouseX, mouseY);
     }
   }
   else {
@@ -332,8 +334,8 @@ void onMouseDragged() {
     }
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    if (gSelection) {
-      gObjs.updateSelection(mouseX, mouseY);
+    if (gSelector.isSelecting()) {
+      gSelector.updateSelection(mouseX, mouseY);
     }
     else {
       gObjs.onMouseDragged(mouseX, mouseY);
@@ -425,9 +427,8 @@ void onMouseReleased() {
     clearIndicators();
   }
   else if (gCurrentMode == Constants.INTERACTION) {
-    if (gSelection) {
-      gSelected = gObjs.endSelection(mouseX, mouseY);
-      gSelection = false;
+    if (gSelector.isSelecting()) {
+      gSelector.endSelection(mouseX, mouseY);
     }
     gObjs.onMouseUp(mouseX, mouseY);
     gCPanel.onMouseUp(mouseX, mouseY);
