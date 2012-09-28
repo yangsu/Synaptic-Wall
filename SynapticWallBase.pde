@@ -208,7 +208,7 @@ void onMousePressed() {
   Interactive selected = null;
   if (gCurrentMode == Constants.CREATION) {
     if (gObjs.select(mouseX, mouseY)) {
-      selected = gObjs.getSelected();
+      selected = gObjs.getSelected().get(0);
       gLastSelected = selected;
       // If selected is the gCurrInitiator, then create axon
       if (selected.getType() == Constants.INITIATOR ||
@@ -249,7 +249,7 @@ void onMousePressed() {
   }
   else if (gCurrentMode == Constants.DELETION) {
     if (gObjs.select(mouseX, mouseY)) {
-      selected = gObjs.getSelected();
+      selected = gObjs.getSelected().get(0);
       gObjs.remove(selected);
     }
   }
@@ -289,7 +289,7 @@ void onMouseDragged() {
     if (gObjs.select(mouseX, mouseY) ||
         gObjs.select(gridPoint.x, gridPoint.y)) {
 
-      selected = gObjs.getSelected();
+      selected = gObjs.getSelected().get(0);
       if (selected != gLastSelected) {
         if (selected.getType() == Constants.INITIATOR ||
             selected.getType() == Constants.SOMA) {
@@ -393,7 +393,7 @@ void onMouseReleased() {
           if (gObjs.select(mouseX, mouseY) ||
               gObjs.select(gridPoint.x, gridPoint.y)) {
 
-            selected = gObjs.getSelected();
+            selected = gObjs.getSelected().get(0);
             if (selected.getType() == Constants.SOMA) {
               Cell c = (Cell)selected;
               // Add the indicator point to the path
@@ -429,6 +429,7 @@ void onMouseReleased() {
   else if (gCurrentMode == Constants.INTERACTION) {
     if (gSelector.isSelecting()) {
       gSelector.endSelection(mouseX, mouseY);
+      gObjs.selectArea(gSelector.getStart(), gSelector.getEnd());
     }
     gObjs.onMouseUp(mouseX, mouseY);
     gCPanel.onMouseUp(mouseX, mouseY);
@@ -441,15 +442,12 @@ void keyPressed() {
   switch (key) {
     case '1':
       gCurrentMode = Constants.CREATION;
-      gObjs.hideControls();
       break;
     case '2':
       gCurrentMode = Constants.DELETION;
-      gObjs.hideControls();
       break;
     case '3':
       gCurrentMode = Constants.INTERACTION;
-      gObjs.showControls();
       break;
     case 'm':
       gMagnify = !gMagnify;

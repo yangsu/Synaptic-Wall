@@ -36,8 +36,6 @@ public class Selector {
   }
 
   public void endSelection(float x, float y) {
-    fStart.set(Constants.MIN, Constants.MIN, 0);
-    fEnd.set(Constants.MIN, Constants.MIN, 0);
     fSelecting = false;
   }
 

@@ -1,18 +1,18 @@
 public class Collection {
   protected ArrayList<Interactive> fObjs, fSelectedObjs;
-  protected Interactive fSelected;
 
   public Collection() {
-    reset();
+    fObjs = new ArrayList<Interactive>();
+    fSelectedObjs = new ArrayList<Interactive>();
   }
 
   public void reset() {
-    fObjs = new ArrayList<Interactive>();
+    fObjs.clear();
     resetSelection();
   }
 
   public void resetSelection() {
-    fSelectedObjs = new ArrayList<Interactive>();
+    fSelectedObjs.clear();
   }
 
   public void draw() {
@@ -31,21 +31,37 @@ public class Collection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive s = fObjs.get(i);
       if (s.select(x, y) && s.fVisible) {
-        fSelected = s;
+        fSelectedObjs.add(s);
         return true;
       }
     }
     return false;
   }
 
-  public void deselectAll() {
-    fSelected = null;
-    for (Interactive s : fObjs)
-      s.deselect();
+  public boolean selectArea(PVector start, PVector end) {
+    deselectAll();
+    PVector minCoord = new PVector(min(start.x, end.x), min(start.y, end.y));
+    PVector maxCoord = new PVector(max(start.x, end.x), max(start.y, end.y));
+    for (Interactive s : fObjs) {
+      PVector p = s.getLoc();
+      if (p.x >= minCoord.x && p.y >= minCoord.y &&
+          p.x <= maxCoord.x && p.y <= maxCoord.y) {
+        fSelectedObjs.add(s);
+        // @TODO: using selec to set selected state and trigger corresponding changes
+        s.select(p.x, p.y);
+      }
+    }
+    return fSelectedObjs.size() != 0;
   }
 
-  public Interactive getSelected() {
-    return fSelected;
+  public void deselectAll() {
+    for (Interactive s : fSelectedObjs)
+      s.deselect();
+    resetSelection();
+  }
+
+  public ArrayList<Interactive> getSelected() {
+    return fSelectedObjs;
   }
 
   public void add(Interactive s) {
@@ -54,20 +70,6 @@ public class Collection {
 
   public void remove(Interactive s) {
     fObjs.remove(s);
-  }
-
-  public boolean selectArea(PVector minCoord, PVector maxCoord) {
-    PVector p;
-
-    for (Interactive s : fObjs) {
-      p = s.getLoc();
-      if (p.x >= minCoord.x && p.y >= minCoord.y &&
-          p.x <= maxCoord.x && p.y <= maxCoord.y) {
-        fSelectedObjs.add(s);
-      }
-    }
-
-    return fSelectedObjs.size() != 0;
   }
 
   public boolean onMouseDown(float x, float y) {

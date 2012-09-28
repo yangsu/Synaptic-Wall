@@ -4,53 +4,12 @@ public class ObjectCollection extends Collection {
   private ArrayList<Initiator> fInitiators;
   private ArrayList<Synapse> fSynapses;
 
-  public void draw() {
-    for (Interactive s : fObjs)
-      s.draw();
-  }
-
-  public void drawAndUpdate() {
-    for (Interactive s : fObjs)
-      s.update();
-    draw();
-  }
-
-  public boolean select(float x, float y) {
-    deselectAll();
-    for (int i = fObjs.size()-1; i>=0; i--) {
-      Interactive s = fObjs.get(i);
-      if (s.select(x, y) && s.fVisible) {
-        fSelected = s;
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public void showControls() {
-    for (Interactive s : fSelectedObjs) {
-      if (s.getType() == Constants.INITIATOR ||
-          s.getType() == Constants.SOMA)
-          ((Controllable)s).showControls();
-    }
-  }
-
-  public void hideControls() {
-    for (Interactive s : fSelectedObjs) {
-      if (s.getType() == Constants.INITIATOR ||
-          s.getType() == Constants.SOMA)
-          ((Controllable)s).hideControls();
-    }
-  }
-
-  public void deselectAll() {
-    fSelected = null;
-    for (Interactive s : fObjs)
-      s.deselect();
-  }
-
-  public Interactive getSelected() {
-    return fSelected;
+  public ObjectCollection() {
+    fAxons = new ArrayList<Path>();
+    fDendrites = new ArrayList<Path>();
+    fSomas = new ArrayList<Soma>();
+    fSynapses = new ArrayList<Synapse>();
+    fInitiators = new ArrayList<Initiator>();
   }
 
   public void add(Interactive s) {
@@ -111,37 +70,24 @@ public class ObjectCollection extends Collection {
     }
   }
 
-  public void reset() {
-    fObjs = new ArrayList<Interactive>();
-    fAxons = new ArrayList<Path>();
-    fDendrites = new ArrayList<Path>();
-    fSomas = new ArrayList<Soma>();
-    fSynapses = new ArrayList<Synapse>();
-    fInitiators = new ArrayList<Initiator>();
-    fSelectedObjs = new ArrayList<Interactive>();
-    fSelected = null;
-  }
-
   public boolean onMouseDown(float x, float y, int key, int keyCode) {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
         if (curr.getType() == Constants.INITIATOR || curr.getType() == Constants.SOMA) {
           if (!fSelectedObjs.contains(curr) && curr.fVisible) {
-              fSelectedObjs.add(curr);
-              ((Controllable)curr).showControls();
-              // showControlPanel();
+            fSelectedObjs.add(curr);
+            // @TODO: using selec to set selected state and trigger corresponding changes
+            curr.select(x, y);
           }
           else if (key == CODED && keyCode == ALT) {
-              fSelectedObjs.remove(curr);
-              ((Controllable)curr).hideControls();
+            fSelectedObjs.remove(curr);
           }
         }
         return true;
       }
     }
     // if (!(key == CODED && keyCode == SHIFT))
-    resetSelection();
     return false;
   }
 

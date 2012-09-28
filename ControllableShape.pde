@@ -26,6 +26,21 @@ public abstract class ControllableShape extends Shape implements Controllable {
       c.draw();
   }
 
+  @Override
+  public boolean select(float x, float y) {
+    if (super.select(x, y)) {
+      this.showControls();
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public void deselect() {
+    super.deselect();
+    this.hideControls();
+  }
+
   public boolean onMouseDown(float x, float y) {
     for (Control c : fControls) {
       if (c.fVisible && c.onMouseDown(x, y))
