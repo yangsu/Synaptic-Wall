@@ -1,4 +1,4 @@
-public abstract class Control extends Interactive{
+public abstract class Control extends Interactive {
   protected int fID;
   protected Controllable fTarget;
   public Control(float x, float y, int id, Controllable target) {

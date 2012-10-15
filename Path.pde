@@ -1,4 +1,4 @@
-public abstract class Path extends Interactive implements Signalable{
+public abstract class Path extends Interactive implements Signalable {
   protected ArrayList<PVector> fVertices;
   protected ArrayList<Signal> fSignals;
   protected ArrayList<Path> fConnectedPaths;

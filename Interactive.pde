@@ -1,4 +1,4 @@
-public abstract class Interactive extends Drawable{
+public abstract class Interactive extends Drawable {
   protected boolean fSelected;
   protected boolean fHover;
 

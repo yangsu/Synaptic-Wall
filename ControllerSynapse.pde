@@ -1,4 +1,4 @@
-public class ControllerSynapse extends Synapse{
+public class ControllerSynapse extends Synapse {
   private CircularSlider fRateSlider, fTimeSlider, fNormSlider;
   private DoubleEndedSlider fSignalRangeSlider;
   private float fRate, fTime, fNorm, fRangeMin, fRangeMax;

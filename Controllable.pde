@@ -1,4 +1,4 @@
-public interface Controllable{
+public interface Controllable {
   public void drawControls();
   public void showControls();
   public void hideControls();

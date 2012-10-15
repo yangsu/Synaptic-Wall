@@ -1,4 +1,4 @@
-public class Grid extends Interactive{
+public class Grid extends Interactive {
   private PVector[][] fGrid;
   private int fHorizontalCount, fVerticalCount;
   private float fCellWidth, fCellHeight, fCellDiagonal;

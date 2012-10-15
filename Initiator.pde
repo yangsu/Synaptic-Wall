@@ -1,4 +1,4 @@
-public class Initiator extends Cell implements TimerSubscriber{
+public class Initiator extends Cell implements TimerSubscriber {
   private static final int RHYTHMICITY = 1;
   private static final int BURSTINESS = 2;
   private static final int FREQUENCY = 3;

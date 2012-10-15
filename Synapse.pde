@@ -1,4 +1,4 @@
-public class Synapse extends ControllableShape implements TimerSubscriber{
+public class Synapse extends ControllableShape implements TimerSubscriber {
   private float fStrength;
   private Signal fLatestSignal;
   private Path fAxon, fDendrite;
