@@ -42,9 +42,9 @@ public abstract class Cell extends ControllableShape {
   protected abstract boolean fireSignals();
 
   public void addPath(Path p) {
-    if (p.getType() ==Constants.DENDRITE)
+    if (p.getType() ==DENDRITE)
       fDendrites.add(p);
-    else if (p.getType() == Constants.AXON)
+    else if (p.getType() == AXON)
       fAxons.add(p);
   }
 

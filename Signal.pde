@@ -10,7 +10,7 @@ abstract class Signal extends Drawable {
 
   Signal() {}
   Signal (int type, float speed, float length, float decay, float strength, Path p) {
-    super(p.getVertex(0).x, p.getVertex(0).y, (type == Constants.EPSP) ? Constants.EX_COLOR : Constants.IN_COLOR);
+    super(p.getVertex(0).x, p.getVertex(0).y, (type == EPSP) ? EX_COLOR : IN_COLOR);
     fType = type;
     fSpeed = speed;
     fLength = length;
@@ -29,7 +29,7 @@ abstract class Signal extends Drawable {
   }
 
   public int getType() {
-    return Constants.SIGNAL;
+    return SIGNAL;
   }
 
   public void setIndex(int i) {

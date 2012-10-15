@@ -26,7 +26,7 @@ public class Grid extends Interactive{
   }
 
   public int getType() {
-    return Constants.GRID;
+    return GRID;
   }
 
   public float getCellWidth() {
@@ -45,15 +45,15 @@ public class Grid extends Interactive{
     for (int i = 0; i <= fHorizontalCount; i++) {
       for (int j = 0; j <= fVerticalCount; j++) {
         PVector p = fGrid[i][j];
-        fill(Constants.GRID_NODE_COLOR);
-        rect(p.x, p.y, Constants.GRID_NODE_SIZE, Constants.GRID_NODE_SIZE);
+        fill(GRID_NODE_COLOR);
+        rect(p.x, p.y, GRID_NODE_SIZE, GRID_NODE_SIZE);
       }
     }
     if (fCurrent != null) {
-      fill(Constants.GRID_NODE_HIGHLIGHT);
+      fill(GRID_NODE_HIGHLIGHT);
       rect(fCurrent.x, fCurrent.y,
-           Constants.GRID_NODE_SIZE,
-           Constants.GRID_NODE_SIZE);
+           GRID_NODE_SIZE,
+           GRID_NODE_SIZE);
     }
   }
 

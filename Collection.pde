@@ -1,4 +1,4 @@
-public class Collection {
+public class Collection extends Constants {
   protected ArrayList<Interactive> fObjs, fSelectedObjs;
 
   public Collection() {

@@ -9,15 +9,15 @@ public class Axon extends Path {
   }
 
   public int getType() {
-    return Constants.AXON;
+    return AXON;
   }
 
   public void drawBackground() {
     pushStyle();
     noFill();
-    strokeWeight(Constants.PATH_WIDTH);
-    stroke(Constants.SHADOW_COLOR);
-    drawPathShape(Constants.SHADOW_OFFSETX, Constants.SHADOW_OFFSETY);
+    strokeWeight(PATH_WIDTH);
+    stroke(SHADOW_COLOR);
+    drawPathShape(SHADOW_OFFSETX, SHADOW_OFFSETY);
     popStyle();
     super.drawBackground();
   }

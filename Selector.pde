@@ -3,7 +3,7 @@
  * Used for keeping the state of selection, rendering, and updating the selection areas
  */
 
-public class Selector {
+public class Selector extends Constants {
   private PVector fStart, fEnd;
   private boolean fSelecting;
 
@@ -42,9 +42,9 @@ public class Selector {
   public void draw() {
     if (isSelecting()) {
       pushStyle();
-        stroke(Constants.SELECTION_BORDER_COLOR);
-        strokeWeight(Constants.SELECTION_BORDER_WIDTH);
-        fill(Constants.SELECTION_COLOR);
+        stroke(SELECTION_BORDER_COLOR);
+        strokeWeight(SELECTION_BORDER_WIDTH);
+        fill(SELECTION_COLOR);
         PVector size = PVector.sub(fEnd, fStart);
         rect(fStart.x, fStart.y, size.x, size.y);
       popStyle();

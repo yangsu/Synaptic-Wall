@@ -6,11 +6,11 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
   private Timer fTimer;
 
   public Synapse(Path axon, float x, float y, color cc) {
-    this(axon, x, y, cc, Constants.SYNAPSE_STRENGTH);
+    this(axon, x, y, cc, SYNAPSE_STRENGTH);
   }
 
   public Synapse(Path axon, float x, float y, color cc, float strength) {
-    super(x, y, Constants.SYNAPSE_SIZE, cc);
+    super(x, y, SYNAPSE_SIZE, cc);
     fStrength = strength;
     fLatestSignal = null;
     fAxon = axon;
@@ -19,11 +19,11 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
       fInput = (Cell)(axon.getSrc());
     fDendrite = null;
     fOutput = null;
-    fTimer = new Timer(this, Constants.SYNAPSE_TIMING, 0.5);
+    fTimer = new Timer(this, SYNAPSE_TIMING, 0.5);
   }
 
   public int getType() {
-    return Constants.SYNAPSE;
+    return SYNAPSE;
   }
 
   public Path getAxon() {
@@ -37,8 +37,8 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
   public void drawBackground() {
     pushStyle();
     noStroke();
-    color c = Constants.SHADOW_COLOR;
-    ring(fSize, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
+    color c = SHADOW_COLOR;
+    ring(fSize, fLoc.x + SHADOW_OFFSETX, fLoc.y + SHADOW_OFFSETY, fStrength*SYNAPSE_MULT+SYNAPSE_BASE, c);
     popStyle();
   }
 
@@ -46,7 +46,7 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
     pushStyle();
     noStroke();
     color c = (fHover) ? fHighlightColor : fColor;
-    ring(fSize, fLoc.x, fLoc.y, fStrength*Constants.SYNAPSE_MULT+Constants.SYNAPSE_BASE, c);
+    ring(fSize, fLoc.x, fLoc.y, fStrength*SYNAPSE_MULT+SYNAPSE_BASE, c);
 
     if (!fTimer.ended()) {
       pushStyle();
@@ -64,8 +64,8 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
     if (fInput != null && fOutput != null) {
       float inputDiff = fInput.getCurrentFiringRate() - fInput.getAvgFiringRate();
       float outputDiff = fOutput.getCurrentFiringRate() - fOutput.getAvgFiringRate();
-      fStrength += Constants.LEARNING_K * inputDiff * outputDiff;
-      fStrength = constrain(fStrength, Constants.SYNAPSE_MIN_STRENGTH, Constants.SYNAPSE_MAX_STRENGTH);
+      fStrength += LEARNING_K * inputDiff * outputDiff;
+      fStrength = constrain(fStrength, SYNAPSE_MIN_STRENGTH, SYNAPSE_MAX_STRENGTH);
     }
   }
 
@@ -85,7 +85,7 @@ public class Synapse extends ControllableShape implements TimerSubscriber{
     if (fDendrite != null)
       fDendrite.addSignal(new PostsynapticPotential(
         // fLatestSignal.fSpeed,
-        Constants.SIGNAL_DEFAULT_SPEED,
+        SIGNAL_DEFAULT_SPEED,
         fLatestSignal.fLength,
         fLatestSignal.fDecay,
         // fLatestSignal.fStrength * fStrength,

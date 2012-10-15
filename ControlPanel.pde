@@ -1,5 +1,5 @@
-final int SCALE = 0;
-final int ZOOM = 1;
+final int SCALEID = 0;
+final int ZOOMID = 1;
 public class ControlPanel extends Collection {
   EventReceiver fEvents;
   Soma fSoma;
@@ -33,9 +33,9 @@ public class ControlPanel extends Collection {
     fScale = new LinearSlider(
       0.75 * width,
       0.1 * height,
-      150,
-      Constants.SCALE, 1, Constants.MAX_SCALE,
-      SCALE, fEvents
+      150f,
+      SCALE, 1f, MAX_SCALE,
+      SCALEID, fEvents
     );
     fScale.setLabel("Scale");
     fScale.setVisible(false);
@@ -45,9 +45,9 @@ public class ControlPanel extends Collection {
     fZoom = new LinearSlider(
       0.75 * width,
       0.05 * height,
-      150,
-      Constants.ZOOM_FACTOR, 1, Constants.MAX_ZOOM,
-      ZOOM, fEvents
+      150f,
+      ZOOM_FACTOR, 1f, MAX_ZOOM,
+      ZOOMID, fEvents
     );
     fZoom.setLabel("Zoom");
     fZoom.setVisible(false);
@@ -62,7 +62,7 @@ public class ControlPanel extends Collection {
   // private void syncAttributes(Interactive curr) {
   //   for (Interactive s : fSelectedObjs) {
   //     if (curr != s && curr.getType() == s.getType()) {
-  //       if (curr.getType() == Constants.SOMA || curr.getType() == Constants.INITIATOR) {
+  //       if (curr.getType() == SOMA || curr.getType() == INITIATOR) {
   //         ((Cell)s).copyAttributes((Cell)curr);
   //       }
   //     }
@@ -77,11 +77,11 @@ public class EventReceiver implements Controllable {
   public void hideControls() {}
   public void onEvent(int controlID, float value) {
     switch (controlID) {
-      case SCALE:
+      case SCALEID:
         Constants.SCALE = value;
         Constants.recalculate();
         break;
-      case ZOOM:
+      case ZOOMID:
         Constants.ZOOM_FACTOR = value;
         break;
     }

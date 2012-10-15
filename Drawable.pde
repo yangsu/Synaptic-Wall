@@ -1,4 +1,4 @@
-public abstract class Drawable {
+public abstract class Drawable extends Constants {
   protected color fColor;
   protected color fHighlightColor;
   protected PVector fLoc;
@@ -18,30 +18,30 @@ public abstract class Drawable {
     fLoc = new PVector(x, y);
     fVisible = fMovable = true;
     fColor = cc;
-    if (cc == Constants.EX_COLOR)
-      fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
-    else if (cc == Constants.IN_COLOR)
-      fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+    if (cc == EX_COLOR)
+      fHighlightColor = EX_HIGHLIGHT_COLOR;
+    else if (cc == IN_COLOR)
+      fHighlightColor = IN_HIGHLIGHT_COLOR;
     else
       fHighlightColor = Util.highlight(fColor);
     fBirthTime = millis();
   }
 
   public void flipColor() {
-    if (fColor == Constants.EX_COLOR) {
-      fColor = Constants.IN_COLOR;
-      fHighlightColor = Constants.IN_HIGHLIGHT_COLOR;
+    if (fColor == EX_COLOR) {
+      fColor = IN_COLOR;
+      fHighlightColor = IN_HIGHLIGHT_COLOR;
     }
-    else if (fColor == Constants.IN_COLOR) {
-      fColor = Constants.EX_COLOR;
-      fHighlightColor = Constants.EX_HIGHLIGHT_COLOR;
+    else if (fColor == IN_COLOR) {
+      fColor = EX_COLOR;
+      fHighlightColor = EX_HIGHLIGHT_COLOR;
     }
-    else if (fColor == Constants.EX_HIGHLIGHT_COLOR) {
-      fColor = Constants.IN_HIGHLIGHT_COLOR;
+    else if (fColor == EX_HIGHLIGHT_COLOR) {
+      fColor = IN_HIGHLIGHT_COLOR;
       fHighlightColor = Util.highlight(fColor);
     }
-    else if (fColor == Constants.IN_HIGHLIGHT_COLOR) {
-      fColor = Constants.EX_HIGHLIGHT_COLOR;
+    else if (fColor == IN_HIGHLIGHT_COLOR) {
+      fColor = EX_HIGHLIGHT_COLOR;
       fHighlightColor = Util.highlight(fColor);
     }
     else {

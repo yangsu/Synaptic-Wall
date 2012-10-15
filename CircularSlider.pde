@@ -5,7 +5,7 @@ public class CircularSlider extends Slider {
   protected static final int END = 2;
 
   public CircularSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
-    this(x, y, size, Constants.SLIDER_BAR_WIDTH, begin, end, val, min, max, id, target);
+    this(x, y, size, SLIDER_BAR_WIDTH, begin, end, val, min, max, id, target);
   }
 
   public CircularSlider(float x, float y, float size, float thickness, float begin, float end, float val, float min, float max, int id, Controllable target) {
@@ -17,19 +17,19 @@ public class CircularSlider extends Slider {
 
   public void drawBackground() {
     pushStyle();
-    fill(Constants.SLIDER_BG_COLOR);
+    fill(SLIDER_BG_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fEnd, fThickness);
     popStyle();
   }
 
   public void drawForeground() {
     pushStyle();
-    fill((fHover) ? Constants.HIGHLIGHT_COLOR : Constants.SLIDER_BAR_COLOR);
+    fill((fHover) ? HIGHLIGHT_COLOR : SLIDER_BAR_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, fThickness);
     // Added 0.02 for minor offset to cover up extraneous pixels
-    fill(Constants.SLIDER_HANDLE_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + Constants.SLIDER_HANDLE_WIDTH, fThickness);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - Constants.SLIDER_HANDLE_WIDTH, fEnd + 0.02, fThickness);
+    fill(SLIDER_HANDLE_COLOR);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + SLIDER_HANDLE_WIDTH, fThickness);
+    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - SLIDER_HANDLE_WIDTH, fEnd + 0.02, fThickness);
     popStyle();
   }
 

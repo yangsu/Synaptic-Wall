@@ -10,6 +10,6 @@ public class Dendrite extends Path {
   }
 
   public int getType() {
-    return Constants.DENDRITE;
+    return DENDRITE;
   }
 }

@@ -4,7 +4,7 @@ class PostsynapticPotential extends Signal {
   private PVector fEndLoc;
 
   PostsynapticPotential(float speed, float length, float decay, float strength, Path p) {
-    super((strength >= 0) ? Constants.EPSP : Constants.IPSP, speed, length, decay, strength, p);
+    super((strength >= 0) ? EPSP : IPSP, speed, length, decay, strength, p);
     setIndex(fCurrIndex);
   }
 
@@ -39,13 +39,13 @@ class PostsynapticPotential extends Signal {
     // float time = Util.secondsElapsed(fBirthTime);
     float time = float(millis() - fBirthTime)/1000;
     float val;
-    if (Constants.SIGNAL_LINEAR_DECAY) {
-      val = Util.linear(- (1 - fDecay), 1, time, Constants.SIGNAL_DECAY_FACTOR);
+    if (SIGNAL_LINEAR_DECAY) {
+      val = Util.linear(- (1 - fDecay), 1, time, SIGNAL_DECAY_FACTOR);
     }
     else {
       // No need to check for zero because fDecay will never to to 0
       if (fDecay < 1)
-        val = Util.expDecay(1, time, lerp(0, Constants.SIGNAL_DECAY_FACTOR, fDecay));
+        val = Util.expDecay(1, time, lerp(0, SIGNAL_DECAY_FACTOR, fDecay));
       else
         val = fStrength;
     }
@@ -103,25 +103,25 @@ class PostsynapticPotential extends Signal {
 
   public void drawForeground() {
     pushStyle();
-      float n = abs(fStrength)/Constants.SIGNAL_MAX_STRENGTH;
-      color cc = lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n);
+      float n = abs(fStrength)/SIGNAL_MAX_STRENGTH;
+      color cc = lerpColor(fColor, EX_HIGHLIGHT_COLOR, n);
       if (fLength > 1) {
         noFill();
         // Draw outer shape
         stroke(fColor);
-        strokeWeight(3*Constants.PSP_BORDER_WIDTH);
+        strokeWeight(3*PSP_BORDER_WIDTH);
         drawSignal();
 
         // Draw inner signal
-        stroke(lerpColor(fColor, Constants.EX_HIGHLIGHT_COLOR, n));
-        strokeWeight(Constants.PSP_BORDER_WIDTH);
+        stroke(lerpColor(fColor, EX_HIGHLIGHT_COLOR, n));
+        strokeWeight(PSP_BORDER_WIDTH);
         drawSignal();
       }
       else {
         fill(cc);
         stroke(fColor);
-        strokeWeight(Constants.PSP_BORDER_WIDTH);
-        float s = Constants.PSP_WIDTH;
+        strokeWeight(PSP_BORDER_WIDTH);
+        float s = PSP_WIDTH;
         ellipse(fLoc.x, fLoc.y, s, s);
       }
     popStyle();

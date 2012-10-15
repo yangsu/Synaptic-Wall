@@ -15,19 +15,19 @@ public class ObjectCollection extends Collection {
   public void add(Interactive s) {
     if (s != null) {
       switch(s.getType()) {
-        case Constants.DENDRITE:
+        case DENDRITE:
           fDendrites.add((Dendrite)s);
           break;
-        case Constants.AXON:
+        case AXON:
           fAxons.add((Axon)s);
           break;
-        case Constants.SYNAPSE:
+        case SYNAPSE:
           fSynapses.add((Synapse)s);
           break;
-        case Constants.SOMA:
+        case SOMA:
           fSomas.add((Soma)s);
           break;
-        case Constants.INITIATOR:
+        case INITIATOR:
           fInitiators.add((Initiator)s);
           break;
       }
@@ -38,9 +38,9 @@ public class ObjectCollection extends Collection {
   public void remove(Interactive s) {
     if (s != null) {
       switch(s.getType()) {
-        case Constants.AXON:
+        case AXON:
           fAxons.remove((Axon)s);
-        case Constants.DENDRITE:
+        case DENDRITE:
           fDendrites.remove((Dendrite)s);
           remove((Interactive)((Path)s).getDest());
           Path path = (Path)s;
@@ -48,14 +48,14 @@ public class ObjectCollection extends Collection {
           for (Path p : paths)
             remove((Interactive)p);
           break;
-        case Constants.SYNAPSE:
+        case SYNAPSE:
           fSynapses.remove((Synapse)s);
           Synapse ss = (Synapse)s;
           remove((Interactive)(ss.getDendrite()));
           break;
-        case Constants.SOMA:
+        case SOMA:
           fSomas.remove((Soma)s);
-        case Constants.INITIATOR:
+        case INITIATOR:
           fInitiators.remove((Initiator)s);
           Cell cell = (Cell)s;
           ArrayList<Path> axons = cell.getAxons();
@@ -74,7 +74,7 @@ public class ObjectCollection extends Collection {
     for (int i = fObjs.size()-1; i>=0; i--) {
       Interactive curr = fObjs.get(i);
       if (curr.onMouseDown(x, y)) {
-        if (curr.getType() == Constants.INITIATOR || curr.getType() == Constants.SOMA) {
+        if (curr.getType() == INITIATOR || curr.getType() == SOMA) {
           if (!fSelectedObjs.contains(curr) && curr.fVisible) {
             fSelectedObjs.add(curr);
             // @TODO: using selec to set selected state and trigger corresponding changes

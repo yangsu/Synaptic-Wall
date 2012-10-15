@@ -142,7 +142,7 @@ public abstract class Path extends Interactive implements Signalable{
   protected void drawPath() {
     pushStyle();
     noFill();
-    strokeWeight(Constants.PATH_WIDTH);
+    strokeWeight(PATH_WIDTH);
     stroke((fHover) ? fHighlightColor : fColor);
     drawPathShape(0, 0);
     popStyle();
@@ -151,7 +151,7 @@ public abstract class Path extends Interactive implements Signalable{
   protected void drawJunction(float x, float y) {
     pushStyle();
       fill((fHover) ? fHighlightColor : fColor);
-      float s = Constants.PATH_JUNCTION_WIDTH;
+      float s = PATH_JUNCTION_WIDTH;
       ellipse(x, y, s, s);
     popStyle();
   }
@@ -188,7 +188,7 @@ public abstract class Path extends Interactive implements Signalable{
         }
         //Copy Signals to connected paths
         // TODO: Make threshold more precise/use specific signal width
-        float distThreshold = Constants.PATH_WIDTH;
+        float distThreshold = PATH_WIDTH;
         for (Path p : fConnectedPaths) {
           if (PVector.dist(p.fSrcLoc, curr.fLoc) <= distThreshold)
             p.addSignal(curr.makeCopy(p));
@@ -210,17 +210,17 @@ public abstract class Path extends Interactive implements Signalable{
   public boolean isInBounds(float x, float y) {
     PVector mouse = new PVector(x,y);
     PVector temp;
-    float mindist = Constants.MAX, dist;
+    float mindist = MAX, dist;
     for (int i = 0; i < fVertices.size(); ++i) {
       temp = fVertices.get(i);
       dist = PVector.dist(mouse, temp);
-      if (dist <= Constants.PATH_WIDTH/2 &&
+      if (dist <= PATH_WIDTH/2 &&
           dist <= mindist) {
         fCurrIndex = i;
         mindist = dist;
       }
     }
-    return mindist != Constants.MAX;
+    return mindist != MAX;
   }
 
   public void flipColor() {

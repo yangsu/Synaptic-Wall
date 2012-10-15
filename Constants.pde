@@ -1,4 +1,4 @@
-static class Constants {
+abstract static class Constants {
   static final int MAX = 99999;
   static final int MIN = -99999;
 
@@ -30,6 +30,7 @@ static class Constants {
   static final int SIGNAL      = 5;
   static final int CONTROL     = 6;
   static final int GRID        = 7;
+  static final int PLOT        = 8;
 
   // Color Settings
   static final color BG_COLOR           = 0xFF4C4C4C;

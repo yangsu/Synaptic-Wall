@@ -13,26 +13,26 @@ class Soma extends Cell {
   private int fType;
   Soma(float x, float y) {
     this(
-      x, y, Constants.SOMA_SIZE, Constants.EX_COLOR,
-      Constants.SOMA_INIT_NEG_THRESHOLD,
-      Constants.SOMA_INIT_POS_THRESHOLD
+      x, y, SOMA_SIZE, EX_COLOR,
+      SOMA_INIT_NEG_THRESHOLD,
+      SOMA_INIT_POS_THRESHOLD
     );
   }
 
   Soma(float x, float y, float size, color cc, float negt, float post) {
     super(x, y, size, cc);
     fReceivedSignals = new ArrayList<Signal>();
-    fSpeed = Constants.SIGNAL_DEFAULT_SPEED;
-    fLength = Constants.SIGNAL_DEFAULT_LENGTH;
-    fDecay = Constants.SIGNAL_DEFAULT_DECAY;
-    fType = Constants.EXCITATORY;
+    fSpeed = SIGNAL_DEFAULT_SPEED;
+    fLength = SIGNAL_DEFAULT_LENGTH;
+    fDecay = SIGNAL_DEFAULT_DECAY;
+    fType = EXCITATORY;
 
-    float controlSize = fSize + 3 * Constants.SLIDER_BAR_WIDTH;
+    float controlSize = fSize + 3 * SLIDER_BAR_WIDTH;
 
     fSpeedSlider = new CircularSlider(
       fLoc.x, fLoc.y, controlSize,
       0, TWO_PI/3,
-      fSpeed, 1, Constants.SIGNAL_MAX_SPEED,
+      fSpeed, 1, SIGNAL_MAX_SPEED,
       SPEED, this
     );
     fControls.add(fSpeedSlider);
@@ -40,20 +40,20 @@ class Soma extends Cell {
     fLengthSlider = new DiscreteCircularSlider(
       fLoc.x, fLoc.y, controlSize,
       TWO_PI/3, 2 * TWO_PI/3,
-      fLength, 1, Constants.SIGNAL_MAX_LENGTH,
+      fLength, 1, SIGNAL_MAX_LENGTH,
       LENGTH, this
     );
     fControls.add(fLengthSlider);
     fDecaySlider = new CircularSlider(
       fLoc.x, fLoc.y, controlSize,
       2 * TWO_PI/3, TWO_PI,
-      fDecay, Constants.SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
+      fDecay, SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
       DECAY, this
     );
     fControls.add(fDecaySlider);
 
     fThresholdSlider = new ThresholdSlider(
-      x, y, fSize + Constants.SLIDER_BAR_WIDTH,
+      x, y, fSize + SLIDER_BAR_WIDTH,
       0, negt, post,
       THRESHOLD, this
     );
@@ -63,7 +63,7 @@ class Soma extends Cell {
   }
 
   public int getType() {
-    return Constants.SOMA;
+    return SOMA;
   }
 
   public float getThresholdValue() {
@@ -93,9 +93,9 @@ class Soma extends Cell {
       //Speed
       noStroke();
       fill(cc);
-      float h = 3/Constants.SCALE;
+      float h = 3/SCALE;
       float w = h * sqrt(3);
-      float y = fLoc.y - 7/Constants.SCALE;
+      float y = fLoc.y - 7/SCALE;
       float offset = -fSpeed/2 * w;
       for (int i = 0; i < fSpeed; ++i) {
         triangle(fLoc.x + w/3 + offset, y - h,
@@ -107,10 +107,10 @@ class Soma extends Cell {
       //Length
       noFill();
       stroke(cc);
-      float l = fLength/Constants.SIGNAL_MAX_LENGTH * 9/Constants.SCALE;
+      float l = fLength/SIGNAL_MAX_LENGTH * 9/SCALE;
       float offsetL = (fSize - 2*l)/2;
-      y = fLoc.y + 4/Constants.SCALE;
-      float y2 = y - 5/Constants.SCALE;
+      y = fLoc.y + 4/SCALE;
+      float y2 = y - 5/SCALE;
       beginShape();
       vertex(fLoc.x - l - offsetL, y);
       vertex(fLoc.x - l, y);
@@ -124,7 +124,7 @@ class Soma extends Cell {
       noStroke();
       color newcolor = lerpColor(cc & 0xFFFFFF, cc, fDecay);
       fill(newcolor);
-      ellipse(fLoc.x, fLoc.y + 12/Constants.SCALE, 3/Constants.SCALE, 3/Constants.SCALE);
+      ellipse(fLoc.x, fLoc.y + 12/SCALE, 3/SCALE, 3/SCALE);
     popStyle();
   }
 
@@ -145,7 +145,7 @@ class Soma extends Cell {
     for (int i = fReceivedSignals.size()-1; i >= 0; --i) {
       Signal s = fReceivedSignals.get(i);
       int diff = now - s.fFiringTime;
-      float actualLength = s.fLength*Constants.SIGNAL_FIRING_MULTIPLIER + Constants.SIGNAL_SINGLE_FIRING_TIME;
+      float actualLength = s.fLength*SIGNAL_FIRING_MULTIPLIER + SIGNAL_SINGLE_FIRING_TIME;
       if (fLastFired <= s.fFiringTime && s.fFiringTime <= now) {
         eps = Math.exp(-diff/rc) - Math.exp(-diff/taus);
       }
@@ -175,26 +175,26 @@ class Soma extends Cell {
   public void drawBackground() {
     drawControls();
     pushStyle();
-    float s = fSize - Constants.SOMA_RING_WIDTH;
+    float s = fSize - SOMA_RING_WIDTH;
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, s, s);
 
     drawControlDisplays();
 
     noStroke();
-    color c = Constants.SHADOW_COLOR;
-    ring(s, fLoc.x + Constants.SHADOW_OFFSETX, fLoc.y + Constants.SHADOW_OFFSETY, Constants.SOMA_RING_WIDTH, c);
+    color c = SHADOW_COLOR;
+    ring(s, fLoc.x + SHADOW_OFFSETX, fLoc.y + SHADOW_OFFSETY, SOMA_RING_WIDTH, c);
     popStyle();
   }
 
   public void drawForeground() {
     pushStyle();
 
-    float s = fSize - Constants.SOMA_RING_WIDTH;
+    float s = fSize - SOMA_RING_WIDTH;
     fill(fColor);
     noStroke();
-    color c = lerpColor(fHighlightColor, Constants.HIGHLIGHT_COLOR, fThresholdSlider.getValue());
-    ring(s, fLoc.x, fLoc.y, Constants.SOMA_RING_WIDTH, c);
+    color c = lerpColor(fHighlightColor, HIGHLIGHT_COLOR, fThresholdSlider.getValue());
+    ring(s, fLoc.x, fLoc.y, SOMA_RING_WIDTH, c);
 
     popStyle();
   }
@@ -221,8 +221,8 @@ class Soma extends Cell {
   }
 
   protected boolean fireSignals() {
-    if ((millis() - fLastFired) >= Constants.SOMA_FIRING_DELAY) {
-      float val = (fType == Constants.EXCITATORY) ? Constants.SIGNAL_DEFAULT_STRENGTH : -Constants.SIGNAL_DEFAULT_STRENGTH;
+    if ((millis() - fLastFired) >= SOMA_FIRING_DELAY) {
+      float val = (fType == EXCITATORY) ? SIGNAL_DEFAULT_STRENGTH : -SIGNAL_DEFAULT_STRENGTH;
       for (Path p : fAxons)
         p.addSignal(new ActionPotential(fSpeed, fLength, fDecay, val, p));
       return true;

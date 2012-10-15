@@ -1,6 +1,6 @@
 public class LinearSlider extends Slider {
   public LinearSlider(float x, float y, float size, float val, float min, float max, int id, Controllable target) {
-    this(x, y, size, Constants.SLIDER_BAR_WIDTH, val, min, max, id, target);
+    this(x, y, size, SLIDER_BAR_WIDTH, val, min, max, id, target);
   }
 
   public LinearSlider(float x, float y, float size, float thickness, float val, float min, float max, int id, Controllable target) {
@@ -9,20 +9,20 @@ public class LinearSlider extends Slider {
 
   public void drawBackground() {
     pushStyle();
-    fill(Constants.SLIDER_BG_COLOR);
+    fill(SLIDER_BG_COLOR);
     rect(fLoc.x, fLoc.y, fSize, fThickness);
     popStyle();
   }
 
   public void drawForeground() {
     pushStyle();
-    fill((fHover) ? Constants.HIGHLIGHT_COLOR : Constants.SLIDER_BAR_COLOR);
+    fill((fHover) ? HIGHLIGHT_COLOR : SLIDER_BAR_COLOR);
     rect(fLoc.x, fLoc.y, fSlider - fBegin, fThickness);
-    stroke(Constants.CP_TEXT_COLOR);
+    stroke(CP_TEXT_COLOR);
     strokeWeight(1);
     String s = fLabel + " : " + nf(fValue, 1, 2);
     float offset = textWidth(s)/2;
-    text(s, (fBegin + fEnd)/2 - offset, fLoc.y - Constants.SLIDER_LABEL_OFFSET);
+    text(s, (fBegin + fEnd)/2 - offset, fLoc.y - SLIDER_LABEL_OFFSET);
     popStyle();
   }
 

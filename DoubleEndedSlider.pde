@@ -1,12 +1,12 @@
 public class DoubleEndedSlider extends CircularSlider {
   private float fValue2, fSlider2, fOffset;
   public DoubleEndedSlider(float x, float y, float size, float begin, float end, float val, float min, float max, int id, Controllable target) {
-    this(x, y, size, Constants.SLIDER_BAR_WIDTH, begin, end, val, val, min, max, id, target);
+    this(x, y, size, SLIDER_BAR_WIDTH, begin, end, val, val, min, max, id, target);
   }
 
   public DoubleEndedSlider(float x, float y, float size, float thickness, float begin, float end, float val, float val2, float min, float max, int id, Controllable target) {
     super(x, y, size, thickness, begin, end, val, min, max, id, target);
-    fOffset = Constants.DBLSIDED_HANDLE_WIDTH;
+    fOffset = DBLSIDED_HANDLE_WIDTH;
     setValue2(val2);
   }
 
@@ -21,18 +21,18 @@ public class DoubleEndedSlider extends CircularSlider {
 
   public void drawForeground() {
     pushStyle();
-    fill((fHover) ? Constants.HIGHLIGHT_COLOR : Constants.SLIDER_BAR_COLOR);
+    fill((fHover) ? HIGHLIGHT_COLOR : SLIDER_BAR_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fSlider, fSlider2, fThickness);
 
     fill((fHover && (fState == BEGIN))
       ? 0xFFFFFFFF
-      : Constants.HIGHLIGHT_COLOR);
+      : HIGHLIGHT_COLOR);
 
     arcWithThickness(fSize, fLoc.x, fLoc.y, fSlider - fOffset, fSlider, fThickness);
 
     fill((fHover && (fState == END))
       ? 0xFFFFFFFF
-      : Constants.HIGHLIGHT_COLOR);
+      : HIGHLIGHT_COLOR);
     arcWithThickness(fSize, fLoc.x, fLoc.y, fSlider2, fSlider2 + fOffset, fThickness);
     popStyle();
   }
