@@ -17,6 +17,71 @@
 #### Synaptic Wall
 **[SynapticWall.pde][]**: the controller for all inputs such as mouse interactions and keypress events. It handles state transitions and keeps track of what current mode (creation, deletion, interaction) it's in and determines the result of each input depending on context. It's also responsible for sending interaction events down to the [Object Collection][], the [Grid][], the [Control Panel][], as well as other temporary objects being created.
 
+**[Selector.pde][]**:
+
+**[Collection.pde][]**:
+**[ObjectCollection.pde][]**:
+
+**[Grid.pde][]**:
+
+### Control Panel
+**[ControlPanel.pde][]**:
+
+**[ControllerSoma.pde][]**:
+**[ControllerSynapse.pde][]**:
+
+
+### Objects
+#### Drawable
+**[Drawable.pde][]**:
+#### Interactive
+**[Interactive.pde][]**:
+#### Shape
+**[Shape.pde][]**:
+**[ControllableShape.pde][]**:
+#### Cell
+**[Cell.pde][]**:
+**[Soma.pde][]**:
+**[Initiator.pde][]**:
+
+#### Synapse
+**[Synapse.pde][]**:
+
+#### Path
+**[Path.pde][]**:
+**[Axon.pde][]**:
+**[Dendrite.pde][]**:
+
+### Controls
+#### Controllable
+**[Controllable.pde][]**:
+#### Slider
+**[Control.pde][]**:
+**[Slider.pde][]**:
+##### Linear Sliders
+**[LinearSlider.pde][]**:
+**[DoubleEndedSlider.pde][]**:
+##### Circular Sliders
+**[CircularSlider.pde][]**:
+**[DiscreteCircularSlider.pde][]**:
+**[ThresholdSlider.pde][]**:
+
+### Utilities
+
+#### Timer
+**[Timer.pde][]**:
+
+#### Util Functions
+**[Util.pde][]**:
+
+#### Plugins
+**[Plugins.pde][]**:
+**[Plot.pde][]**:
+
+### Constants
+**[Constants.pde][]**:
+
+
 
 <!-- Self Links -->
 
