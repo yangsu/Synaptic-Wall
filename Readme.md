@@ -10,12 +10,23 @@
 * Press *c* to clear the screen
 
 ## Design
-### World
+### Enviroment
+#### World
 **[SynapticWallBase.pde][]**: This file sets up the environment and delegates all the events to the global [SynapticWall](#synaptic-wall) object and sets up the [Grid](#grid) used to place objects and define paths
 
-### Synaptic Wall
+#### Synaptic Wall
+**[SynapticWall.pde][]**: the controller for all inputs such as mouse interactions and keypress events. It handles state transitions and keeps track of what current mode (creation, deletion, interaction) it's in and determines the result of each input depending on context. It's also responsible for sending interaction events down to the [Object Collection][], the [Grid][], the [Control Panel][], as well as other temporary objects being created.
 
-<!-- Links -->
+
+<!-- Self Links -->
+
+[World]: #world
+[Object Collection]: #object-collection
+[Grid]: #grid
+[Control Panel]: #control-panel
+
+<!-- Files Links -->
+
 [ActionPotential.pde]: /yangsu/Synaptic-Wall/blob/master/ActionPotential.pde
 [Axon.pde]: /yangsu/Synaptic-Wall/blob/master/Axon.pde
 [Cell.pde]: /yangsu/Synaptic-Wall/blob/master/Cell.pde
