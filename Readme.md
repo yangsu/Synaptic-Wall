@@ -11,6 +11,9 @@
 
 ## Design
 ### World
-**[SynapticWallBase.pde](/blob/master/SynapticWallBase.pde)**: This file sets up the environment and delegates all the events to the global [SynapticWall](#synaptic-wall) object and sets up the [Grid](#grid) used to place objects and define paths
+**[SynapticWallBase.pde][]**: This file sets up the environment and delegates all the events to the global [SynapticWall](#synaptic-wall) object and sets up the [Grid](#grid) used to place objects and define paths
 
 ### Synaptic Wall
+
+
+[SynapticWallBase.pde]: /yangsu/Synaptic-Wall/blob/master/SynapticWallBase.pde
