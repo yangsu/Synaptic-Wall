@@ -4,7 +4,7 @@
 		{
 			"path": ".",
 			"name": "Settings",
-			"file_exclude_patterns": ["*.pde"]
+			"file_exclude_patterns": ["*.pde", "*.sublime-workspace"]
 		},
 		{
 			"name": "Processing Files",
