@@ -27,10 +27,8 @@ class Soma extends Cell {
     fDecay = SIGNAL_DEFAULT_DECAY;
     fType = EXCITATORY;
 
-    float controlSize = fSize + 3 * SLIDER_BAR_WIDTH;
-
     fSpeedSlider = new CircularSlider(
-      fLoc.x, fLoc.y, controlSize,
+      fLoc.x, fLoc.y, CIRCULAR_SLIDER_RADIUS,
       0, TWO_PI/3,
       fSpeed, 1, SIGNAL_MAX_SPEED,
       SPEED, this
@@ -38,14 +36,14 @@ class Soma extends Cell {
     fControls.add(fSpeedSlider);
 
     fLengthSlider = new DiscreteCircularSlider(
-      fLoc.x, fLoc.y, controlSize,
+      fLoc.x, fLoc.y, CIRCULAR_SLIDER_RADIUS,
       TWO_PI/3, 2 * TWO_PI/3,
       fLength, 1, SIGNAL_MAX_LENGTH,
       LENGTH, this
     );
     fControls.add(fLengthSlider);
     fDecaySlider = new CircularSlider(
-      fLoc.x, fLoc.y, controlSize,
+      fLoc.x, fLoc.y, CIRCULAR_SLIDER_RADIUS,
       2 * TWO_PI/3, TWO_PI,
       fDecay, SIGNAL_MAX_DECAY, 1.0, //1.0 = no decay
       DECAY, this
@@ -53,7 +51,7 @@ class Soma extends Cell {
     fControls.add(fDecaySlider);
 
     fThresholdSlider = new ThresholdSlider(
-      x, y, fSize + SLIDER_BAR_WIDTH,
+      x, y, THRESHOLD_SLIDER_RADIUS,
       0, negt, post,
       THRESHOLD, this
     );
@@ -108,7 +106,7 @@ class Soma extends Cell {
       noFill();
       stroke(cc);
       float l = fLength/SIGNAL_MAX_LENGTH * 9/SCALE;
-      float offsetL = (fSize - 2*l)/2;
+      float offsetL = (SOMA_SIZE - 2*l)/2;
       y = fLoc.y + 4/SCALE;
       float y2 = y - 5/SCALE;
       beginShape();
@@ -175,7 +173,7 @@ class Soma extends Cell {
   public void drawBackground() {
     drawControls();
     pushStyle();
-    float s = fSize - SOMA_RING_WIDTH;
+    float s = SOMA_SIZE - SOMA_RING_WIDTH;
     fill(fColor);
     ellipse(fLoc.x, fLoc.y, s, s);
 
@@ -190,7 +188,7 @@ class Soma extends Cell {
   public void drawForeground() {
     pushStyle();
 
-    float s = fSize - SOMA_RING_WIDTH;
+    float s = SOMA_SIZE - SOMA_RING_WIDTH;
     fill(fColor);
     noStroke();
     color c = lerpColor(fHighlightColor, HIGHLIGHT_COLOR, fThresholdSlider.getValue());

@@ -132,6 +132,9 @@ abstract static class Constants {
   static float THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
   static float DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
 
+  static float THRESHOLD_SLIDER_RADIUS = SOMA_SIZE + SLIDER_BAR_WIDTH;
+  static float CIRCULAR_SLIDER_RADIUS  = SOMA_SIZE + 3 * SLIDER_BAR_WIDTH;
+
   static final float SLIDER_LABEL_OFFSET    = 5;
 
   // Grid Settings
@@ -152,27 +155,29 @@ abstract static class Constants {
   static float LEARNING_K = 0.1;
 
   static void recalculate() {
-    SHADOW_OFFSETX         = 2/SCALE;
-    SHADOW_OFFSETY         = 2/SCALE;
-    SOMA_SIZE              = 30 / SCALE;
-    SOMA_RING_WIDTH        = 10 / SCALE;
-    PATH_WIDTH             = 8.0 / SCALE;
-    PATH_JUNCTION_WIDTH    = 6.0 / SCALE;
-    SYNAPSE_BASE           = 2.0 / SCALE;
-    SYNAPSE_SIZE           = 12.0 / SCALE;
-    SYNAPSE_OUTER_SIZE     = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
-    AP_WIDTH               = 4.0 / SCALE;
-    AP_BORDER_WIDTH        = 3.0 / SCALE;
-    PSP_WIDTH              = 6.0 / SCALE;
-    PSP_BORDER_WIDTH       = 6.0 / SCALE;
-    SLIDER_BAR_WIDTH       = 7.5 / SCALE;
-    SLIDER_BAR_LENGTH      = 0.1 / SCALE;
-    SLIDER_HANDLE_WIDTH    = 0.03 / SCALE;
-    THRESHOLD_HANDLE_WIDTH = 0.15 / SCALE;
-    DBLSIDED_HANDLE_WIDTH  = 0.1 / SCALE;
-    CP_TEXT_OFFSET         = 30 / SCALE;
-    CP_BORDER_WIDTH        = 2 / SCALE;
-    CP_PADDING             = 6 / SCALE;
+    SHADOW_OFFSETX          = 2/SCALE;
+    SHADOW_OFFSETY          = 2/SCALE;
+    SOMA_SIZE               = 30 / SCALE;
+    SOMA_RING_WIDTH         = 10 / SCALE;
+    PATH_WIDTH              = 8.0 / SCALE;
+    PATH_JUNCTION_WIDTH     = 6.0 / SCALE;
+    SYNAPSE_BASE            = 2.0 / SCALE;
+    SYNAPSE_SIZE            = 12.0 / SCALE;
+    SYNAPSE_OUTER_SIZE      = (SYNAPSE_SIZE + SYNAPSE_STRENGTH*SYNAPSE_MULT + SYNAPSE_BASE) / SCALE;
+    AP_WIDTH                = 4.0 / SCALE;
+    AP_BORDER_WIDTH         = 3.0 / SCALE;
+    PSP_WIDTH               = 6.0 / SCALE;
+    PSP_BORDER_WIDTH        = 6.0 / SCALE;
+    SLIDER_BAR_WIDTH        = 7.5 / SCALE;
+    SLIDER_BAR_LENGTH       = 0.1 / SCALE;
+    SLIDER_HANDLE_WIDTH     = 0.03 / SCALE;
+    THRESHOLD_HANDLE_WIDTH  = 0.15 / SCALE;
+    DBLSIDED_HANDLE_WIDTH   = 0.1 / SCALE;
+    THRESHOLD_SLIDER_RADIUS = SOMA_SIZE + SLIDER_BAR_WIDTH;
+    CIRCULAR_SLIDER_RADIUS  = SOMA_SIZE + 3 * SLIDER_BAR_WIDTH;
+    CP_TEXT_OFFSET          = 30 / SCALE;
+    CP_BORDER_WIDTH         = 2 / SCALE;
+    CP_PADDING              = 6 / SCALE;
   }
 
 }

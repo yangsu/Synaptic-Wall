@@ -18,18 +18,18 @@ public class CircularSlider extends Slider {
   public void drawBackground() {
     pushStyle();
     fill(SLIDER_BG_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fEnd, fThickness);
+    arcWithThickness(CIRCULAR_SLIDER_RADIUS, fLoc.x, fLoc.y, fBegin, fEnd, SLIDER_BAR_WIDTH);
     popStyle();
   }
 
   public void drawForeground() {
     pushStyle();
     fill((fHover) ? HIGHLIGHT_COLOR : SLIDER_BAR_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin, fSlider, fThickness);
+    arcWithThickness(CIRCULAR_SLIDER_RADIUS, fLoc.x, fLoc.y, fBegin, fSlider, SLIDER_BAR_WIDTH);
     // Added 0.02 for minor offset to cover up extraneous pixels
     fill(SLIDER_HANDLE_COLOR);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + SLIDER_HANDLE_WIDTH, fThickness);
-    arcWithThickness(fSize, fLoc.x, fLoc.y, fEnd - SLIDER_HANDLE_WIDTH, fEnd + 0.02, fThickness);
+    arcWithThickness(CIRCULAR_SLIDER_RADIUS, fLoc.x, fLoc.y, fBegin - 0.02, fBegin + SLIDER_HANDLE_WIDTH, SLIDER_BAR_WIDTH);
+    arcWithThickness(CIRCULAR_SLIDER_RADIUS, fLoc.x, fLoc.y, fEnd - SLIDER_HANDLE_WIDTH, fEnd + 0.02, SLIDER_BAR_WIDTH);
     popStyle();
   }
 
@@ -44,7 +44,7 @@ public class CircularSlider extends Slider {
 
   public boolean isInBounds(float x, float y) {
     float dist = PVector.dist(fLoc, new PVector(x, y));
-    return selectState(x, y) && dist >= fSize && dist <= (fSize + fThickness);
+    return selectState(x, y) && dist >= CIRCULAR_SLIDER_RADIUS && dist <= (CIRCULAR_SLIDER_RADIUS + SLIDER_BAR_WIDTH);
   }
 
   public void updateSlider(float x, float y) {
