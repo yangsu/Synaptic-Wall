@@ -1,0 +1,28 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"name": "Settings",
+			"file_exclude_patterns": ["*.pde"]
+		},
+		{
+			"name": "Processing Files",
+			"path": "/",
+			"file_include_patterns": ["*.pde"]
+		}
+	],
+	"settings": {
+		"tab_size": 2,
+		"translate_tabs_to_spaces": true,
+		"trim_trailing_white_space_on_save": true,
+		"word_wrap": false
+	},
+	"build_systems":[{
+		"name": "SynapticWall",
+		"cmd": ["osascript", "Processing.scpt"],
+		"selector": "source.java-processing",
+		"path": "/bin:/usr/local/bin:/usr/bin",
+		"working_dir": "$project_path"
+	}]
+}
