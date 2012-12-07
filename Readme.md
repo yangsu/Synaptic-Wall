@@ -9,86 +9,167 @@
 * Press *o* to resume rendering
 * Press *c* to clear the screen
 
+---
+
 ## Design
+
 ### Enviroment
-#### World
-**[SynapticWallBase.pde][]**: This file sets up the environment and delegates all the events to the global [SynapticWall](#synaptic-wall) object and sets up the [Grid](#grid) used to place objects and define paths
+#### [SynapticWallBase.pde][]
+This file sets up the environment and delegates all the events to the global [SynapticWall][] object and sets up the [Grid][] used to place objects and define paths
 
-#### Synaptic Wall
-**[SynapticWall.pde][]**: the controller for all inputs such as mouse interactions and keypress events. It handles state transitions and keeps track of what current mode (creation, deletion, interaction) it's in and determines the result of each input depending on context. It's also responsible for sending interaction events down to the [Object Collection][], the [Grid][], the [Control Panel][], as well as other temporary objects being created.
+#### [SynapticWall.pde][]
+The controller for all inputs such as mouse interactions and keypress events. It handles state transitions and keeps track of what current mode (creation, deletion, interaction) it's in and determines the result of each input depending on context. It's also responsible for sending interaction events down to the [ObjectCollection][], the [Grid][], the [ControlPanel][], as well as other temporary objects being created.
 
-**[Selector.pde][]**:
+#### [Selector.pde][]
+An utility object that keeps the state, renders, and provide information about the selection rectangle
 
-**[Collection.pde][]**:
-**[ObjectCollection.pde][]**:
+#### [Grid.pde][]
+Geometric Grid used for positioning objects in the world with constraints in order to have geometric appeareances and properties
 
-**[Grid.pde][]**:
+#### [Constants.pde][]
+All constants used for rendering or calculations are defined within this file. It's then made available to all objects through inheritance. Some constants can be recalculated based on a scale constant
 
-### Control Panel
-**[ControlPanel.pde][]**:
-
-**[ControllerSoma.pde][]**:
-**[ControllerSynapse.pde][]**:
-
+---
 
 ### Objects
-#### Drawable
-**[Drawable.pde][]**:
-#### Interactive
-**[Interactive.pde][]**:
-#### Shape
-**[Shape.pde][]**:
-**[ControllableShape.pde][]**:
-#### Cell
-**[Cell.pde][]**:
-**[Soma.pde][]**:
-**[Initiator.pde][]**:
 
-#### Synapse
-**[Synapse.pde][]**:
+#### [Drawable.pde][]
+*Abstract* class that extends [Constants][] that keeps track for basic information such as location, color, creation time, and flags such as Visible and Movable
 
-#### Path
-**[Path.pde][]**:
-**[Axon.pde][]**:
-**[Dendrite.pde][]**:
+#### [Interactive.pde][]
+*Abstract* class that extends [Drawable][] that defines the methods used for handling events and interactions with default implementations
+
+#### [Shape.pde][]
+*Abstract* Class that extends [Interactive][] that provides methods for adjusting locations of objects
+
+##### [ControllableShape.pde][]
+*Abstract* Class that extends [Shape][] that contains default behavior for shapes that have controls
+
+#### [Cell.pde][]
+*Abstract* Class that extends [ControllableShape][] that outlines how Shapes interact with [Paths][Path] and fire signal
+
+##### [Soma.pde][]
+Class that extends [Cell][] that contains Soma specific behavior and rendering, such as the decay of the Soma's potential and how [Action Potentials][ActionPotential] are fired
+
+##### [Initiator.pde][]
+Class that extends [Cell][] that contains Initiator specific behavior and   rendering, such as how [Post Synaptic Potentials][PostsynapticPotential] are generated and the parameters that control the firing behavior of the cell
+
+#### [Synapse.pde][]
+Class that extends [ControllableShape][] that specifies how a Synapse updates its appearance and state based on its firing timer
+
+#### [Path.pde][]
+*Abstract* Class that extends [Interactive][] that details how Paths ([Axons][Axon] and [Dendrites][Dendrite]) process signals, junctions, and events 
+
+##### [Axon.pde][]
+Class that extends [Path][] that contains Axon specific behavior logic and rendering code
+
+##### [Dendrite.pde][]
+Class that extends [Path][] that contains Dendrite specific behavior logic and rendering code
+
+#### [Collection.pde][]
+A class that contains methods for adding or removing items from the collection, event handling, selection, and rendering
+
+##### [ObjectCollection.pde][]
+The collection that keeps track of all the primary objects ([Soma][], [Initiator][], [Dendrite][], [Axon][], [Synapse][]) in Synaptic Wall
+
+---
 
 ### Controls
-#### Controllable
-**[Controllable.pde][]**:
-#### Slider
-**[Control.pde][]**:
-**[Slider.pde][]**:
-##### Linear Sliders
-**[LinearSlider.pde][]**:
-**[DoubleEndedSlider.pde][]**:
-##### Circular Sliders
-**[CircularSlider.pde][]**:
-**[DiscreteCircularSlider.pde][]**:
-**[ThresholdSlider.pde][]**:
+
+#### [Control.pde][]
+*Abstract* Class that extends [Interactive][] that contains fields required for Control objects
+
+#### [Controllable.pde][]
+Interface that defines how objects can interact with Controllable objects
+
+#### [Slider.pde][]
+Slider UI element that maps a value within a range
+
+##### [LinearSlider.pde][]
+A simple rectangular [Slider][] that maps values along the x axis
+
+##### [CircularSlider.pde][]
+A circular [Slider][] that maps values to radian angles
+
+###### [DiscreteCircularSlider.pde][]
+A [CircularSlider][] that allows only integer values
+
+###### [DoubleEndedSlider.pde][]
+A [CircularSlider][] that allows a range of values instead of a single particular value on the slider
+
+###### [ThresholdSlider.pde][]
+A [CircularSlider][] that's used to represent a Cell's firing potential
+
+---
+
+### Control Panel
+#### [ControlPanel.pde][]
+A object that encapsulates the objects in the Control Panel on the right side of the app and manages its behavior in response to control adjustments and interactions
+
+#### [ControllerSoma.pde][]
+A [Soma][] SubClass that's used to display special information in the [Control Panel][ControlPanel]
+
+#### [ControllerSynapse.pde][]
+A [Synapse][] SubClass that's used to display special information in the [Control Panel][ControlPanel]
+
+
+---
 
 ### Utilities
 
-#### Timer
-**[Timer.pde][]**:
+#### [Timer.pde][]
+A timer object that can fire an event at a particular point in the future
 
-#### Util Functions
-**[Util.pde][]**:
+#### [Util.pde][]
+A collection of utility functions that are used throughout the code base to do computation
 
-#### Plugins
-**[Plugins.pde][]**:
-**[Plot.pde][]**:
+#### [Plugins.pde][]
+Processing plugin functions that provide functions to draw shapes such as arcs and rings
 
-### Constants
-**[Constants.pde][]**:
+#### [Plot.pde][]
 
+---
 
+<!-- Nav Links -->
 
-<!-- Self Links -->
-
-[World]: #world
-[Object Collection]: #object-collection
-[Grid]: #grid
-[Control Panel]: #control-panel
+[SynapticWallBase]: #synapticwallbasepde
+[SynapticWall]: #synapticwallpde
+[Selector]: #selectorpde
+[Collection]: #collectionpde
+[ObjectCollection]: #objectcollectionpde
+[Grid]: #gridpde
+[ControlPanel]: #controlpanelpde
+[ControllerSoma]: #controllersomapde
+[ControllerSynapse]: #controllersynapsepde
+[Drawable]: #drawablepde
+[Interactive]: #interactivepde
+[Shape]: #shapepde
+[ControllableShape]: #controllableshapepde
+[Cell]: #cellpde
+[Soma]: #somapde
+[Initiator]: #initiatorpde
+[Synapse]: #synapsepde
+[Path]: #pathpde
+[Axon]: #axonpde
+[Dendrite]: #dendritepde
+[Controllable]: #controllablepde
+[Control]: #controlpde
+[Slider]: #sliderpde
+[LinearSlider]: #linearsliderpde
+[DoubleEndedSlider]: #doubleendedsliderpde
+[CircularSlider]: #circularsliderpde
+[DiscreteCircularSlider]: #discretecircularsliderpde
+[ThresholdSlider]: #thresholdsliderpde
+[Timer]: #timerpde
+[Util]: #utilpde
+[Plugins]: #pluginspde
+[Plot]: #plotpde
+[Constants]: #constantspde
+[ActionPotential]: #actionpotentialpde
+[PostsynapticPotential]: #postsynapticpotentialpde
+[Signal]: #signalpde
+[SignalVisualizer]: #signalvisualizerpde
+[Signalable]: #signalablepde
 
 <!-- Files Links -->
 
